@@ -15,6 +15,6 @@
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>dependencyinjection;entityframework</PackageTags>
-  </PropertyGroup>>
+  </PropertyGroup>
 
-</Project>
+</Project> 
