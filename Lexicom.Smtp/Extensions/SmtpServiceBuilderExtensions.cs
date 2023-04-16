@@ -1,4 +1,4 @@
-﻿using Lexicom.DependencyInjection.Extensions;
+﻿using Lexicom.DependencyInjection.Amenities.Extensions;
 using Lexicom.Smtp.Options;
 using Lexicom.Smtp.Validators;
 using Lexicom.Validation.Options.Extensions;

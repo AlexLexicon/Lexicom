@@ -1,6 +1,6 @@
 ﻿using Lexicom.Authority.Options;
 using Lexicom.Authority.Validators;
-using Lexicom.DependencyInjection.Extensions;
+using Lexicom.DependencyInjection.Amenities.Extensions;
 using Lexicom.Validation.Options.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 

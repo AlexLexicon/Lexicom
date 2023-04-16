@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lexicom.DependencyInjection.Amenities\Lexicom.DependencyInjection.Amenities.csproj" />
     <ProjectReference Include="..\Lexicom.Validation.Amenities\Lexicom.Validation.Amenities.csproj" />
     <ProjectReference Include="..\Lexicom.Validation.Options\Lexicom.Validation.Options.csproj" />
   </ItemGroup>

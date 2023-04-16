@@ -1,6 +1,6 @@
 ﻿using Lexicom.Cryptography.Options;
 using Lexicom.Cryptography.Validators;
-using Lexicom.DependencyInjection.Extensions;
+using Lexicom.DependencyInjection.Amenities.Extensions;
 using Lexicom.Validation.Options.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 

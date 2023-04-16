@@ -1,4 +1,4 @@
-﻿using Lexicom.DependencyInjection.Extensions;
+﻿using Lexicom.DependencyInjection.Amenities.Extensions;
 using Lexicom.Jwt.Options;
 using Lexicom.Jwt.Validators;
 using Lexicom.Validation.Amenities.Extensions;

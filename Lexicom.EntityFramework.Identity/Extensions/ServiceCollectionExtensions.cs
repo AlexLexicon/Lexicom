@@ -1,4 +1,4 @@
-﻿using Lexicom.DependencyInjection.Extensions;
+﻿using Lexicom.DependencyInjection.Amenities.Extensions;
 using Lexicom.EntityFramework.Identity.Options;
 using Lexicom.EntityFramework.Identity.Validators;
 using Lexicom.Validation.Amenities.Extensions;

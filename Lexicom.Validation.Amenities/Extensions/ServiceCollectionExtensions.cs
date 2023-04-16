@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Resources;
-using Lexicom.DependencyInjection.Extensions;
+using Lexicom.DependencyInjection.Amenities.Extensions;
 using Lexicom.Validation.Amenities.Options;
 using Lexicom.Validation.Exceptions;
 using Lexicom.Validation.Extensions;
