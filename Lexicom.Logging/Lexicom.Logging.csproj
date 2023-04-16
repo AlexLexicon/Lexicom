@@ -9,6 +9,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
     <Authors>Alex Stroot</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Wraps the Serilog package standardizing its use and implementation with other Lexicom packages. This primarily consists of enforcing consistent styles and patterns while also generally reducing the required configuration.</Description>
     <Copyright>2023</Copyright>
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Logging</PackageProjectUrl>

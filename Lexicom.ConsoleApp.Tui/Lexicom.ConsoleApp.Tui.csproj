@@ -9,6 +9,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
     <Authors>Alex Stroot</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>A rigid text user interface for a Console application specifically designed to execute different operations from the command line. Specifically implemented to be fast and easy to setup. Ideal for utility style tools.</Description>
     <Copyright>2023</Copyright>
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.ConsoleApp.Tui</PackageProjectUrl>
