@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Lexicom.DependencyInjection.Extensions;
+namespace Lexicom.DependencyInjection.Amenities.Extensions;
 public static class OptionsBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

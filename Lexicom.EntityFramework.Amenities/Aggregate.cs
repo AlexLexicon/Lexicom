@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Lexicom.EntityFramework;
+namespace Lexicom.EntityFramework.Amenities;
 //we want to use System.Text.Json
 //but it currently is not a feature
 //https://github.com/dotnet/runtime/issues/1808 -> https://github.com/dotnet/runtime/issues/63791

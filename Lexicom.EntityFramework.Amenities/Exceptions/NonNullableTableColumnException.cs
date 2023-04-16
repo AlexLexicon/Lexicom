@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace Lexicom.EntityFramework.Exceptions;
+namespace Lexicom.EntityFramework.Amenities.Exceptions;
 public class NonNullableTableColumnException : Exception
 {
     public static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)

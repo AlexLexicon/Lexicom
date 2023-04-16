@@ -8,14 +8,13 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
-    <Version>1.0.0</Version>
     <Authors>Alex Stroot</Authors>
-    <Description>aaaaaaa</Description>
+    <Description>A basis for any authentication features and or functionality to be further implemented manually or by a derivative package.</Description>
     <Copyright>2023</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/aaaaaaa</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Authentication</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>aaaaaaa</PackageTags>
+    <PackageTags>authentication</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

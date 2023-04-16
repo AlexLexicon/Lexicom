@@ -8,14 +8,13 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
-    <Version>1.0.0</Version>
     <Authors>Alex Stroot</Authors>
-    <Description>aaaaaaa</Description>
+    <Description>Wraps the System.Net.Mail reference standardizing its use and implementation with other Lexicom packages. This primarily consists of enforcing consistent styles and patterns while also generally reducing the required configuration.</Description>
     <Copyright>2023</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/aaaaaaa</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Smtp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>aaaaaaa</PackageTags>
+    <PackageTags></PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lexicom.DependencyInjection\Lexicom.DependencyInjection.csproj" />
     <ProjectReference Include="..\Lexicom.Extensions.IO\Lexicom.Extensions.IO.csproj" />
     <ProjectReference Include="..\Lexicom.Validation.Amenities\Lexicom.Validation.Amenities.csproj" />
     <ProjectReference Include="..\Lexicom.Validation.Options\Lexicom.Validation.Options.csproj" />

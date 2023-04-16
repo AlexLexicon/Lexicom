@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Lexicom.DependencyInjection.Extensions;
+namespace Lexicom.DependencyInjection.Amenities.Extensions;
 public static class ConfigurationBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

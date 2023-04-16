@@ -7,7 +7,8 @@ public interface ICryptographyService
 {
     //static creation of the ICryptographyService
     //useful for when you need to decrypt in a non DependencyInjection context
-    //or before a service provider is available like a connection string for example
+    //or before a service provider is available
+    //like for example a connection string or some other configuration value
     /// <exception cref="ArgumentNullException"/>
     public static ICryptographyService Create(byte[] byteArraySecretKey)
     {
@@ -33,7 +34,7 @@ public interface ICryptographyService
     {
         ArgumentNullException.ThrowIfNull(cryptographyByteSecretOptions);
 
-        IOptions<CryptographyByteSecretOptions> options = new CryptographyByteSecretOptionsWrapper(cryptographyByteSecretOptions);
+        IOptions<CryptographyByteSecretOptions> options = Microsoft.Extensions.Options.Options.Create(cryptographyByteSecretOptions);
 
         return new CryptographyService(new CryptographyByteSecretProvider(options));
     }
@@ -42,29 +43,9 @@ public interface ICryptographyService
     {
         ArgumentNullException.ThrowIfNull(cryptographyStringSecretOptions);
 
-        IOptions<CryptographyStringSecretOptions> options = new CryptographyStringSecretOptionsWrapper(cryptographyStringSecretOptions);
+        IOptions<CryptographyStringSecretOptions> options = Microsoft.Extensions.Options.Options.Create(cryptographyStringSecretOptions);
 
         return new CryptographyService(new CryptographyStringSecretProvider(options));
-    }
-
-    private class CryptographyByteSecretOptionsWrapper : IOptions<CryptographyByteSecretOptions>
-    {
-        public CryptographyByteSecretOptionsWrapper(CryptographyByteSecretOptions value)
-        {
-            Value = value;
-        }
-
-        public CryptographyByteSecretOptions Value { get; }
-    }
-
-    private class CryptographyStringSecretOptionsWrapper : IOptions<CryptographyStringSecretOptions>
-    {
-        public CryptographyStringSecretOptionsWrapper(CryptographyStringSecretOptions value)
-        {
-            Value = value;
-        }
-
-        public CryptographyStringSecretOptions Value { get; }
     }
 
     /// <exception cref="ArgumentNullException"/>

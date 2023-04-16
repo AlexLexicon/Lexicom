@@ -8,14 +8,13 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
-    <Version>1.0.0</Version>
     <Authors>Alex Stroot</Authors>
-    <Description>aaaaaaa</Description>
+    <Description>The base package for all Lexicom...For.ConsoleApp packages. Relies on and enforces the inclusion of the Lexicom.ConsoleApp.DependencyInjection package.</Description>
     <Copyright>2023</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/aaaaaaa</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Supports.ConsoleApp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>aaaaaaa</PackageTags>
+    <PackageTags>console</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
