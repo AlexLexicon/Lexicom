@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Logging</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>logging</PackageTags>
+    <PackageTags>dependencyinjection;logging</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

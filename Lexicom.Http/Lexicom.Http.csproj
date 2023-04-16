@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Http</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>http</PackageTags>
+    <PackageTags>dependencyinjection;http</PackageTags>
   </PropertyGroup>
 
 </Project>

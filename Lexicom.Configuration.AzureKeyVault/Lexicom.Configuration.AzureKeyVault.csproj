@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Configuration.AzureKeyVault</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>azure</PackageTags>
+    <PackageTags>azure;dependencyinjection</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

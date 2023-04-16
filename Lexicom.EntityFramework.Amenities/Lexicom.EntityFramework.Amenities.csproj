@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.EntityFramework.Amenities</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>entityframework</PackageTags>
+    <PackageTags>dependencyinjection;entityframework</PackageTags>
   </PropertyGroup>>
 
 </Project>

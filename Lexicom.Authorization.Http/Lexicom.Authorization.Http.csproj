@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Authorization.Http</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>authorization;http</PackageTags>
+    <PackageTags>authorization;dependencyinjection;http</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

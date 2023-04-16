@@ -10,12 +10,12 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
     <Authors>Alex Stroot</Authors>
-    <Description>Derives the Lexicom.Validation package to provide an implementation specific for an Wpf application project.</Description>
+    <Description>Derives the Lexicom.Validation package to provide an implementation specific for a Wpf application project.</Description>
     <Copyright>2023</Copyright>
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Validation.For.Wpf</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>wpf;validation</PackageTags>
+    <PackageTags>dependencyinjection;validation;wpf</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

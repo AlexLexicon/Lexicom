@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.AspNetCore.Controllers.Amenities</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>aspnetcore</PackageTags>
+    <PackageTags>aspnetcore;dependencyinjection</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

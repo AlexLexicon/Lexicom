@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.SourceGenerator.MetaData</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags></PackageTags>
+    <PackageTags>analyzers</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.EntityFramework.Identity.For.AspNetCore.Controllers</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>aspnetcore;entityframework;identity</PackageTags>
+    <PackageTags>aspnetcore;dependencyinjection;entityframework;identity</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
