@@ -1,0 +1,22 @@
+﻿<Label 
+    x:Class="Lexicom.Wpf.Controls.ToggleButtonForegroundImage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    mc:Ignorable="d"
+    
+    Background="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}"
+    HorizontalAlignment="Stretch"
+    Padding="0"
+    VerticalAlignment="Stretch"
+    
+    d:DesignWidth="64"
+    d:DesignHeight="64"
+    x:Name="cToggleButtonForegroundImage">
+
+    <Label.OpacityMask>
+        <ImageBrush ImageSource="{Binding ImageSource, ElementName=cToggleButtonForegroundImage}"/>
+    </Label.OpacityMask>
+
+</Label>

@@ -1,0 +1,16 @@
+﻿using Lexicom.Authentication.Extensions;
+using Lexicom.Supports.AspNetCore.Controllers;
+
+namespace Lexicom.Authentication.For.AspNetCore.Controllers.Extensions;
+public static class AspNetCoreControllersServiceBuilderExtensions
+{
+    /// <exception cref="ArgumentNullException"/>
+    public static IAspNetCoreControllersServiceBuilder AddAuthentication(this IAspNetCoreControllersServiceBuilder builder, Action<IAuthenticationServiceBuilder>? configure)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+
+        builder.WebApplicationBuilder.Services.AddLexicomAuthentication(builder.WebApplicationBuilder.Configuration, configure);
+
+        return builder;
+    }
+}
