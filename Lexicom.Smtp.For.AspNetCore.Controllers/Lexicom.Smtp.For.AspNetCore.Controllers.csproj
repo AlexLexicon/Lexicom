@@ -8,7 +8,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
-    <Version>4.0.0</Version>
+    <Version>1.0.0</Version>
     <Authors>Alex Stroot</Authors>
     <Description>aaaaaaa</Description>
     <Copyright>2023</Copyright>
