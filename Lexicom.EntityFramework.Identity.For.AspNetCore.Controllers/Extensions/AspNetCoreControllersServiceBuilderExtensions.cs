@@ -7,16 +7,16 @@ namespace Lexicom.EntityFramework.Identity.AspNetCore.Controllers.Extensions;
 public static class AspNetCoreControllersServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IAspNetCoreControllersServiceBuilder AddEntityFrameworkIdentity<TDbContext>(this IAspNetCoreControllersServiceBuilder builder, Action<IdentityOptions>? configure = null) where TDbContext : IdentityDbContext
+    public static IAspNetCoreControllersServiceBuilder AddEntityFrameworkIdentity<TDbContext>(this IAspNetCoreControllersServiceBuilder builder, EntityFrameworkIdentitySettings? settings = null) where TDbContext : IdentityDbContext
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebApplicationBuilder.Services.AddLexicomEntityFrameworkIdentity<TDbContext>(configure);
+        builder.WebApplicationBuilder.Services.AddLexicomEntityFrameworkIdentity<TDbContext>(settings);
 
         return builder;
     }
     /// <exception cref="ArgumentNullException"/>
-    public static IAspNetCoreControllersServiceBuilder AddEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey>(this IAspNetCoreControllersServiceBuilder builder, Action<IdentityOptions>? configure = null)
+    public static IAspNetCoreControllersServiceBuilder AddEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey>(this IAspNetCoreControllersServiceBuilder builder, EntityFrameworkIdentitySettings? settings = null)
         where TDbContext : IdentityDbContext<TUser, TRole, TKey>
         where TUser : IdentityUser<TKey>
         where TRole : IdentityRole<TKey>
@@ -24,12 +24,12 @@ public static class AspNetCoreControllersServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebApplicationBuilder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey>(configure);
+        builder.WebApplicationBuilder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey>(settings);
 
         return builder;
     }
     /// <exception cref="ArgumentNullException"/>
-    public static IAspNetCoreControllersServiceBuilder AddEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole>(this IAspNetCoreControllersServiceBuilder builder, Action<IdentityOptions>? configure = null)
+    public static IAspNetCoreControllersServiceBuilder AddEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole>(this IAspNetCoreControllersServiceBuilder builder, EntityFrameworkIdentitySettings? settings = null)
         where TDbContext : IdentityDbContext<TUser, TRole, TKey, IdentityUserClaim<TKey>, TUserRole, IdentityUserLogin<TKey>, IdentityRoleClaim<TKey>, IdentityUserToken<TKey>>
         where TUser : IdentityUser<TKey>
         where TRole : IdentityRole<TKey>
@@ -38,12 +38,12 @@ public static class AspNetCoreControllersServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebApplicationBuilder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole>(configure);
+        builder.WebApplicationBuilder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole>(settings);
 
         return builder;
     }
     /// <exception cref="ArgumentNullException"/>
-    public static IAspNetCoreControllersServiceBuilder AddEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole, TUserClaim, TUserLogin, TRoleClaim, TUserToken>(this IAspNetCoreControllersServiceBuilder builder, Action<IdentityOptions>? configure = null)
+    public static IAspNetCoreControllersServiceBuilder AddEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole, TUserClaim, TUserLogin, TRoleClaim, TUserToken>(this IAspNetCoreControllersServiceBuilder builder, EntityFrameworkIdentitySettings? settings = null)
         where TDbContext : IdentityDbContext<TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken>
         where TUser : IdentityUser<TKey>
         where TRole : IdentityRole<TKey>
@@ -56,7 +56,7 @@ public static class AspNetCoreControllersServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebApplicationBuilder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole, TUserClaim, TUserLogin, TRoleClaim, TUserToken>(configure);
+        builder.WebApplicationBuilder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole, TUserClaim, TUserLogin, TRoleClaim, TUserToken>(settings);
 
         return builder;
     }

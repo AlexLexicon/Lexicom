@@ -64,6 +64,7 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
 
         ValidationErrors = new List<string>();
         Validation = ValidateAndGetErrorMessages;
+        FailingErrors = new List<string>();
 
         RuleFor(p => p.Value)
             .UseRuleSet(ruleSet);
@@ -72,6 +73,8 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
     public bool IsValid => !ValidationErrors.Any();
     public IReadOnlyList<string> ValidationErrors { get; protected set; }
     public Func<TInProperty, IEnumerable<string>> Validation { get; }
+
+    private List<string> FailingErrors { get; set; }
 
     /// <exception cref="ArgumentNullException"/>
     public override ValidationResult Validate(ValidationContext<ValidationValue<TProperty>> context)
@@ -95,6 +98,18 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
         SetValidationErrors(result);
 
         return result;
+    }
+
+    public virtual void SetToInvalid(string errorMessage)
+    {
+        FailingErrors.Add(errorMessage);
+
+        ValidationErrors = FailingErrors;
+    }
+
+    public virtual void SetToValid()
+    {
+
     }
 
     protected abstract IEnumerable<string> ValidateAndGetErrorMessages(TInProperty instance);

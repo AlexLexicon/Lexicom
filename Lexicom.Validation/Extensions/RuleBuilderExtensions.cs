@@ -22,6 +22,8 @@ public static class RuleBuilderExtensions
         ArgumentNullException.ThrowIfNull(ruleBuilder);
         ArgumentNullException.ThrowIfNull(ruleSet);
 
+        //todo: fix
+
         ruleBuilder
             .ChildRules(inLineValidator =>
             {
