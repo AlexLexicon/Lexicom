@@ -7,7 +7,8 @@
     <Nullable>enable</Nullable>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>A rigid text user interface for a Console application specifically designed to execute different operations from the command line. Specifically implemented to be fast and easy to setup. Ideal for utility style tools.</Description>
@@ -17,6 +18,10 @@
     <RepositoryType>github</RepositoryType>
     <PackageTags>console;dependencyinjection</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true"/>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Lexicom.ConsoleApp.DependencyInjection\Lexicom.ConsoleApp.DependencyInjection.csproj" />

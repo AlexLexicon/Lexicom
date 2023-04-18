@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -18,8 +19,13 @@
     <PackageTags>console;dependencyinjection;smtp</PackageTags>
   </PropertyGroup>
 
+    <ItemGroup>
+    <None Include="README.md" Pack="true"/>
+  </ItemGroup>
+    
   <ItemGroup>
     <ProjectReference Include="..\Lexicom.Smtp\Lexicom.Smtp.csproj" />
     <ProjectReference Include="..\Lexicom.Validation.For.ConsoleApp\Lexicom.Validation.For.ConsoleApp.csproj" />
   </ItemGroup>
+
 </Project>

@@ -8,6 +8,7 @@
     <UseWPF>true</UseWPF>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -18,6 +19,10 @@
     <RepositoryType>github</RepositoryType>
     <PackageTags>dependencyinjection;wpf</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true"/>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Lexicom.DependencyInjection.Primitives\Lexicom.DependencyInjection.Primitives.csproj" />
