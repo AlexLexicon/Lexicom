@@ -110,7 +110,6 @@ public static class ServiceCollectionExtensions
             {
                 Type[] genericArguments = handlerDescriptor.ServiceType.GetGenericArguments();
 
-                //todo: handle IRequestHandlers that are implemented on a generic class
                 //this is tricky since mediatR does not actual register those generic classes
                 //like it does with notifications. some additional custom magic will be nessasary.
                 if (genericArguments.Any(ga => ga.Name is "TNotification"))
