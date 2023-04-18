@@ -7,6 +7,9 @@ public interface IRuleSetValidator
 {
     bool IsValid { get; }
     IReadOnlyList<string> ValidationErrors { get; }
+
+    void SetInvalid(string errorMessage);
+    void SetValid();
 }
 public interface IRuleSetValidator<TRuleSet, TProperty> : IRuleSetValidator, IValueValidator<TProperty> where TRuleSet : IRuleSet<TProperty>
 {
@@ -100,16 +103,18 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
         return result;
     }
 
-    public virtual void SetToInvalid(string errorMessage)
+    public virtual void SetInvalid(string errorMessage)
     {
         FailingErrors.Add(errorMessage);
 
         ValidationErrors = FailingErrors;
     }
 
-    public virtual void SetToValid()
+    public virtual void SetValid()
     {
+        FailingErrors.Clear();
 
+        ValidationErrors = FailingErrors;
     }
 
     protected abstract IEnumerable<string> ValidateAndGetErrorMessages(TInProperty instance);
