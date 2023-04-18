@@ -50,7 +50,7 @@ public class AsyncUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, T
         }
     }
 
-    protected async Task SaveChanges(TContext context, CancellationToken cancellationToken)
+    protected async Task SaveChanges(TContext context, CancellationToken cancellationToken = default)
     {
         if (AutoSaveChanges)
         {
@@ -219,6 +219,8 @@ public class AsyncUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, T
                 .Set<TUserClaim>()
                 .AddAsync(CreateUserClaim(user, claim), cancellationToken);
         }
+
+        await SaveChanges(db, cancellationToken);
     }
 
     /// <exception cref="ObjectDisposedException"/>
@@ -242,6 +244,8 @@ public class AsyncUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, T
             matchedClaim.ClaimValue = newClaim.Value;
             matchedClaim.ClaimType = newClaim.Type;
         }
+
+        await SaveChanges(db, cancellationToken);
     }
 
     /// <exception cref="ObjectDisposedException"/>
@@ -268,6 +272,8 @@ public class AsyncUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, T
                     .Remove(c);
             }
         }
+
+        await SaveChanges(db, cancellationToken);
     }
 
     /// <exception cref="OperationCanceledException"/>
@@ -285,6 +291,8 @@ public class AsyncUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, T
         await db
             .Set<TUserLogin>()
             .AddAsync(CreateUserLogin(user, login), cancellationToken);
+
+        await SaveChanges(db, cancellationToken);
     }
 
     /// <exception cref="OperationCanceledException"/>
@@ -304,6 +312,8 @@ public class AsyncUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, T
             db
                 .Set<TUserLogin>()
                 .Remove(entry);
+
+            await SaveChanges(db, cancellationToken);
         }
     }
 
@@ -393,7 +403,9 @@ public class AsyncUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, T
 
         await db
             .Set<TUserToken>()
-            .AddAsync(token);
+        .AddAsync(token);
+
+        await SaveChanges(db);
     }
 
     protected override async Task RemoveUserTokenAsync(TUserToken token)
@@ -403,5 +415,7 @@ public class AsyncUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, T
         db
             .Set<TUserToken>()
             .Remove(token);
+
+        await SaveChanges(db);
     }
 }

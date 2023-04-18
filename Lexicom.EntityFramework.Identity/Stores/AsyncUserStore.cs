@@ -67,7 +67,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         }
     }
 
-    protected async Task SaveChanges(TContext context, CancellationToken cancellationToken)
+    protected async Task SaveChanges(TContext context, CancellationToken cancellationToken = default)
     {
         if (AutoSaveChanges)
         {
@@ -254,6 +254,8 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         await db
             .Set<TUserRole>()
             .AddAsync(CreateUserRole(user, roleEntity), cancellationToken);
+
+        await SaveChanges(db, cancellationToken);
     }
 
     /// <exception cref="OperationCanceledException"/>
@@ -282,6 +284,8 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
                 db
                     .Set<TUserRole>()
                     .Remove(userRole);
+
+                await SaveChanges(db, cancellationToken);
             }
         }
     }
@@ -365,6 +369,8 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
                 .Set<TUserClaim>()
                 .AddAsync(CreateUserClaim(user, claim), cancellationToken);
         }
+
+        await SaveChanges(db, cancellationToken);
     }
 
     /// <exception cref="ObjectDisposedException"/>
@@ -388,6 +394,8 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
             matchedClaim.ClaimValue = newClaim.Value;
             matchedClaim.ClaimType = newClaim.Type;
         }
+
+        await SaveChanges(db, cancellationToken);
     }
 
     /// <exception cref="ObjectDisposedException"/>
@@ -414,6 +422,8 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
                     .Remove(c);
             }
         }
+
+        await SaveChanges(db, cancellationToken);
     }
 
     /// <exception cref="OperationCanceledException"/>
@@ -431,6 +441,8 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         await db
             .Set<TUserLogin>()
             .AddAsync(CreateUserLogin(user, login), cancellationToken);
+
+        await SaveChanges(db, cancellationToken);
     }
 
     /// <exception cref="OperationCanceledException"/>
@@ -450,6 +462,8 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
             db
                 .Set<TUserLogin>()
                 .Remove(entry);
+
+            await SaveChanges(db, cancellationToken);
         }
     }
 
@@ -570,6 +584,8 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         await db
             .Set<TUserToken>()
             .AddAsync(token);
+
+        await SaveChanges(db);
     }
 
     protected override async Task RemoveUserTokenAsync(TUserToken token)
@@ -579,5 +595,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         db
             .Set<TUserToken>()
             .Remove(token);
+
+        await SaveChanges(db);
     }
 }

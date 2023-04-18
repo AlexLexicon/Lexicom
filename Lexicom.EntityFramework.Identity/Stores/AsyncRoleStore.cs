@@ -55,7 +55,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         }
     }
 
-    protected virtual async Task SaveChanges(TContext context, CancellationToken cancellationToken)
+    protected virtual async Task SaveChanges(TContext context, CancellationToken cancellationToken = default)
     {
         if (AutoSaveChanges)
         {
@@ -283,6 +283,8 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         await db
             .Set<TRoleClaim>()
             .AddAsync(CreateRoleClaim(role, claim), cancellationToken);
+
+        await SaveChanges(db, cancellationToken);
     }
 
     /// <exception cref="ObjectDisposedException"/>
@@ -306,6 +308,8 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
                 .Set<TRoleClaim>()
                 .Remove(c);
         }
+
+        await SaveChanges(db, cancellationToken);
     }
 
     protected virtual TRoleClaim CreateRoleClaim(TRole role, Claim claim)
