@@ -12,17 +12,13 @@ public static class RuleBuilderExtensions
 
         return ruleBuilder
             .UseRuleSet(ruleSet)
-            .WhenProperty(p => p is not null)
-            .Null()
-            .WhenProperty(p => p is null);
+            .WhenProperty(p => p is not null);
     }
     /// <exception cref="ArgumentNullException"/>
     public static void UseRuleSetWhenNotNull<T, TProperty>(this IRuleBuilder<T, TProperty?> ruleBuilder, IRuleSet<TProperty> ruleSet, Action<IRuleBuilderOptions<TProperty?, TProperty>>? builder = null) where TProperty : struct
     {
         ArgumentNullException.ThrowIfNull(ruleBuilder);
         ArgumentNullException.ThrowIfNull(ruleSet);
-
-        //todo: fix
 
         ruleBuilder
             .ChildRules(inLineValidator =>
@@ -33,9 +29,7 @@ public static class RuleBuilderExtensions
 
                 builder?.Invoke(ruleBuilderOptions);
             })
-            .WhenProperty(p => p is not null)
-            .Null()
-            .WhenProperty(p => p is null);
+            .WhenProperty(p => p is not null);
     }
 
     /// <exception cref="ArgumentNullException"/>
