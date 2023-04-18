@@ -1,26 +1,14 @@
 ﻿using Lexicom.UnitTesting;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting.Extensions;
 public static class UnitTestAttendantExtensions
 {
-    /// <exception cref="ArgumentNullException"/>
-    public static UnitTestAttendant AddTestTimeProvider(this UnitTestAttendant builder)
+    public static UnitTestAttendant AddPrimitives(this UnitTestAttendant attendant, Action<ITestDependencyInjectionPrimitivesServiceBuilder>? configure = null)
     {
-        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(attendant);
 
-        builder.AddSingleton<ITimeProvider, TestTimeProvider>();
+        configure?.Invoke(new TestDependencyInjectionPrimitivesServiceBuilder(attendant));
 
-        return builder;
-    }
-
-    /// <exception cref="ArgumentNullException"/>
-    public static UnitTestAttendant AddTestGuidProvider(this UnitTestAttendant builder)
-    {
-        ArgumentNullException.ThrowIfNull(builder);
-
-        builder.AddSingleton<IGuidProvider, TestGuidProvider>();
-
-        return builder;
+        return attendant;
     }
 }

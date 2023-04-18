@@ -5,21 +5,11 @@ namespace Lexicom.DependencyInjection.Primitives.For.Wpf.Extensions;
 public static class WpfServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IWpfServiceBuilder AddTimeProvider(this IWpfServiceBuilder builder)
+    public static IWpfServiceBuilder AddPrimitives(this IWpfServiceBuilder builder, Action<IDependencyInjectionPrimitivesServiceBuilder>? configure = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WpfApplicationBuilder.Services.AddLexicomTimeProvider();
-
-        return builder;
-    }
-
-    /// <exception cref="ArgumentNullException"/>
-    public static IWpfServiceBuilder AddGuidProvider(this IWpfServiceBuilder builder)
-    {
-        ArgumentNullException.ThrowIfNull(builder);
-
-        builder.WpfApplicationBuilder.Services.AddLexicomGuidProvider();
+        builder.WpfApplicationBuilder.Services.AddLexicomDependencyInjectionPrimitives(configure);
 
         return builder;
     }

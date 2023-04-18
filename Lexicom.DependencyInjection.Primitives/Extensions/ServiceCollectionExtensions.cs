@@ -4,21 +4,11 @@ namespace Lexicom.DependencyInjection.Primitives.Extensions;
 public static class ServiceCollectionExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IServiceCollection AddLexicomTimeProvider(this IServiceCollection services)
+    public static IServiceCollection AddLexicomDependencyInjectionPrimitives(this IServiceCollection services, Action<IDependencyInjectionPrimitivesServiceBuilder>? configure = null)
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        services.AddSingleton<ITimeProvider>(TimeProvider.System);
-
-        return services;
-    }
-
-    /// <exception cref="ArgumentNullException"/>
-    public static IServiceCollection AddLexicomGuidProvider(this IServiceCollection services)
-    {
-        ArgumentNullException.ThrowIfNull(services);
-
-        services.AddSingleton<IGuidProvider, GuidProvider>();
+        configure?.Invoke(new DependencyInjectionPrimitivesServiceBuilder(services));
 
         return services;
     }

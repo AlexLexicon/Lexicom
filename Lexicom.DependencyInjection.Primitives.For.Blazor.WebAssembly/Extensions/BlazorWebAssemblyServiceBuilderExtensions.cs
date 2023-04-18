@@ -5,21 +5,11 @@ namespace Lexicom.DependencyInjection.Primitives.For.Blazor.WebAssembly.Extensio
 public static class BlazorWebAssemblyServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IBlazorWebAssemblyServiceBuilder AddTimeProvider(this IBlazorWebAssemblyServiceBuilder builder)
+    public static IBlazorWebAssemblyServiceBuilder AddPrimitives(this IBlazorWebAssemblyServiceBuilder builder, Action<IDependencyInjectionPrimitivesServiceBuilder>? configure = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebAssemblyHostBuilder.Services.AddLexicomTimeProvider();
-
-        return builder;
-    }
-
-    /// <exception cref="ArgumentNullException"/>
-    public static IBlazorWebAssemblyServiceBuilder AddGuidProvider(this IBlazorWebAssemblyServiceBuilder builder)
-    {
-        ArgumentNullException.ThrowIfNull(builder);
-
-        builder.WebAssemblyHostBuilder.Services.AddLexicomGuidProvider();
+        builder.WebAssemblyHostBuilder.Services.AddLexicomDependencyInjectionPrimitives(configure);
 
         return builder;
     }

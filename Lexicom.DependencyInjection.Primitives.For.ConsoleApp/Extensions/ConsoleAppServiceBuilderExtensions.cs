@@ -5,21 +5,11 @@ namespace Lexicom.DependencyInjection.Primitives.For.ConsoleApp.Extensions;
 public static class ConsoleAppServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IConsoleAppServiceBuilder AddTimeProvider(this IConsoleAppServiceBuilder builder)
+    public static IConsoleAppServiceBuilder AddPrimitives(this IConsoleAppServiceBuilder builder, Action<IDependencyInjectionPrimitivesServiceBuilder>? configure = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ConsoleApplicationBuilder.Services.AddLexicomTimeProvider();
-
-        return builder;
-    }
-
-    /// <exception cref="ArgumentNullException"/>
-    public static IConsoleAppServiceBuilder AddGuidProvider(this IConsoleAppServiceBuilder builder)
-    {
-        ArgumentNullException.ThrowIfNull(builder);
-
-        builder.ConsoleApplicationBuilder.Services.AddLexicomGuidProvider();
+        builder.ConsoleApplicationBuilder.Services.AddLexicomDependencyInjectionPrimitives(configure);
 
         return builder;
     }
