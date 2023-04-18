@@ -61,7 +61,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
     {
         get
         {
-            var db = ContextFactory.CreateDbContext();
+            using var db = ContextFactory.CreateDbContext();
 
             return db.Set<TUser>();
         }
@@ -84,7 +84,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(user);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         await db.AddAsync(user, cancellationToken);
 
@@ -102,7 +102,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(user);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         db.Attach(user);
         user.ConcurrencyStamp = Guid.NewGuid().ToString();
@@ -129,7 +129,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(user);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         db.Remove(user);
 
@@ -154,7 +154,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
         TKey? id = ConvertIdFromString(userId);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TUser>()
@@ -171,7 +171,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TUser>()
@@ -180,7 +180,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
     protected override async Task<TRole?> FindRoleAsync(string normalizedRoleName, CancellationToken cancellationToken)
     {
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TRole>()
@@ -189,7 +189,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
     protected override async Task<TUserRole?> FindUserRoleAsync(TKey userId, TKey roleId, CancellationToken cancellationToken)
     {
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TUserRole>()
@@ -202,7 +202,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
     protected override async Task<TUser?> FindUserAsync(TKey userId, CancellationToken cancellationToken)
     {
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TUser>()
@@ -211,7 +211,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
     protected override async Task<TUserLogin?> FindUserLoginAsync(TKey userId, string loginProvider, string providerKey, CancellationToken cancellationToken)
     {
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TUserLogin>()
@@ -220,7 +220,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
     protected override async Task<TUserLogin?> FindUserLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken)
     {
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TUserLogin>()
@@ -249,7 +249,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
             throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "Role {0} does not exist.", normalizedRoleName));
         }
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         await db
             .Set<TUserRole>()
@@ -279,7 +279,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
             TUserRole? userRole = await FindUserRoleAsync(user.Id, roleEntity.Id, cancellationToken);
             if (userRole is not null)
             {
-                var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+                using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
                 db
                     .Set<TUserRole>()
@@ -299,7 +299,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(user);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         TKey userId = user.Id;
 
@@ -344,7 +344,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(user);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TUserClaim>()
@@ -361,7 +361,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         ArgumentNullException.ThrowIfNull(user);
         ArgumentNullException.ThrowIfNull(claims);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         foreach (Claim claim in claims)
         {
@@ -382,7 +382,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         ArgumentNullException.ThrowIfNull(claim);
         ArgumentNullException.ThrowIfNull(newClaim);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         List<TUserClaim> matchedClaims = await db
             .Set<TUserClaim>()
@@ -406,7 +406,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         ArgumentNullException.ThrowIfNull(user);
         ArgumentNullException.ThrowIfNull(claims);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         foreach (Claim claim in claims)
         {
@@ -436,7 +436,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         ArgumentNullException.ThrowIfNull(user);
         ArgumentNullException.ThrowIfNull(login);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         await db
             .Set<TUserLogin>()
@@ -457,7 +457,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         TUserLogin? entry = await FindUserLoginAsync(user.Id, loginProvider, providerKey, cancellationToken);
         if (entry is not null)
         {
-            var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+            using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
             db
                 .Set<TUserLogin>()
@@ -478,7 +478,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
         TKey userId = user.Id;
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TUserLogin>()
@@ -510,7 +510,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TUser>()
@@ -526,7 +526,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(claim);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         var query = from userclaims in db.Set<TUserClaim>()
                     join user in Users on userclaims.UserId equals user.Id
@@ -550,7 +550,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
         if (role is not null)
         {
-            var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+            using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
             var query = from userrole in db.Set<TUserRole>()
                         join user in Users on userrole.UserId equals user.Id
@@ -565,7 +565,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
     protected override async Task<TUserToken?> FindTokenAsync(TUser user, string loginProvider, string name, CancellationToken cancellationToken)
     {
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TUserToken>()
@@ -579,7 +579,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
     protected override async Task AddUserTokenAsync(TUserToken token)
     {
-        var db = await ContextFactory.CreateDbContextAsync();
+        using var db = await ContextFactory.CreateDbContextAsync();
 
         await db
             .Set<TUserToken>()
@@ -590,7 +590,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
     protected override async Task RemoveUserTokenAsync(TUserToken token)
     {
-        var db = await ContextFactory.CreateDbContextAsync();
+        using var db = await ContextFactory.CreateDbContextAsync();
 
         db
             .Set<TUserToken>()

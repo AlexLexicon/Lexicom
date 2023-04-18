@@ -49,7 +49,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
     {
         get
         {
-            var db = ContextFactory.CreateDbContext();
+            using var db = ContextFactory.CreateDbContext();
 
             return db.Set<TRole>();
         }
@@ -72,7 +72,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(role);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         await db.AddAsync(role, cancellationToken);
 
@@ -90,7 +90,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(role);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         db.Attach(role);
         role.ConcurrencyStamp = Guid.NewGuid().ToString();
@@ -117,7 +117,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(role);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         db.Remove(role);
 
@@ -200,7 +200,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
 
         var roleId = ConvertIdFromString(id);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TRole>()
@@ -214,7 +214,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TRole>()
@@ -261,7 +261,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(role);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TRoleClaim>()
@@ -278,7 +278,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         ArgumentNullException.ThrowIfNull(role);
         ArgumentNullException.ThrowIfNull(claim);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         await db
             .Set<TRoleClaim>()
@@ -295,7 +295,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         ArgumentNullException.ThrowIfNull(role);
         ArgumentNullException.ThrowIfNull(claim);
 
-        var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
 
         List<TRoleClaim> claims = await db
             .Set<TRoleClaim>()
