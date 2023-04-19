@@ -10,7 +10,7 @@ public static class BlazorWebAssemblyValidationServiceBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
 
         //blazor web assembly applications need validators to be singletons by default
-        builder.ValidationBuilder.AddValidators<TAssemblyScanMarker>(serviceLifetime);
+        ValidationServiceBuilderExtensions.AddValidators<TAssemblyScanMarker>(builder, serviceLifetime);
 
         return builder;
     }
@@ -20,7 +20,7 @@ public static class BlazorWebAssemblyValidationServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ValidationBuilder.AddRuleSets<TAssemblyScanMarker>(serviceLifetime);
+        ValidationServiceBuilderExtensions.AddRuleSets<TAssemblyScanMarker>(builder, serviceLifetime);
 
         return builder;
     }
@@ -30,7 +30,7 @@ public static class BlazorWebAssemblyValidationServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ValidationBuilder.AddLanguageManager<TLanguageManager>();
+        ValidationServiceBuilderExtensions.AddLanguageManager<TLanguageManager>(builder);
 
         return builder;
     }
@@ -40,7 +40,7 @@ public static class BlazorWebAssemblyValidationServiceBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(languageManager);
 
-        builder.ValidationBuilder.AddLanguageManager(languageManager);
+        ValidationServiceBuilderExtensions.AddLanguageManager(builder, languageManager);
 
         return builder;
     }

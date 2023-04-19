@@ -1,13 +1,13 @@
-﻿namespace Lexicom.Validation.For.Blazor.WebAssembly;
-public class BlazorWebAssemblyValidationServiceBuilder : IBlazorWebAssemblyValidationServiceBuilder
+﻿using FluentValidation.Resources;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Lexicom.Validation.For.Blazor.WebAssembly;
+public class BlazorWebAssemblyValidationServiceBuilder : ValidationServiceBuilder, IBlazorWebAssemblyValidationServiceBuilder
 {
     /// <exception cref="ArgumentNullException"/>
-    public BlazorWebAssemblyValidationServiceBuilder(IValidationServiceBuilder validationServiceBuilder)
+    public BlazorWebAssemblyValidationServiceBuilder(
+        IServiceCollection services, 
+        LanguageManager languageManager) : base(services, languageManager)
     {
-        ArgumentNullException.ThrowIfNull(validationServiceBuilder);
-
-        ValidationBuilder = validationServiceBuilder;
     }
-
-    public IValidationServiceBuilder ValidationBuilder { get; }
 }

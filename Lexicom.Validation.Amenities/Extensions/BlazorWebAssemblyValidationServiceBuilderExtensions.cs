@@ -6,7 +6,7 @@ public static class BlazorWebAssemblyValidationServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ValidationBuilder.AddAmenities();
+        ValidationServiceBuilderExtensions.AddAmenities(builder);
 
         return builder;
     }

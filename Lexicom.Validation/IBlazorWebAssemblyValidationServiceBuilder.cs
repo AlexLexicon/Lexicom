@@ -1,5 +1,4 @@
 ﻿namespace Lexicom.Validation;
-public interface IBlazorWebAssemblyValidationServiceBuilder
+public interface IBlazorWebAssemblyValidationServiceBuilder : IValidationServiceBuilder
 {
-    IValidationServiceBuilder ValidationBuilder { get; }
 }

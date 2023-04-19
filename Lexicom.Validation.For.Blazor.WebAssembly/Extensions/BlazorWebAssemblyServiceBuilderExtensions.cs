@@ -14,7 +14,7 @@ public static class BlazorWebAssemblyServiceBuilderExtensions
 
         builder.WebAssemblyHostBuilder.Services.AddLexicomValidation(sb =>
         {
-            configure?.Invoke(new BlazorWebAssemblyValidationServiceBuilder(sb));
+            configure?.Invoke(new BlazorWebAssemblyValidationServiceBuilder(sb.Services, sb.LanguageManager));
         });
 
         return builder;
