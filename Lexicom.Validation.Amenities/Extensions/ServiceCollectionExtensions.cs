@@ -10,13 +10,14 @@ namespace Lexicom.Validation.Amenities.Extensions;
 public static class ServiceCollectionExtensions
 {
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="LanguageManagerNotDerivedFromLanguageManagerException"/>
     public static IServiceCollection AddLexicomValidationAmenities(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
     {
         ArgumentNullException.ThrowIfNull(services);
 
         if (ValidatorOptions.Global.LanguageManager is not LanguageManager languageManager)
         {
-            throw new ILanguageManagerNotDerivedFromLanguageManagerException();
+            throw new LanguageManagerNotDerivedFromLanguageManagerException();
         }
 
         AddLexicomValidationAmenities(services, languageManager, serviceLifetime);
@@ -39,7 +40,10 @@ public static class ServiceCollectionExtensions
             .AddOptions<PasswordRequirementsRuleSetOptions>()
             .BindConfiguration();
 
-        services.AddLexicomValidationRuleSets<EmailRuleSetOptions>(serviceLifetime);
+        services.AddLexicomValidation(options =>
+        {
+            options.AddRuleSets<AssemblyScanMarker>(serviceLifetime);
+        });
 
         languageManager.AddLexicomAmenitiesTranslations();
 
