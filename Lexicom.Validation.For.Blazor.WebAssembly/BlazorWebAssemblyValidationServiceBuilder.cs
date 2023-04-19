@@ -1,8 +1,4 @@
 ﻿namespace Lexicom.Validation.For.Blazor.WebAssembly;
-public interface IBlazorWebAssemblyValidationServiceBuilder
-{
-    IValidationServiceBuilder ValidationBuilder { get; }
-}
 public class BlazorWebAssemblyValidationServiceBuilder : IBlazorWebAssemblyValidationServiceBuilder
 {
     /// <exception cref="ArgumentNullException"/>
