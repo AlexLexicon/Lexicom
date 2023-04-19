@@ -24,7 +24,7 @@ public class WpfThemeApplicator : IThemeApplicator
 
         if (themeResourceDictionary is null)
         {
-            throw new Exception($"Theme '{theme}' does not exist.");
+            throw new ThemeDoesNotExistException(theme);
         }
 
         //by removing and then adding the dictionary
