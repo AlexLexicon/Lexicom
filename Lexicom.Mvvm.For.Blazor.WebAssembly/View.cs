@@ -2,7 +2,7 @@
 using System.ComponentModel;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
-public abstract class PageView<TViewModel> : ComponentBase, IDisposable where TViewModel : INotifyPropertyChanged
+public abstract class View<TViewModel> : ComponentBase, IDisposable where TViewModel : INotifyPropertyChanged
 {
     private TViewModel? _viewModel;
     [Inject]
