@@ -6,7 +6,7 @@ namespace Lexicom.Validation.Options.Extensions;
 public static class OptionsBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static OptionsBuilder<T> Validate<T, TValidator>(this OptionsBuilder<T> optionsBuilder) where T : class where TValidator : AbstractOptionsValidator<T>
+    public static LexicomOptionsBuilder<T> Validate<T, TValidator>(this OptionsBuilder<T> optionsBuilder) where T : class where TValidator : AbstractOptionsValidator<T>
     {
         ArgumentNullException.ThrowIfNull(optionsBuilder);
 
@@ -15,15 +15,10 @@ public static class OptionsBuilderExtensions
         return optionsBuilder.Validate();
     }
     /// <exception cref="ArgumentNullException"/>
-    public static OptionsBuilder<T> Validate<T>(this OptionsBuilder<T> optionsBuilder) where T : class
+    public static LexicomOptionsBuilder<T> Validate<T>(this OptionsBuilder<T> optionsBuilder) where T : class
     {
         ArgumentNullException.ThrowIfNull(optionsBuilder);
 
-        optionsBuilder.Services.AddSingleton(new ValidateOptionsRegistration
-        {
-            OptionsName = optionsBuilder.Name,
-            OptionsType = typeof(T),
-        });
         optionsBuilder.Services.AddSingleton<IValidateOptions<T>>(sp =>
         {
             var validator = sp.GetRequiredService<IValidator<T>>();
@@ -31,6 +26,6 @@ public static class OptionsBuilderExtensions
             return new FluentValidationValidateOptions<T>(optionsBuilder.Name, validator);
         });
 
-        return optionsBuilder;
+        return new LexicomOptionsBuilder<T>(optionsBuilder.Services, optionsBuilder.Name);
     }
 }

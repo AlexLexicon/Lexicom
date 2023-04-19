@@ -26,16 +26,16 @@ public class ValidateOnStartBlazorWebAssemblyBuildService : ILexicomBlazorWebAss
 
     public void Execute(IServiceProvider provider)
     {
-        IEnumerable<ValidateOptionsRegistration> validateOptionsRegistrations = provider.GetServices<ValidateOptionsRegistration>();
+        IEnumerable<ValidateOptionsStartRegistration> validateOptionsStartRegistrations = provider.GetServices<ValidateOptionsStartRegistration>();
 
-        foreach (ValidateOptionsRegistration validateOptionsRegistration in validateOptionsRegistrations)
+        foreach (ValidateOptionsStartRegistration validateOptionsStartRegistration in validateOptionsStartRegistrations)
         {
-            MethodInfo validateOptionsMethodInfo = StaticValidateOptionsMethodInfo.MakeGenericMethod(validateOptionsRegistration.OptionsType);
+            MethodInfo validateOptionsMethodInfo = StaticValidateOptionsMethodInfo.MakeGenericMethod(validateOptionsStartRegistration.OptionsType);
 
             validateOptionsMethodInfo.Invoke(null, new object[] 
             { 
                 provider, 
-                validateOptionsRegistration.OptionsName 
+                validateOptionsStartRegistration.OptionsName 
             });
         }
     }
