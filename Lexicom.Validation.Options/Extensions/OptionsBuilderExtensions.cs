@@ -19,8 +19,9 @@ public static class OptionsBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(optionsBuilder);
 
-        optionsBuilder.Services.AddSingleton(new LexicomValidateOptions
+        optionsBuilder.Services.AddSingleton(new ValidateOptionsRegistration
         {
+            OptionsName = optionsBuilder.Name,
             OptionsType = typeof(T),
         });
         optionsBuilder.Services.AddSingleton<IValidateOptions<T>>(sp =>

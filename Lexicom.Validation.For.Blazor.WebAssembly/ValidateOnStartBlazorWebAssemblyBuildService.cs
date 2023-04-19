@@ -1,0 +1,42 @@
+﻿using Lexicom.Supports.Blazor.WebAssembly;
+using Lexicom.Validation.Options;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using System.Diagnostics;
+using System.Reflection;
+
+namespace Lexicom.Validation.For.Blazor.WebAssembly;
+public class ValidateOnStartBlazorWebAssemblyBuildService : ILexicomBlazorWebAssemblyBuildService
+{
+    private static MethodInfo? _staticValidateOptionsMethodInfo;
+    private static MethodInfo StaticValidateOptionsMethodInfo => _staticValidateOptionsMethodInfo ??= (typeof(ValidateOnStartBlazorWebAssemblyBuildService).GetMethod(nameof(ValidateOptions), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(ValidateOptions)}' was not found."));
+    private static void ValidateOptions<TOptions>(IServiceProvider provider, string name) where TOptions : class
+    {
+        var validateOptions = provider.GetService<IValidateOptions<TOptions>>();
+        if (validateOptions is not null)
+        {
+            var options = provider.GetService<IOptions<TOptions>>();
+
+            if (options is not null)
+            {
+                validateOptions.Validate(name, options.Value);
+            }
+        }
+    }
+
+    public void Execute(IServiceProvider provider)
+    {
+        IEnumerable<ValidateOptionsRegistration> validateOptionsRegistrations = provider.GetServices<ValidateOptionsRegistration>();
+
+        foreach (ValidateOptionsRegistration validateOptionsRegistration in validateOptionsRegistrations)
+        {
+            MethodInfo validateOptionsMethodInfo = StaticValidateOptionsMethodInfo.MakeGenericMethod(validateOptionsRegistration.OptionsType);
+
+            validateOptionsMethodInfo.Invoke(null, new object[] 
+            { 
+                provider, 
+                validateOptionsRegistration.OptionsName 
+            });
+        }
+    }
+}

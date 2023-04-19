@@ -8,6 +8,8 @@ public static class WebAssemblyHostBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
+        builder.ConfigureContainer(new LexicomBlazorWebAssemblyServiceProviderFactory());
+
         configure?.Invoke(new BlazorWebAssemblyServiceBuilder(builder));
 
         return builder;
