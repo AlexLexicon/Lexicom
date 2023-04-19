@@ -1,5 +1,4 @@
 ﻿using FluentValidation.Resources;
-using Lexicom.Validation.For.Blazor.WebAssembly;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Validation.Extensions;
