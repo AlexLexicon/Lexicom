@@ -6,7 +6,7 @@ namespace Lexicom.Validation.Extensions;
 public static class ValidationServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IValidationServiceBuilder AddValidators<TAssemblyScanMarker>(this IValidationServiceBuilder builder, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+    public static IValidationServiceBuilder AddValidators<TAssemblyScanMarker>(this IValidationServiceBuilder builder, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
@@ -20,7 +20,7 @@ public static class ValidationServiceBuilderExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static IValidationServiceBuilder AddRuleSets<TAssemblyScanMarker>(this IValidationServiceBuilder builder, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+    public static IValidationServiceBuilder AddRuleSets<TAssemblyScanMarker>(this IValidationServiceBuilder builder, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
