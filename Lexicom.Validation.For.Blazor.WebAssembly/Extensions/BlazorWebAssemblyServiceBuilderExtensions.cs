@@ -5,14 +5,7 @@ namespace Lexicom.Validation.For.Blazor.WebAssembly.Extensions;
 public static class BlazorWebAssemblyServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IBlazorWebAssemblyServiceBuilder AddValidation(this IBlazorWebAssemblyServiceBuilder builder)
-    {
-        ArgumentNullException.ThrowIfNull(builder);
-
-        return AddValidation(builder, null);
-    }
-    /// <exception cref="ArgumentNullException"/>
-    public static IBlazorWebAssemblyServiceBuilder AddValidation(this IBlazorWebAssemblyServiceBuilder builder, Action<IValidationServiceBuilder>? configure)
+    public static IBlazorWebAssemblyServiceBuilder AddValidation(this IBlazorWebAssemblyServiceBuilder builder, Action<IValidationServiceBuilder>? configure = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
 

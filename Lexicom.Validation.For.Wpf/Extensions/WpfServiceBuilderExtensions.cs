@@ -5,14 +5,7 @@ namespace Lexicom.Validation.For.Wpf.Extensions;
 public static class WpfServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IWpfServiceBuilder AddValidation(this IWpfServiceBuilder builder)
-    {
-        ArgumentNullException.ThrowIfNull(builder);
-
-        return AddValidation(builder, null);
-    }
-    /// <exception cref="ArgumentNullException"/>
-    public static IWpfServiceBuilder AddValidation(this IWpfServiceBuilder builder, Action<IValidationServiceBuilder>? configure)
+    public static IWpfServiceBuilder AddValidation(this IWpfServiceBuilder builder, Action<IValidationServiceBuilder>? configure = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
