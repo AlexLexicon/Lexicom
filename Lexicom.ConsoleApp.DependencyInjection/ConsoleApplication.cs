@@ -13,13 +13,16 @@ public sealed class ConsoleApplication
     private readonly IHost _host;
 
     /// <exception cref="ArgumentNullException"/>
-    internal ConsoleApplication(IHost host)
+    internal ConsoleApplication(
+        IHost host, 
+        IHostEnvironment environment)
     {
         ArgumentNullException.ThrowIfNull(host);
 
         _host = host;
 
         Configuration = Services.GetRequiredService<IConfiguration>();
+        Environment = environment;
 
         //we start the host here so that
         //validators will run as that is
@@ -30,4 +33,5 @@ public sealed class ConsoleApplication
 
     public IConfiguration Configuration { get; }
     public IServiceProvider Services => _host.Services;
+    public IHostEnvironment Environment { get; }
 }
