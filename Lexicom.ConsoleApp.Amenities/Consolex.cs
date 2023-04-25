@@ -8,13 +8,12 @@ public class Consolex
 {
     public delegate bool TryParseDelegate<T>(string? input, out T result);
 
-    public static ReadLineSettings DefaultReadLineSettings { get; } = new ReadLineSettings
-    {
-        CancelKey = ConsoleKey.Escape,
-        DefaultKey = ConsoleKey.F1,
-        DefaultInput = null,
-        InitalInput = null,
-    };
+    public static ReadLineSettings DefaultReadLineSettings { get; } = new ReadLineSettings(
+        cancelKey: ConsoleKey.Escape,
+        defaultKey: ConsoleKey.F1,
+        defaultInput: null,
+        initalInput: null
+    );
 
     private static JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings();
     /// <exception cref="ArgumentNullException"/>
@@ -307,16 +306,15 @@ public class Consolex
     public static Guid ReadLineGuid(string? description, Guid initalInput) => ReadLineParse(Guid.TryParse, description, initalInput);
     public static Guid ReadLineGuid(string? description, ReadLineSettings settings) => ReadLineParse<Guid>(Guid.TryParse, description, settings);
 
-    private static string? ReadLine(params AdvancedReadLineIntercept?[] readLineIntercepts) => AdvancedReadLine.WithInterception(readLineIntercepts);
-
-    private static ReadLineSettings CopyDefaultReadLineSettings()
+    internal static ReadLineSettings CopyDefaultReadLineSettings()
     {
-        return new ReadLineSettings
-        {
-            CancelKey = DefaultReadLineSettings.CancelKey,
-            DefaultKey = DefaultReadLineSettings.DefaultKey,
-            DefaultInput = DefaultReadLineSettings.DefaultInput,
-            InitalInput = DefaultReadLineSettings.InitalInput,
-        };
+        return new ReadLineSettings(
+            cancelKey: DefaultReadLineSettings.CancelKey,
+            defaultKey: DefaultReadLineSettings.DefaultKey,
+            defaultInput: DefaultReadLineSettings.DefaultInput,
+            initalInput: DefaultReadLineSettings.InitalInput
+        );
     }
+
+    private static string? ReadLine(params AdvancedReadLineIntercept?[] readLineIntercepts) => AdvancedReadLine.WithInterception(readLineIntercepts);
 }
