@@ -13,6 +13,11 @@ internal class AdvancedReadLineInterrupt : AdvancedReadLineIntercept
     {
         IsInterrupted = true;
 
-        return new AdvancedReadLineResult(false, currentInput);
+        return new AdvancedReadLineResult(isContinue: false, currentInput);
+    }
+
+    public override AdvancedReadLineInitalResult Initial()
+    {
+        return new AdvancedReadLineInitalResult(IsInital: false, input: null);
     }
 }

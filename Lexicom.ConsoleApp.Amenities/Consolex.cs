@@ -13,6 +13,7 @@ public class Consolex
         CancelKey = ConsoleKey.Escape,
         DefaultKey = ConsoleKey.F1,
         DefaultInput = null,
+        InitalInput = null,
     };
 
     private static JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings();
@@ -54,7 +55,7 @@ public class Consolex
 
                 string args = string.Empty;
 
-                foreach (var arg in genericArguments)
+                foreach (Type arg in genericArguments)
                 {
                     string? tStr = arg?.Name;
 
@@ -109,11 +110,11 @@ public class Consolex
 
         return ReadLine(null, settings);
     }
-    public static string ReadLine(string? description, string? defaultInput)
+    public static string ReadLine(string? description, string? initalInput)
     {
         ReadLineSettings settings = CopyDefaultReadLineSettings();
 
-        settings.DefaultInput = defaultInput;
+        settings.InitalInput = initalInput;
 
         return ReadLine(description, settings);
     }
@@ -124,6 +125,7 @@ public class Consolex
 
         bool isDefaultable = settings.DefaultKey is not null && settings.DefaultInput is not null;
         bool isCancellable = settings.CancelKey is not null;
+        bool isInitalable = settings.InitalInput is not null;
 
         bool isInvalid = false;
         string? input = null;
@@ -167,28 +169,35 @@ public class Consolex
             }
 
             bool isCancelled = false;
-            if (!isCancellable && !isDefaultable)
+            if (!isCancellable && !isDefaultable && !isInitalable)
             {
                 input = Console.ReadLine();
             }
-            else if (isCancellable && !isDefaultable)
+            else
             {
-                input = ReadLine(settings.CancelKey, out isCancelled);
-            }
-            else if (isDefaultable)
-            {
-                var readLineDefault = new AdvancedReadLineDefault(settings.DefaultKey, settings.DefaultInput);
+                AdvancedReadLineInterrupt? readLineCancel = null;
+                AdvancedReadLineDefault? readLineDefault = null;
+                AdvancedReadLineInital? readLineInital = null;
 
-                if (!isCancellable)
+                if (isCancellable)
                 {
-                    input = ReadLine(readLineDefault);
+                    readLineCancel = new AdvancedReadLineInterrupt(settings.CancelKey);
                 }
-                else
+
+                if (isDefaultable)
                 {
-                    var readLineCancel = new AdvancedReadLineInterrupt(settings.CancelKey);
+                    readLineDefault = new AdvancedReadLineDefault(settings.DefaultKey, settings.DefaultInput);
+                }
 
-                    input = ReadLine(readLineDefault, readLineCancel);
+                if (isInitalable)
+                {
+                    readLineInital = new AdvancedReadLineInital(settings.InitalInput);
+                }
 
+                input = ReadLine(readLineCancel, readLineDefault, readLineInital);
+
+                if (isCancellable && readLineCancel is not null)
+                {
                     isCancelled = readLineCancel.IsInterrupted;
                 }
             }
@@ -219,11 +228,11 @@ public class Consolex
         return ReadLineParse(tryParseDelegate, description, DefaultReadLineSettings);
     }
     /// <exception cref="ArgumentNullException"/>
-    public static T ReadLineParse<T>(TryParseDelegate<T> tryParseDelegate, T defaultInput)
+    public static T ReadLineParse<T>(TryParseDelegate<T> tryParseDelegate, T inialInput)
     {
         ArgumentNullException.ThrowIfNull(tryParseDelegate);
 
-        return ReadLineParse(tryParseDelegate, null, defaultInput);
+        return ReadLineParse(tryParseDelegate, description: null, inialInput);
     }
     /// <exception cref="ArgumentNullException"/>
     public static T ReadLineParse<T>(TryParseDelegate<T> tryParseDelegate, ReadLineSettings settings)
@@ -231,16 +240,16 @@ public class Consolex
         ArgumentNullException.ThrowIfNull(tryParseDelegate);
         ArgumentNullException.ThrowIfNull(settings);
 
-        return ReadLineParse(tryParseDelegate, null, settings);
+        return ReadLineParse(tryParseDelegate, description: null, settings);
     }
     /// <exception cref="ArgumentNullException"/>
-    public static T ReadLineParse<T>(TryParseDelegate<T> tryParseDelegate, string? description, T defaultInput)
+    public static T ReadLineParse<T>(TryParseDelegate<T> tryParseDelegate, string? description, T initalInput)
     {
         ArgumentNullException.ThrowIfNull(tryParseDelegate);
 
         ReadLineSettings settings = CopyDefaultReadLineSettings();
 
-        settings.DefaultInput = defaultInput?.ToString();
+        settings.InitalInput = initalInput?.ToString();
 
         return ReadLineParse(tryParseDelegate, description, settings);
     }
@@ -272,50 +281,33 @@ public class Consolex
 
     public static bool ReadLineBoolean() => ReadLineParse<bool>(bool.TryParse);
     public static bool ReadLineBoolean(string? description) => ReadLineParse<bool>(bool.TryParse, description);
-    public static bool ReadLineBoolean(bool defaultInput) => ReadLineParse(bool.TryParse, defaultInput);
+    public static bool ReadLineBoolean(bool initalInput) => ReadLineParse(bool.TryParse, initalInput);
     public static bool ReadLineBoolean(ReadLineSettings settings) => ReadLineParse<bool>(bool.TryParse, settings);
-    public static bool ReadLineBoolean(string? description, bool defaultInput) => ReadLineParse(bool.TryParse, description, defaultInput);
+    public static bool ReadLineBoolean(string? description, bool initalInput) => ReadLineParse(bool.TryParse, description, initalInput);
     public static bool ReadLineBoolean(string? description, ReadLineSettings settings) => ReadLineParse<bool>(bool.TryParse, description, settings);
 
     public static int ReadLineInteger() => ReadLineParse<int>(int.TryParse);
     public static int ReadLineInteger(string? description) => ReadLineParse<int>(int.TryParse, description);
-    public static int ReadLineInteger(int defaultInput) => ReadLineParse(int.TryParse, defaultInput);
+    public static int ReadLineInteger(int initalInput) => ReadLineParse(int.TryParse, initalInput);
     public static int ReadLineInteger(ReadLineSettings settings) => ReadLineParse<int>(int.TryParse, settings);
-    public static int ReadLineInteger(string? description, int defaultInput) => ReadLineParse(int.TryParse, description, defaultInput);
+    public static int ReadLineInteger(string? description, int initalInput) => ReadLineParse(int.TryParse, description, initalInput);
     public static int ReadLineInteger(string? description, ReadLineSettings settings) => ReadLineParse<int>(int.TryParse, description, settings);
 
     public static double ReadLineDouble() => ReadLineParse<double>(double.TryParse);
     public static double ReadLineDouble(string? description) => ReadLineParse<double>(double.TryParse, description);
-    public static double ReadLineDouble(double defaultInput) => ReadLineParse(double.TryParse, defaultInput);
+    public static double ReadLineDouble(double initalInput) => ReadLineParse(double.TryParse, initalInput);
     public static double ReadLineDouble(ReadLineSettings settings) => ReadLineParse<double>(double.TryParse, settings);
-    public static double ReadLineDouble(string? description, double defaultInput) => ReadLineParse(double.TryParse, description, defaultInput);
+    public static double ReadLineDouble(string? description, double initalInput) => ReadLineParse(double.TryParse, description, initalInput);
     public static double ReadLineDouble(string? description, ReadLineSettings settings) => ReadLineParse<double>(double.TryParse, description, settings);
 
     public static Guid ReadLineGuid() => ReadLineParse<Guid>(Guid.TryParse);
     public static Guid ReadLineGuid(string? description) => ReadLineParse<Guid>(Guid.TryParse, description);
-    public static Guid ReadLineGuid(Guid defaultInput) => ReadLineParse(Guid.TryParse, defaultInput);
+    public static Guid ReadLineGuid(Guid initalInput) => ReadLineParse(Guid.TryParse, initalInput);
     public static Guid ReadLineGuid(ReadLineSettings settings) => ReadLineParse<Guid>(Guid.TryParse, settings);
-    public static Guid ReadLineGuid(string? description, Guid defaultInput) => ReadLineParse(Guid.TryParse, description, defaultInput);
+    public static Guid ReadLineGuid(string? description, Guid initalInput) => ReadLineParse(Guid.TryParse, description, initalInput);
     public static Guid ReadLineGuid(string? description, ReadLineSettings settings) => ReadLineParse<Guid>(Guid.TryParse, description, settings);
 
-    public static string? ReadLine(ConsoleKey? keyToInterrupt, out bool isInterrupted)
-    {
-        if (keyToInterrupt is null)
-        {
-            isInterrupted = false;
-            return Console.ReadLine();
-        }
-
-        var readLineInterrupt = new AdvancedReadLineInterrupt(keyToInterrupt.Value);
-
-        string? input = ReadLine(readLineInterrupt);
-
-        isInterrupted = readLineInterrupt.IsInterrupted;
-
-        return input;
-    }
-
-    private static string? ReadLine(params AdvancedReadLineIntercept[] readLineIntercepts) => AdvancedReadLine.WithInterception(readLineIntercepts);
+    private static string? ReadLine(params AdvancedReadLineIntercept?[] readLineIntercepts) => AdvancedReadLine.WithInterception(readLineIntercepts);
 
     private static ReadLineSettings CopyDefaultReadLineSettings()
     {
@@ -324,6 +316,7 @@ public class Consolex
             CancelKey = DefaultReadLineSettings.CancelKey,
             DefaultKey = DefaultReadLineSettings.DefaultKey,
             DefaultInput = DefaultReadLineSettings.DefaultInput,
+            InitalInput = DefaultReadLineSettings.InitalInput,
         };
     }
 }

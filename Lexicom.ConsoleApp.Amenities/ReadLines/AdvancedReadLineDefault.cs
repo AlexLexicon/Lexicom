@@ -14,6 +14,11 @@ internal class AdvancedReadLineDefault : AdvancedReadLineIntercept
 
     public override AdvancedReadLineResult Intercept(string? currentInput)
     {
-        return new AdvancedReadLineResult(true, DefaultInput);
+        return new AdvancedReadLineResult(isContinue: true, DefaultInput);
+    }
+
+    public override AdvancedReadLineInitalResult Initial()
+    {
+        return new AdvancedReadLineInitalResult(IsInital: false, input: null);
     }
 }

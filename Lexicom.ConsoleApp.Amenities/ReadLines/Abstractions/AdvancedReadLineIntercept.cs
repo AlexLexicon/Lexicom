@@ -9,4 +9,5 @@ internal abstract class AdvancedReadLineIntercept
     public ConsoleKey? InterceptKey { get; }
 
     public abstract AdvancedReadLineResult Intercept(string? currentInput);
+    public abstract AdvancedReadLineInitalResult Initial();
 }
