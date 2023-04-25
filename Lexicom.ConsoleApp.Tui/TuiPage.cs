@@ -75,7 +75,7 @@ internal class TuiPage
         _operationDefinitions.Add(definition);
 
         _operationDefinitions = _operationDefinitions
-            .OrderBy(d => d.PriorityAttribute is not null && d.PriorityAttribute.Priority is not null ? d.PriorityAttribute.Priority.Value : -1)
+            .OrderBy(d => d.PriorityAttribute is not null ? d.PriorityAttribute.Priority : TuiPriorityAttribute.DEFAULT_PRIORITY)
             .ThenBy(d => d.Title)
             .ToList();
     }

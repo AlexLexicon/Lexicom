@@ -2,10 +2,12 @@
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
 public class TuiPriorityAttribute : Attribute
 {
-    public TuiPriorityAttribute(int? priority = null)
+    public const int DEFAULT_PRIORITY = int.MaxValue;
+
+    public TuiPriorityAttribute(int priority = DEFAULT_PRIORITY)
     {
         Priority = priority;
     }
 
-    public int? Priority { get; }
+    public int Priority { get; }
 }
