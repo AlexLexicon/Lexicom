@@ -12,6 +12,7 @@ internal class TuiOperationDefinition
 
         PageAttribute = (TuiPageAttribute?)operationType.GetCustomAttribute(typeof(TuiPageAttribute));
         TitleAttribute = (TuiTitleAttribute?)operationType.GetCustomAttribute(typeof(TuiTitleAttribute));
+        PriorityAttribute = (TuiPriorityAttribute?)operationType.GetCustomAttribute(typeof(TuiPriorityAttribute));
 
         Title = TitleAttribute?.Title ?? operationType.Name;
     }
@@ -19,5 +20,6 @@ internal class TuiOperationDefinition
     public Type OperationType { get; }
     public TuiPageAttribute? PageAttribute { get; }
     public TuiTitleAttribute? TitleAttribute { get; }
+    public TuiPriorityAttribute? PriorityAttribute { get; }
     public string Title { get; }
 }

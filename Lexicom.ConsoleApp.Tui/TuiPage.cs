@@ -1,12 +1,10 @@
 ﻿namespace Lexicom.ConsoleApp.Tui;
 internal class TuiPage
 {
-    private readonly List<TuiOperationDefinition> _operationDefinitions;
-    private readonly List<TuiPage> _subPages;
-
     public TuiPage() : this(Guid.NewGuid().ToString(), null)
     {
     }
+
     /// <exception cref="ArgumentNullException"/>
     public TuiPage(
         string title, 
@@ -23,7 +21,10 @@ internal class TuiPage
 
     public string Title { get; }
     public TuiPage? Parent { get; }
+    private List<TuiOperationDefinition> _operationDefinitions;
     public IReadOnlyList<TuiOperationDefinition> Definitions => _operationDefinitions;
+
+    private List<TuiPage> _subPages;
     public IReadOnlyList<TuiPage> SubPages => _subPages;
 
     /// <exception cref="ArgumentNullException"/>
@@ -33,7 +34,7 @@ internal class TuiPage
 
         if (string.IsNullOrWhiteSpace(pagePath))
         {
-            _operationDefinitions.Add(definition);
+            AddAndOrder(definition);
 
             return;
         }
@@ -42,7 +43,7 @@ internal class TuiPage
 
         if (pagePathParts.Length <= 0)
         {
-            _operationDefinitions.Add(definition);
+            AddAndOrder(definition);
 
             return;
         }
@@ -61,9 +62,30 @@ internal class TuiPage
         {
             subPage = new TuiPage(pageName, this);
 
-            _subPages.Add(subPage);
+            AddAndOrder(subPage);
         }
 
         subPage.Add(definition, remainingPath);
+
+        
+    }
+
+    private void AddAndOrder(TuiOperationDefinition definition)
+    {
+        _operationDefinitions.Add(definition);
+
+        _operationDefinitions = _operationDefinitions
+            .OrderBy(d => d.PriorityAttribute is not null && d.PriorityAttribute.Priority is not null ? d.PriorityAttribute.Priority.Value : -1)
+            .ThenBy(d => d.Title)
+            .ToList();
+    }
+
+    private void AddAndOrder(TuiPage subPage)
+    {
+        _subPages.Add(subPage);
+
+        _subPages = _subPages
+            .OrderBy(p => p.Title)
+            .ToList();
     }
 }
