@@ -75,17 +75,7 @@ public static class JwtSecurityTokenExtensions
 
                 string claimType = c.Type.ToLowerInvariant();
 
-                if (claimType != CachedLowerClaimTypesRole)
-                {
-                    return false;
-                }
-
-                if (claimType is not "role" or "roles")
-                {
-                    return false;
-                }
-
-                return true;
+                return claimType == CachedLowerClaimTypesRole || claimType is "role" or "roles";
             })
             .Select(c => c.Value);
 
@@ -107,12 +97,7 @@ public static class JwtSecurityTokenExtensions
 
                 string claimType = c.Type.ToLowerInvariant();
 
-                if (claimType != CachedLowerLexicomJwtClaimTypesPermission)
-                {
-                    return false;
-                }
-
-                return true;
+                return claimType == CachedLowerLexicomJwtClaimTypesPermission;
             })
             .Select(c => c.Value);
 
