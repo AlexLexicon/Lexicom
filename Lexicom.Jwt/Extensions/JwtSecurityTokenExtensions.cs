@@ -65,7 +65,13 @@ public static class JwtSecurityTokenExtensions
         IEnumerable<string> roleNames = jwtSecurityToken.Claims
             .Where(c =>
             {
-                if (c.Type != ClaimTypes.Role)
+                string claimType = c.Type.ToLowerInvariant();
+                if (claimType == ClaimTypes.Role.ToLowerInvariant())
+                {
+                    return false;
+                }
+
+                if (claimType is not "role" or "roles")
                 {
                     return false;
                 }
