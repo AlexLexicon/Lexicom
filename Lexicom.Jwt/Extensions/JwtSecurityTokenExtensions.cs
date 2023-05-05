@@ -5,6 +5,9 @@ using System.Security.Claims;
 namespace Lexicom.Jwt.Extensions;
 public static class JwtSecurityTokenExtensions
 {
+    private static string CachedLowerClaimTypesRole { get; } = ClaimTypes.Role.ToLowerInvariant();
+    private static string CachedLowerLexicomJwtClaimTypesPermission { get; } = LexicomJwtClaimTypes.Permission.ToLowerInvariant();
+
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="ClaimNotValidException"/>
     /// <exception cref="ClaimDoesNotExistException"/>
@@ -65,18 +68,19 @@ public static class JwtSecurityTokenExtensions
         IEnumerable<string> roleNames = jwtSecurityToken.Claims
             .Where(c =>
             {
+                if (string.IsNullOrWhiteSpace(c.Value))
+                {
+                    return false;
+                }
+
                 string claimType = c.Type.ToLowerInvariant();
-                if (claimType == ClaimTypes.Role.ToLowerInvariant())
+
+                if (claimType != CachedLowerClaimTypesRole)
                 {
                     return false;
                 }
 
                 if (claimType is not "role" or "roles")
-                {
-                    return false;
-                }
-
-                if (string.IsNullOrWhiteSpace(c.Value))
                 {
                     return false;
                 }
@@ -96,12 +100,14 @@ public static class JwtSecurityTokenExtensions
         IEnumerable<string> permissions = jwtSecurityToken.Claims
             .Where(c =>
             {
-                if (c.Type == LexicomJwtClaimTypes.Permission)
+                if (string.IsNullOrWhiteSpace(c.Value))
                 {
                     return false;
                 }
 
-                if (string.IsNullOrWhiteSpace(c.Value))
+                string claimType = c.Type.ToLowerInvariant();
+
+                if (claimType != CachedLowerLexicomJwtClaimTypesPermission)
                 {
                     return false;
                 }
