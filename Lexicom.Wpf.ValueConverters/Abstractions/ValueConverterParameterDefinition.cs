@@ -28,7 +28,7 @@ public class ValueConverterParameterDefinition<T> : ValueConverterParameterDefin
 
     protected ResultForPatternMatchCollection<T>? ResultForPatternMatches { get; }
 
-    public override bool Match(IReadOnlyList<ValueConverterParameter> parameters) => Match(parameters, out T _);
+    public override bool Match(IReadOnlyList<ValueConverterParameter> parameters) => Match(parameters, out T? _);
     public virtual bool Match(IReadOnlyList<ValueConverterParameter> parameters, out T? value)
     {
         var comparison = Settings?.Comparer ?? StringComparison.OrdinalIgnoreCase;
