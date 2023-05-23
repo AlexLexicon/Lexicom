@@ -1,6 +1,4 @@
-﻿using Lexicom.Authority.Validators;
-using Lexicom.Jwt.Validators;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -9,19 +7,10 @@ namespace Lexicom.Authority;
 public abstract class BearerTokenProvider
 {
     /// <exception cref="ArgumentNullException"/>
-    protected virtual Task<BearerToken> CreateBearerTokenAsync(IEnumerable<Claim> claims, TimeSpan expiresTimeSpan, string? symmetricSecurityKeyString)
+    protected virtual Task<BearerToken> CreateBearerTokenAsync(IEnumerable<Claim> claims, TimeSpan expiresTimeSpan, string symmetricSecurityKeyString)
     {
         ArgumentNullException.ThrowIfNull(claims);
-
-        if (expiresTimeSpan <= TimeSpan.Zero)
-        {
-            throw AuthorityOptionsValidator.ToUnreachableException();
-        }
-
-        if (string.IsNullOrWhiteSpace(symmetricSecurityKeyString))
-        {
-            throw JwtOptionsValidator.ToUnreachableException();
-        }
+        ArgumentNullException.ThrowIfNull(symmetricSecurityKeyString);
 
         //add the jti claim to the top of the claims
         //https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.7
@@ -53,14 +42,10 @@ public abstract class BearerTokenProvider
     }
 
     /// <exception cref="ArgumentNullException"/>
-    protected virtual Task<bool> IsBearerTokenValidAsync(string bearerToken, bool validateLifetime, string? symmetricSecurityKeyString)
+    protected virtual Task<bool> IsBearerTokenValidAsync(string bearerToken, bool validateLifetime, string symmetricSecurityKeyString)
     {
         ArgumentNullException.ThrowIfNull(bearerToken);
-
-        if (string.IsNullOrWhiteSpace(symmetricSecurityKeyString))
-        {
-            throw JwtOptionsValidator.ToUnreachableException();
-        }
+        ArgumentNullException.ThrowIfNull(symmetricSecurityKeyString);
 
         var tokenHandler = new JwtSecurityTokenHandler();
 

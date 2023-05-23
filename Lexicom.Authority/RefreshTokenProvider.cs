@@ -1,6 +1,7 @@
 ﻿using Lexicom.Authority.Options;
 using Lexicom.Authority.Validators;
 using Lexicom.Jwt.Options;
+using Lexicom.Jwt.Validators;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 
@@ -14,8 +15,8 @@ public interface IRefreshTokenProvider
 }
 public class RefreshTokenProvider : BearerTokenProvider, IRefreshTokenProvider
 {
-    private readonly JwtOptions _refreshTokenOptions;
     private readonly IOptions<AuthorityOptions> _authorityOptions;
+    private readonly IOptionsMonitor<JwtOptions> _jwtOptions;
 
     /// <exception cref="ArgumentNullException"/>
     public RefreshTokenProvider(
@@ -26,7 +27,7 @@ public class RefreshTokenProvider : BearerTokenProvider, IRefreshTokenProvider
         ArgumentNullException.ThrowIfNull(jwtOptions);
 
         _authorityOptions = authorityOptions;
-        _refreshTokenOptions = jwtOptions.Get(JwtOptions.REFRESH_TOKEN_SECTION);
+        _jwtOptions = jwtOptions;
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -35,13 +36,12 @@ public class RefreshTokenProvider : BearerTokenProvider, IRefreshTokenProvider
         ArgumentNullException.ThrowIfNull(claims);
 
         AuthorityOptions authorityOptions = _authorityOptions.Value;
+        AuthorityOptionsValidator.ThrowIfNull(authorityOptions.RefreshTokenValidTimeSpan);
 
-        if (authorityOptions.RefreshTokenValidTimeSpan is null)
-        {
-            throw AuthorityOptionsValidator.ToUnreachableException();
-        }
+        JwtOptions refreshTokenOptions = _jwtOptions.Get(JwtOptions.REFRESH_TOKEN_SECTION);
+        JwtOptionsValidator.ThrowIfNull(refreshTokenOptions.SymmetricSecurityKey);
 
-        return CreateBearerTokenAsync(claims, authorityOptions.RefreshTokenValidTimeSpan.Value, _refreshTokenOptions.SymmetricSecurityKey);
+        return CreateBearerTokenAsync(claims, authorityOptions.RefreshTokenValidTimeSpan.Value, refreshTokenOptions.SymmetricSecurityKey);
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -49,6 +49,9 @@ public class RefreshTokenProvider : BearerTokenProvider, IRefreshTokenProvider
     {
         ArgumentNullException.ThrowIfNull(bearerToken);
 
-        return IsBearerTokenValidAsync(bearerToken, validateLifetime, _refreshTokenOptions.SymmetricSecurityKey);
+        JwtOptions refreshTokenOptions = _jwtOptions.Get(JwtOptions.REFRESH_TOKEN_SECTION);
+        JwtOptionsValidator.ThrowIfNull(refreshTokenOptions.SymmetricSecurityKey);
+
+        return IsBearerTokenValidAsync(bearerToken, validateLifetime, refreshTokenOptions.SymmetricSecurityKey);
     }
 }

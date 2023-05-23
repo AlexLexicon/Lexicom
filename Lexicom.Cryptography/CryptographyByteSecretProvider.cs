@@ -18,11 +18,7 @@ public class CryptographyByteSecretProvider : ICryptographySecretProvider
     public Task<byte[]> GetSecretAsync()
     {
         CryptographyByteSecretOptions cryptographyByteSecretOptions = _cryptographyByteSecretOptions.Value;
-
-        if (cryptographyByteSecretOptions.ByteArraySecretKey is null)
-        {
-            throw CryptographyByteSecretOptionsValidator.ToUnreachableException();
-        }
+        CryptographyByteSecretOptionsValidator.ThrowIfNull(cryptographyByteSecretOptions.ByteArraySecretKey);
 
         return Task.FromResult(cryptographyByteSecretOptions.ByteArraySecretKey);
     }

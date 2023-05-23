@@ -39,29 +39,19 @@ public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
         ArgumentNullException.ThrowIfNull(body);
 
         SmtpEmailMailClientOptions smtpEmailClientConfiguration = _smtpEmailOptions.Value;
-
-        string? fromEmailAddress = smtpEmailClientConfiguration.FromEmailAddress;
-        string? host = smtpEmailClientConfiguration.Host;
-        bool isSslEnabled = smtpEmailClientConfiguration.IsSslEnabled;
-        string? username = smtpEmailClientConfiguration.NetworkCredentialsUsername;
-        string? password = smtpEmailClientConfiguration.NetworkCredentialsPassword;
-
-        if (string.IsNullOrWhiteSpace(fromEmailAddress) ||
-            string.IsNullOrWhiteSpace(host) ||
-            string.IsNullOrWhiteSpace(username) ||
-            string.IsNullOrWhiteSpace(password))
-        {
-            throw SmtpEmailMailClientOptionsValidator.ToUnreachableException();
-        }
+        SmtpEmailMailClientOptionsValidator.ThrowIfNull(smtpEmailClientConfiguration.FromEmailAddress);
+        SmtpEmailMailClientOptionsValidator.ThrowIfNull(smtpEmailClientConfiguration.Host);
+        SmtpEmailMailClientOptionsValidator.ThrowIfNull(smtpEmailClientConfiguration.NetworkCredentialsUsername);
+        SmtpEmailMailClientOptionsValidator.ThrowIfNull(smtpEmailClientConfiguration.NetworkCredentialsPassword);
 
         MailAddress fromMailAddress;
         try
         {
-            fromMailAddress = new MailAddress(fromEmailAddress);
+            fromMailAddress = new MailAddress(smtpEmailClientConfiguration.FromEmailAddress);
         }
         catch (Exception e) when (e is FormatException or ArgumentException)
         {
-            throw new EmailAddressNotValidException(fromEmailAddress, e);
+            throw new EmailAddressNotValidException(smtpEmailClientConfiguration.FromEmailAddress, e);
         }
 
         MailAddress toMailAddress;
@@ -88,27 +78,28 @@ public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
             SmtpClient smtpClient;
             if (port is not null)
             {
-                _logger.LogInformation("Creating a new SmtpClient for the host '{host}:{port}'.", host, port);
+                _logger.LogInformation("Creating a new SmtpClient for the host '{host}:{port}'.", smtpEmailClientConfiguration.Host, port);
 
-                smtpClient = new SmtpClient(host, port.Value);
+                smtpClient = new SmtpClient(smtpEmailClientConfiguration.Host, port.Value);
             }
             else
             {
-                _logger.LogInformation("Creating a new SmtpClient for the host '{host}'.", host);
+                _logger.LogInformation("Creating a new SmtpClient for the host '{host}'.", smtpEmailClientConfiguration.Host);
 
-                smtpClient = new SmtpClient(host);
+                smtpClient = new SmtpClient(smtpEmailClientConfiguration.Host);
             }
 
             using (smtpClient)
             {
-                smtpClient.EnableSsl = isSslEnabled;
+                smtpClient.EnableSsl = smtpEmailClientConfiguration.IsSslEnabled;
 
-                if (username is null || password is null)
+                if (string.IsNullOrWhiteSpace(smtpEmailClientConfiguration.NetworkCredentialsUsername) || 
+                    string.IsNullOrWhiteSpace(smtpEmailClientConfiguration.NetworkCredentialsPassword))
                 {
                     throw new SmtpNetworkCredentialsNotValidException();
                 }
 
-                smtpClient.Credentials = new NetworkCredential(username, password);
+                smtpClient.Credentials = new NetworkCredential(smtpEmailClientConfiguration.NetworkCredentialsUsername, smtpEmailClientConfiguration.NetworkCredentialsPassword);
 
                 _logger.LogInformation("SmtpClient.SendMailAsync initiated.");
 

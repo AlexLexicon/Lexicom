@@ -26,17 +26,12 @@ public class SmtpEmailFileClient : ISmtpEmailClient, ISmtpEmailHandler
         ArgumentNullException.ThrowIfNull(body);
 
         SmtpEmailFileClientOptions smtpFileClientConfiguration = _smtpFileClientOptions.Value;
+        SmtpEmailFileClientOptionsValidator.ThrowIfNull(smtpFileClientConfiguration.OutputDirectoryPath);
+        SmtpEmailFileClientOptionsValidator.ThrowIfNull(smtpFileClientConfiguration.FileExtension);
+        SmtpEmailFileClientOptionsValidator.ThrowIfNull(smtpFileClientConfiguration.FileName);
 
-        string? outputDirectoryPath = smtpFileClientConfiguration.OutputDirectoryPath;
-        string? fileExtension = smtpFileClientConfiguration.FileExtension;
-        string? fileName = smtpFileClientConfiguration.FileName;
-
-        if (string.IsNullOrWhiteSpace(outputDirectoryPath) ||
-            string.IsNullOrWhiteSpace(fileExtension) ||
-            string.IsNullOrWhiteSpace(fileName))
-        {
-            throw SmtpEmailFileClientOptionsValidator.ToUnreachableException();
-        }
+        string outputDirectoryPath = smtpFileClientConfiguration.OutputDirectoryPath;
+        string fileExtension = smtpFileClientConfiguration.FileExtension;
 
         if (!Directory.Exists(outputDirectoryPath))
         {
@@ -60,7 +55,7 @@ public class SmtpEmailFileClient : ISmtpEmailClient, ISmtpEmailHandler
             fileExtension = '.' + fileExtension;
         }
 
-        string fileNamePath = $"{outputDirectoryPath}{fileName}{fileExtension}";
+        string fileNamePath = $"{outputDirectoryPath}{smtpFileClientConfiguration.FileName}{fileExtension}";
 
         fileNamePath = fileNamePath.GetUniqueFileNamePath();
 

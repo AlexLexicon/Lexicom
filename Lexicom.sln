@@ -224,7 +224,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.EntityFramework.Ame
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DependencyInjection.Primitives", "DependencyInjection.Primitives", "{EA247DA2-BD82-443C-B2AB-6F851482417C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Mvvm.For.Blazor.WebAssembly", "Lexicom.Mvvm.For.Blazor.WebAssembly\Lexicom.Mvvm.For.Blazor.WebAssembly.csproj", "{B59DE24A-2450-4063-A058-5F64D3200120}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Mvvm.For.Blazor.WebAssembly", "Lexicom.Mvvm.For.Blazor.WebAssembly\Lexicom.Mvvm.For.Blazor.WebAssembly.csproj", "{B59DE24A-2450-4063-A058-5F64D3200120}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Extensions.CompilerServices", "Lexicom.Extensions.CompilerServices\Lexicom.Extensions.CompilerServices.csproj", "{61C5A450-38B5-40C1-97D3-9A596D01A0D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -568,6 +570,10 @@ Global
 		{B59DE24A-2450-4063-A058-5F64D3200120}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B59DE24A-2450-4063-A058-5F64D3200120}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B59DE24A-2450-4063-A058-5F64D3200120}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61C5A450-38B5-40C1-97D3-9A596D01A0D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61C5A450-38B5-40C1-97D3-9A596D01A0D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61C5A450-38B5-40C1-97D3-9A596D01A0D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61C5A450-38B5-40C1-97D3-9A596D01A0D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -658,6 +664,7 @@ Global
 		{CD0AF3AC-2E80-4921-91D1-5202BEFD2B45} = {4A2DED13-5731-4A4F-BA46-057A4BB979D5}
 		{C3CD4420-EFF7-47FC-B485-7EA02E79CBF5} = {8D2197BB-0E59-409C-866E-05C3869DB33C}
 		{B59DE24A-2450-4063-A058-5F64D3200120} = {B3A07EC3-C43E-4AA3-B8F8-3B44E8E30FCB}
+		{61C5A450-38B5-40C1-97D3-9A596D01A0D2} = {B72216F0-9456-4345-9367-BB49425A9B34}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {065A3AC7-C473-43B9-A4CC-BC8EFB53BF19}

@@ -8,14 +8,14 @@ using System.Text;
 namespace Lexicom.Authentication.For.AspNetCore.Controllers.Configurations;
 public class JwtBearerOptionsConfiguration : IConfigureNamedOptions<JwtBearerOptions>
 {
-    private readonly JwtOptions _accessTokenOptions;
+    private readonly IOptionsMonitor<JwtOptions> _jwtOptions;
 
     /// <exception cref="ArgumentNullException"/>
     public JwtBearerOptionsConfiguration(IOptionsMonitor<JwtOptions> jwtOptions)
     {
         ArgumentNullException.ThrowIfNull(jwtOptions);
 
-        _accessTokenOptions = jwtOptions.Get(JwtOptions.ACCESS_TOKEN_SECTION);
+        _jwtOptions = jwtOptions;
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -34,12 +34,10 @@ public class JwtBearerOptionsConfiguration : IConfigureNamedOptions<JwtBearerOpt
     {
         ArgumentNullException.ThrowIfNull(options);
 
-        if (string.IsNullOrWhiteSpace(_accessTokenOptions.SymmetricSecurityKey))
-        {
-            throw JwtOptionsValidator.ToUnreachableException();
-        }
+        JwtOptions accessTokenOptions = _jwtOptions.Get(JwtOptions.ACCESS_TOKEN_SECTION);
+        JwtOptionsValidator.ThrowIfNull(accessTokenOptions.SymmetricSecurityKey);
 
-        byte[] symmetricSecurityKeyBytes = Encoding.ASCII.GetBytes(_accessTokenOptions.SymmetricSecurityKey);
+        byte[] symmetricSecurityKeyBytes = Encoding.ASCII.GetBytes(accessTokenOptions.SymmetricSecurityKey);
 
         var symmetricSecurityKey = new SymmetricSecurityKey(symmetricSecurityKeyBytes);
 

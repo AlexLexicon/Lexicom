@@ -18,11 +18,7 @@ public class CryptographyStringSecretProvider : ICryptographySecretProvider
     public Task<byte[]> GetSecretAsync()
     {
         CryptographyStringSecretOptions cryptographyStringSecretOptions = _cryptographyStringSecretOptions.Value;
-
-        if (cryptographyStringSecretOptions.Base64StringSecretKey is null)
-        {
-            throw CryptographyStringSecretOptionsValidator.ToUnreachableException();
-        }
+        CryptographyStringSecretOptionsValidator.ThrowIfNull(cryptographyStringSecretOptions.Base64StringSecretKey);
 
         byte[] secretKey = Convert.FromBase64String(cryptographyStringSecretOptions.Base64StringSecretKey);
 
