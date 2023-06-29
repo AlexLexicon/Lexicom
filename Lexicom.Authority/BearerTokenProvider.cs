@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Lexicom.Jwt.Options;
+using Lexicom.Jwt.Validators;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -7,10 +9,11 @@ namespace Lexicom.Authority;
 public abstract class BearerTokenProvider
 {
     /// <exception cref="ArgumentNullException"/>
-    protected virtual Task<BearerToken> CreateBearerTokenAsync(IEnumerable<Claim> claims, TimeSpan expiresTimeSpan, string symmetricSecurityKeyString)
+    protected virtual Task<BearerToken> CreateBearerTokenAsync(IEnumerable<Claim> claims, TimeSpan expiresTimeSpan, JwtOptions jwtOptions)
     {
         ArgumentNullException.ThrowIfNull(claims);
-        ArgumentNullException.ThrowIfNull(symmetricSecurityKeyString);
+        ArgumentNullException.ThrowIfNull(jwtOptions);
+        JwtOptionsValidator.ThrowIfNull(jwtOptions.SymmetricSecurityKey);
 
         //add the jti claim to the top of the claims
         //https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.7
@@ -21,7 +24,7 @@ public abstract class BearerTokenProvider
         claimsList.Insert(0, jtiClaim);
         claims = claimsList;
 
-        byte[] symmetricSecurityKeyBytes = Encoding.ASCII.GetBytes(symmetricSecurityKeyString);
+        byte[] symmetricSecurityKeyBytes = Encoding.ASCII.GetBytes(jwtOptions.SymmetricSecurityKey);
 
         var subject = new ClaimsIdentity(claims);
         DateTimeOffset expiresDateTimeOffset = DateTimeOffset.UtcNow.Add(expiresTimeSpan);
@@ -42,14 +45,15 @@ public abstract class BearerTokenProvider
     }
 
     /// <exception cref="ArgumentNullException"/>
-    protected virtual Task<bool> IsBearerTokenValidAsync(string bearerToken, bool validateLifetime, string symmetricSecurityKeyString)
+    protected virtual Task<bool> IsBearerTokenValidAsync(string bearerToken, bool validateLifetime, JwtOptions jwtOptions)
     {
         ArgumentNullException.ThrowIfNull(bearerToken);
-        ArgumentNullException.ThrowIfNull(symmetricSecurityKeyString);
+        ArgumentNullException.ThrowIfNull(jwtOptions);
+        JwtOptionsValidator.ThrowIfNull(jwtOptions.SymmetricSecurityKey);
 
         var tokenHandler = new JwtSecurityTokenHandler();
 
-        byte[] symmetricSecurityKeyBytes = Encoding.ASCII.GetBytes(symmetricSecurityKeyString);
+        byte[] symmetricSecurityKeyBytes = Encoding.ASCII.GetBytes(jwtOptions.SymmetricSecurityKey);
 
         var symmetricSecurityKey = new SymmetricSecurityKey(symmetricSecurityKeyBytes);
 
@@ -61,6 +65,7 @@ public abstract class BearerTokenProvider
             ValidateAudience = false,
             RequireExpirationTime = true,
             ValidateLifetime = validateLifetime,
+            ClockSkew = jwtOptions.ClockSkew,
         };
 
         SecurityToken? validatedToken = null;

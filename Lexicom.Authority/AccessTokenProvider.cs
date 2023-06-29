@@ -1,7 +1,6 @@
 ﻿using Lexicom.Authority.Options;
 using Lexicom.Authority.Validators;
 using Lexicom.Jwt.Options;
-using Lexicom.Jwt.Validators;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 
@@ -39,9 +38,8 @@ public class AccessTokenProvider : BearerTokenProvider, IAccessTokenProvider
         AuthorityOptionsValidator.ThrowIfNull(authorityOptions.AccessTokenValidTimeSpan);
 
         JwtOptions accessTokenOptions = _jwtOptions.Get(JwtOptions.ACCESS_TOKEN_SECTION);
-        JwtOptionsValidator.ThrowIfNull(accessTokenOptions.SymmetricSecurityKey);
 
-        return CreateBearerTokenAsync(claims, authorityOptions.AccessTokenValidTimeSpan.Value, accessTokenOptions.SymmetricSecurityKey);
+        return CreateBearerTokenAsync(claims, authorityOptions.AccessTokenValidTimeSpan.Value, accessTokenOptions);
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -50,8 +48,7 @@ public class AccessTokenProvider : BearerTokenProvider, IAccessTokenProvider
         ArgumentNullException.ThrowIfNull(bearerToken);
 
         JwtOptions accessTokenOptions = _jwtOptions.Get(JwtOptions.ACCESS_TOKEN_SECTION);
-        JwtOptionsValidator.ThrowIfNull(accessTokenOptions.SymmetricSecurityKey);
 
-        return IsBearerTokenValidAsync(bearerToken, validateLifetime, accessTokenOptions.SymmetricSecurityKey);
+        return IsBearerTokenValidAsync(bearerToken, validateLifetime, accessTokenOptions);
     }
 }

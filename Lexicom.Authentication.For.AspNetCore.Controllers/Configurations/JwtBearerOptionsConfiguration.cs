@@ -51,6 +51,7 @@ public class JwtBearerOptionsConfiguration : IConfigureNamedOptions<JwtBearerOpt
             ValidateAudience = false,
             RequireExpirationTime = true,
             ValidateLifetime = true,
+            ClockSkew = accessTokenOptions.ClockSkew,
         };
 
         options.Events = new JwtBearerEvents
