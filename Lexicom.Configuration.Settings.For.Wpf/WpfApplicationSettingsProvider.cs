@@ -35,7 +35,18 @@ public class WpfApplicationSettingsProvider : IApplicationSettingsProvider
     public object? this[string proeprtyName]
     {
         get => _settings[proeprtyName];
-        set => _settings[proeprtyName] = value;
+        set
+        {
+            try
+            {
+                _settings[proeprtyName] = value;
+            }
+            catch (SettingsPropertyNotFoundException e)
+            {
+                //we dont require that the setting key exists when we do a set
+                //instead we just ignore that set and move on
+            }
+        }
     }
 
     public void Save()
