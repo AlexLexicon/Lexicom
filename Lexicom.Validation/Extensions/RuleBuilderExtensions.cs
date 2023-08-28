@@ -54,7 +54,7 @@ public static class RuleBuilderExtensions
 
         return ruleBuilder.When((model, context) =>
         {
-            PropertyInfo? property = model?.GetType().GetProperty(context.PropertyName);
+            PropertyInfo? property = model?.GetType().GetProperty(context.PropertyPath);
 
             object? value = property?.GetValue(model);
 
