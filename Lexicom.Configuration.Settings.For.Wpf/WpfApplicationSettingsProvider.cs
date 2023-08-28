@@ -41,7 +41,7 @@ public class WpfApplicationSettingsProvider : IApplicationSettingsProvider
             {
                 _settings[proeprtyName] = value;
             }
-            catch (SettingsPropertyNotFoundException e)
+            catch (SettingsPropertyNotFoundException)
             {
                 //we dont require that the setting key exists when we do a set
                 //instead we just ignore that set and move on
