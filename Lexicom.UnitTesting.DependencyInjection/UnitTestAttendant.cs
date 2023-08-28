@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
+using NSubstitute;
 using System.Collections;
 
 namespace Lexicom.UnitTesting;
@@ -23,7 +23,7 @@ public sealed class UnitTestAttendant : IServiceCollection
     private IServiceProvider? Provider { get; set; }
 
     /// <exception cref="ArgumentNullException"/>
-    public void Mock<T>(Action<Mock<T>> configure) where T : class
+    public void Mock<T>(Action<T> configure) where T : class
     {
         ArgumentNullException.ThrowIfNull(configure);
 
@@ -42,11 +42,11 @@ public sealed class UnitTestAttendant : IServiceCollection
 
         T genericMockFactory()
         {
-            var mock = new Mock<T>();
+            var mock = Substitute.For<T>();
 
             configure.Invoke(mock);
 
-            return mock.Object;
+            return mock;
         }
     }
 
