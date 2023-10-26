@@ -6,6 +6,7 @@ public abstract class TestTimeProvider : ITimeProvider
     public TestTimeProvider()
     {
         _dateTimeOffsets = new Queue<DateTimeOffset>();
+
         LocalTimeZone = TimeZoneInfo.Local;
     }
 
