@@ -32,6 +32,7 @@ internal sealed class AzureLogAnalyticsSink : AzureLogAnalyticsBatchProvider, IL
 
     private readonly string _workSpaceId;
     private readonly string _agentPrimaryOrSecondaryKey;
+    private readonly string _logName;
     private readonly AzureLogAnalyticsSettings _settings;
     private readonly SemaphoreSlim _semaphore;
     private readonly Uri _serviceEndpointUrl;
@@ -41,6 +42,7 @@ internal sealed class AzureLogAnalyticsSink : AzureLogAnalyticsBatchProvider, IL
     internal AzureLogAnalyticsSink(
         string workSpaceId,
         string agentPrimaryOrSecondaryKey,
+        string logName,
         AzureLogAnalyticsSettings settings) : base(settings.BatchSize, settings.BufferSize)
     {
         ArgumentNullException.ThrowIfNull(workSpaceId);
@@ -49,6 +51,7 @@ internal sealed class AzureLogAnalyticsSink : AzureLogAnalyticsBatchProvider, IL
 
         _workSpaceId = workSpaceId;
         _agentPrimaryOrSecondaryKey = agentPrimaryOrSecondaryKey;
+        _logName = logName;
         _settings = settings;
         _semaphore = new SemaphoreSlim(1, 1);
         _serviceEndpointUrl = settings.AzureOfferingType.GetServiceEndpoint(_workSpaceId);
@@ -187,7 +190,7 @@ internal sealed class AzureLogAnalyticsSink : AzureLogAnalyticsBatchProvider, IL
 
             var stringContent = new StringContent(jsonArrayStringCollection);
             stringContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-            stringContent.Headers.Add("Log-Type", _settings.LogName);
+            stringContent.Headers.Add("Log-Type", _logName);
 
             using var httpRequestMessage = new HttpRequestMessage
             {

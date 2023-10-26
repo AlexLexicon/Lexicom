@@ -11,12 +11,12 @@ public static class LoggerConfigurationExtensions
         this LoggerSinkConfiguration loggerConfiguration,
         string workspaceId,
         string agentPrimaryOrSecondaryKey,
-        string logName = "DiagnosticsLog",
+        string logName,
         LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
         bool storeTimestampInUtc = true,
         IFormatProvider? formatProvider = null,
-        int logBufferSize = 2000,
-        int batchSize = 100,
+        int logBufferSize = Constants.BUFFER_SIZE_DEFAULT,
+        int batchSize = Constants.BATCH_SIZE_DEFAULT,
         AzureOfferingType azureOfferingType = AzureOfferingType.Public,
         LoggingLevelSwitch? levelSwitch = null,
         JsonNamingStrategy logNamingStrategy = JsonNamingStrategy.Default,
@@ -35,20 +35,20 @@ public static class LoggerConfigurationExtensions
             AzureOfferingType = azureOfferingType,
             BufferSize = logBufferSize,
             BatchSize = batchSize,
-            LogName = logName,
             LogNamingStrategy = logNamingStrategy,
             LogPropertiesNamingStrategy = logPropertiesNamingStrategy,
             IsFlattenedProperties = isFlattenedProperties,
         };
 
-        return AzureLogAnalytics(loggerConfiguration, workspaceId, agentPrimaryOrSecondaryKey, configurationSettings, restrictedToMinimumLevel, levelSwitch);
+        return AzureLogAnalytics(loggerConfiguration, workspaceId, agentPrimaryOrSecondaryKey, logName, configurationSettings, restrictedToMinimumLevel, levelSwitch);
     }
 
     /// <exception cref="ArgumentNullException"/>
     public static LoggerConfiguration AzureLogAnalytics(
         this LoggerSinkConfiguration loggerConfiguration, 
         string workspaceId, 
-        string agentPrimaryOrSecondaryKey, 
+        string agentPrimaryOrSecondaryKey,
+        string logName,
         AzureLogAnalyticsSettings settings, 
         LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum, 
         LoggingLevelSwitch? levelSwitch = null)
@@ -58,7 +58,7 @@ public static class LoggerConfigurationExtensions
         ArgumentNullException.ThrowIfNull(agentPrimaryOrSecondaryKey);
         ArgumentNullException.ThrowIfNull(settings);
 
-        var azureLogAnalyticsSink = new AzureLogAnalyticsSink(workspaceId, agentPrimaryOrSecondaryKey, settings);
+        var azureLogAnalyticsSink = new AzureLogAnalyticsSink(workspaceId, agentPrimaryOrSecondaryKey, logName, settings);
 
         return loggerConfiguration.Sink(azureLogAnalyticsSink, restrictedToMinimumLevel, levelSwitch);
     }
