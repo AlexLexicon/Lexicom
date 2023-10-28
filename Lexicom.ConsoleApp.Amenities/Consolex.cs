@@ -4,7 +4,7 @@ using Lexicom.ConsoleApp.Amenities.ReadLines.Abstractions;
 using Newtonsoft.Json;
 
 namespace Lexicom.ConsoleApp.Amenities;
-public class Consolex
+public static class Consolex
 {
     public delegate bool TryParseDelegate<T>(string? input, out T result);
 
