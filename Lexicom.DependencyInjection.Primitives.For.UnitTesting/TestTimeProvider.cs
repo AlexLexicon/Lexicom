@@ -1,5 +1,5 @@
 ﻿namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting;
-public abstract class TestTimeProvider : ITimeProvider
+public class TestTimeProvider : ITimeProvider
 {
     protected readonly Queue<DateTimeOffset> _dateTimeOffsets;
 
