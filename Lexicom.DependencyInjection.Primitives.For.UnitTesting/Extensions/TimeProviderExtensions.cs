@@ -4,6 +4,7 @@ namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting.Extensions;
 public static class TimeProviderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{ITimeProvider, TestTimeProvider}"/>
     public static void Set(this ITimeProvider timeProvider, DateTimeOffset dateTimeOffset)
     {
         ArgumentNullException.ThrowIfNull(timeProvider);
@@ -14,6 +15,7 @@ public static class TimeProviderExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{ITimeProvider, TestTimeProvider}"/>
     public static void Enqueue(this ITimeProvider timeProvider, DateTimeOffset dateTimeOffset)
     {
         ArgumentNullException.ThrowIfNull(timeProvider);
@@ -24,6 +26,7 @@ public static class TimeProviderExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{ITimeProvider, TestTimeProvider}"/>
     public static void SetLocalTimeZone(this ITimeProvider timeProvider, TimeZoneInfo localTimeZone)
     {
         ArgumentNullException.ThrowIfNull(timeProvider);
@@ -35,6 +38,7 @@ public static class TimeProviderExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{ITimeProvider, TestTimeProvider}"/>
     public static void SetTimestampFrequency(this ITimeProvider timeProvider, long timestampFrequency)
     {
         ArgumentNullException.ThrowIfNull(timeProvider);
@@ -45,6 +49,7 @@ public static class TimeProviderExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{ITimeProvider, TestTimeProvider}"/>
     public static void SetTimestamp(this ITimeProvider timeProvider, long timestamp)
     {
         ArgumentNullException.ThrowIfNull(timeProvider);
@@ -55,6 +60,7 @@ public static class TimeProviderExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{ITimeProvider, TestTimeProvider}"/>
     public static void SetElapsedTime(this ITimeProvider timeProvider, TimeSpan elapsedTime)
     {
         ArgumentNullException.ThrowIfNull(timeProvider);

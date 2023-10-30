@@ -4,6 +4,7 @@ namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting.Extensions;
 public static class GuidProviderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{IGuidProvider, TestGuidProvider}"/>
     public static void Set(this IGuidProvider guidProvider, Guid guid)
     {
         ArgumentNullException.ThrowIfNull(guidProvider);
@@ -14,6 +15,7 @@ public static class GuidProviderExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{IGuidProvider, TestGuidProvider}"/>
     public static void Enqueue(this IGuidProvider guidProvider, Guid guid)
     {
         ArgumentNullException.ThrowIfNull(guidProvider);

@@ -5,6 +5,18 @@ namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting.Extensions;
 public static class RandomProviderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{IRandomProvider, TestRandomProvider}"/>
+    public static void Seed(this IRandomProvider randomProvider, int seed)
+    {
+        ArgumentNullException.ThrowIfNull(randomProvider);
+
+        TestRandomProvider testRandomProvider = GetTestRandomProvider(randomProvider);
+
+        testRandomProvider.Seed(seed);
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{IRandomProvider, TestRandomProvider}"/>
     public static void Set(this IRandomProvider randomProvider, int next)
     {
         ArgumentNullException.ThrowIfNull(randomProvider);
@@ -14,6 +26,7 @@ public static class RandomProviderExtensions
         testRandomProvider.Set(next);
     }
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{IRandomProvider, TestRandomProvider}"/>
     public static void Set(this IRandomProvider randomProvider, long next64)
     {
         ArgumentNullException.ThrowIfNull(randomProvider);
@@ -23,6 +36,7 @@ public static class RandomProviderExtensions
         testRandomProvider.Set(next64);
     }
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{IRandomProvider, TestRandomProvider}"/>
     public static void Set(this IRandomProvider randomProvider, float nextSingle)
     {
         ArgumentNullException.ThrowIfNull(randomProvider);
@@ -32,6 +46,7 @@ public static class RandomProviderExtensions
         testRandomProvider.Set(nextSingle);
     }
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{IRandomProvider, TestRandomProvider}"/>
     public static void Set(this IRandomProvider randomProvider, double nextDouble)
     {
         ArgumentNullException.ThrowIfNull(randomProvider);
@@ -42,6 +57,7 @@ public static class RandomProviderExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{IRandomProvider, TestRandomProvider}"/>
     public static void Enqueue(this IRandomProvider randomProvider, int next)
     {
         ArgumentNullException.ThrowIfNull(randomProvider);
@@ -51,6 +67,7 @@ public static class RandomProviderExtensions
         testRandomProvider.Enqueue(next);
     }
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{IRandomProvider, TestRandomProvider}"/>
     public static void Enqueue(this IRandomProvider randomProvider, long next64)
     {
         ArgumentNullException.ThrowIfNull(randomProvider);
@@ -60,6 +77,7 @@ public static class RandomProviderExtensions
         testRandomProvider.Enqueue(next64);
     }
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{IRandomProvider, TestRandomProvider}"/>
     public static void Enqueue(this IRandomProvider randomProvider, float nextSingle)
     {
         ArgumentNullException.ThrowIfNull(randomProvider);
@@ -69,6 +87,7 @@ public static class RandomProviderExtensions
         testRandomProvider.Enqueue(nextSingle);
     }
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{IRandomProvider, TestRandomProvider}"/>
     public static void Enqueue(this IRandomProvider randomProvider, double nextDouble)
     {
         ArgumentNullException.ThrowIfNull(randomProvider);

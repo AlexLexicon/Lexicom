@@ -3,8 +3,6 @@
 namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting;
 public class TestRandomProvider : IRandomProvider
 {
-    private readonly RandomProvider _randomProvider;
-
     protected readonly Queue<int> _nexts;
     protected readonly Queue<long> _nextInt64s;
     protected readonly Queue<float> _nextSingles;
@@ -12,7 +10,7 @@ public class TestRandomProvider : IRandomProvider
 
     public TestRandomProvider()
     {
-        _randomProvider = new RandomProvider();
+        RandomProvider = new RandomProvider();
 
         _nexts = new Queue<int>();
         _nextInt64s = new Queue<long>();
@@ -21,13 +19,15 @@ public class TestRandomProvider : IRandomProvider
     }
     public TestRandomProvider(int seed)
     {
-        _randomProvider = new RandomProvider(seed);
+        RandomProvider = new RandomProvider(seed);
 
         _nexts = new Queue<int>();
         _nextInt64s = new Queue<long>();
         _nextSingles = new Queue<float>();
         _nextDoubles = new Queue<double>();
     }
+
+    private RandomProvider RandomProvider { get; set; }
 
     public virtual int Next()
     {
@@ -36,7 +36,7 @@ public class TestRandomProvider : IRandomProvider
             return next;
         }
 
-        return _randomProvider.Next();
+        return RandomProvider.Next();
     }
     public virtual int Next(int maxValue)
     {
@@ -45,7 +45,7 @@ public class TestRandomProvider : IRandomProvider
             return next;
         }
 
-        return _randomProvider.Next(maxValue);
+        return RandomProvider.Next(maxValue);
     }
     public virtual int Next(int minValue, int maxValue)
     {
@@ -54,7 +54,7 @@ public class TestRandomProvider : IRandomProvider
             return next;
         }
 
-        return _randomProvider.Next(minValue, maxValue);
+        return RandomProvider.Next(minValue, maxValue);
     }
 
     public virtual long NextInt64()
@@ -64,7 +64,7 @@ public class TestRandomProvider : IRandomProvider
             return nextInt64;
         }
 
-        return _randomProvider.NextInt64();
+        return RandomProvider.NextInt64();
     }
     public virtual long NextInt64(long maxValue)
     {
@@ -73,7 +73,7 @@ public class TestRandomProvider : IRandomProvider
             return nextInt64;
         }
 
-        return _randomProvider.NextInt64(maxValue);
+        return RandomProvider.NextInt64(maxValue);
     }
     public virtual long NextInt64(long minValue, long maxValue)
     {
@@ -82,7 +82,7 @@ public class TestRandomProvider : IRandomProvider
             return nextInt64;
         }
 
-        return _randomProvider.NextInt64(minValue, maxValue);
+        return RandomProvider.NextInt64(minValue, maxValue);
     }
 
     public virtual float NextSingle()
@@ -92,7 +92,7 @@ public class TestRandomProvider : IRandomProvider
             return nextSingle;
         }
 
-        return _randomProvider.NextSingle();
+        return RandomProvider.NextSingle();
     }
 
     public virtual double NextDouble()
@@ -102,7 +102,7 @@ public class TestRandomProvider : IRandomProvider
             return nextDouble;
         }
 
-        return _randomProvider.NextDouble();
+        return RandomProvider.NextDouble();
     }
     public virtual double NextDouble(double maxValue)
     {
@@ -111,7 +111,7 @@ public class TestRandomProvider : IRandomProvider
             return nextDouble;
         }
 
-        return _randomProvider.NextDouble(maxValue);
+        return RandomProvider.NextDouble(maxValue);
     }
     public virtual double NextDouble(double minValue, double maxValue)
     {
@@ -120,11 +120,11 @@ public class TestRandomProvider : IRandomProvider
             return nextDouble;
         }
 
-        return _randomProvider.NextDouble(minValue, maxValue);
+        return RandomProvider.NextDouble(minValue, maxValue);
     }
 
-    public virtual void NextBytes(byte[] buffer) => _randomProvider.NextBytes(buffer);
-    public virtual void NextBytes(Span<byte> buffer) => _randomProvider.NextBytes(buffer);
+    public virtual void NextBytes(byte[] buffer) => RandomProvider.NextBytes(buffer);
+    public virtual void NextBytes(Span<byte> buffer) => RandomProvider.NextBytes(buffer);
 
     public virtual void Set(int next)
     {
@@ -166,5 +166,10 @@ public class TestRandomProvider : IRandomProvider
     public virtual void Enqueue(double nextDouble)
     {
         _nextDoubles.Enqueue(nextDouble);
+    }
+
+    public virtual void Seed(int seed)
+    {
+        RandomProvider = new RandomProvider(seed);
     }
 }
