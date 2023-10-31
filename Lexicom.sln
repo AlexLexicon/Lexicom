@@ -234,6 +234,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Maths", "Lexicom.Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Maths.UnitTests", "Lexicom.Maths.UnitTests\Lexicom.Maths.UnitTests.csproj", "{E8686D90-05D9-4B1C-AF43-BEDCC3E38282}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Extensions.Reflection", "Lexicom.Extensions.Reflection\Lexicom.Extensions.Reflection.csproj", "{7FBC795A-541E-46C1-A6F2-3E1499F976B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -588,6 +590,10 @@ Global
 		{E8686D90-05D9-4B1C-AF43-BEDCC3E38282}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8686D90-05D9-4B1C-AF43-BEDCC3E38282}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8686D90-05D9-4B1C-AF43-BEDCC3E38282}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FBC795A-541E-46C1-A6F2-3E1499F976B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FBC795A-541E-46C1-A6F2-3E1499F976B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FBC795A-541E-46C1-A6F2-3E1499F976B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FBC795A-541E-46C1-A6F2-3E1499F976B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -681,6 +687,7 @@ Global
 		{61C5A450-38B5-40C1-97D3-9A596D01A0D2} = {B72216F0-9456-4345-9367-BB49425A9B34}
 		{31463F34-81AC-40B9-B119-490C57682057} = {7613503F-86C3-4FD3-BAC7-3BEE5291822B}
 		{E8686D90-05D9-4B1C-AF43-BEDCC3E38282} = {7613503F-86C3-4FD3-BAC7-3BEE5291822B}
+		{7FBC795A-541E-46C1-A6F2-3E1499F976B6} = {B72216F0-9456-4345-9367-BB49425A9B34}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {065A3AC7-C473-43B9-A4CC-BC8EFB53BF19}
