@@ -8,7 +8,7 @@ public class MathxTests
     [InlineData(0, 1, 0)]
     [InlineData(0, 5, 0)]
     [InlineData(0, 10, 0)]
-    [InlineData(0, 16, 0)]
+    [InlineData(0, 15, 0)]
     [InlineData(1, 1, 1)]
     [InlineData(1, 5, 11111)]
     [InlineData(1, 10, 1111111111)]
