@@ -45,9 +45,9 @@ public class MathxTests
     [InlineData(9, 5, 99999)]
     [InlineData(9, 10, 9999999999)]
     [InlineData(9, 15, 999999999999999)]
-    public void CreateIntegerOfRepeatedDigitsNTimes_CreatesIntegerOfCorrectValue(int digit, int n, long expected)
+    public void CreateNumberOfOnlyDigitRepeatedNTimes_CreatesIntegerOfCorrectValue(int digit, int n, long expected)
     {
-        long result = Mathx.CreateIntegerOfRepeatedDigitsNTimes(digit, n);
+        long result = Mathx.CreateNumberOfOnlyDigitRepeatedNTimes(digit, n);
 
         result.Should().Be(expected);
     }
@@ -57,11 +57,11 @@ public class MathxTests
     [InlineData(int.MinValue)]
     [InlineData(10)]
     [InlineData(int.MaxValue)]
-    public void CreateIntegerOfRepeatedDigitsNTimes_Throws_ArgumentOutOfRangeException_When_Digit_Is_Out_Of_Range(int digit)
+    public void CreateNumberOfOnlyDigitRepeatedNTimes_Throws_ArgumentOutOfRangeException_When_Digit_Is_Out_Of_Range(int digit)
     {
         var exception = Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
-            Mathx.CreateIntegerOfRepeatedDigitsNTimes(digit, 5);
+            Mathx.CreateNumberOfOnlyDigitRepeatedNTimes(digit, 5);
         });
 
         exception.ActualValue.Should().Be(digit);
@@ -74,11 +74,11 @@ public class MathxTests
     [InlineData(int.MinValue)]
     [InlineData(16)]
     [InlineData(int.MaxValue)]
-    public void CreateIntegerOfRepeatedDigitsNTimes_Throws_ArgumentOutOfRangeException_When_n_Is_Out_Of_Range(int n)
+    public void CreateNumberOfOnlyDigitRepeatedNTimes_Throws_ArgumentOutOfRangeException_When_n_Is_Out_Of_Range(int n)
     {
         var exception = Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
-            Mathx.CreateIntegerOfRepeatedDigitsNTimes(5, n);
+            Mathx.CreateNumberOfOnlyDigitRepeatedNTimes(5, n);
         });
 
         exception.ActualValue.Should().Be(n);

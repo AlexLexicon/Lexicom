@@ -2,7 +2,7 @@
 public static class Mathx
 {
     /// <exception cref="ArgumentOutOfRangeException"/>
-    public static long CreateIntegerOfRepeatedDigitsNTimes(int digit, int n)
+    public static long CreateNumberOfOnlyDigitRepeatedNTimes(int digit, int n)
     {
         if (digit is < 0 or > 9)
         {
