@@ -1,36 +1,16 @@
-﻿using Lexicom.ConsoleApp.Tui.Exceptions;
+﻿using Lexicom.Extensions.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Lexicom.ConsoleApp.Tui.Extensions;
 public static class ServiceCollectionExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    /// <exception cref="TuiOperationAssemblyScanException{TAssemblyScanMarker}"/>
+    /// <exception cref="AssemblyScanException{TAssemblyScanMarker, TInterface}"/>
     public static IServiceCollection AddLexicomConsoleAppTui<TAssemblyScanMarker>(this IServiceCollection services, ServiceLifetime operationLifetime = ServiceLifetime.Transient)
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        List<Type>? operationTypes = null;
-
-        Exception? assemblyScanException = null;
-        try
-        {
-            operationTypes = Assembly
-                .GetAssembly(typeof(TAssemblyScanMarker))?
-                .GetTypes()
-                .Where(t => !t.IsAbstract && !t.IsInterface && typeof(ITuiOperation).IsAssignableFrom(t))
-                .ToList();
-        }
-        catch (Exception e)
-        {
-            assemblyScanException = e;
-        }
-
-        if (assemblyScanException is not null || operationTypes is null)
-        {
-            throw new TuiOperationAssemblyScanException<TAssemblyScanMarker>(assemblyScanException);
-        }
+        List<Type> operationTypes = AssemblyScanner.GetConcreteTypesImplementingInterface<TAssemblyScanMarker, ITuiOperation>();
 
         services.AddSingleton<ITuiConsoleApp, TuiConsoleApp>();
 
