@@ -245,7 +245,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".repo", ".repo", "{6F834374
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".images", ".images", "{5E9CA62E-5152-45EA-9DCE-9577DF5E40E0}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\OneDrive\Pictures\Design\Metek\lexicom.nuget.icon.png = ..\..\..\OneDrive\Pictures\Design\Metek\lexicom.nuget.icon.png
+		lexicom.nuget.icon.png = lexicom.nuget.icon.png
 	EndProjectSection
 EndProject
 Global
