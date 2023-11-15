@@ -230,17 +230,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Extensions.Compiler
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Maths", "Maths", "{7613503F-86C3-4FD3-BAC7-3BEE5291822B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Maths", "Lexicom.Maths\Lexicom.Maths.csproj", "{31463F34-81AC-40B9-B119-490C57682057}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Maths", "Lexicom.Maths\Lexicom.Maths.csproj", "{31463F34-81AC-40B9-B119-490C57682057}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Maths.UnitTests", "Lexicom.Maths.UnitTests\Lexicom.Maths.UnitTests.csproj", "{E8686D90-05D9-4B1C-AF43-BEDCC3E38282}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Maths.UnitTests", "Lexicom.Maths.UnitTests\Lexicom.Maths.UnitTests.csproj", "{E8686D90-05D9-4B1C-AF43-BEDCC3E38282}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Extensions.Reflection", "Lexicom.Extensions.Reflection\Lexicom.Extensions.Reflection.csproj", "{7FBC795A-541E-46C1-A6F2-3E1499F976B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Extensions.Reflection", "Lexicom.Extensions.Reflection\Lexicom.Extensions.Reflection.csproj", "{7FBC795A-541E-46C1-A6F2-3E1499F976B6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".repo", ".repo", "{6F834374-8CC7-4420-AC78-5D087172AE55}"
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		LICENSE.txt = LICENSE.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".images", ".images", "{5E9CA62E-5152-45EA-9DCE-9577DF5E40E0}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\OneDrive\Pictures\Design\Metek\lexicom.nuget.icon.png = ..\..\..\OneDrive\Pictures\Design\Metek\lexicom.nuget.icon.png
 	EndProjectSection
 EndProject
 Global
