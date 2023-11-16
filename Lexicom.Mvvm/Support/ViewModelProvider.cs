@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Lexicom.Mvvm.Exceptions;
+using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -9,7 +10,15 @@ public abstract class ViewModelProvider
     private static MethodInfo StaticAddToWeakViewModelRefrenceCollectionMethodInfo => _staticAddToWeakViewModelRefrenceCollectionMethodInfo ??= (typeof(ViewModelProvider).GetMethod(nameof(AddToWeakViewModelRefrenceCollection), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(AddToWeakViewModelRefrenceCollection)}' was not found."));
     private static void AddToWeakViewModelRefrenceCollection<TViewModelImplementation>(IServiceProvider serviceProvider, TViewModelImplementation viewModel) where TViewModelImplementation : class
     {
-        var weakViewModelRefrenceCollection = serviceProvider.GetRequiredService<WeakViewModelRefrenceCollection<TViewModelImplementation>>();
+        WeakViewModelRefrenceCollection<TViewModelImplementation> weakViewModelRefrenceCollection;
+        try
+        {
+            weakViewModelRefrenceCollection = serviceProvider.GetRequiredService<WeakViewModelRefrenceCollection<TViewModelImplementation>>();
+        }
+        catch (InvalidOperationException e)
+        {
+            throw new ViewModelNotRegisteredException(typeof(TViewModelImplementation), e);
+        }
 
         //we need to hold a weak refrence for the way
         //i want my mediatR implenmentation to allow
