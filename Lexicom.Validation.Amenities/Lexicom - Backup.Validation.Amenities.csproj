@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0;net8.0;net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>lexicom.nuget.icon.png</PackageIcon>
+
+    <Authors>Alex Stroot</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Adds convenient but optional features for projects already using the Lexicom.Validation package.</Description>
+    <Copyright>2023</Copyright>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Validation.Amenities</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>dependencyinjection;validation</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\lexicom.nuget.icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lexicom.DependencyInjection.Amenities\Lexicom.DependencyInjection.Amenities.csproj" />
+    <ProjectReference Include="..\Lexicom.Validation\Lexicom.Validation.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0;net8.0;net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>lexicom.nuget.icon.png</PackageIcon>
+
+    <Authors>Alex Stroot</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>The base package for all Lexicom...For.Blazor.WebAssembly packages. Relies on and enforces the inclusion of the Microsoft.AspNetCore.Components.WebAssembly package reference.</Description>
+    <Copyright>2023</Copyright>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Supports.Blazor.WebAssembly</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>blazor;dependencyinjection;webassembly</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\lexicom.nuget.icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.13" />
+  </ItemGroup>
+
+</Project>

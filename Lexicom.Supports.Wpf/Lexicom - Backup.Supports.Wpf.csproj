@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0;net8.0;net8.0-windows;net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>lexicom.nuget.icon.png</PackageIcon>
+
+    <Authors>Alex Stroot</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>The base package for all Lexicom...For.Wpf packages. Relies on and enforces the target framework to be windows.</Description>
+    <Copyright>2023</Copyright>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Supports.Wpf</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>dependencyinjection;wpf</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\lexicom.nuget.icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lexicom.Wpf.DependencyInjection\Lexicom.Wpf.DependencyInjection.csproj" />
+  </ItemGroup>
+
+</Project>
