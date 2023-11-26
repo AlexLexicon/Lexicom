@@ -27,9 +27,9 @@ public class SettingsConfigurationProvider : ConfigurationProvider
                 string dataKey = propertyName.Replace('_', ':');
                 string? dataValue = _settings[propertyName]?.ToString();
 
-                if (Data.ContainsKey(dataKey))
+                if (Data.TryGetValue(dataKey, out string? value))
                 {
-                    if (Data[dataKey] != dataValue)
+                    if (value != dataValue)
                     {
                         Data[dataKey] = dataValue;
                         reload = true;
