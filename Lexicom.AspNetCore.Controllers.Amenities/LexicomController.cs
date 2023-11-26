@@ -20,10 +20,7 @@ public abstract class LexicomController
         get => _controllerContext ??= new ControllerContext();
         set
         {
-            if (value is null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
+            ArgumentNullException.ThrowIfNull(value);
 
             _controllerContext = value;
         }

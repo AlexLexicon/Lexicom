@@ -8,10 +8,14 @@ public class MediatRHandlersProvider<THandler, TViewModelImplementation> : IMedi
     private readonly WeakViewModelRefrenceCollection<TViewModelImplementation> _weakViewModelRefrenceCollection;
     private readonly IEnumerable<MediatRHandlerImplementationConflictingWithViewModels<THandler>> _handlerImplementations;
 
+    /// <exception cref="ArgumentNullException"/>
     public MediatRHandlersProvider(
         WeakViewModelRefrenceCollection<TViewModelImplementation> weakViewModelRefrenceCollection,
         IEnumerable<MediatRHandlerImplementationConflictingWithViewModels<THandler>> handlerImplementations)
     {
+        ArgumentNullException.ThrowIfNull(weakViewModelRefrenceCollection);
+        ArgumentNullException.ThrowIfNull(handlerImplementations);
+
         _weakViewModelRefrenceCollection = weakViewModelRefrenceCollection;
         _handlerImplementations = handlerImplementations;
     }

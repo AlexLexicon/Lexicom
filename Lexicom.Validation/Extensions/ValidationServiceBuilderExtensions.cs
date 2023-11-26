@@ -54,7 +54,7 @@ public static class ValidationServiceBuilderExtensions
             }
         }
 
-        if (results.Any())
+        if (results.Count is not 0)
         {
             foreach (AddRuleSetsResult result in results)
             {

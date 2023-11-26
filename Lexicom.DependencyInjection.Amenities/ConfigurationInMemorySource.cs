@@ -5,7 +5,7 @@ using System.Reflection;
 namespace Lexicom.DependencyInjection.Amenities;
 public class ConfigurationInMemorySource : IEnumerable<KeyValuePair<string, string?>>
 {
-    protected readonly Dictionary<string, string?> _source = new Dictionary<string, string?>();
+    protected readonly Dictionary<string, string?> _source = [];
 
     /// <exception cref="ArgumentNullException"/>
     public void Add(string key, string? value)

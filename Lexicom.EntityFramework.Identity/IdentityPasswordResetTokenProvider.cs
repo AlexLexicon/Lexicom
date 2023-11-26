@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.EntityFramework.Identity;
-public class IdentityPasswordResetTokenProvider<TUser> : LexicomDataProtectorTokenProvider<TUser> where TUser : class
+/// <exception cref="ArgumentNullException"/>
+public class IdentityPasswordResetTokenProvider<TUser>(IDataProtectionProvider dataProtectionProvider, IOptions<PasswordResetTokenProviderOptions> options) : LexicomDataProtectorTokenProvider<TUser>(dataProtectionProvider, options) where TUser : class
 {
-    public IdentityPasswordResetTokenProvider(IDataProtectionProvider dataProtectionProvider, IOptions<PasswordResetTokenProviderOptions> options) : base(dataProtectionProvider, options)
-    {
-    }
 }

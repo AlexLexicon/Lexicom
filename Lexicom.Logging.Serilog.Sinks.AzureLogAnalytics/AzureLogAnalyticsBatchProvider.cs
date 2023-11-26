@@ -33,7 +33,7 @@ internal abstract class AzureLogAnalyticsBatchProvider : IDisposable
         _batchSize = Math.Min(Math.Max(batchSize, 1), BATCH_SIZE_MAXIMUM);
 
         _logEventBatch = new ConcurrentQueue<LogEvent>();
-        _batchEventsCollection = new BlockingCollection<IList<LogEvent>>();
+        _batchEventsCollection = [];
         _eventsCollection = new BlockingCollection<LogEvent>(maxBufferSize);
 
         _timerThresholdSpan = TimeSpan.FromSeconds(10);
@@ -134,7 +134,7 @@ internal abstract class AzureLogAnalyticsBatchProvider : IDisposable
         {
             _semaphoreSlim.Wait(_cancellationTokenSource.Token);
 
-            if (!_logEventBatch.Any())
+            if (_logEventBatch.IsEmpty)
             {
                 return;
             }
@@ -238,7 +238,7 @@ internal abstract class AzureLogAnalyticsBatchProvider : IDisposable
                 WriteLogEventAsync(eventBatch).GetAwaiter().GetResult();
             }
 
-            Task.WaitAll(new[] { _eventPumpTask, _batchTask, _timerTask }, TimeSpan.FromSeconds(60));
+            Task.WaitAll([_eventPumpTask, _batchTask, _timerTask], TimeSpan.FromSeconds(60));
         }
         catch (Exception ex)
         {

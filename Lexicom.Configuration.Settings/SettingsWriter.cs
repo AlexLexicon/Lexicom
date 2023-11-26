@@ -452,14 +452,14 @@ public class SettingsWriter : ISettingsWriter
                 propertyType == typeof(ulong) ||
                 propertyType == typeof(ushort))
             {
-                return new List<ConfigProperty>
-                {
+                return
+                [
                     new ConfigProperty
                     {
                         SettingKey = settingKey,
                         Value = value,
                     }
-                };
+                ];
             }
 
             var nullableConfigPropertyValue = new NullableConfigPropertyValue();
@@ -482,14 +482,14 @@ public class SettingsWriter : ISettingsWriter
 
             if (nullableConfigPropertyValue.IsNullable)
             {
-                return new List<ConfigProperty>
-                {
+                return
+                [
                     new ConfigProperty
                     {
                         SettingKey = settingKey,
                         Value = nullableConfigPropertyValue.Value,
                     }
-                };
+                ];
             }
         }
 
@@ -510,7 +510,7 @@ public class SettingsWriter : ISettingsWriter
             return valueConfigProperties;
         }
 
-        return new List<ConfigProperty>();
+        return [];
     }
 
     private class NullableConfigPropertyValue

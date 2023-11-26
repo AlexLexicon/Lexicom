@@ -12,10 +12,13 @@ public abstract class LexicomDataProtectorTokenProvider<TUser> : IUserTwoFactorT
 {
     private static Encoding DefaultEncoding { get; } = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true);
 
+    /// <exception cref="ArgumentNullException"/>
     public LexicomDataProtectorTokenProvider(
         IDataProtectionProvider dataProtectionProvider, 
         IOptions<DataProtectionTokenProviderOptions> options)
     {
+        ArgumentNullException.ThrowIfNull(dataProtectionProvider);
+
         Options = options?.Value ?? new DataProtectionTokenProviderOptions();
         Protector = dataProtectionProvider.CreateProtector(Name ?? "DataProtectorTokenProvider");
     }

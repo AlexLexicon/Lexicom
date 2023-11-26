@@ -106,7 +106,7 @@ public static class ServiceCollectionExtensions
                     vmr.ImplementationType.IsGenericType && vmr.ImplementationType.GetGenericTypeDefinition() == handlerDescriptor.ImplementationType)
                 .ToList();
 
-            if (viewModelRegistrationsForHandler.Any())
+            if (viewModelRegistrationsForHandler.Count is not 0)
             {
                 Type[] genericArguments = handlerDescriptor.ServiceType.GetGenericArguments();
 

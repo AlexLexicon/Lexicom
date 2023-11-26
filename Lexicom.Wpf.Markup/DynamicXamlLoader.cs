@@ -8,7 +8,7 @@ namespace Lexicom.Wpf.Markup;
 //based on: https://stackoverflow.com/questions/910814/loading-xaml-at-runtime
 public class DynamicXamlLoader : MarkupExtension
 {
-    protected readonly List<Assembly> _assemblies = new List<Assembly>();
+    protected readonly List<Assembly> _assemblies = [];
 
     public DynamicXamlLoader()
     {

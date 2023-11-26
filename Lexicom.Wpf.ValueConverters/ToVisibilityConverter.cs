@@ -12,24 +12,24 @@ public sealed class ToVisibilityConverter : ValueConverterBase<Visibility>
     private static readonly string HIDDEN_FULL = GetVisibilityString(Visibility.Hidden);
     private static readonly string COLLAPSED_FULL = GetVisibilityString(Visibility.Collapsed);
 
-    private static readonly ResultForPatternMatchCollection<Visibility> VISIBILITY_PARAMETER_PATTERN_MATCHES = new ResultForPatternMatchCollection<Visibility>
-    {
+    private static readonly ResultForPatternMatchCollection<Visibility> VISIBILITY_PARAMETER_PATTERN_MATCHES =
+    [
          new ResultForPatternMatch<Visibility>(Visibility.Collapsed, new [] { COLLAPSED_FULL, COLLAPSED_SHORT, "0" }),
          new ResultForPatternMatch<Visibility>(Visibility.Hidden, new [] { HIDDEN_FULL, HIDDEN_SHORT, "1", "f", "false" }),
          new ResultForPatternMatch<Visibility>(Visibility.Visible, new [] { VISIBLE_FULL, VISIBLE_SHORT, "2", "t", "true" }),
-    };
+    ];
     private static readonly ValueConverterParameterDefinition INVERT_PARAMETER = new ValueConverterParameterDefinition("invert");
     private static readonly ValueConverterParameterDefinition<Visibility> SHOW_PARAMETER = new ValueConverterParameterDefinition<Visibility>("show", VISIBILITY_PARAMETER_PATTERN_MATCHES);
     private static readonly ValueConverterParameterDefinition<Visibility> HIDE_PARAMETER = new ValueConverterParameterDefinition<Visibility>("hide", VISIBILITY_PARAMETER_PATTERN_MATCHES);
-    private static readonly ValueConverterParameterDefinition<IsStrings> HIDE_WHEN_STRING_PARAMETER = new ValueConverterParameterDefinition<IsStrings>("hidewhenstring", new ResultForPatternMatchCollection<IsStrings>
-    {
+    private static readonly ValueConverterParameterDefinition<IsStrings> HIDE_WHEN_STRING_PARAMETER = new ValueConverterParameterDefinition<IsStrings>("hidewhenstring",
+    [
         new ResultForPatternMatch<IsStrings>(IsStrings.NullOrEmpty, new [] { "isnullorempty", "nullorempty", "noe", "0" }),
         new ResultForPatternMatch<IsStrings>(IsStrings.NullOrWhiteSpace, new [] { "isnullorwhitespace", "nullorwhitespace", "now", "1" })
-    });
-    private static readonly ValueConverterParameterDefinition<IsEnumerable> HIDE_WHEN_ENUMERABLE_PARAMETER = new ValueConverterParameterDefinition<IsEnumerable>("hidewhenenumerable", new ResultForPatternMatchCollection<IsEnumerable>
-    {
+    ]);
+    private static readonly ValueConverterParameterDefinition<IsEnumerable> HIDE_WHEN_ENUMERABLE_PARAMETER = new ValueConverterParameterDefinition<IsEnumerable>("hidewhenenumerable",
+    [
         new ResultForPatternMatch<IsEnumerable>(IsEnumerable.NullOrEmpty, new [] { "isnullorempty", "nullorempty", "noe", "0" }),
-    });
+    ]);
 
     private static string GetVisibilityString(Visibility value) => value.ToString().ToLowerInvariant();
     private static T GetVisibilityDichotomy<T>(Visibility visibility, T visible, T hiddenOrCollapsed) => GetVisibilityTrichotomy(visibility, visible, hiddenOrCollapsed, hiddenOrCollapsed);

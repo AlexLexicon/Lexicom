@@ -6,23 +6,17 @@ using System.Security.Claims;
 namespace Lexicom.EntityFramework.Identity.Stores;
 //this is a copy of the regular 'RoleStore' from Microsoft: https://source.dot.net/#Microsoft.AspNetCore.Identity.EntityFrameworkCore/RoleStore.cs
 //but uses the IDbContextFactory in order to allow the async methods to be used in parallel
-public class AsyncRoleStore<TRole> : AsyncRoleStore<TRole, DbContext, string> where TRole : IdentityRole<string>
+/// <exception cref="ArgumentNullException"/>
+public class AsyncRoleStore<TRole>(IDbContextFactory<DbContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncRoleStore<TRole, DbContext, string>(contextFactory, describer) where TRole : IdentityRole<string>
 {
-    public AsyncRoleStore(IDbContextFactory<DbContext> contextFactory, IdentityErrorDescriber? describer = null) : base(contextFactory, describer)
-    {
-    }
 }
-public class AsyncRoleStore<TRole, TContext> : AsyncRoleStore<TRole, TContext, string> where TRole : IdentityRole<string> where TContext : DbContext
+/// <exception cref="ArgumentNullException"/>
+public class AsyncRoleStore<TRole, TContext>(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncRoleStore<TRole, TContext, string>(contextFactory, describer) where TRole : IdentityRole<string> where TContext : DbContext
 {
-    public AsyncRoleStore(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : base(contextFactory, describer)
-    {
-    }
 }
-public class AsyncRoleStore<TRole, TContext, TKey> : AsyncRoleStore<TRole, TContext, TKey, IdentityUserRole<TKey>, IdentityRoleClaim<TKey>>, IQueryableRoleStore<TRole>, IRoleClaimStore<TRole> where TRole : IdentityRole<TKey> where TKey : IEquatable<TKey> where TContext : DbContext
+/// <exception cref="ArgumentNullException"/>
+public class AsyncRoleStore<TRole, TContext, TKey>(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncRoleStore<TRole, TContext, TKey, IdentityUserRole<TKey>, IdentityRoleClaim<TKey>>(contextFactory, describer), IQueryableRoleStore<TRole>, IRoleClaimStore<TRole> where TRole : IdentityRole<TKey> where TKey : IEquatable<TKey> where TContext : DbContext
 {
-    public AsyncRoleStore(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : base(contextFactory, describer)
-    {
-    }
 }
 public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQueryableRoleStore<TRole>, IRoleClaimStore<TRole>
     where TRole : IdentityRole<TKey>

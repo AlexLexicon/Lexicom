@@ -1,12 +1,7 @@
 ﻿namespace Lexicom.ConsoleApp.Amenities.ReadLines.Abstractions;
-internal abstract class AdvancedReadLineIntercept
+internal abstract class AdvancedReadLineIntercept(ConsoleKey? interceptKey)
 {
-    public AdvancedReadLineIntercept(ConsoleKey? interceptKey)
-    {
-        InterceptKey = interceptKey;
-    }
-
-    public ConsoleKey? InterceptKey { get; }
+    public ConsoleKey? InterceptKey { get; } = interceptKey;
 
     public abstract AdvancedReadLineResult Intercept(string? currentInput);
     public abstract AdvancedReadLineInitalResult Initial();

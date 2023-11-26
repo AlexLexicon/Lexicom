@@ -6,7 +6,9 @@ namespace Lexicom.EntityFramework.For.UnitTesting;
 //is to ensure the database is created implicitly
 public class EntityFrameworkUnitTestingDbContextFactory<TContext> : IDbContextFactory<TContext> where TContext : DbContext
 {
+#pragma warning disable CA1859 // Use concrete types when possible for improved performance
     private readonly IDbContextFactory<TContext> _dbContextFactory;
+#pragma warning restore CA1859 // Use concrete types when possible for improved performance
 
     /// <exception cref="ArgumentNullException"/>
 #pragma warning disable EF1001 // Internal EF Core API usage.

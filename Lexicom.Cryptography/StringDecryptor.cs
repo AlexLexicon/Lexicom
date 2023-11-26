@@ -10,7 +10,7 @@ public static class StringDecryptor
     {
         ArgumentNullException.ThrowIfNull(secretKey);
 
-        if (!secretKey.Any())
+        if (secretKey.Length is 0)
         {
             throw new SecretKeyNotValidException();
         }
@@ -22,8 +22,8 @@ public static class StringDecryptor
 
         byte[] ivAndEncryptedBytesComposite = Convert.FromBase64String(encryptedBase64);
 
-        var iv = new byte[16];
-        var encryptedBytes = new byte[ivAndEncryptedBytesComposite.Length - iv.Length];
+        byte[] iv = new byte[16];
+        byte[] encryptedBytes = new byte[ivAndEncryptedBytesComposite.Length - iv.Length];
 
         Buffer.BlockCopy(ivAndEncryptedBytesComposite, 0, iv, 0, iv.Length);
         Buffer.BlockCopy(ivAndEncryptedBytesComposite, iv.Length, encryptedBytes, 0, ivAndEncryptedBytesComposite.Length - iv.Length);
@@ -52,7 +52,7 @@ public static class StringDecryptor
     {
         ArgumentNullException.ThrowIfNull(secretKey);
 
-        if (!secretKey.Any())
+        if (secretKey.Length is 0)
         {
             throw new SecretKeyNotValidException();
         }
@@ -64,8 +64,8 @@ public static class StringDecryptor
 
         byte[] ivAndEncryptedBytesComposite = Convert.FromBase64String(encryptedBase64);
 
-        var iv = new byte[16];
-        var encryptedBytes = new byte[ivAndEncryptedBytesComposite.Length - iv.Length];
+        byte[] iv = new byte[16];
+        byte[] encryptedBytes = new byte[ivAndEncryptedBytesComposite.Length - iv.Length];
 
         Buffer.BlockCopy(ivAndEncryptedBytesComposite, 0, iv, 0, iv.Length);
         Buffer.BlockCopy(ivAndEncryptedBytesComposite, iv.Length, encryptedBytes, 0, ivAndEncryptedBytesComposite.Length - iv.Length);

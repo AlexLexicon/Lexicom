@@ -12,7 +12,7 @@ public static class StringExtensions
 
         string[] lines = callerArgumentExpression.Split(Environment.NewLine, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
-        if (!lines.Any())
+        if (lines.Length is 0)
         {
             return UNKNOWN;
         }

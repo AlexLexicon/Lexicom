@@ -1,14 +1,6 @@
 ﻿namespace Lexicom.ConsoleApp.Amenities.ReadLines;
-internal class AdvancedReadLineInitalResult
+internal class AdvancedReadLineInitalResult(bool IsInital, string? input)
 {
-    public AdvancedReadLineInitalResult(
-        bool IsInital,
-        string? input)
-    {
-        this.IsInital = IsInital;
-        Input = input;
-    }
-
-    public bool IsInital { get; }
-    public string? Input { get; }
+    public bool IsInital { get; } = IsInital;
+    public string? Input { get; } = input;
 }

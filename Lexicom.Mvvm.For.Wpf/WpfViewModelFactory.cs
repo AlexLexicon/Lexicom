@@ -3,12 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
 namespace Lexicom.Mvvm.For.Wpf;
-public class WpfViewModelFactory : ViewModelProvider, IViewModelFactory
+/// <exception cref="ArgumentNullException"/>
+public class WpfViewModelFactory(IServiceProvider serviceProvider) : ViewModelProvider(serviceProvider), IViewModelFactory
 {
-    public WpfViewModelFactory(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
-
     public TViewModel Create<TViewModel>() where TViewModel : notnull
     {
         return CreateViewModelAndTryCoupleWindow<TViewModel>();

@@ -9,7 +9,7 @@ public class HttpQueryString : ICollection<HttpQueryParameter>
 
     public HttpQueryString()
     {
-        _parameters = new List<HttpQueryParameter>();
+        _parameters = [];
     }
     /// <exception cref="ArgumentNullException"/>
     public HttpQueryString(IEnumerable<HttpQueryParameter> parameters)

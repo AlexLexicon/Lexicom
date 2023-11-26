@@ -5,23 +5,17 @@ using System.Security.Claims;
 namespace Lexicom.EntityFramework.Identity.Stores;
 //this is a copy of the regular 'RoleStore' from Microsoft: https://source.dot.net/#Microsoft.AspNetCore.Identity.EntityFrameworkCore/UserOnlyStore.cs
 //but uses the IDbContextFactory in order to allow the async methods to be used in parallel
-public class AsyncUserOnlyStore<TUser> : AsyncUserOnlyStore<TUser, DbContext, string> where TUser : IdentityUser<string>, new()
+/// <exception cref="ArgumentNullException"/>
+public class AsyncUserOnlyStore<TUser>(IDbContextFactory<DbContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncUserOnlyStore<TUser, DbContext, string>(contextFactory, describer) where TUser : IdentityUser<string>, new()
 {
-    public AsyncUserOnlyStore(IDbContextFactory<DbContext> contextFactory, IdentityErrorDescriber? describer = null) : base(contextFactory, describer)
-    {
-    }
 }
-public class AsyncUserOnlyStore<TUser, TContext> : AsyncUserOnlyStore<TUser, TContext, string> where TUser : IdentityUser<string> where TContext : DbContext
+/// <exception cref="ArgumentNullException"/>
+public class AsyncUserOnlyStore<TUser, TContext>(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncUserOnlyStore<TUser, TContext, string>(contextFactory, describer) where TUser : IdentityUser<string> where TContext : DbContext
 {
-    public AsyncUserOnlyStore(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : base(contextFactory, describer)
-    {
-    }
 }
-public class AsyncUserOnlyStore<TUser, TContext, TKey> : AsyncUserOnlyStore<TUser, TContext, TKey, IdentityUserClaim<TKey>, IdentityUserLogin<TKey>, IdentityUserToken<TKey>> where TUser : IdentityUser<TKey> where TContext : DbContext where TKey : IEquatable<TKey>
+/// <exception cref="ArgumentNullException"/>
+public class AsyncUserOnlyStore<TUser, TContext, TKey>(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncUserOnlyStore<TUser, TContext, TKey, IdentityUserClaim<TKey>, IdentityUserLogin<TKey>, IdentityUserToken<TKey>>(contextFactory, describer) where TUser : IdentityUser<TKey> where TContext : DbContext where TKey : IEquatable<TKey>
 {
-    public AsyncUserOnlyStore(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : base(contextFactory, describer)
-    {
-    }
 }
 public class AsyncUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, TUserToken> : UserStoreBase<TUser, TKey, TUserClaim, TUserLogin, TUserToken>, IUserLoginStore<TUser>, IUserClaimStore<TUser>, IUserPasswordStore<TUser>, IUserSecurityStampStore<TUser>, IUserEmailStore<TUser>, IUserLockoutStore<TUser>, IUserPhoneNumberStore<TUser>, IQueryableUserStore<TUser>, IUserTwoFactorStore<TUser>, IUserAuthenticationTokenStore<TUser>, IUserAuthenticatorKeyStore<TUser>, IUserTwoFactorRecoveryCodeStore<TUser>, IProtectedUserStore<TUser>
     where TUser : IdentityUser<TKey>
@@ -31,6 +25,7 @@ public class AsyncUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, T
     where TUserLogin : IdentityUserLogin<TKey>, new()
     where TUserToken : IdentityUserToken<TKey>, new()
 {
+    /// <exception cref="ArgumentNullException"/>
     public AsyncUserOnlyStore(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : base(describer ?? new IdentityErrorDescriber())
     {
         ArgumentNullException.ThrowIfNull(contextFactory);
@@ -141,10 +136,7 @@ public class AsyncUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, T
 
         return await db
             .Set<TUser>()
-            .FindAsync(new object?[]
-            {
-                id
-            }, cancellationToken);
+            .FindAsync([id], cancellationToken);
     }
 
     /// <exception cref="OperationCanceledException"/>

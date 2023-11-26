@@ -7,7 +7,7 @@ public class ResultForPatternMatchCollection<T> : IEnumerable<ResultForPatternMa
 
     public ResultForPatternMatchCollection()
     {
-        _resultForPatternMatches = new List<ResultForPatternMatch<T>>();
+        _resultForPatternMatches = [];
     }
 
     public void Add(T result, string matchPattern)

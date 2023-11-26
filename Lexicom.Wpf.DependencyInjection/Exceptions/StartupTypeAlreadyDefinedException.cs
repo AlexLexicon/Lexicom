@@ -1,7 +1,4 @@
 ﻿namespace Lexicom.Wpf.DependencyInjection.Exceptions;
-public class StartupTypeAlreadyDefinedException : Exception
+public class StartupTypeAlreadyDefinedException(Type? currentStartupType) : Exception($"The {nameof(WpfApplication)} already has a startup type defined '{currentStartupType?.Name ?? "null"}'")
 {
-    public StartupTypeAlreadyDefinedException(Type? currentStartupType) : base($"The {nameof(WpfApplication)} already has a startup type defined '{currentStartupType?.Name ?? "null"}'")
-    {
-    }
 }

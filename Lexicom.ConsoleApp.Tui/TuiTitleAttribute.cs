@@ -1,11 +1,6 @@
 ﻿namespace Lexicom.ConsoleApp.Tui;
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class TuiTitleAttribute : Attribute
+public class TuiTitleAttribute(string? title = null) : Attribute
 {
-    public TuiTitleAttribute(string? title = null)
-    {
-        Title = title;
-    }
-
-    public string? Title { get; }
+    public string? Title { get; } = title;
 }

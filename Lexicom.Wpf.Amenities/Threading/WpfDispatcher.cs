@@ -7,11 +7,13 @@ public class WpfDispatcher : IDispatcher
 {
     private readonly Dispatcher _dispatcher;
 
+    /// <exception cref="ArgumentNullException"/>
     public WpfDispatcher(Dispatcher dispatcher)
     {
+        ArgumentNullException.ThrowIfNull(dispatcher);
+
         _dispatcher = dispatcher;
     }
-
 
     public void VerifyAccess() => _dispatcher.VerifyAccess();
     public void InvokeShutdown() => _dispatcher.InvokeShutdown();

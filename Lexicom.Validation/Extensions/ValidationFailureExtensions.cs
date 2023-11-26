@@ -3,6 +3,9 @@
 namespace Lexicom.Validation.Extensions;
 public static class ValidationFailureExtensions
 {
+    private static string[] WhiteSpaceSeparator { get; } = [" "];
+
+
     /// <exception cref="ArgumentNullException"/>
     public static IReadOnlyList<string> ToErrorMessages(this IEnumerable<ValidationFailure> validationFailures)
     {
@@ -138,7 +141,7 @@ public static class ValidationFailureExtensions
     private static string RemoveSpacesBetweenWords(string text)
     {
         return string
-            .Join(" ", text.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries))
+            .Join(" ", text.Split(WhiteSpaceSeparator, StringSplitOptions.RemoveEmptyEntries))
             .Trim();
     }
 }

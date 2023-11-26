@@ -2,9 +2,6 @@
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.Validation.Options;
-public class LexicomOptionsBuilder<TOptions> : OptionsBuilder<TOptions> where TOptions : class
+public class LexicomOptionsBuilder<TOptions>(IServiceCollection services, string? name) : OptionsBuilder<TOptions>(services, name) where TOptions : class
 {
-    public LexicomOptionsBuilder(IServiceCollection services, string? name) : base(services, name)
-    {
-    }
 }

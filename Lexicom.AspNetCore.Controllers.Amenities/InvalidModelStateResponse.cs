@@ -40,12 +40,12 @@ public static class InvalidModelStateResponse
                     else
                     {
                         int includingStartIndex = message.IndexOf(MODELSTATE_INCLUDING);
-                        if (includingStartIndex >= 0 && error.ErrorMessage.Contains("missing required"))
+                        if (includingStartIndex is >= 0 && error.ErrorMessage.Contains("missing required"))
                         {
                             string fieldsString = message[(includingStartIndex + MODELSTATE_INCLUDING.Length)..];
                             string[] fields = fieldsString.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
-                            if (fields.Any())
+                            if (fields.Length is not 0)
                             {
                                 foreach (string field in fields)
                                 {
@@ -79,7 +79,7 @@ public static class InvalidModelStateResponse
             }
         }
 
-        if (!errors.Any())
+        if (errors.Count is 0)
         {
             AddMessage(errors, MODELSTATE_REQUESTBODY, "The json body was invalid.");
         }

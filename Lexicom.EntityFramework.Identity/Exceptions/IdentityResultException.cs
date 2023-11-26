@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 namespace Lexicom.EntityFramework.Identity.Exceptions;
-public class IdentityResultException : Exception
+public class IdentityResultException(IdentityResult? identityResult) : Exception(GetMessage(identityResult))
 {
     private static string GetMessage(IdentityResult? identityResult)
     {
@@ -18,10 +18,5 @@ public class IdentityResultException : Exception
         return $"identity result errors: {errorsString}";
     }
 
-    public IdentityResultException(IdentityResult? identityResult) : base(GetMessage(identityResult))
-    {
-        IdentityResult = identityResult;
-    }
-
-    public IdentityResult? IdentityResult { get; }
+    public IdentityResult? IdentityResult { get; } = identityResult;
 }

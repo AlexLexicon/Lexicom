@@ -5,7 +5,7 @@ public class WeakViewModelRefrenceCollection<TViewModelImplementation> where TVi
 
     public WeakViewModelRefrenceCollection()
     {
-        _weakViewModelRefrences = new List<WeakReference<TViewModelImplementation>>();
+        _weakViewModelRefrences = [];
     }
 
     /// <exception cref="ArgumentNullException"/>

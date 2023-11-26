@@ -5,7 +5,7 @@ public class QuestionBuilder
 
     public QuestionBuilder()
     {
-        _answers = new List<QuestionBuilderAnswer>();
+        _answers = [];
     }
 
     private Action<QuestionBuilderOptions>? OptionsDelegate { get; set; }
@@ -77,7 +77,7 @@ public class QuestionBuilder
 
         OptionsDelegate?.Invoke(options);
 
-        if (!_answers.Any())
+        if (_answers.Count is 0)
         {
             Console.WriteLine(question);
             Console.WriteLine("No answers possible");

@@ -1,7 +1,4 @@
 ﻿namespace Lexicom.Configuration.AzureKeyVault.Exceptions;
-public class AzureKeyVaultConnectionOptionsException : Exception
+public class AzureKeyVaultConnectionOptionsException(string? message) : Exception(message)
 {
-    public AzureKeyVaultConnectionOptionsException(string? message) : base(message)
-    {
-    }
 }

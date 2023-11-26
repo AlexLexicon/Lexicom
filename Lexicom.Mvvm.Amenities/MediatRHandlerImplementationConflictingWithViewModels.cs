@@ -1,10 +1,5 @@
 ﻿namespace Lexicom.Mvvm.Amenities;
-public class MediatRHandlerImplementationConflictingWithViewModels<THandler>
+public class MediatRHandlerImplementationConflictingWithViewModels<THandler>(THandler implementation)
 {
-    public MediatRHandlerImplementationConflictingWithViewModels(THandler implementation)
-    {
-        Implementation = implementation;
-    }
-
-    public THandler Implementation { get; }
+    public THandler Implementation { get; } = implementation;
 }

@@ -122,7 +122,7 @@ public class DefaultExampleFilter : IOperationFilter
 
         throw new ArgumentException($"Unsupported value kind {jsonElement.ValueKind}");
     }
-    private static IOpenApiAny CreateOpenApiArray(JsonElement jsonElement)
+    private static OpenApiArray CreateOpenApiArray(JsonElement jsonElement)
     {
         var openApiArray = new OpenApiArray();
 
@@ -133,7 +133,7 @@ public class DefaultExampleFilter : IOperationFilter
 
         return openApiArray;
     }
-    private static IOpenApiAny CreateOpenApiObject(JsonElement jsonElement)
+    private static OpenApiObject CreateOpenApiObject(JsonElement jsonElement)
     {
         var openApiObject = new OpenApiObject();
 

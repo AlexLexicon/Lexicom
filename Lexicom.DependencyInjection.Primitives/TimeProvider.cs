@@ -24,10 +24,8 @@ public abstract class TimeProvider : ITimeProvider
     /// <param name="timestampFrequency">Frequency of the values returned from <see cref="GetTimestamp"/> method.</param>
     protected TimeProvider(long timestampFrequency)
     {
-        if (timestampFrequency <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(timestampFrequency));
-        }
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(timestampFrequency);
+
         TimestampFrequency = timestampFrequency;
         _timeToTicksRatio = (double)TimeSpan.TicksPerSecond / TimestampFrequency;
     }

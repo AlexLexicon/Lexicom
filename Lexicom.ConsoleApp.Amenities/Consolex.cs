@@ -44,10 +44,10 @@ public static class Consolex
 
             var genericArguments = objType.GetGenericArguments();
 
-            if (genericArguments.Any())
+            if (genericArguments.Length is not 0)
             {
                 int index = name.IndexOf('`');
-                if (index >= 0)
+                if (index is >= 0)
                 {
                     name = name[..index];
                 }

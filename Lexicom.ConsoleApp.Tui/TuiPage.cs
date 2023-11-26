@@ -15,8 +15,8 @@ internal class TuiPage
         Title = title;
         Parent = parent;
 
-        _operationDefinitions = new List<TuiOperationDefinition>();
-        _subPages = new List<TuiPage>();
+        _operationDefinitions = [];
+        _subPages = [];
     }
 
     public string Title { get; }

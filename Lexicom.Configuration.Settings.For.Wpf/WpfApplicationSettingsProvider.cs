@@ -21,7 +21,7 @@ public class WpfApplicationSettingsProvider : IApplicationSettingsProvider
     {
         get
         {
-            List<ISettingsProperty> properties = new List<ISettingsProperty>();
+            List<ISettingsProperty> properties = [];
             foreach (object? setting in _settings.Properties)
             {
                 if (setting is SettingsProperty settingsProperty)

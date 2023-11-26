@@ -10,7 +10,7 @@ public static class StringEncryptor
     {
         ArgumentNullException.ThrowIfNull(secretKey);
 
-        if (!secretKey.Any())
+        if (secretKey.Length is 0)
         {
             throw new SecretKeyNotValidException();
         }
@@ -36,7 +36,7 @@ public static class StringEncryptor
         byte[] iv = aes.IV;
         byte[] encryptedBytes = memoryStream.ToArray();
 
-        var ivAndEncryptedBytesComposite = new byte[iv.Length + encryptedBytes.Length];
+        byte[] ivAndEncryptedBytesComposite = new byte[iv.Length + encryptedBytes.Length];
 
         Buffer.BlockCopy(iv, 0, ivAndEncryptedBytesComposite, 0, iv.Length);
         Buffer.BlockCopy(encryptedBytes, 0, ivAndEncryptedBytesComposite, iv.Length, encryptedBytes.Length);
@@ -50,7 +50,7 @@ public static class StringEncryptor
     {
         ArgumentNullException.ThrowIfNull(secretKey);
 
-        if (!secretKey.Any())
+        if (secretKey.Length is 0)
         {
             throw new SecretKeyNotValidException();
         }
@@ -76,7 +76,7 @@ public static class StringEncryptor
         byte[] iv = aes.IV;
         byte[] encryptedBytes = memoryStream.ToArray();
 
-        var ivAndEncryptedBytesComposite = new byte[iv.Length + encryptedBytes.Length];
+        byte[] ivAndEncryptedBytesComposite = new byte[iv.Length + encryptedBytes.Length];
 
         Buffer.BlockCopy(iv, 0, ivAndEncryptedBytesComposite, 0, iv.Length);
         Buffer.BlockCopy(encryptedBytes, 0, ivAndEncryptedBytesComposite, iv.Length, encryptedBytes.Length);

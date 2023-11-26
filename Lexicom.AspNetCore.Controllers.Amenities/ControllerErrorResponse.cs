@@ -24,11 +24,19 @@ public class ControllerErrorResponse : ErrorResponse
 
     public ControllerErrorResponse()
     {
-        _errors = new Dictionary<string, List<string>>();
-        _codes = new List<string>();
+        _errors = [];
+        _codes = [];
     }
 
-    public new IReadOnlyDictionary<string, IReadOnlyList<string>> Errors => _errors.Where(kvp => kvp.Value.Any()).ToDictionary<KeyValuePair<string, List<string>>, string, IReadOnlyList<string>>(kvp => kvp.Key, kvp => kvp.Value);
+    public new IReadOnlyDictionary<string, IReadOnlyList<string>> Errors
+    {
+        get
+        {
+            return _errors
+                .Where(kvp => kvp.Value.Count is not 0)
+                .ToDictionary<KeyValuePair<string, List<string>>, string, IReadOnlyList<string>>(kvp => kvp.Key, kvp => kvp.Value);
+        }
+    }
     public new IReadOnlyList<string> Codes => _codes;
 
     /// <exception cref="ArgumentNullException"/>
@@ -38,7 +46,7 @@ public class ControllerErrorResponse : ErrorResponse
 
         if (!_errors.ContainsKey(errorKey))
         {
-            _errors.Add(errorKey, new List<string>());
+            _errors.Add(errorKey, []);
         }
     }
     /// <exception cref="ArgumentNullException"/>
@@ -53,10 +61,10 @@ public class ControllerErrorResponse : ErrorResponse
         }
         else
         {
-            _errors.Add(errorKey, new List<string>
-            {
+            _errors.Add(errorKey,
+            [
                 errorMessage
-            });
+            ]);
         }
     }
 

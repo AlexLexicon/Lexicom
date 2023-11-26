@@ -10,8 +10,11 @@ public class BaseWpfDispatcherOperation<TDispatcherOperation> : IDispatcherOpera
 
     protected readonly TDispatcherOperation _dispatcherOperation;
 
+    /// <exception cref="ArgumentNullException"/>
     public BaseWpfDispatcherOperation(TDispatcherOperation dispatcherOperation)
     {
+        ArgumentNullException.ThrowIfNull(dispatcherOperation);
+
         _dispatcherOperation = dispatcherOperation;
 
         _dispatcherOperation.Aborted += DispatcherAborted;
@@ -36,18 +39,13 @@ public class BaseWpfDispatcherOperation<TDispatcherOperation> : IDispatcherOpera
     private void DispatcherAborted(object? sender, EventArgs e) => Aborted?.Invoke(sender, e);
     private void DispatcherCompleted(object? sender, EventArgs e) => Completed?.Invoke(sender, e);
 }
-public class WpfDispatcherOperation : BaseWpfDispatcherOperation<DispatcherOperation>
+/// <exception cref="ArgumentNullException"/>
+public class WpfDispatcherOperation(DispatcherOperation dispatcherOperation) : BaseWpfDispatcherOperation<DispatcherOperation>(dispatcherOperation)
 {
-    public WpfDispatcherOperation(DispatcherOperation dispatcherOperation) : base(dispatcherOperation)
-    {
-    }
 }
-public class WpfDispatcherOperation<TResult> : BaseWpfDispatcherOperation<DispatcherOperation<TResult>>, IDispatcherOperation<TResult>
+/// <exception cref="ArgumentNullException"/>
+public class WpfDispatcherOperation<TResult>(DispatcherOperation<TResult> dispatcherOperation) : BaseWpfDispatcherOperation<DispatcherOperation<TResult>>(dispatcherOperation), IDispatcherOperation<TResult>
 {
-    public WpfDispatcherOperation(DispatcherOperation<TResult> dispatcherOperation) : base(dispatcherOperation)
-    {
-    }
-
     TResult IDispatcherOperation<TResult>.Result => _dispatcherOperation.Result;
     Task<TResult> IDispatcherOperation<TResult>.Task => _dispatcherOperation.Task;
 

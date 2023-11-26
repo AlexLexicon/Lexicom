@@ -18,9 +18,9 @@ public class IdentityResultErrorsCollection : IEnumerable<IdentityError>
     {
         List<string> errorStrings = _identityErrors.Select(ie => $"[{ie.Code}: {ie.Description}]").ToList();
 
-        if (errorStrings.Any())
+        if (errorStrings.Count is not 0)
         {
-            if (errorStrings.Count == 1)
+            if (errorStrings.Count is 1)
             {
                 return errorStrings.First();
             }

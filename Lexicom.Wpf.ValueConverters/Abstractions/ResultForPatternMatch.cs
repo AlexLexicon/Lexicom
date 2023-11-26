@@ -1,12 +1,6 @@
 ﻿namespace Lexicom.Wpf.ValueConverters.Abstractions;
-public class ResultForPatternMatch<T>
+public class ResultForPatternMatch<T>(T result, IEnumerable<string> matchPatterns)
 {
-    public ResultForPatternMatch(T result, IEnumerable<string> matchPatterns)
-    {
-        Result = result;
-        Patterns = matchPatterns.ToList();
-    }
-
-    public T Result { get; }
-    public IReadOnlyList<string> Patterns { get; }
+    public T Result { get; } = result;
+    public IReadOnlyList<string> Patterns { get; } = matchPatterns.ToList();
 }

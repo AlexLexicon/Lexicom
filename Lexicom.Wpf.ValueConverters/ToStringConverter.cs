@@ -3,11 +3,11 @@
 namespace Lexicom.Wpf.ValueConverters;
 public sealed class ToStringConverter : ValueConverterBase<string>
 {
-    private static ValueConverterParameterDefinition<ToStrings> CaseParameter { get; } = new ValueConverterParameterDefinition<ToStrings>("case", new ResultForPatternMatchCollection<ToStrings>
-    {
+    private static ValueConverterParameterDefinition<ToStrings> CaseParameter { get; } = new ValueConverterParameterDefinition<ToStrings>("case",
+    [
         new ResultForPatternMatch<ToStrings>(ToStrings.Lower, new [] { "lower", "l", "false", "f", "0" }),
         new ResultForPatternMatch<ToStrings>(ToStrings.Upper, new [] { "upper", "u", "true", "t", "1" })
-    });
+    ]);
 
     public ToStrings? DefaultCase { get; set; }
 

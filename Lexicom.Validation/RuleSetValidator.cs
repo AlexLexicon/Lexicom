@@ -15,13 +15,9 @@ public interface IRuleSetValidator<TRuleSet, TProperty> : IRuleSetValidator, IVa
 {
     Func<TProperty, IEnumerable<string>> Validation { get; }
 }
-public class RuleSetValidator<TRuleSet, TProperty> : BaseRuleSetValidator<TRuleSet, TProperty, TProperty>, IRuleSetValidator<TRuleSet, TProperty> where TRuleSet : IRuleSet<TProperty>
+/// <exception cref="ArgumentNullException"/>
+public class RuleSetValidator<TRuleSet, TProperty>(TRuleSet ruleSet) : BaseRuleSetValidator<TRuleSet, TProperty, TProperty>(ruleSet), IRuleSetValidator<TRuleSet, TProperty> where TRuleSet : IRuleSet<TProperty>
 {
-    /// <exception cref="ArgumentNullException"/>
-    public RuleSetValidator(TRuleSet ruleSet) : base(ruleSet)
-    {
-    }
-
     protected override IEnumerable<string> ValidateAndGetErrorMessages(TProperty instance)
     {
         Validate(instance);
@@ -33,13 +29,9 @@ public interface IRuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTra
 {
     Func<TInProperty, IEnumerable<string>> Validation { get; }
 }
-public class RuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransformer> : BaseRuleSetValidator<TRuleSet, TProperty, TInProperty>, IRuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransformer> where TRuleSet : IRuleSet<TProperty> where TRuleSetTransformer : IRuleSetTransfromer<TProperty, TInProperty>, new()
+/// <exception cref="ArgumentNullException"/>
+public class RuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransformer>(TRuleSet ruleSet) : BaseRuleSetValidator<TRuleSet, TProperty, TInProperty>(ruleSet), IRuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransformer> where TRuleSet : IRuleSet<TProperty> where TRuleSetTransformer : IRuleSetTransfromer<TProperty, TInProperty>, new()
 {
-    /// <exception cref="ArgumentNullException"/>
-    public RuleSetValidator(TRuleSet ruleSet) : base(ruleSet)
-    {
-    }
-
     protected override IEnumerable<string> ValidateAndGetErrorMessages(TInProperty instance)
     {
         var ruleSetTransformer = new TRuleSetTransformer();
@@ -67,7 +59,7 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
 
         ValidationErrors = new List<string>();
         Validation = ValidateAndGetErrorMessages;
-        FailingErrors = new List<string>();
+        FailingErrors = [];
 
         RuleFor(p => p.Value)
             .UseRuleSet(ruleSet);

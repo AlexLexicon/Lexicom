@@ -8,13 +8,9 @@ public interface IViewModelFactory
     TViewModel Create<TViewModel, TModel1, TModel2>(TModel1 model1, TModel2 model2) where TViewModel : notnull;
     TViewModel Create<TViewModel, TModel1, TModel2, TModel3>(TModel1 model1, TModel2 model2, TModel3 model3) where TViewModel : notnull;
 }
-public class ViewModelFactory : ViewModelProvider, IViewModelFactory
+/// <exception cref="ArgumentNullException"/>
+public class ViewModelFactory(IServiceProvider serviceProvider) : ViewModelProvider(serviceProvider), IViewModelFactory
 {
-    /// <exception cref="ArgumentNullException"/>
-    public ViewModelFactory(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
-
     public TViewModel Create<TViewModel>() where TViewModel : notnull
     {
         return CreateViewModel<TViewModel>();

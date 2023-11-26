@@ -1,7 +1,4 @@
 ﻿namespace Lexicom.Wpf.Amenities.Exceptions;
-public class ThemeDoesNotExistException : Exception
+public class ThemeDoesNotExistException(string? theme) : Exception($"The theme '{theme ?? "null"}' does not exist.")
 {
-    public ThemeDoesNotExistException(string? theme) : base($"The theme '{theme ?? "null"}' does not exist.")
-    {
-    }
 }

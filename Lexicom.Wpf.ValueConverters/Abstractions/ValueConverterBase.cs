@@ -33,7 +33,7 @@ public abstract class ValueConverterBase : IValueConverter
 
     public ValueConverterBase()
     {
-        Parameters = new List<ValueConverterParameter>();
+        Parameters = [];
     }
 
     protected List<ValueConverterParameter> Parameters { get; set; }
@@ -94,11 +94,13 @@ public abstract class ValueConverterBase : IValueConverter
                     string[] values;
                     if (splitKeyValue.Length > 1)
                     {
-                        values = splitKeyValue.Skip(1).ToArray();
+                        values = splitKeyValue
+                            .Skip(1)
+                            .ToArray();
                     }
                     else
                     {
-                        values = Array.Empty<string>();
+                        values = [];
                     }
 
                     Parameters.Add(new ValueConverterParameter

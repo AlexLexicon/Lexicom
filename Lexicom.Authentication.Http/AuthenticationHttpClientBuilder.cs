@@ -3,15 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Lexicom.Authentication.Http;
-public class AuthenticationHttpClientBuilder
+/// <exception cref="ArgumentNullException"/>
+public class AuthenticationHttpClientBuilder(IHttpClientBuilder httpClientBuilder)
 {
-    /// <exception cref="ArgumentNullException"/>
-    public AuthenticationHttpClientBuilder(IHttpClientBuilder httpClientBuilder)
-    {
-        Builder = httpClientBuilder;
-    }
-
-    public IHttpClientBuilder Builder { get; }
+    public IHttpClientBuilder Builder { get; } = httpClientBuilder;
 
     private bool IncludeAccessTokenHttpClientDelegatingHandler { get; set; }
     private bool IncludeRefreshTokenHttpClientDelegatingHandler { get; set; }

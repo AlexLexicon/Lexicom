@@ -57,14 +57,9 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    private class DebugExceptionHandler : IExceptionHandler
+    private class DebugExceptionHandler(Action<Exception> exceptionDelegate) : IExceptionHandler
     {
-        public readonly Action<Exception> _exceptionDelegate;
-
-        public DebugExceptionHandler(Action<Exception> exceptionDelegate)
-        {
-            _exceptionDelegate = exceptionDelegate;
-        }
+        public readonly Action<Exception> _exceptionDelegate = exceptionDelegate;
 
         public ExceptionHandledResult? HandleException(Exception exception)
         {

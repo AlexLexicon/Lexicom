@@ -1,14 +1,6 @@
 ﻿namespace Lexicom.ConsoleApp.Amenities.ReadLines;
-internal class AdvancedReadLineResult
+internal class AdvancedReadLineResult(bool isContinue, string? input)
 {
-    public AdvancedReadLineResult(
-        bool isContinue,
-        string? input)
-    {
-        IsContinue = isContinue;
-        Input = input;
-    }
-
-    public bool IsContinue { get; }
-    public string? Input { get; }
+    public bool IsContinue { get; } = isContinue;
+    public string? Input { get; } = input;
 }

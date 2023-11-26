@@ -12,7 +12,7 @@ public sealed class UnitTestAttendant : IServiceCollection
     public UnitTestAttendant()
     {
         _services = new ServiceCollection();
-        _mocks = new Dictionary<Type, Func<object>>();
+        _mocks = [];
 
         Configuration = new ConfigurationManager();
     }

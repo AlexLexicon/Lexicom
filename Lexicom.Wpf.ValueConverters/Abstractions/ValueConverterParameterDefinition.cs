@@ -3,25 +3,33 @@ public class ValueConverterParameterDefinition<T> : ValueConverterParameterDefin
 {
     private readonly Func<string[], T?>? _parseDelegate;
 
+    /// <exception cref="ArgumentNullException"/>
     public ValueConverterParameterDefinition(string pattern) : this(pattern, parseDelegate: null, null)
     {
     }
+    /// <exception cref="ArgumentNullException"/>
     public ValueConverterParameterDefinition(string pattern, ValueConverterParameterSettings? settings) : this(pattern, parseDelegate: null, settings)
     {
     }
+    /// <exception cref="ArgumentNullException"/>
     public ValueConverterParameterDefinition(string pattern, Func<string[], T?>? parseDelegate) : this(pattern, parseDelegate, null)
     {
     }
+    /// <exception cref="ArgumentNullException"/>
     public ValueConverterParameterDefinition(string pattern, Func<string[], T?>? parseDelegate, ValueConverterParameterSettings? settings) : base(pattern, settings)
     {
         _parseDelegate = parseDelegate;
         ResultForPatternMatches = null;
     }
+    /// <exception cref="ArgumentNullException"/>
     public ValueConverterParameterDefinition(string pattern, ResultForPatternMatchCollection<T> resultForPatternMatchCollection) : this(pattern, resultForPatternMatchCollection, null)
     {
     }
+    /// <exception cref="ArgumentNullException"/>
     public ValueConverterParameterDefinition(string pattern, ResultForPatternMatchCollection<T> resultForPatternMatchCollection, ValueConverterParameterSettings? settings) : base(pattern, settings)
     {
+        ArgumentNullException.ThrowIfNull(resultForPatternMatchCollection);
+
         _parseDelegate = null;
         ResultForPatternMatches = resultForPatternMatchCollection;
     }
@@ -44,7 +52,7 @@ public class ValueConverterParameterDefinition<T> : ValueConverterParameterDefin
 
                 return true;
             }
-            else if (ResultForPatternMatches is not null && parameter.Values.Any())
+            else if (ResultForPatternMatches is not null && parameter.Values.Length is not 0)
             {
                 var matches = new List<ResultForPatternMatch<T>>();
                 foreach (string parameterValue in parameter.Values)
@@ -70,8 +78,11 @@ public class ValueConverterParameterDefinition
     public ValueConverterParameterDefinition(string pattern) : this(pattern, null)
     {
     }
+    /// <exception cref="ArgumentNullException"/>
     public ValueConverterParameterDefinition(string pattern, ValueConverterParameterSettings? settings)
     {
+        ArgumentNullException.ThrowIfNull(pattern);
+
         Pattern = pattern;
         Settings = settings;
     }

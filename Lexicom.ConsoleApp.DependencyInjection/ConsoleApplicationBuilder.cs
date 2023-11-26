@@ -8,7 +8,7 @@ using System.Reflection;
 namespace Lexicom.ConsoleApp.DependencyInjection;
 public sealed class ConsoleApplicationBuilder
 {
-    private readonly IHostBuilder _hostBuilder;
+    private readonly HostBuilder _hostBuilder;
 
     internal ConsoleApplicationBuilder()
     {
@@ -47,7 +47,7 @@ public sealed class ConsoleApplicationBuilder
 
     #region Microsoft.Extensions.Hosting.HostBuilder.cs
     //based on microsoft source code: https://source.dot.net/#Microsoft.Extensions.Hosting/HostBuilder.cs
-    private IHostEnvironment CreateHostingEnvironment()
+    private HostingEnvironment CreateHostingEnvironment()
     {
         var hostingEnvironment = new HostingEnvironment()
         {

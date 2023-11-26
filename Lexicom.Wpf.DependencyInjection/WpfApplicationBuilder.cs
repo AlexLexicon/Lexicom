@@ -6,7 +6,7 @@ using System.Windows;
 namespace Lexicom.Wpf.DependencyInjection;
 public sealed class WpfApplicationBuilder
 {
-    private readonly IHostBuilder _hostBuilder;
+    private readonly HostBuilder _hostBuilder;
 
     /// <exception cref="ArgumentNullException"/>
     internal WpfApplicationBuilder(Application appxaml)

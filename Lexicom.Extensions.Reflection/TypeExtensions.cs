@@ -11,10 +11,10 @@ public static class TypeExtensions
         string typeName = $"{type.Name}";
 
         Type[] genericArguments = type.GetGenericArguments();
-        if (genericArguments.Any())
+        if (genericArguments.Length is 0)
         {
             int indexOfGenericCountSymbol = typeName.IndexOf('`');
-            if (indexOfGenericCountSymbol >= 0)
+            if (indexOfGenericCountSymbol is >= 0)
             {
                 //remove the generic count symbol
                 typeName = typeName[..indexOfGenericCountSymbol];

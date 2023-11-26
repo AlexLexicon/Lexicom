@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.EntityFramework.Identity;
-public class IdentityChangeEmailTokenProvider<TUser> : LexicomDataProtectorTokenProvider<TUser> where TUser : class
+/// <exception cref="ArgumentNullException"/>
+public class IdentityChangeEmailTokenProvider<TUser>(IDataProtectionProvider dataProtectionProvider, IOptions<ChangeEmailTokenProviderOptions> options) : LexicomDataProtectorTokenProvider<TUser>(dataProtectionProvider, options) where TUser : class
 {
-    public IdentityChangeEmailTokenProvider(IDataProtectionProvider dataProtectionProvider, IOptions<ChangeEmailTokenProviderOptions> options) : base(dataProtectionProvider, options)
-    {
-    }
 }

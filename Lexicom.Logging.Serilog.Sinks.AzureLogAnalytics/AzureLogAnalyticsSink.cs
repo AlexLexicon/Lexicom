@@ -81,7 +81,7 @@ internal sealed class AzureLogAnalyticsSink : AzureLogAnalyticsBatchProvider, IL
 
     protected override async Task<bool> WriteLogEventAsync(ICollection<LogEvent>? logEventsBatch)
     {
-        if (logEventsBatch is null || !logEventsBatch.Any())
+        if (logEventsBatch is null || logEventsBatch.Count is 0)
         {
             return true;
         }
@@ -162,7 +162,7 @@ internal sealed class AzureLogAnalyticsSink : AzureLogAnalyticsBatchProvider, IL
             SelfLog.WriteLine($"Sending mini batch of size {counter}");
         }
 
-        if (!jsonStringCollection.Any())
+        if (jsonStringCollection.Count is 0)
         {
             return false;
         }

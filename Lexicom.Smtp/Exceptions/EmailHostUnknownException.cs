@@ -1,9 +1,6 @@
 ﻿using Lexicom.Smtp.Exceptions.Abstractions;
 
 namespace Lexicom.Smtp.Exceptions;
-public class EmailHostUnKnownException : EmailHostException
+public class EmailHostUnKnownException(Exception? innerException) : EmailHostException("The email host is unknown.", innerException)
 {
-    public EmailHostUnKnownException(Exception? innerException) : base("The email host is unknown.", innerException)
-    {
-    }
 }

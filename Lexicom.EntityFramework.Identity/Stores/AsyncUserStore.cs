@@ -7,33 +7,25 @@ using System.Security.Claims;
 namespace Lexicom.EntityFramework.Identity.Stores;
 //this is a copy of the regular 'RoleStore' from Microsoft: https://source.dot.net/#Microsoft.AspNetCore.Identity.EntityFrameworkCore/UserStore.cs
 //but uses the IDbContextFactory in order to allow the async methods to be used in parallel
-public class AsyncUserStore : AsyncUserStore<IdentityUser<string>>
+/// <exception cref="ArgumentNullException"/>
+public class AsyncUserStore(IDbContextFactory<DbContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncUserStore<IdentityUser<string>>(contextFactory, describer)
 {
-    public AsyncUserStore(IDbContextFactory<DbContext> contextFactory, IdentityErrorDescriber? describer = null) : base(contextFactory, describer)
-    {
-    }
 }
-public class AsyncUserStore<TUser> : AsyncUserStore<TUser, IdentityRole, DbContext, string> where TUser : IdentityUser<string>, new()
+/// <exception cref="ArgumentNullException"/>
+public class AsyncUserStore<TUser>(IDbContextFactory<DbContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncUserStore<TUser, IdentityRole, DbContext, string>(contextFactory, describer) where TUser : IdentityUser<string>, new()
 {
-    public AsyncUserStore(IDbContextFactory<DbContext> contextFactory, IdentityErrorDescriber? describer = null) : base(contextFactory, describer)
-    {
-    }
 }
-public class AsyncUserStore<TUser, TRole, TContext> : AsyncUserStore<TUser, TRole, TContext, string> where TUser : IdentityUser<string> where TRole : IdentityRole<string> where TContext : DbContext
+/// <exception cref="ArgumentNullException"/>
+public class AsyncUserStore<TUser, TRole, TContext>(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncUserStore<TUser, TRole, TContext, string>(contextFactory, describer) where TUser : IdentityUser<string> where TRole : IdentityRole<string> where TContext : DbContext
 {
-    public AsyncUserStore(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : base(contextFactory, describer)
-    {
-    }
 }
-public class AsyncUserStore<TUser, TRole, TContext, TKey> : AsyncUserStore<TUser, TRole, TContext, TKey, IdentityUserClaim<TKey>, IdentityUserRole<TKey>, IdentityUserLogin<TKey>, IdentityUserToken<TKey>, IdentityRoleClaim<TKey>>
+/// <exception cref="ArgumentNullException"/>
+public class AsyncUserStore<TUser, TRole, TContext, TKey>(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncUserStore<TUser, TRole, TContext, TKey, IdentityUserClaim<TKey>, IdentityUserRole<TKey>, IdentityUserLogin<TKey>, IdentityUserToken<TKey>, IdentityRoleClaim<TKey>>(contextFactory, describer)
     where TUser : IdentityUser<TKey>
     where TRole : IdentityRole<TKey>
     where TContext : DbContext
     where TKey : IEquatable<TKey>
 {
-    public AsyncUserStore(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : base(contextFactory, describer)
-    {
-    }
 }
 public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TKey, TUserClaim, TUserRole, TUserLogin, TUserToken, TRoleClaim> : UserStoreBase<TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TUserToken, TRoleClaim>, IProtectedUserStore<TUser>
     where TUser : IdentityUser<TKey>
@@ -158,10 +150,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
         return await db
             .Set<TUser>()
-            .FindAsync(new object?[]
-            {
-                id
-            }, cancellationToken);
+            .FindAsync([id], cancellationToken);
     }
 
     /// <exception cref="OperationCanceledException"/>
