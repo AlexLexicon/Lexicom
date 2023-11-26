@@ -1,4 +1,4 @@
-name: Build and Publish Nuget Packages
+name: .net7 Build and Publish
 
 on:
   push:
