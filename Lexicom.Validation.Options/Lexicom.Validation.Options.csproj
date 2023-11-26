@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <!--the OptionsBuilder.ValidateOnStart() method is only in this package. For some reason the Abstractions package does not include this which is lame.-->
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
