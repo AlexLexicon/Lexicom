@@ -66,8 +66,6 @@ internal class TuiPage
         }
 
         subPage.Add(definition, remainingPath);
-
-        
     }
 
     private void AddAndOrder(TuiOperationDefinition definition)
