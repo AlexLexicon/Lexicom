@@ -59,29 +59,36 @@ public static class ServiceCollectionExtensions
         if (configure is not null)
         {
             services.AddMediatR(configure);
-
-            var notificationHandlersForViewModels = new List<ServiceDescriptor>();
-            notificationHandlersForViewModels.AddRange(ReRegisterMediatRHandlersForViewModels(services, typeof(INotificationHandler<>)));
-            ReRegisterMediatRHandlersForViewModels(services, typeof(IRequestHandler<>));
-            ReRegisterMediatRHandlersForViewModels(services, typeof(IRequestHandler<,>));
-
-            foreach (ServiceDescriptor notificationHandlerDescription in notificationHandlersForViewModels)
+        }
+        else
+        {
+            services.AddMediatR(_ =>
             {
-                List<ServiceDescriptor> handlerImplementations = services
-                    .Where(sd => sd.ServiceType == notificationHandlerDescription.ServiceType)
-                    .ToList();
 
-                foreach (ServiceDescriptor handlerImplementation in handlerImplementations)
+            });
+        }
+
+        var notificationHandlersForViewModels = new List<ServiceDescriptor>();
+        notificationHandlersForViewModels.AddRange(ReRegisterMediatRHandlersForViewModels(services, typeof(INotificationHandler<>)));
+        ReRegisterMediatRHandlersForViewModels(services, typeof(IRequestHandler<>));
+        ReRegisterMediatRHandlersForViewModels(services, typeof(IRequestHandler<,>));
+
+        foreach (ServiceDescriptor notificationHandlerDescription in notificationHandlersForViewModels)
+        {
+            List<ServiceDescriptor> handlerImplementations = services
+                .Where(sd => sd.ServiceType == notificationHandlerDescription.ServiceType)
+                .ToList();
+
+            foreach (ServiceDescriptor handlerImplementation in handlerImplementations)
+            {
+                if (handlerImplementation.ImplementationType is null)
                 {
-                    if (handlerImplementation.ImplementationType is null)
-                    {
-                        throw new UnreachableException($"The mediatR handler with the service type '{handlerImplementation.ServiceType}' has a 'null' implementation type but that is not possible in this case.");
-                    }
-
-                    services.Remove(handlerImplementation);
-
-                    StaticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo.MakeGenericMethod(notificationHandlerDescription.ServiceType, handlerImplementation.ImplementationType).Invoke(null, new object[] { services, handlerImplementation.Lifetime });
+                    throw new UnreachableException($"The mediatR handler with the service type '{handlerImplementation.ServiceType}' has a 'null' implementation type but that is not possible in this case.");
                 }
+
+                services.Remove(handlerImplementation);
+
+                StaticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo.MakeGenericMethod(notificationHandlerDescription.ServiceType, handlerImplementation.ImplementationType).Invoke(null, new object[] { services, handlerImplementation.Lifetime });
             }
         }
 
