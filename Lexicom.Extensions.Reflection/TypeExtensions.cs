@@ -11,7 +11,7 @@ public static class TypeExtensions
         string typeName = $"{type.Name}";
 
         Type[] genericArguments = type.GetGenericArguments();
-        if (genericArguments.Length is 0)
+        if (genericArguments.Length is > 0)
         {
             int indexOfGenericCountSymbol = typeName.IndexOf('`');
             if (indexOfGenericCountSymbol is >= 0)
