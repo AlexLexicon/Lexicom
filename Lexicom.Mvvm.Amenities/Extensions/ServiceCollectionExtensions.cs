@@ -52,21 +52,13 @@ public static class ServiceCollectionExtensions
      */
 
     /// <exception cref="ArgumentNullException"/>
-    public static IServiceCollection AddLexicomMvvmMediatR(this IServiceCollection services, Action<MediatRServiceConfiguration>? configure = null)
+    public static IServiceCollection AddLexicomMvvmMediatR(this IServiceCollection services, Action<MediatRServiceConfiguration> configure)
     {
         ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(configure);
 
-        if (configure is not null)
-        {
-            services.AddMediatR(configure);
-        }
-        else
-        {
-            services.AddMediatR(_ =>
-            {
-
-            });
-        }
+        //you have to provide the configure options in order to specify at least one assembly to scan for mediatR objects
+        services.AddMediatR(configure);
 
         var notificationHandlersForViewModels = new List<ServiceDescriptor>();
         notificationHandlersForViewModels.AddRange(ReRegisterMediatRHandlersForViewModels(services, typeof(INotificationHandler<>)));
