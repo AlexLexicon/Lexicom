@@ -61,10 +61,13 @@ public static class MvvmServiceBuilderExtensions
 
         configure.Invoke(mediatRServiceConfiguration);
 
+        //this mediatR registration has to come after all view model registrations
+        //which is the entire reason I added this deferred registration system
+        //so we set the priority to '1' since the view models priority is set to '0'
         builder.AddDeferredRegistration(() =>
         {
             DeferredAddMediatR(builder, mediatRServiceConfiguration);
-        }, int.MaxValue);
+        }, 1);
 
         return builder;
     }
