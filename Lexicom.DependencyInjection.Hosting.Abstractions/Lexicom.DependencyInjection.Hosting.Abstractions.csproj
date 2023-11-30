@@ -11,22 +11,21 @@
 
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>The base package for all Lexicom...For.ConsoleApp packages. Relies on and enforces the inclusion of the Lexicom.ConsoleApp.DependencyInjection package.</Description>
+    <Description>Adds functionality that integrates with dependency injection hosting features.</Description>
     <Copyright>2023</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Supports.ConsoleApp</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.DependencyInjection.Hosting.Abstractions</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>console;dependencyinjection</PackageTags>
+    <PackageTags>dependencyinjection</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="README.md" />
     <None Include="..\lexicom.nuget.icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lexicom.ConsoleApp.DependencyInjection\Lexicom.ConsoleApp.DependencyInjection.csproj" />
-    <ProjectReference Include="..\Lexicom.DependencyInjection.Hosting\Lexicom.DependencyInjection.Hosting.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

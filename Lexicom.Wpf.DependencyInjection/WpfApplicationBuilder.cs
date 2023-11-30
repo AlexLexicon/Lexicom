@@ -33,6 +33,14 @@ public sealed class WpfApplicationBuilder
     public IServiceCollection Services { get; }
     public ConfigurationManager Configuration { get; }
 
+    /// <exception cref="ArgumentNullException"/>
+    public void ConfigureContainer<TBuilder>(IServiceProviderFactory<TBuilder> factory) where TBuilder : notnull
+    {
+        ArgumentNullException.ThrowIfNull(factory);
+
+        _hostBuilder.UseServiceProviderFactory(factory);
+    }
+
     public WpfApplication Build()
     {
         IHost host = _hostBuilder.Build();

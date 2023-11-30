@@ -12,8 +12,6 @@ public static class ServiceCollectionExtensions
 
         configure?.Invoke(builder);
 
-        builder.InvokeDeferredRegistrations();
-
         return services;
     }
 }

@@ -41,16 +41,6 @@ public static class MvvmServiceBuilderExtensions
 
         configure?.Invoke(vmbuilder);
 
-        builder.AddDeferredRegistration(() =>
-        {
-            DeferredAddViewModel<TViewModelService, TViewModelImplementation>(vmbuilder);
-        }, 0);
-
-        return builder;
-    }
-
-    private static void DeferredAddViewModel<TViewModelService, TViewModelImplementation>(ViewModelServiceBuilder builder) where TViewModelService : notnull where TViewModelImplementation : class, TViewModelService
-    {
         builder.Services.TryAddSingleton<IViewModelFactory, ViewModelFactory>();
 
         Type implementationType = typeof(TViewModelImplementation);
@@ -60,7 +50,7 @@ public static class MvvmServiceBuilderExtensions
             var viewModelFactory = sp.GetRequiredService<IViewModelFactory>();
 
             return viewModelFactory.Create<TViewModelImplementation>();
-        }, builder.ServiceLifetime));
+        }, vmbuilder.ServiceLifetime));
 
         Type serviceType = typeof(TViewModelService);
         if (implementationType != serviceType)
@@ -72,16 +62,18 @@ public static class MvvmServiceBuilderExtensions
             builder.Services.Add(new ServiceDescriptor(serviceType, sp =>
             {
                 return sp.GetRequiredService<TViewModelImplementation>();
-            }, builder.ServiceLifetime));
+            }, vmbuilder.ServiceLifetime));
         }
 
         builder.Services.AddSingleton<WeakViewModelRefrenceCollection<TViewModelImplementation>>();
 
         builder.Services.AddSingleton(new ViewModelRegistration
         {
-            ServiceLifetime = builder.ServiceLifetime,
+            ServiceLifetime = vmbuilder.ServiceLifetime,
             ImplementationType = implementationType,
             ServiceType = serviceType,
         });
+
+        return builder;
     }
 }

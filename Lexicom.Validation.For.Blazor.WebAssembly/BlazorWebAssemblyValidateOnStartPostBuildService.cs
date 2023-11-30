@@ -1,4 +1,4 @@
-﻿using Lexicom.Supports.Blazor.WebAssembly;
+﻿using Lexicom.DependencyInjection.Hosting;
 using Lexicom.Validation.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -6,10 +6,10 @@ using System.Diagnostics;
 using System.Reflection;
 
 namespace Lexicom.Validation.For.Blazor.WebAssembly;
-public class ValidateOnStartBlazorWebAssemblyBuildService : ILexicomBlazorWebAssemblyBuildService
+public class BlazorWebAssemblyValidateOnStartPostBuildService : IDependencyInjectionHostPostBuildService
 {
     private static MethodInfo? _staticValidateOptionsMethodInfo;
-    private static MethodInfo StaticValidateOptionsMethodInfo => _staticValidateOptionsMethodInfo ??= (typeof(ValidateOnStartBlazorWebAssemblyBuildService).GetMethod(nameof(ValidateOptions), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(ValidateOptions)}' was not found."));
+    private static MethodInfo StaticValidateOptionsMethodInfo => _staticValidateOptionsMethodInfo ??= (typeof(BlazorWebAssemblyValidateOnStartPostBuildService).GetMethod(nameof(ValidateOptions), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(ValidateOptions)}' was not found."));
     private static void ValidateOptions<TOptions>(IServiceProvider provider, string name) where TOptions : class
     {
         var validateOptions = provider.GetService<IValidateOptions<TOptions>>();
@@ -24,7 +24,7 @@ public class ValidateOnStartBlazorWebAssemblyBuildService : ILexicomBlazorWebAss
         }
     }
 
-    public void Execute(IServiceProvider provider)
+    public void Run(IServiceProvider provider)
     {
         IEnumerable<ValidateOptionsStartRegistration> validateOptionsStartRegistrations = provider.GetServices<ValidateOptionsStartRegistration>();
 
@@ -32,10 +32,10 @@ public class ValidateOnStartBlazorWebAssemblyBuildService : ILexicomBlazorWebAss
         {
             MethodInfo validateOptionsMethodInfo = StaticValidateOptionsMethodInfo.MakeGenericMethod(validateOptionsStartRegistration.OptionsType);
 
-            validateOptionsMethodInfo.Invoke(null, new object[] 
-            { 
-                provider, 
-                validateOptionsStartRegistration.OptionsName 
+            validateOptionsMethodInfo.Invoke(null, new object[]
+            {
+                provider,
+                validateOptionsStartRegistration.OptionsName
             });
         }
     }

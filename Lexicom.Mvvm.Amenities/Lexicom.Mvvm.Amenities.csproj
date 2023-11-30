@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lexicom.DependencyInjection.Hosting.Abstractions\Lexicom.DependencyInjection.Hosting.Abstractions.csproj" />
     <ProjectReference Include="..\Lexicom.Mvvm\Lexicom.Mvvm.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Lexicom.DependencyInjection.Hosting;
 
 namespace Lexicom.Supports.Blazor.WebAssembly.Extensions;
 public static class WebAssemblyHostBuilderExtensions
@@ -8,9 +9,19 @@ public static class WebAssemblyHostBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ConfigureContainer(new LexicomBlazorWebAssemblyServiceProviderFactory());
-
         configure?.Invoke(new BlazorWebAssemblyServiceBuilder(builder));
+
+        builder.AddLexicomHosting();
+
+        return builder;
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    public static WebAssemblyHostBuilder AddLexicomHosting(this WebAssemblyHostBuilder builder)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+
+        builder.ConfigureContainer(new LexicomServiceProviderFactory());
 
         return builder;
     }

@@ -1,4 +1,5 @@
-﻿using Lexicom.Supports.Blazor.WebAssembly;
+﻿using Lexicom.DependencyInjection.Hosting;
+using Lexicom.Supports.Blazor.WebAssembly;
 using Lexicom.Validation.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +11,7 @@ public static class BlazorWebAssemblyServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebAssemblyHostBuilder.Services.AddSingleton<ILexicomBlazorWebAssemblyBuildService, ValidateOnStartBlazorWebAssemblyBuildService>();
+        builder.WebAssemblyHostBuilder.Services.AddSingleton<IDependencyInjectionHostPostBuildService, BlazorWebAssemblyValidateOnStartPostBuildService>();
 
         builder.WebAssemblyHostBuilder.Services.AddLexicomValidation(configure);
 

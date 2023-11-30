@@ -38,6 +38,14 @@ public sealed class ConsoleApplicationBuilder
     public ConfigurationManager Configuration { get; }
     public IHostEnvironment Environment { get; }
 
+    /// <exception cref="ArgumentNullException"/>
+    public void ConfigureContainer<TBuilder>(IServiceProviderFactory<TBuilder> factory) where TBuilder : notnull
+    {
+        ArgumentNullException.ThrowIfNull(factory);
+
+        _hostBuilder.UseServiceProviderFactory(factory);
+    }
+
     public ConsoleApplication Build()
     {
         IHost host = _hostBuilder.Build();
