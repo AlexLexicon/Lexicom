@@ -136,7 +136,7 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
                 }
                 else
                 {
-                    foreach (var viewModelRegistrationForHandler in viewModelRegistrationsForHandler)
+                    foreach (ViewModelRegistration viewModelRegistrationForHandler in viewModelRegistrationsForHandler)
                     {
                         handlersForViewModels.Add(handlerDescriptor);
 
@@ -205,6 +205,10 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
             var providerHandler = provider.GetHandlers();
             handlers.AddRange(providerHandler);
         }
+
+        handlers = handlers
+            .DistinctBy(x => x.GetType().FullName)
+            .ToList();
 
         return handlers;
     }
