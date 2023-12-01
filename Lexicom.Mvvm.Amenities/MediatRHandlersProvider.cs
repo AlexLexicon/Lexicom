@@ -24,11 +24,8 @@ public class MediatRHandlersProvider<THandler, TViewModelImplementation> : IMedi
     {
         var handlers = new List<THandler>();
 
-        var viewModelHandlers = _weakViewModelRefrenceCollection.GetRemainingViewModels();
-        var regularHandlers = _handlerImplementations
-            .Where(hi => hi is not null && hi.Implementation is not null)
-            .Select(hi => hi.Implementation)
-            .DistinctBy(i => i!.GetType().FullName);
+        IReadOnlyList<TViewModelImplementation> viewModelHandlers = _weakViewModelRefrenceCollection.GetRemainingViewModels();
+        IEnumerable<THandler> regularHandlers = _handlerImplementations.Select(hi => hi.Implementation);
 
         handlers.AddRange(viewModelHandlers);
         handlers.AddRange(regularHandlers);

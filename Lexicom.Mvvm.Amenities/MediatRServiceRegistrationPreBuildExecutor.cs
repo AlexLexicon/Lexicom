@@ -209,18 +209,28 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
         return handlers;
     }
 
+    private static HashSet<int> StaticSetupHandlersForImplementationsConflictingWithViewModelsImplementationHashes { get; } = [];
     private static MethodInfo? _staticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo;
     private static MethodInfo StaticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo => _staticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo ??= (typeof(MediatRServiceRegistrationPreBuildExecutor).GetMethod(nameof(SetupHandlersForImplementationsConflictingWithViewModels), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(SetupHandlersForImplementationsConflictingWithViewModels)}' was not found."));
     private static void SetupHandlersForImplementationsConflictingWithViewModels<THandler, TImplementation>(IServiceCollection services, ServiceLifetime serviceLifetime) where TImplementation : class, THandler
     {
-        services.Add(new ServiceDescriptor(typeof(TImplementation), typeof(TImplementation), serviceLifetime));
+        Type implementationType = typeof(TImplementation);
+        Type handlerType = typeof(THandler);
 
-        //these 'MediatRHandlerImplementationConflictingWithViewModels' are pulled into the 'MediatRHandlersProvider'
-        services.Add(new ServiceDescriptor(typeof(MediatRHandlerImplementationConflictingWithViewModels<THandler>), sp =>
+        int hashCode = HashCode.Combine(implementationType, handlerType);
+        if (!StaticSetupHandlersForImplementationsConflictingWithViewModelsImplementationHashes.Contains(hashCode))
         {
-            var implementation = sp.GetRequiredService<TImplementation>();
+            StaticSetupHandlersForImplementationsConflictingWithViewModelsImplementationHashes.Add(hashCode);
 
-            return new MediatRHandlerImplementationConflictingWithViewModels<THandler>(implementation, serviceLifetime);
-        }, serviceLifetime));
+            services.Add(new ServiceDescriptor(implementationType, implementationType, serviceLifetime));
+
+            //these 'MediatRHandlerImplementationConflictingWithViewModels' are pulled into the 'MediatRHandlersProvider'
+            services.Add(new ServiceDescriptor(typeof(MediatRHandlerImplementationConflictingWithViewModels<THandler>), sp =>
+            {
+                var implementation = sp.GetRequiredService<TImplementation>();
+
+                return new MediatRHandlerImplementationConflictingWithViewModels<THandler>(implementation, serviceLifetime);
+            }, serviceLifetime));
+        }
     }
 }
