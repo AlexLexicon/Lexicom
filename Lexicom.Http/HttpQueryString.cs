@@ -59,7 +59,7 @@ public class HttpQueryString : ICollection<HttpQueryParameter>
         }
     }
 
-    public override string? ToString()
+    public override string ToString()
     {
         NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(string.Empty);
 
@@ -68,7 +68,14 @@ public class HttpQueryString : ICollection<HttpQueryParameter>
             nameValueCollection.Add(parameter.Name, parameter.Value);
         }
 
-        return nameValueCollection.ToString();
+        string? parameters = nameValueCollection.ToString();
+
+        if (string.IsNullOrWhiteSpace(parameters))
+        {
+            return string.Empty;
+        }
+
+        return $"?{parameters}";
     }
 
     public IEnumerator<HttpQueryParameter> GetEnumerator() => _parameters.GetEnumerator();
