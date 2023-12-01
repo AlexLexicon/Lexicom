@@ -206,10 +206,6 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
             handlers.AddRange(providerHandler);
         }
 
-        handlers = handlers
-            .DistinctBy(x => x.GetType().FullName)
-            .ToList();
-
         return handlers;
     }
 
@@ -224,7 +220,7 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
         {
             var implementation = sp.GetRequiredService<TImplementation>();
 
-            return new MediatRHandlerImplementationConflictingWithViewModels<THandler>(implementation);
+            return new MediatRHandlerImplementationConflictingWithViewModels<THandler>(implementation, serviceLifetime);
         }, serviceLifetime));
     }
 }
