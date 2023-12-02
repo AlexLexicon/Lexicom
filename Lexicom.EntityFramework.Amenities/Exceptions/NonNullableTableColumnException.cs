@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 namespace Lexicom.EntityFramework.Amenities.Exceptions;
 public class NonNullableTableColumnException : Exception
 {
-    public static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
+    public static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression("argument")] string? paramName = null)
     {
         if (argument is null)
         {
@@ -13,7 +13,7 @@ public class NonNullableTableColumnException : Exception
     }
 
 #pragma warning disable IDE0060 // Remove unused parameter
-    public NonNullableTableColumnException(object? argument, [CallerArgumentExpression(nameof(argument))] string? argumentText = null) : this(argumentText)
+    public NonNullableTableColumnException(object? argument, [CallerArgumentExpression("argument")] string? argumentText = null) : this(argumentText)
     {
     }
 #pragma warning restore IDE0060 // Remove unused parameter

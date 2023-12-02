@@ -10,7 +10,7 @@ namespace Lexicom.Validation.Options;
 public abstract class AbstractOptionsValidator<T> : AbstractValidator<T>
 {
     /// <exception cref="NotValidatedOnStartupException{T}"/>
-    public static void ThrowIfNull<TOption>([NotNull] TOption? optionsValue, [CallerArgumentExpression(nameof(optionsValue))] string optionsValueExpression = "")
+    public static void ThrowIfNull<TOption>([NotNull] TOption? optionsValue, [CallerArgumentExpression("optionsValue")] string optionsValueExpression = "")
     {
         if (optionsValue is null)
         {

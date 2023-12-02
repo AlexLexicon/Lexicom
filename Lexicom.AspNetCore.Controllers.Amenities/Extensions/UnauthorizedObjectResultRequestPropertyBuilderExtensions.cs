@@ -10,7 +10,7 @@ public static class UnauthorizedObjectResultRequestPropertyBuilderExtensions
 #pragma warning disable IDE0060 // Remove unused parameter
         object? property,
 #pragma warning restore IDE0060 // Remove unused parameter
-        [CallerArgumentExpression(nameof(property))] string propertyString = "")
+        [CallerArgumentExpression("property")] string propertyString = "")
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(propertyString);
