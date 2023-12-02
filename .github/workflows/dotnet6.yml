@@ -2,9 +2,9 @@ name: .net6 Build and Publish
 
 on:
   push:
-    branches: [ master ]
+    branches: [ dotnet6 ]
   pull_request:
-    branches: [ master ]
+    branches: [ dotnet6 ]
     
 jobs:
   build:
