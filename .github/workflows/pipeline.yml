@@ -2,9 +2,9 @@ name: .net7 Build and Publish
 
 on:
   push:
-    branches: [ master ]
+    branches: [ dotnet7 ]
   pull_request:
-    branches: [ master ]
+    branches: [ dotnet7 ]
     
 jobs:
   build:
