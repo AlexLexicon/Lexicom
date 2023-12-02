@@ -106,44 +106,6 @@ public static class TimeSpanExtensions
             return $"{totalMilliseconds} seconds";
         }
 
-        if (settings.ShortestDurationDescription >= TimeSpanShortestStringDurationDescription.Microseconds ||
-            settings.LongestDurationDescription >= TimeSpanShortestStringDurationDescription.Microseconds &&
-            timeSpan.Microseconds > 0)
-        {
-            double totalMicroseconds = timeSpan.TotalMicroseconds;
-
-            if (totalMicroseconds < 1)
-            {
-                return nowString;
-            }
-
-            if (totalMicroseconds is >= 1 and < 2)
-            {
-                return $"a microsecond";
-            }
-
-            return $"{totalMicroseconds} microseconds";
-        }
-
-        if (settings.ShortestDurationDescription >= TimeSpanShortestStringDurationDescription.Nanoseconds ||
-            settings.LongestDurationDescription >= TimeSpanShortestStringDurationDescription.Nanoseconds &&
-            timeSpan.Nanoseconds > 0)
-        {
-            double totalNanoseconds = timeSpan.TotalNanoseconds;
-
-            if (totalNanoseconds < 1)
-            {
-                return nowString;
-            }
-
-            if (totalNanoseconds is >= 1 and < 2)
-            {
-                return $"a nanosecond";
-            }
-
-            return $"{totalNanoseconds} nanoseconds";
-        }
-
         return nowString;
     }
 }

@@ -45,12 +45,7 @@ public static class ValidationServiceBuilderExtensions
                     }
                 }
 
-                results.Add(new AddRuleSetsResult
-                {
-                    ConcreteType = concreteType,
-                    InterfaceTypes = ruleSetInterfaces,
-                    AbstractRuleSetGenericArgumentType = abstractRuleSetGenericArgumentType,
-                });
+                results.Add(new AddRuleSetsResult(concreteType, ruleSetInterfaces, abstractRuleSetGenericArgumentType));
             }
         }
 
@@ -140,8 +135,18 @@ public static class ValidationServiceBuilderExtensions
 
     private class AddRuleSetsResult
     {
-        public required Type ConcreteType { get; init; }
-        public required List<Type> InterfaceTypes { get; init; }
-        public required Type AbstractRuleSetGenericArgumentType { get; init; }
+        public AddRuleSetsResult(
+            Type concreteType,
+            List<Type> interfaceTypes,
+            Type abstractRuleSetGenericArgumentType)
+        {
+            ConcreteType = concreteType;
+            InterfaceTypes = interfaceTypes;
+            AbstractRuleSetGenericArgumentType = abstractRuleSetGenericArgumentType;
+        }
+
+        public Type ConcreteType { get; }
+        public List<Type> InterfaceTypes { get; }
+        public Type AbstractRuleSetGenericArgumentType { get; }
     }
 }

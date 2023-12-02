@@ -44,11 +44,9 @@ public abstract class ValueConverterBase : IValueConverter
     {
         SetParameters(parameter);
 
-        return convertDelegate.Invoke(value, new ValueConverterArgs
+        return convertDelegate.Invoke(value, new ValueConverterArgs(targetType, culture)
         {
             RawParameter = parameter,
-            TargetType = targetType,
-            Culture = culture,
         });
     }
 
@@ -101,11 +99,7 @@ public abstract class ValueConverterBase : IValueConverter
                         values = Array.Empty<string>();
                     }
 
-                    Parameters.Add(new ValueConverterParameter
-                    {
-                        Key = key,
-                        Values = values,
-                    });
+                    Parameters.Add(new ValueConverterParameter(key, values));
                 }
             }
         }

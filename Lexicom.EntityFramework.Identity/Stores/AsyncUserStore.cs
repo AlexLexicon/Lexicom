@@ -544,7 +544,11 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
-        ArgumentException.ThrowIfNullOrEmpty(normalizedRoleName);
+        ArgumentNullException.ThrowIfNull(normalizedRoleName);
+        if (string.IsNullOrEmpty(normalizedRoleName))
+        {
+            throw new ArgumentException("Value cannot be empty.", nameof(normalizedRoleName));
+        }
 
         TRole? role = await FindRoleAsync(normalizedRoleName, cancellationToken);
 

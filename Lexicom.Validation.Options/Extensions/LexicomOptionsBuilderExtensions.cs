@@ -7,11 +7,7 @@ public static class LexicomOptionsBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(optionsBuilder);
 
-        optionsBuilder.Services.AddSingleton(new ValidateOptionsStartRegistration
-        {
-            OptionsName = optionsBuilder.Name,
-            OptionsType = typeof(TOptions),
-        });
+        optionsBuilder.Services.AddSingleton(new ValidateOptionsStartRegistration(typeof(TOptions), optionsBuilder.Name));
 
         Microsoft.Extensions.DependencyInjection.OptionsBuilderExtensions.ValidateOnStart(optionsBuilder);
 

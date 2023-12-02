@@ -3,7 +3,15 @@
 namespace Lexicom.Wpf.ValueConverters.Abstractions;
 public class ValueConverterArgs
 {
-    public required object? RawParameter { get; init; }
-    public required Type TargetType { get; init; }
-    public required CultureInfo Culture { get; init; }
+    public ValueConverterArgs(
+        Type targetType, 
+        CultureInfo culture)
+    {
+        TargetType = targetType;
+        Culture = culture;
+    }
+
+    public Type TargetType { get; }
+    public CultureInfo Culture { get; }
+    public object? RawParameter { get; init; }
 }

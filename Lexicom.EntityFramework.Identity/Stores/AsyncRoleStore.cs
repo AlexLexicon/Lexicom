@@ -249,7 +249,10 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
 
     protected void ThrowIfDisposed()
     {
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        if (_disposed)
+        {
+            throw new ObjectDisposedException("AsyncRoleStore");
+        }
     }
 
     public void Dispose() => _disposed = true;

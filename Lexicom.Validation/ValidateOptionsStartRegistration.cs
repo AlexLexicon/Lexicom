@@ -1,6 +1,14 @@
 ﻿namespace Lexicom.Validation.Options;
 public class ValidateOptionsStartRegistration
 {
-    public required Type OptionsType { get; init; }
-    public required string OptionsName { get; init; }
+    public ValidateOptionsStartRegistration(
+        Type optionsType, 
+        string optionsName)
+    {
+        OptionsType = optionsType;
+        OptionsName = optionsName;
+    }
+
+    public Type OptionsType { get; }
+    public string OptionsName { get; }
 }

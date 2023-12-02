@@ -28,7 +28,7 @@ public static class AuthenticationServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(key);
-        ArgumentNullException.ThrowIfNullOrEmpty(value);
+        ArgumentNullException.ThrowIfNull(value);
 
         if (JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.ContainsKey(key))
         {

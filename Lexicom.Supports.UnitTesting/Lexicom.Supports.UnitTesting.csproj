@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lexicom.Extensions.Exceptions\Lexicom.Extensions.Exceptions.csproj" />
     <ProjectReference Include="..\Lexicom.UnitTesting.DependencyInjection\Lexicom.UnitTesting.DependencyInjection.csproj" />
   </ItemGroup>
 

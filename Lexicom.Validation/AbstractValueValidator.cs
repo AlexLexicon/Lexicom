@@ -6,17 +6,11 @@ public abstract class AbstractValueValidator<TProperty> : AbstractValidator<Vali
 {
     public virtual ValidationResult Validate(TProperty instance)
     {
-        return Validate(new ValidationValue<TProperty>
-        {
-            Value = instance
-        });
+        return Validate(new ValidationValue<TProperty>(instance));
     }
 
     public virtual Task<ValidationResult> ValidateAsync(TProperty instance, CancellationToken cancellation = default)
     {
-        return ValidateAsync(new ValidationValue<TProperty>
-        {
-            Value = instance
-        }, cancellation);
+        return ValidateAsync(new ValidationValue<TProperty>(instance), cancellation);
     }
 }

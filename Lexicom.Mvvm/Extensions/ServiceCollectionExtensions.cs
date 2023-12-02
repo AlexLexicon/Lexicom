@@ -48,10 +48,7 @@ public static class ServiceCollectionExtensions
         Type serviceType = typeof(TViewModelService);
         if (implementationType != serviceType)
         {
-            services.AddSingleton(new ViewModelImplementationTypeAccessor<TViewModelService>
-            {
-                ViewModelImplementationType = implementationType,
-            });
+            services.AddSingleton(new ViewModelImplementationTypeAccessor<TViewModelService>(implementationType));
             services.Add(new ServiceDescriptor(serviceType, sp =>
             {
                 return sp.GetRequiredService<TViewModelImplementation>();
@@ -60,12 +57,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<WeakViewModelRefrenceCollection<TViewModelImplementation>>();
 
-        services.AddSingleton(new ViewModelRegistration
-        {
-            ServiceLifetime = builder.ServiceLifetime,
-            ImplementationType = implementationType,
-            ServiceType = serviceType,
-        });
+        services.AddSingleton(new ViewModelRegistration(builder.ServiceLifetime, implementationType, serviceType));
 
         return services;
     }

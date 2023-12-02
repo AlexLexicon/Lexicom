@@ -49,8 +49,8 @@ public static class LanguageManagerExtensions
     public static LanguageManager AddEnTranslation(this LanguageManager languageManager, string key, string message)
     {
         ArgumentNullException.ThrowIfNull(languageManager);
-        ArgumentException.ThrowIfNullOrEmpty(key);
-        ArgumentException.ThrowIfNullOrEmpty(message);
+        ArgumentNullException.ThrowIfNull(key);
+        ArgumentNullException.ThrowIfNull(message);
 
         languageManager.AddTranslation("en", key, message);
         languageManager.AddTranslation("en-US", key, message);

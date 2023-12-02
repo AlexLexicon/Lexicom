@@ -14,11 +14,7 @@ public static class ConfigurationExtensions
         if (json is null)
         {
             //in order to be consistent with 'ServiceCollectionExtensions.ToReadableJsonForDebugging' we return an empty json object if the result is null
-            return """
-            {
-
-            }
-            """;
+            return "{\n\n}";
         }
 
         return json.ToString();

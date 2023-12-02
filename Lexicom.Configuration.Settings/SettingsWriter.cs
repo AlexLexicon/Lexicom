@@ -454,9 +454,8 @@ public class SettingsWriter : ISettingsWriter
             {
                 return new List<ConfigProperty>
                 {
-                    new ConfigProperty
+                    new ConfigProperty(settingKey)
                     {
-                        SettingKey = settingKey,
                         Value = value,
                     }
                 };
@@ -484,9 +483,8 @@ public class SettingsWriter : ISettingsWriter
             {
                 return new List<ConfigProperty>
                 {
-                    new ConfigProperty
+                    new ConfigProperty(settingKey)
                     {
-                        SettingKey = settingKey,
                         Value = nullableConfigPropertyValue.Value,
                     }
                 };
@@ -526,7 +524,12 @@ public class SettingsWriter : ISettingsWriter
 
     private class ConfigProperty
     {
-        public required string SettingKey { get; set; }
-        public required object? Value { get; set; }
+        public ConfigProperty(string settingKey)
+        {
+            SettingKey = settingKey;
+        }
+
+        public string SettingKey { get; set; }
+        public object? Value { get; set; }
     }
 }
