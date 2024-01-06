@@ -83,6 +83,16 @@ public static class JwtSecurityTokenExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
+    public static bool HasRole(this JwtSecurityToken jwtSecurityToken, string roleName)
+    {
+        ArgumentNullException.ThrowIfNull(jwtSecurityToken);
+
+        return jwtSecurityToken
+            .GetRoles()
+            .Any(r => r == roleName);
+    }
+
+    /// <exception cref="ArgumentNullException"/>
     public static IEnumerable<string> GetPermissions(this JwtSecurityToken jwtSecurityToken)
     {
         ArgumentNullException.ThrowIfNull(jwtSecurityToken);
@@ -102,6 +112,16 @@ public static class JwtSecurityTokenExtensions
             .Select(c => c.Value);
 
         return permissions;
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    public static bool HasPermission(this JwtSecurityToken jwtSecurityToken, string permission)
+    {
+        ArgumentNullException.ThrowIfNull(jwtSecurityToken);
+
+        return jwtSecurityToken
+            .GetPermissions()
+            .Any(p => p == permission);
     }
 
     /// <exception cref="ArgumentNullException"/>
