@@ -1,4 +1,5 @@
-﻿using Lexicom.Jwt.Exceptions;
+﻿using Lexicom.Jwt;
+using Lexicom.Jwt.Exceptions;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 
