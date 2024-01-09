@@ -14,10 +14,10 @@ public static class ViewModelServiceBuilderExtensions
 
         MethodInfo forWindowGenericMethod = ForWindowMethod.MakeGenericMethod(builder.ServiceType, builder.ImplementationType);
 
-        forWindowGenericMethod.Invoke(null, new object[] 
-        { 
-            builder, 
-            typeof(TWindow) 
+        forWindowGenericMethod.Invoke(null, new object[]
+        {
+            builder,
+            typeof(TWindow)
         });
 
         return builder;

@@ -1,7 +1,8 @@
 ﻿namespace Lexicom.Mvvm.Amenities;
 public interface IMediatRHandlersProvider<THandler>
 {
-    IEnumerable<THandler> GetHandlers();
+    IEnumerable<THandler> GetViewModelHandlers();
+    IEnumerable<THandler> GetRegularHandlers();
 }
 public class MediatRHandlersProvider<THandler, TViewModelImplementation> : IMediatRHandlersProvider<THandler> where TViewModelImplementation : class, THandler
 {
@@ -20,16 +21,13 @@ public class MediatRHandlersProvider<THandler, TViewModelImplementation> : IMedi
         _handlerImplementations = handlerImplementations;
     }
 
-    public IEnumerable<THandler> GetHandlers()
+    public IEnumerable<THandler> GetViewModelHandlers()
     {
-        var handlers = new List<THandler>();
+        return _weakViewModelRefrenceCollection.GetRemainingViewModels();
+    }
 
-        IReadOnlyList<TViewModelImplementation> viewModelHandlers = _weakViewModelRefrenceCollection.GetRemainingViewModels();
-        IEnumerable<THandler> regularHandlers = _handlerImplementations.Select(hi => hi.Implementation);
-
-        handlers.AddRange(viewModelHandlers);
-        handlers.AddRange(regularHandlers);
-
-        return handlers;
+    public IEnumerable<THandler> GetRegularHandlers()
+    {
+        return _handlerImplementations.Select(hi => hi.Implementation);
     }
 }
