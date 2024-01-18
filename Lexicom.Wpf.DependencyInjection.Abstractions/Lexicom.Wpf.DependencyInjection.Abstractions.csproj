@@ -11,16 +11,16 @@
 
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Provides functionality to simplify some aspects of using an HttpClient.</Description>
+    <Description>Abstractions for the Lexicom.Wpf.DependencyInjection. Allowing this package to not enforce a target framework including windows.</Description>
     <Copyright>2024</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Http</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Wpf.DependencyInjection.Abstractions</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>dependencyinjection;http</PackageTags>
+    <PackageTags>dependencyinjection;wpf</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\"/>
+    <None Include="README.md" Pack="true" PackagePath="\" />
     <None Include="..\lexicom.nuget.icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 

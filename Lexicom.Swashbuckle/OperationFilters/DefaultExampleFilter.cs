@@ -65,7 +65,7 @@ public class DefaultExampleFilter : IOperationFilter
     /*
      * This is a direct copy of the code from
      * https://github.com/domaindrivendev/Swashbuckle.AspNetCore/blob/master/src/Swashbuckle.AspNetCore.SwaggerGen/SwaggerGenerator/OpenApiAnyFactory.cs
-     * as of 2/8/2023
+     * as of 2/8/2024
      * 
      * i decided to copy this logic because I want to report the exception (why the json cant be parsed)
      * back to the caller so that it is not cryptic why its not working

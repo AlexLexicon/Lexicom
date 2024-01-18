@@ -12,7 +12,7 @@
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Adds convenient extensions for Expression types.</Description>
-    <Copyright>2023</Copyright>
+    <Copyright>2024</Copyright>
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Extensions.Expressions</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
