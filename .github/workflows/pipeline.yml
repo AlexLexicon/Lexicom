@@ -1,6 +1,7 @@
 name: .net7 Build and Publish
 
 on:
+  workflow_dispatch:
   push:
     branches: [ dotnet7 ]
   pull_request:
