@@ -13,7 +13,7 @@
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Adds functionality for interacting with Wpf application xaml markup programmatically.</Description>
-    <Copyright>2023</Copyright>
+    <Copyright>2024</Copyright>
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Wpf.Markup</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>

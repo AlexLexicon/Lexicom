@@ -13,7 +13,7 @@
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>A framework designed to simplify and quicken the creation of source code generators at the cost of performance.</Description>
-    <Copyright>2023</Copyright>
+    <Copyright>2024</Copyright>
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.SourceGenerator.MetaData</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>

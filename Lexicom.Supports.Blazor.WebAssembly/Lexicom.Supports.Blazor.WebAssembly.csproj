@@ -12,7 +12,7 @@
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>The base package for all Lexicom...For.Blazor.WebAssembly packages. Relies on and enforces the inclusion of the Microsoft.AspNetCore.Components.WebAssembly package reference.</Description>
-    <Copyright>2023</Copyright>
+    <Copyright>2024</Copyright>
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Supports.Blazor.WebAssembly</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
