@@ -1,20 +1,20 @@
 ﻿using Lexicom.Jwt.Exceptions;
-using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Lexicom.Jwt.Extensions;
 public static class StringExtensions
 {
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="BearerTokenNotValidException"/>
-    public static JwtSecurityToken ToJwtSecurityToken(this string bearerToken)
+    public static JsonWebToken ToJsonWebToken(this string bearerToken)
     {
         ArgumentNullException.ThrowIfNull(bearerToken);
 
         try
         {
-            var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            var jwtSecurityTokenHandler = new JsonWebTokenHandler();
 
-            return (JwtSecurityToken)jwtSecurityTokenHandler.ReadToken(bearerToken);
+            return (JsonWebToken)jwtSecurityTokenHandler.ReadToken(bearerToken);
         }
         catch (Exception e)
         {

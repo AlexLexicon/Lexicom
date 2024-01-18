@@ -1,7 +1,7 @@
 ﻿using Lexicom.Jwt.Options;
 using Lexicom.Jwt.Validators;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
@@ -37,21 +37,20 @@ public abstract class BearerTokenProvider
             SigningCredentials = signingCredentials,
         };
 
-        var tokenHandler = new JwtSecurityTokenHandler();
-        SecurityToken securityToken = tokenHandler.CreateToken(tokenDescriptor);
-        string bearerTokenValue = tokenHandler.WriteToken(securityToken);
+        var tokenHandler = new JsonWebTokenHandler();
+        string bearerTokenValue = tokenHandler.CreateToken(tokenDescriptor);
 
         return Task.FromResult(new BearerToken(jti, expiresDateTimeOffset, bearerTokenValue));
     }
 
     /// <exception cref="ArgumentNullException"/>
-    protected virtual Task<bool> IsBearerTokenValidAsync(string bearerToken, bool validateLifetime, JwtOptions jwtOptions)
+    protected virtual async Task<bool> IsBearerTokenValidAsync(string bearerToken, bool validateLifetime, JwtOptions jwtOptions)
     {
         ArgumentNullException.ThrowIfNull(bearerToken);
         ArgumentNullException.ThrowIfNull(jwtOptions);
         JwtOptionsValidator.ThrowIfNull(jwtOptions.SymmetricSecurityKey);
 
-        var tokenHandler = new JwtSecurityTokenHandler();
+        var tokenHandler = new JsonWebTokenHandler();
 
         byte[] symmetricSecurityKeyBytes = Encoding.ASCII.GetBytes(jwtOptions.SymmetricSecurityKey);
 
@@ -68,18 +67,16 @@ public abstract class BearerTokenProvider
             ClockSkew = jwtOptions.ClockSkew,
         };
 
-        SecurityToken? validatedToken = null;
+        TokenValidationResult? result = null;
         try
         {
-            tokenHandler.ValidateToken(bearerToken, tokenValidationParameters, out validatedToken);
+            result = await tokenHandler.ValidateTokenAsync(bearerToken, tokenValidationParameters);
         }
         catch
         {
             //the token is invalid and 'validatedToken' will remain null 
         }
 
-        bool isValid = validatedToken is not null;
-
-        return Task.FromResult(isValid);
+        return result is not null && result.IsValid;
     }
 }

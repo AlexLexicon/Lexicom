@@ -1,5 +1,5 @@
 ﻿using Lexicom.Jwt.Exceptions;
-using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 
 namespace Lexicom.Jwt.Extensions;
@@ -11,7 +11,7 @@ public static class JwtSecurityTokenExtensions
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="ClaimNotValidException"/>
     /// <exception cref="ClaimDoesNotExistException"/>
-    public static string GetEmail(this JwtSecurityToken jwtSecurityToken)
+    public static string GetEmail(this JsonWebToken jwtSecurityToken)
     {
         ArgumentNullException.ThrowIfNull(jwtSecurityToken);
 
@@ -43,7 +43,7 @@ public static class JwtSecurityTokenExtensions
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="ClaimNotValidException"/>
     /// <exception cref="ClaimDoesNotExistException"/>
-    public static Guid GetJti(this JwtSecurityToken jwtSecurityToken)
+    public static Guid GetJti(this JsonWebToken jwtSecurityToken)
     {
         ArgumentNullException.ThrowIfNull(jwtSecurityToken);
 
@@ -53,7 +53,7 @@ public static class JwtSecurityTokenExtensions
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="ClaimNotValidException"/>
     /// <exception cref="ClaimDoesNotExistException"/>
-    public static Guid GetSubjectId(this JwtSecurityToken jwtSecurityToken)
+    public static Guid GetSubjectId(this JsonWebToken jwtSecurityToken)
     {
         ArgumentNullException.ThrowIfNull(jwtSecurityToken);
 
@@ -61,7 +61,7 @@ public static class JwtSecurityTokenExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static IEnumerable<string> GetRoles(this JwtSecurityToken jwtSecurityToken)
+    public static IEnumerable<string> GetRoles(this JsonWebToken jwtSecurityToken)
     {
         ArgumentNullException.ThrowIfNull(jwtSecurityToken);
 
@@ -83,7 +83,7 @@ public static class JwtSecurityTokenExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static bool HasRole(this JwtSecurityToken jwtSecurityToken, string roleName)
+    public static bool HasRole(this JsonWebToken jwtSecurityToken, string roleName)
     {
         ArgumentNullException.ThrowIfNull(jwtSecurityToken);
 
@@ -93,7 +93,7 @@ public static class JwtSecurityTokenExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static IEnumerable<string> GetPermissions(this JwtSecurityToken jwtSecurityToken)
+    public static IEnumerable<string> GetPermissions(this JsonWebToken jwtSecurityToken)
     {
         ArgumentNullException.ThrowIfNull(jwtSecurityToken);
 
@@ -115,7 +115,7 @@ public static class JwtSecurityTokenExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static bool HasPermission(this JwtSecurityToken jwtSecurityToken, string permission)
+    public static bool HasPermission(this JsonWebToken jwtSecurityToken, string permission)
     {
         ArgumentNullException.ThrowIfNull(jwtSecurityToken);
 
@@ -127,7 +127,7 @@ public static class JwtSecurityTokenExtensions
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="ClaimNotValidException"/>
     /// <exception cref="ClaimDoesNotExistException"/>
-    public static Guid GetGuid(this JwtSecurityToken jwtSecurityToken, string claimType, string claimSourceName = "")
+    public static Guid GetGuid(this JsonWebToken jwtSecurityToken, string claimType, string claimSourceName = "")
     {
         ArgumentNullException.ThrowIfNull(jwtSecurityToken);
         ArgumentNullException.ThrowIfNull(claimType);
