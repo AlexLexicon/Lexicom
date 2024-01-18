@@ -158,9 +158,11 @@ public static class TextBox
         if (obj is System.Windows.Controls.TextBox textBox)
         {
             int hashCode = textBox.GetHashCode();
+#pragma warning disable CA1868 // Unnecessary call to 'Contains(item)'
             if (!HashCodesOfTextBoxesCurrentlyBeingValidated.Contains(hashCode))
             {
                 HashCodesOfTextBoxesCurrentlyBeingValidated.Add(hashCode);
+#pragma warning restore CA1868 // Unnecessary call to 'Contains(item)'
 
                 Func<string?, IEnumerable<string?>>? validation = GetValidation(textBox);
 
