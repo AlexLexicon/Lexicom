@@ -5,7 +5,7 @@ namespace Lexicom.Validation.Amenities.PropertyValidators;
 public class LessThanOrEqualTo<T> : AbstractComparisonPropertyValidator<T, string?>
 #pragma warning restore CS8631 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match constraint type.
 {
-    public const string NAME = nameof(DigitsPropertyValidator<T>);
+    public const string NAME = nameof(LessThanOrEqualTo<T>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must be less than or equal to {ComparisonValue}.";
 
     public LessThanOrEqualTo(long value) : base(value.ToString())
