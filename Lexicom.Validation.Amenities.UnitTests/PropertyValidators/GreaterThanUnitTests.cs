@@ -4,7 +4,6 @@ using Lexicom.Validation.Amenities.Extensions;
 using Lexicom.Validation.Amenities.UnitTests.RuleSets;
 using Lexicom.Validation.Extensions;
 using Xunit;
-using Lexicom.Extensions.Debugging;
 
 namespace Lexicom.Validation.Amenities.UnitTests.PropertyValidators;
 public class GreaterThanUnitTests
@@ -23,11 +22,8 @@ public class GreaterThanUnitTests
 
         var validator = uta.Get<IRuleSetValidator<GreaterThanRuleSet, string?>>();
 
-        validator.HasSanitizedErrorMessages = true;
-        validator.HasStandardizedErrorMessages = false;
-
         await validator.ValidateAsync("test");
 
-        validator.ValidationErrors.First().Should().Be("must be greater than 5.");
+        validator.ValidationErrors.First().Should().Be("Must be greater than 5.");
     }
 }
