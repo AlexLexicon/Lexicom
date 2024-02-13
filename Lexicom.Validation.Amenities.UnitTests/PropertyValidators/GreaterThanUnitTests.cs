@@ -1,0 +1,33 @@
+﻿using FluentAssertions;
+using Lexicom.UnitTesting;
+using Lexicom.Validation.Amenities.Extensions;
+using Lexicom.Validation.Amenities.UnitTests.RuleSets;
+using Lexicom.Validation.Extensions;
+using Xunit;
+using Lexicom.Extensions.Debugging;
+
+namespace Lexicom.Validation.Amenities.UnitTests.PropertyValidators;
+public class GreaterThanUnitTests
+{
+    [Fact]
+    public async Task Message_Is_Expected()
+    {
+        var uta = new UnitTestAttendant();
+
+        uta.AddLexicomValidation(options =>
+        {
+            options.AddAmenities();
+            options.AddRuleSets<AssemblyScanMarker>();
+            options.AddValidators<AssemblyScanMarker>();
+        });
+
+        var validator = uta.Get<IRuleSetValidator<GreaterThanRuleSet, string?>>();
+
+        validator.HasSanitizedErrorMessages = true;
+        validator.HasStandardizedErrorMessages = false;
+
+        await validator.ValidateAsync("test");
+
+        validator.ValidationErrors.First().Should().Be("must be greater than 5.");
+    }
+}

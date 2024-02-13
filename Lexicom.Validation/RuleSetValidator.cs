@@ -5,6 +5,8 @@ using Lexicom.Validation.Extensions;
 namespace Lexicom.Validation;
 public interface IRuleSetValidator
 {
+    bool HasStandardizedErrorMessages { get; set; }
+    bool HasSanitizedErrorMessages { get; set; }
     bool IsValid { get; }
     IReadOnlyList<string> ValidationErrors { get; }
 
@@ -57,6 +59,8 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
     {
         ArgumentNullException.ThrowIfNull(ruleSet);
 
+        HasStandardizedErrorMessages = true;
+        HasSanitizedErrorMessages = true;
         ValidationErrors = new List<string>();
         Validation = ValidateAndGetErrorMessages;
         FailingErrors = [];
@@ -65,6 +69,8 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
             .UseRuleSet(ruleSet);
     }
 
+    public bool HasStandardizedErrorMessages { get; set; }
+    public bool HasSanitizedErrorMessages { get; set; }
     public bool IsValid => !ValidationErrors.Any();
     public IReadOnlyList<string> ValidationErrors { get; protected set; }
     public Func<TInProperty, IEnumerable<string>> Validation { get; }
@@ -116,9 +122,18 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
     {
         ArgumentNullException.ThrowIfNull(result);
 
-        ValidationErrors = result.Errors
-            .StandardizeErrorMessages()
-            .SanitizeErrorMessages()
-            .ToErrorMessages();
+        IReadOnlyList<ValidationFailure> initalValidationErrors = result.Errors;
+
+        if (HasStandardizedErrorMessages)
+        {
+            initalValidationErrors = initalValidationErrors.StandardizeErrorMessages();
+        }
+        
+        if (HasSanitizedErrorMessages)
+        {
+            initalValidationErrors = initalValidationErrors.SanitizeErrorMessages();
+        }
+
+        ValidationErrors = initalValidationErrors.ToErrorMessages();
     }
 }

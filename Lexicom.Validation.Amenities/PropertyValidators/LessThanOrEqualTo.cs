@@ -18,9 +18,9 @@ public class LessThanOrEqualTo<T> : AbstractComparisonPropertyValidator<T, strin
 
     public override bool IsValid(string? value, string? valueToCompare)
     {
-        if (long.TryParse(value, out long longValue) && long.TryParse(valueToCompare, out long longValueToCompare))
+        if (value is not null && long.TryParse(valueToCompare, out long longValueToCompare))
         {
-            return longValue <= longValueToCompare;
+            return value.Length <= longValueToCompare;
         }
 
         return true;
