@@ -22,8 +22,12 @@ public class GreaterThanUnitTests
 
         var validator = uta.Get<IRuleSetValidator<GreaterThanRuleSet, string?>>();
 
-        await validator.ValidateAsync("test");
+        await validator.ValidateAsync("4");
 
+        validator.ValidationErrors.First().Should().Be("Must be greater than 5.");
+
+        validator.Validate("4");
+        
         validator.ValidationErrors.First().Should().Be("Must be greater than 5.");
     }
 }
