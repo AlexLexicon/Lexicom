@@ -1,7 +1,4 @@
 ﻿namespace Lexicom.Smtp.Exceptions.Abstractions;
-public abstract class EmailHostException : Exception
+public abstract class EmailHostException(string? message, Exception? innerException) : Exception(message, innerException)
 {
-    protected EmailHostException(string? message, Exception? innerException) : base(message, innerException)
-    {
-    }
 }
