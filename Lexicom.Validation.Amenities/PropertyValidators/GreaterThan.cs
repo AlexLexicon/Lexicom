@@ -8,8 +8,13 @@ public class GreaterThan<T> : AbstractComparisonPropertyValidator<T, string?>
     public const string NAME = nameof(GreaterThan<T>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must be greater than {ComparisonValue}.";
 
-    public GreaterThan(long value) : base(value.ToString())
+    public GreaterThan(long valueToCompare) : base(valueToCompare.ToString())
     {
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public GreaterThan(Func<T, long> valueToCompareFunc) : base(t => valueToCompareFunc.Invoke(t).ToString())
+    {
+        ArgumentNullException.ThrowIfNull(valueToCompareFunc);
     }
 
     public override string Name { get; } = NAME;
