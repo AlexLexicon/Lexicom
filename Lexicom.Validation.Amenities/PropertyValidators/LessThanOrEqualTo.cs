@@ -8,8 +8,13 @@ public class LessThanOrEqualTo<T> : AbstractComparisonPropertyValidator<T, strin
     public const string NAME = nameof(LessThanOrEqualTo<T>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must be less than or equal to {ComparisonValue}.";
 
-    public LessThanOrEqualTo(long value) : base(value.ToString())
+    public LessThanOrEqualTo(long valueToCompare) : base(valueToCompare.ToString())
     {
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public LessThanOrEqualTo(Func<T, long> valueToCompareFunc) : base(t => valueToCompareFunc.Invoke(t).ToString())
+    {
+        ArgumentNullException.ThrowIfNull(valueToCompareFunc);
     }
 
     public override string Name { get; } = NAME;

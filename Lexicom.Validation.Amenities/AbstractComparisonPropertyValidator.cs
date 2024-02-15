@@ -4,11 +4,18 @@ using System.Reflection;
 namespace Lexicom.Validation.Amenities;
 public abstract class AbstractComparisonPropertyValidator<T, TProperty> : AbstractComparisonValidator<T, TProperty> where TProperty : IComparable<TProperty>, IComparable
 {
-    public AbstractComparisonPropertyValidator(TProperty value) : base(value)
+    public AbstractComparisonPropertyValidator(TProperty valueToCompare) : base(valueToCompare)
     {
     }
-    public AbstractComparisonPropertyValidator(Func<T, (bool HasValue, TProperty Value)> valueToCompareFunc, MemberInfo member, string memberDisplayName) : base(valueToCompareFunc, member, memberDisplayName)
+    /// <exception cref="ArgumentNullException"/>
+    public AbstractComparisonPropertyValidator(Func<T, TProperty> valueToCompareFunc, MemberInfo? member = null, string? memberDisplayName = null) : base(valueToCompareFunc, member, memberDisplayName)
     {
+        ArgumentNullException.ThrowIfNull(valueToCompareFunc);
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public AbstractComparisonPropertyValidator(Func<T, (bool HasValue, TProperty Value)> valueToCompareFunc, MemberInfo? member = null, string? memberDisplayName = null) : base(valueToCompareFunc, member, memberDisplayName)
+    {
+        ArgumentNullException.ThrowIfNull(valueToCompareFunc);
     }
 
     public abstract string DefaultMessageTemplate { get; }
