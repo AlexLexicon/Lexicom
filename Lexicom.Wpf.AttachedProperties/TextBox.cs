@@ -44,7 +44,7 @@ public static class TextBox
     /*
      * Errors
      */
-    public static readonly DependencyProperty ErrorsProperty = DependencyProperty.RegisterAttached("Errors", typeof(IEnumerable<string?>), typeof(TextBox), new FrameworkPropertyMetadata(null, OnValidationProperty_TextBox_PropertyChanged));
+    public static readonly DependencyProperty ErrorsProperty = DependencyProperty.RegisterAttached("Errors", typeof(IEnumerable<string?>), typeof(TextBox), new FrameworkPropertyMetadata(null, OnErrorsProperty_TextBox_PropertyChanged));
     public static IEnumerable<string?>? GetErrors(DependencyObject obj) => (IEnumerable<string?>?)obj.GetValue(ErrorsProperty);
     public static void SetErrors(DependencyObject obj, IEnumerable<string?>? errors) => obj.SetValue(ErrorsProperty, errors);
     private static void OnErrorsProperty_TextBox_PropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs _)
