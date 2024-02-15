@@ -61,7 +61,7 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
 
         HasStandardizedErrorMessages = true;
         HasSanitizedErrorMessages = true;
-        ValidationErrors = new List<string>();
+        ValidationErrors = [];
         Validation = ValidateAndGetErrorMessages;
         FailingErrors = [];
 

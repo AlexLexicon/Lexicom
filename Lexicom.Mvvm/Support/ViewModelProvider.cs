@@ -102,7 +102,7 @@ public abstract class ViewModelProvider
 
         TViewModel viewModel = activateImplementationTypeDelegate.Invoke(implementationType);
 
-        StaticAddToWeakViewModelRefrenceCollectionMethodInfo.MakeGenericMethod(implementationType).Invoke(null, new object[] { _serviceProvider, viewModel });
+        StaticAddToWeakViewModelRefrenceCollectionMethodInfo.MakeGenericMethod(implementationType).Invoke(null, [_serviceProvider, viewModel]);
 
         return viewModel;
     }

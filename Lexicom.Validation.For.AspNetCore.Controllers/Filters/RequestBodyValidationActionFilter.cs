@@ -63,11 +63,11 @@ public class RequestBodyValidationActionFilter : IAsyncActionFilter
                 //because IValidator<T> requires a generic argument we have to invoke a reflected generic method 
                 MethodInfo invokeValidatorMethodInfo = StaticInvokeValidatorMethodInfo.MakeGenericMethod(requestBody.GetType());
 
-                var validationResultTask = (Task<ValidationResult>?)invokeValidatorMethodInfo.Invoke(null, new[]
-                {
+                var validationResultTask = (Task<ValidationResult>?)invokeValidatorMethodInfo.Invoke(null,
+                [
                     context.HttpContext,
                     requestBody
-                });
+                ]);
 
                 //validationResultTask is not null if a validator for the request body type was found
                 if (validationResultTask is not null)
@@ -91,10 +91,10 @@ public class RequestBodyValidationActionFilter : IAsyncActionFilter
                             }
                             else
                             {
-                                errors.Add(key, new List<string>
-                                {
+                                errors.Add(key,
+                                [
                                     validationFailure.ErrorMessage,
-                                });
+                                ]);
                             }
                         }
 

@@ -32,11 +32,11 @@ public class BlazorWebAssemblyValidateOnStartPostBuildService : IDependencyInjec
         {
             MethodInfo validateOptionsMethodInfo = StaticValidateOptionsMethodInfo.MakeGenericMethod(validateOptionsStartRegistration.OptionsType);
 
-            validateOptionsMethodInfo.Invoke(null, new object[]
-            {
+            validateOptionsMethodInfo.Invoke(null,
+            [
                 provider,
                 validateOptionsStartRegistration.OptionsName
-            });
+            ]);
         }
     }
 }

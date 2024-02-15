@@ -11,8 +11,8 @@ public sealed class ToBooleanConverter : ValueConverterBase<bool>
     private static ValueConverterParameterDefinition InvertParameter { get; } = new ValueConverterParameterDefinition("invert");
     private static ValueConverterParameterDefinition<IsStrings> FalseWhenStringParameter { get; } = new ValueConverterParameterDefinition<IsStrings>("falsewhenstring",
     [
-        new ResultForPatternMatch<IsStrings>(IsStrings.NullOrEmpty, new [] { "isnullorempty", "nullorempty", "noe", "0" }),
-        new ResultForPatternMatch<IsStrings>(IsStrings.NullOrWhiteSpace, new [] { "isnullorwhitespace", "nullorwhitespace", "now", "1" })
+        new ResultForPatternMatch<IsStrings>(IsStrings.NullOrEmpty, ["isnullorempty", "nullorempty", "noe", "0"]),
+        new ResultForPatternMatch<IsStrings>(IsStrings.NullOrWhiteSpace, ["isnullorwhitespace", "nullorwhitespace", "now", "1"])
     ]);
 
     private static string GetBooleanString(bool value) => value.ToString().ToLowerInvariant();

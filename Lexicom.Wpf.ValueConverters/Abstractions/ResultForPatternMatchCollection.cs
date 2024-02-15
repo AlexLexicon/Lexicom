@@ -12,10 +12,10 @@ public class ResultForPatternMatchCollection<T> : IEnumerable<ResultForPatternMa
 
     public void Add(T result, string matchPattern)
     {
-        Add(new ResultForPatternMatch<T>(result, new List<string> 
-        { 
+        Add(new ResultForPatternMatch<T>(result,
+        [
             matchPattern,
-        }));
+        ]));
     }
     public void Add(T result, IEnumerable<string> matchPatterns)
     {

@@ -386,7 +386,7 @@ public class AsyncUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, T
 
         return await db
             .Set<TUserToken>()
-            .FindAsync(new object[] { user.Id, loginProvider, name }, cancellationToken);
+            .FindAsync([user.Id, loginProvider, name], cancellationToken);
     }
 
     protected override async Task AddUserTokenAsync(TUserToken token)

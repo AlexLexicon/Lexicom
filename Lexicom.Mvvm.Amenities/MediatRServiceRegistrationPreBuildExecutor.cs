@@ -76,11 +76,11 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
 
                 StaticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo
                     .MakeGenericMethod(notificationHandlerDescription.ServiceType, handlerImplementation.ImplementationType)
-                    .Invoke(null, new object[]
-                    {
+                    .Invoke(null,
+                    [
                         services,
                         handlerImplementation.Lifetime
-                    });
+                    ]);
             }
         }
     }
@@ -127,10 +127,10 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
                         {
                             StaticSetupNotificationHandlersForViewModelsMethodInfo
                                 .MakeGenericMethod(viewModelRegistrationForHandler.ServiceType, handlerInterface)
-                                .Invoke(null, new object[]
-                                {
+                                .Invoke(null,
+                                [
                                     services
-                                });
+                                ]);
                         }
                     }
                 }
@@ -146,19 +146,19 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
                         {
                             StaticSetupNotificationHandlersForViewModelsMethodInfo
                                 .MakeGenericMethod(viewModelRegistrationForHandler.ServiceType, handlerDescriptor.ServiceType)
-                                .Invoke(null, new object[]
-                                {
+                                .Invoke(null,
+                                [
                                     services
-                                });
+                                ]);
                         }
                         else
                         {
                             StaticSetupRequestHandlersForViewModelsMethodInfo
                                 .MakeGenericMethod(viewModelRegistrationForHandler.ServiceType, handlerDescriptor.ServiceType)
-                                .Invoke(null, new object[]
-                                {
+                                .Invoke(null,
+                                [
                                     services
-                                });
+                                ]);
                         }
                     }
                 }

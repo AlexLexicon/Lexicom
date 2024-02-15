@@ -20,6 +20,8 @@ public class GreaterThanOrEqualUnitTests
             options.AddValidators<AssemblyScanMarker>();
         });
 
+        var xxx = uta.Get<NumberStringRuleSet>();
+
         var validator = uta.Get<IRuleSetValidator<NumberStringRuleSet, string?>>();
 
         await validator.ValidateAsync("abc");

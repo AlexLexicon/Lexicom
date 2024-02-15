@@ -182,11 +182,11 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
         return await db
             .Set<TUserRole>()
-            .FindAsync(new object[]
-            {
+            .FindAsync(
+            [
                 userId,
                 roleId
-            }, cancellationToken);
+            ], cancellationToken);
     }
 
     protected override async Task<TUser?> FindUserAsync(TKey userId, CancellationToken cancellationToken)
@@ -549,7 +549,7 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
             return await query.ToListAsync(cancellationToken);
         }
 
-        return new List<TUser>();
+        return [];
     }
 
     protected override async Task<TUserToken?> FindTokenAsync(TUser user, string loginProvider, string name, CancellationToken cancellationToken)
@@ -558,12 +558,12 @@ public class AsyncUserStore<TUser, TRole, TContext, [DynamicallyAccessedMembers(
 
         return await db
             .Set<TUserToken>()
-            .FindAsync(new object[]
-            {
+            .FindAsync(
+            [
                 user.Id,
                 loginProvider,
                 name
-            }, cancellationToken);
+            ], cancellationToken);
     }
 
     protected override async Task AddUserTokenAsync(TUserToken token)

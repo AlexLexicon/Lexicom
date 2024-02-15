@@ -17,6 +17,6 @@ public static class ViewModelRegistrationExtensions
 
         MethodInfo genericAugmentMethod = augmentMethod.MakeGenericMethod(registration.ServiceType, registration.ImplementationType);
 
-        genericAugmentMethod.Invoke(augmenter, new object[] { services });
+        genericAugmentMethod.Invoke(augmenter, [services]);
     }
 }

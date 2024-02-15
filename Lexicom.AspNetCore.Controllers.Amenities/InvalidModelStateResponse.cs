@@ -100,10 +100,10 @@ public static class InvalidModelStateResponse
         }
         else
         {
-            errors.Add(key, new List<string>
-            {
+            errors.Add(key,
+            [
                 message,
-            });
+            ]);
         }
     }
 }

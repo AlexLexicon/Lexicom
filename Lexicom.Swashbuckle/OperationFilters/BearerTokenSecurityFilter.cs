@@ -41,10 +41,10 @@ public class BearerTokenSecurityFilter : IOperationFilter
                     }
                 };
 
-                operation.Security = new List<OpenApiSecurityRequirement>
-                {
+                operation.Security =
+                [
                     securityRequirement
-                };
+                ];
             }
         }
     }
