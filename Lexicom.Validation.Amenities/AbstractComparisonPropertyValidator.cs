@@ -7,10 +7,12 @@ public abstract class AbstractComparisonPropertyValidator<T, TProperty> : Abstra
     public AbstractComparisonPropertyValidator(TProperty valueToCompare) : base(valueToCompare)
     {
     }
+    /// <exception cref="ArgumentNullException"/>
     public AbstractComparisonPropertyValidator(Func<T, TProperty> valueToCompareFunc, MemberInfo? member = null, string? memberDisplayName = null) : base(valueToCompareFunc, member, memberDisplayName)
     {
         ArgumentNullException.ThrowIfNull(valueToCompareFunc);
     }
+    /// <exception cref="ArgumentNullException"/>
     public AbstractComparisonPropertyValidator(Func<T, (bool HasValue, TProperty Value)> valueToCompareFunc, MemberInfo? member = null, string? memberDisplayName = null) : base(valueToCompareFunc, member, memberDisplayName)
     {
         ArgumentNullException.ThrowIfNull(valueToCompareFunc);
