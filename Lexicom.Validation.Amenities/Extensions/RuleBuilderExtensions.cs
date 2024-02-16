@@ -125,7 +125,7 @@ public static class RuleBuilderExtensions
         ArgumentNullException.ThrowIfNull(ruleBuilder);
         ArgumentNullException.ThrowIfNull(minimumFunc);
 
-        return ruleBuilder.SetValidator(new LessThan<T>(t => minimumFunc.Invoke(t)));
+        return ruleBuilder.SetValidator(new LessThanOrEqualTo<T>(t => minimumFunc.Invoke(t)));
     }
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> LessThanOrEqualTo<T>(this IRuleBuilder<T, string?> ruleBuilder, long minimum)
@@ -140,7 +140,7 @@ public static class RuleBuilderExtensions
         ArgumentNullException.ThrowIfNull(ruleBuilder);
         ArgumentNullException.ThrowIfNull(minimumFunc);
 
-        return ruleBuilder.SetValidator(new LessThan<T>(minimumFunc));
+        return ruleBuilder.SetValidator(new LessThanOrEqualTo<T>(minimumFunc));
     }
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> Letters<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<LettersPropertyValidator<T>, T, string?>();
