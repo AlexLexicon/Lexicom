@@ -3,7 +3,7 @@
 namespace Lexicom.AspNetCore.Controllers.Amenities;
 public interface IAspNetCoreControllersAmenitiesServiceBuilder
 {
-    WebApplicationBuilder WebApplicationBuilder { get; }
+    WebApplicationBuilder WebApplicationBuilder { get; }//temp
 }
 public class AspNetCoreControllersAmenitiesServiceBuilder : IAspNetCoreControllersAmenitiesServiceBuilder
 {
