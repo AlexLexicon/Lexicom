@@ -21,11 +21,25 @@ public static class RuleBuilderExtensions
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> Digits<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<DigitsPropertyValidator<T>, T, string?>();
     /// <exception cref="ArgumentNullException"/>
+    public LessThan(Func<long> valueToCompareFunc) : base(() => valueToCompareFunc.Invoke().ToString())
+    {
+        ArgumentNullException.ThrowIfNull(valueToCompareFunc);
+    }
+
+    /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> GreaterThan<T>(this IRuleBuilder<T, string?> ruleBuilder, int maximum)
     {
         ArgumentNullException.ThrowIfNull(ruleBuilder);
 
         return ruleBuilder.SetValidator(new GreaterThan<T>(maximum));
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public static IRuleBuilderOptions<T, string?> GreaterThan<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<int> maximumFunc)
+    {
+        ArgumentNullException.ThrowIfNull(ruleBuilder);
+        ArgumentNullException.ThrowIfNull(maximumFunc);
+
+        return ruleBuilder.SetValidator(new GreaterThan<T>(() => maximumFunc.Invoke()));
     }
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> GreaterThan<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<T, int> maximumFunc)
@@ -51,11 +65,27 @@ public static class RuleBuilderExtensions
         return ruleBuilder.SetValidator(new GreaterThan<T>(maximumFunc));
     }
     /// <exception cref="ArgumentNullException"/>
+    public static IRuleBuilderOptions<T, string?> GreaterThan<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<long> maximumFunc)
+    {
+        ArgumentNullException.ThrowIfNull(ruleBuilder);
+        ArgumentNullException.ThrowIfNull(maximumFunc);
+
+        return ruleBuilder.SetValidator(new GreaterThan<T>(maximumFunc));
+    }
+    /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> GreaterThanOrEqualTo<T>(this IRuleBuilder<T, string?> ruleBuilder, int maximum)
     {
         ArgumentNullException.ThrowIfNull(ruleBuilder);
 
         return ruleBuilder.SetValidator(new GreaterThanOrEqualTo<T>(maximum));
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public static IRuleBuilderOptions<T, string?> GreaterThanOrEqualTo<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<int> maximumFunc)
+    {
+        ArgumentNullException.ThrowIfNull(ruleBuilder);
+        ArgumentNullException.ThrowIfNull(maximumFunc);
+
+        return ruleBuilder.SetValidator(new GreaterThanOrEqualTo<T>(() => maximumFunc.Invoke()));
     }
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> GreaterThanOrEqualTo<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<T, int> maximumFunc)
@@ -71,6 +101,14 @@ public static class RuleBuilderExtensions
         ArgumentNullException.ThrowIfNull(ruleBuilder);
 
         return ruleBuilder.SetValidator(new GreaterThanOrEqualTo<T>(maximum));
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public static IRuleBuilderOptions<T, string?> GreaterThanOrEqualTo<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<long> maximumFunc)
+    {
+        ArgumentNullException.ThrowIfNull(ruleBuilder);
+        ArgumentNullException.ThrowIfNull(maximumFunc);
+
+        return ruleBuilder.SetValidator(new GreaterThanOrEqualTo<T>(maximumFunc));
     }
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> GreaterThanOrEqualTo<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<T, long> maximumFunc)
@@ -90,6 +128,14 @@ public static class RuleBuilderExtensions
         return ruleBuilder.SetValidator(new LessThan<T>(minimum));
     }
     /// <exception cref="ArgumentNullException"/>
+    public static IRuleBuilderOptions<T, string?> LessThan<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<int> minimumFunc)
+    {
+        ArgumentNullException.ThrowIfNull(ruleBuilder);
+        ArgumentNullException.ThrowIfNull(minimumFunc);
+
+        return ruleBuilder.SetValidator(new LessThan<T>(() => minimumFunc.Invoke()));
+    }
+    /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> LessThan<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<T, int> minimumFunc)
     {
         ArgumentNullException.ThrowIfNull(ruleBuilder);
@@ -103,6 +149,14 @@ public static class RuleBuilderExtensions
         ArgumentNullException.ThrowIfNull(ruleBuilder);
 
         return ruleBuilder.SetValidator(new LessThan<T>(minimum));
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public static IRuleBuilderOptions<T, string?> LessThan<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<long> minimumFunc)
+    {
+        ArgumentNullException.ThrowIfNull(ruleBuilder);
+        ArgumentNullException.ThrowIfNull(minimumFunc);
+
+        return ruleBuilder.SetValidator(new LessThan<T>(minimumFunc));
     }
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> LessThan<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<T, long> minimumFunc)
@@ -120,6 +174,14 @@ public static class RuleBuilderExtensions
         return ruleBuilder.SetValidator(new LessThanOrEqualTo<T>(minimum));
     }
     /// <exception cref="ArgumentNullException"/>
+    public static IRuleBuilderOptions<T, string?> LessThanOrEqualTo<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<int> minimumFunc)
+    {
+        ArgumentNullException.ThrowIfNull(ruleBuilder);
+        ArgumentNullException.ThrowIfNull(minimumFunc);
+
+        return ruleBuilder.SetValidator(new LessThanOrEqualTo<T>(() => minimumFunc.Invoke()));
+    }
+    /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> LessThanOrEqualTo<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<T, int> minimumFunc)
     {
         ArgumentNullException.ThrowIfNull(ruleBuilder);
@@ -133,6 +195,14 @@ public static class RuleBuilderExtensions
         ArgumentNullException.ThrowIfNull(ruleBuilder);
 
         return ruleBuilder.SetValidator(new LessThanOrEqualTo<T>(minimum));
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public static IRuleBuilderOptions<T, string?> LessThanOrEqualTo<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<long> minimumFunc)
+    {
+        ArgumentNullException.ThrowIfNull(ruleBuilder);
+        ArgumentNullException.ThrowIfNull(minimumFunc);
+
+        return ruleBuilder.SetValidator(new LessThanOrEqualTo<T>(minimumFunc));
     }
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> LessThanOrEqualTo<T>(this IRuleBuilder<T, string?> ruleBuilder, Func<T, long> minimumFunc)
