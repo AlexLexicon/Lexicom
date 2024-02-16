@@ -19,13 +19,17 @@ public sealed class WpfApplication
     private readonly IHost _host;
 
     /// <exception cref="ArgumentNullException"/>
-    internal WpfApplication(IHost host)
+    internal WpfApplication(
+        IHost host,
+        IHostEnvironment environment)
     {
         ArgumentNullException.ThrowIfNull(host);
+        ArgumentNullException.ThrowIfNull(environment);
 
         _host = host;
 
         Configuration = Services.GetRequiredService<IConfiguration>();
+        Environment = environment;
 
         var appxaml = Services.GetRequiredService<Application>();
 
@@ -35,6 +39,7 @@ public sealed class WpfApplication
 
     public IConfiguration Configuration { get; }
     public IServiceProvider Services => _host.Services;
+    public IHostEnvironment Environment { get; }
 
     private Type? StartupWindowType { get; set; }
     private Type? StartupType { get; set; }

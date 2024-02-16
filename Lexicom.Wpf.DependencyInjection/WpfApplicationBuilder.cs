@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Lexicom.DependencyInjection.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Windows;
@@ -16,6 +17,8 @@ public sealed class WpfApplicationBuilder
         Services = new ServiceCollection();
         Configuration = new ConfigurationManager();
 
+        Environment = LexicomHostApplicationBuilder.InitalizeDefaultConfigurationProvidersAndEnviornment(Configuration);
+
         _hostBuilder = new HostBuilder();
         _hostBuilder.ConfigureServices(services =>
         {
@@ -32,6 +35,7 @@ public sealed class WpfApplicationBuilder
 
     public IServiceCollection Services { get; }
     public ConfigurationManager Configuration { get; }
+    public IHostEnvironment Environment { get; }
 
     /// <exception cref="ArgumentNullException"/>
     public void ConfigureContainer<TBuilder>(IServiceProviderFactory<TBuilder> factory) where TBuilder : notnull
@@ -45,6 +49,6 @@ public sealed class WpfApplicationBuilder
     {
         IHost host = _hostBuilder.Build();
 
-        return new WpfApplication(host);
+        return new WpfApplication(host, Environment);
     }
 }

@@ -18,6 +18,7 @@ public sealed class ConsoleApplication
         IHostEnvironment environment)
     {
         ArgumentNullException.ThrowIfNull(host);
+        ArgumentNullException.ThrowIfNull(environment);
 
         _host = host;
 
