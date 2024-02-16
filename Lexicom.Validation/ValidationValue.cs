@@ -7,4 +7,9 @@ public class ValidationValue<T>
     }
 
     public T Value { get; }
+
+    public override string? ToString()
+    {
+        return Value?.ToString();
+    }
 }
