@@ -21,12 +21,6 @@ public static class RuleBuilderExtensions
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> Digits<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<DigitsPropertyValidator<T>, T, string?>();
     /// <exception cref="ArgumentNullException"/>
-    public LessThan(Func<long> valueToCompareFunc) : base(() => valueToCompareFunc.Invoke().ToString())
-    {
-        ArgumentNullException.ThrowIfNull(valueToCompareFunc);
-    }
-
-    /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> GreaterThan<T>(this IRuleBuilder<T, string?> ruleBuilder, int maximum)
     {
         ArgumentNullException.ThrowIfNull(ruleBuilder);
