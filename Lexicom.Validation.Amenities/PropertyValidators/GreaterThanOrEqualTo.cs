@@ -12,6 +12,11 @@ public class GreaterThanOrEqualTo<T> : AbstractComparisonPropertyValidator<T, st
     {
     }
     /// <exception cref="ArgumentNullException"/>
+    public GreaterThanOrEqualTo(Func<long> valueToCompareFunc) : base(() => valueToCompareFunc.Invoke().ToString())
+    {
+        ArgumentNullException.ThrowIfNull(valueToCompareFunc);
+    }
+    /// <exception cref="ArgumentNullException"/>
     public GreaterThanOrEqualTo(Func<T, long> valueToCompareFunc) : base(t => valueToCompareFunc.Invoke(t).ToString())
     {
         ArgumentNullException.ThrowIfNull(valueToCompareFunc);

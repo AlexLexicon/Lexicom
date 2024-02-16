@@ -12,6 +12,11 @@ public class LessThan<T> : AbstractComparisonPropertyValidator<T, string?>
     {
     }
     /// <exception cref="ArgumentNullException"/>
+    public LessThan(Func<long> valueToCompareFunc) : base(() => valueToCompareFunc.Invoke().ToString())
+    {
+        ArgumentNullException.ThrowIfNull(valueToCompareFunc);
+    }
+    /// <exception cref="ArgumentNullException"/>
     public LessThan(Func<T, long> valueToCompareFunc) : base(t => valueToCompareFunc.Invoke(t).ToString())
     {
         ArgumentNullException.ThrowIfNull(valueToCompareFunc);

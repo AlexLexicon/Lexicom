@@ -12,6 +12,11 @@ public class GreaterThan<T> : AbstractComparisonPropertyValidator<T, string?>
     {
     }
     /// <exception cref="ArgumentNullException"/>
+    public GreaterThan(Func<long> valueToCompareFunc) : base(() => valueToCompareFunc.Invoke().ToString())
+    {
+        ArgumentNullException.ThrowIfNull(valueToCompareFunc);
+    }
+    /// <exception cref="ArgumentNullException"/>
     public GreaterThan(Func<T, long> valueToCompareFunc) : base(t => valueToCompareFunc.Invoke(t).ToString())
     {
         ArgumentNullException.ThrowIfNull(valueToCompareFunc);
