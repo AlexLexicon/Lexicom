@@ -13,9 +13,12 @@ public interface IRuleSetValidator
     void SetInvalid(string errorMessage);
     void SetValid();
 }
-public interface IRuleSetValidator<TRuleSet, TProperty> : IRuleSetValidator, IValueValidator<TProperty> where TRuleSet : IRuleSet<TProperty>
+public interface IRuleSetValidator<TProperty> : IRuleSetValidator, IValueValidator<TProperty>
 {
     Func<TProperty, IEnumerable<string>> Validation { get; }
+}
+public interface IRuleSetValidator<TRuleSet, TProperty> : IRuleSetValidator<TProperty> where TRuleSet : IRuleSet<TProperty>
+{
 }
 /// <exception cref="ArgumentNullException"/>
 public class RuleSetValidator<TRuleSet, TProperty>(TRuleSet ruleSet) : BaseRuleSetValidator<TRuleSet, TProperty, TProperty>(ruleSet), IRuleSetValidator<TRuleSet, TProperty> where TRuleSet : IRuleSet<TProperty>
