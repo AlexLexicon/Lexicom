@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using Lexicom.Validation.Extensions;
+using System.Collections.ObjectModel;
 
 namespace Lexicom.Validation;
 public interface IRuleSetValidator
@@ -8,9 +9,9 @@ public interface IRuleSetValidator
     bool HasStandardizedErrorMessages { get; set; }
     bool HasSanitizedErrorMessages { get; set; }
     bool IsValid { get; }
-    IReadOnlyList<string> ValidationErrors { get; }
+    ObservableCollection<string> ValidationErrors { get; }
 
-    void SetInvalid(string errorMessage);
+    void AddErrorAndInvalidate(string errorMessage);
     void SetValid();
 }
 public interface IRuleSetValidator<TProperty> : IRuleSetValidator, IValueValidator<TProperty>
@@ -75,7 +76,7 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
     public bool HasStandardizedErrorMessages { get; set; }
     public bool HasSanitizedErrorMessages { get; set; }
     public bool IsValid => !ValidationErrors.Any();
-    public IReadOnlyList<string> ValidationErrors { get; protected set; }
+    public ObservableCollection<string> ValidationErrors { get; }
     public Func<TInProperty, IEnumerable<string>> Validation { get; }
 
     private List<string> FailingErrors { get; set; }
@@ -104,18 +105,21 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
         return result;
     }
 
-    public virtual void SetInvalid(string errorMessage)
+    public virtual void AddErrorAndInvalidate(string errorMessage)
     {
         FailingErrors.Add(errorMessage);
 
-        ValidationErrors = FailingErrors;
+        ValidationErrors.Clear();
+        foreach (string failingError in FailingErrors)
+        {
+            ValidationErrors.Add(failingError);
+        }
     }
 
     public virtual void SetValid()
     {
         FailingErrors.Clear();
-
-        ValidationErrors = FailingErrors;
+        ValidationErrors.Clear();
     }
 
     protected abstract IEnumerable<string> ValidateAndGetErrorMessages(TInProperty instance);
@@ -125,18 +129,24 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
     {
         ArgumentNullException.ThrowIfNull(result);
 
-        IReadOnlyList<ValidationFailure> initalValidationErrors = result.Errors;
+        IReadOnlyList<ValidationFailure> validationErrors = result.Errors;
 
         if (HasStandardizedErrorMessages)
         {
-            initalValidationErrors = initalValidationErrors.StandardizeErrorMessages();
+            validationErrors = validationErrors.StandardizeErrorMessages();
         }
         
         if (HasSanitizedErrorMessages)
         {
-            initalValidationErrors = initalValidationErrors.SanitizeErrorMessages();
+            validationErrors = validationErrors.SanitizeErrorMessages();
         }
 
-        ValidationErrors = initalValidationErrors.ToErrorMessages();
+        IReadOnlyList<string> errors = validationErrors.ToErrorMessages();
+
+        ValidationErrors.Clear();
+        foreach (string error in errors)
+        {
+            ValidationErrors.Add(error);
+        }
     }
 }
