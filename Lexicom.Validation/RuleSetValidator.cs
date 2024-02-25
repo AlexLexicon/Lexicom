@@ -9,10 +9,9 @@ public interface IRuleSetValidator
     bool HasStandardizedErrorMessages { get; set; }
     bool HasSanitizedErrorMessages { get; set; }
     bool IsValid { get; }
-    ReadOnlyObservableCollection<string> ValidationErrors { get; }
+    ObservableCollection<string> ValidationErrors { get; }
 
-    void AddErrorAndInvalidate(string errorMessage);
-    void SetValid();
+    void SetToValid();
 }
 public interface IRuleSetValidator<TProperty> : IRuleSetValidator, IValueValidator<TProperty>
 {
@@ -70,20 +69,15 @@ public class RuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransfor
 }
 public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : AbstractValueValidator<TProperty> where TRuleSet : IRuleSet<TProperty>
 {
-    private readonly ObservableCollection<string> _validationErrors;
-
     /// <exception cref="ArgumentNullException"/>
     public BaseRuleSetValidator(TRuleSet ruleSet)
     {
         ArgumentNullException.ThrowIfNull(ruleSet);
 
-        _validationErrors = [];
-
         HasStandardizedErrorMessages = true;
         HasSanitizedErrorMessages = true;
-        ValidationErrors = new ReadOnlyObservableCollection<string>(_validationErrors);
+        ValidationErrors = [];
         Validation = ValidateAndGetErrorMessages;
-        FailingErrors = [];
 
         RuleFor(p => p.Value)
             .UseRuleSet(ruleSet);
@@ -92,10 +86,8 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
     public bool HasStandardizedErrorMessages { get; set; }
     public bool HasSanitizedErrorMessages { get; set; }
     public bool IsValid => !ValidationErrors.Any();
-    public ReadOnlyObservableCollection<string> ValidationErrors { get; }
+    public ObservableCollection<string> ValidationErrors { get; }
     public Func<TInProperty, IEnumerable<string>> Validation { get; }
-
-    private List<string> FailingErrors { get; set; }
 
     /// <exception cref="ArgumentNullException"/>
     public override ValidationResult Validate(ValidationContext<ValidationValue<TProperty>> context)
@@ -121,24 +113,9 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
         return result;
     }
 
-    /// <exception cref="ArgumentNullException"/>
-    public virtual void AddErrorAndInvalidate(string errorMessage)
+    public virtual void SetToValid()
     {
-        ArgumentNullException.ThrowIfNull(errorMessage);
-
-        FailingErrors.Add(errorMessage);
-
-        _validationErrors.Clear();
-        foreach (string failingError in FailingErrors)
-        {
-            _validationErrors.Add(failingError);
-        }
-    }
-
-    public virtual void SetValid()
-    {
-        FailingErrors.Clear();
-        _validationErrors.Clear();
+        ValidationErrors.Clear();
     }
 
     protected abstract IEnumerable<string> ValidateAndGetErrorMessages(TInProperty instance);
@@ -154,7 +131,7 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
         {
             validationErrors = validationErrors.StandardizeErrorMessages();
         }
-        
+
         if (HasSanitizedErrorMessages)
         {
             validationErrors = validationErrors.SanitizeErrorMessages();
@@ -162,10 +139,10 @@ public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : A
 
         IReadOnlyList<string> errors = validationErrors.ToErrorMessages();
 
-        _validationErrors.Clear();
+        ValidationErrors.Clear();
         foreach (string error in errors)
         {
-            _validationErrors.Add(error);
+            ValidationErrors.Add(error);
         }
     }
 }

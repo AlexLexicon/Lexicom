@@ -120,6 +120,19 @@ public static class ValidationServiceBuilderExtensions
         }
     }
 
+    public static IValidationServiceBuilder AddRuleSet<TRuleSet, TProperty>(this IValidationServiceBuilder builder, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton) where TRuleSet : AbstractRuleSet<TProperty>
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+
+        builder.Services.Add(new ServiceDescriptor(typeof(TRuleSet), typeof(TRuleSet), serviceLifetime));
+        builder.Services.Add(new ServiceDescriptor(typeof(IRuleSet<TProperty>), sp =>
+        {
+            return sp.GetRequiredService(typeof(TRuleSet));
+        }, serviceLifetime));
+
+        return builder;
+    }
+
     /// <exception cref="ArgumentNullException"/>
     public static IValidationServiceBuilder AddLanguageManager<TLanguageManager>(this IValidationServiceBuilder builder) where TLanguageManager : LanguageManager, new()
     {
