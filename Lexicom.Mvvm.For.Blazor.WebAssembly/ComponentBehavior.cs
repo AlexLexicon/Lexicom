@@ -6,13 +6,13 @@ using System.Reflection;
 using System.Windows.Input;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
-public class ViewBehavior<TViewModel> where TViewModel : INotifyPropertyChanged
+public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyChanged
 {
-    private readonly IView<TViewModel> _view;
+    private readonly IMvvmComponent<TViewModel> _mvvmComponent;
 
-    public ViewBehavior(IView<TViewModel> view)
+    public ComponentBehavior(IMvvmComponent<TViewModel> mvvmComponent)
     {
-        _view = view;
+        _mvvmComponent = mvvmComponent;
     }
 
     private PropertyInfo? LoadedCommand { get; set; }
@@ -20,14 +20,14 @@ public class ViewBehavior<TViewModel> where TViewModel : INotifyPropertyChanged
 
     public async Task InitializeAsync()
     {
-        if (_view.ViewModel is null)
+        if (_mvvmComponent.ViewModel is null)
         {
-            throw new ViewModelIsNullException(_view);
+            throw new ViewModelIsNullException(_mvvmComponent);
         }
 
         if (LoadedCommand is not null)
         {
-            object? loadedCommandPropertyValue = LoadedCommand.GetValue(_view.ViewModel);
+            object? loadedCommandPropertyValue = LoadedCommand.GetValue(_mvvmComponent.ViewModel);
 
             if (loadedCommandPropertyValue is IAsyncRelayCommand loadedAsyncCommand)
             {
@@ -39,26 +39,26 @@ public class ViewBehavior<TViewModel> where TViewModel : INotifyPropertyChanged
             }
             else
             {
-                throw new LoadedCommandNotValidException(_view, _view.ViewModel);
+                throw new LoadedCommandNotValidException(_mvvmComponent, _mvvmComponent.ViewModel);
             }
         }
     }
 
     public void DisposeViewModel()
     {
-        if (_view.ViewModel is not null)
+        if (_mvvmComponent.ViewModel is not null)
         {
             UnSubscribeToCollectionChanged();
 
-            _view.ViewModel.PropertyChanged -= OnPropertyChanged;
+            _mvvmComponent.ViewModel.PropertyChanged -= OnPropertyChanged;
         }
     }
 
     public void ChangeViewModel()
     {
-        if (_view.ViewModel is not null)
+        if (_mvvmComponent.ViewModel is not null)
         {
-            _view.ViewModel.PropertyChanged += OnPropertyChanged;
+            _mvvmComponent.ViewModel.PropertyChanged += OnPropertyChanged;
 
             CacheViewModelProperties();
         }
@@ -66,9 +66,9 @@ public class ViewBehavior<TViewModel> where TViewModel : INotifyPropertyChanged
 
     private void CacheViewModelProperties()
     {
-        if (_view.ViewModel is not null)
+        if (_mvvmComponent.ViewModel is not null)
         {
-            PropertyInfo[] properties = _view.ViewModel
+            PropertyInfo[] properties = _mvvmComponent.ViewModel
                 .GetType()
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
@@ -92,7 +92,7 @@ public class ViewBehavior<TViewModel> where TViewModel : INotifyPropertyChanged
     {
         foreach (PropertyInfo notifyCollectionChangedProperty in NotifyCollectionChangedProperties)
         {
-            object? value = notifyCollectionChangedProperty.GetValue(_view.ViewModel);
+            object? value = notifyCollectionChangedProperty.GetValue(_mvvmComponent.ViewModel);
 
             if (value is not null and INotifyCollectionChanged notifyCollectionChanged)
             {
@@ -105,7 +105,7 @@ public class ViewBehavior<TViewModel> where TViewModel : INotifyPropertyChanged
     {
         foreach (PropertyInfo notifyCollectionChangedProperty in NotifyCollectionChangedProperties)
         {
-            object? value = notifyCollectionChangedProperty.GetValue(_view.ViewModel);
+            object? value = notifyCollectionChangedProperty.GetValue(_mvvmComponent.ViewModel);
 
             if (value is not null and INotifyCollectionChanged notifyCollectionChanged)
             {
@@ -116,16 +116,16 @@ public class ViewBehavior<TViewModel> where TViewModel : INotifyPropertyChanged
 
     private async void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (_view.ViewModel is not null)
+        if (_mvvmComponent.ViewModel is not null)
         {
             SubscribeToCollectionChanged();
         }
 
-        await _view.InvokeStateChange();
+        await _mvvmComponent.InvokeStateChange();
     }
 
     private async void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        await _view.InvokeStateChange();
+        await _mvvmComponent.InvokeStateChange();
     }
 }

@@ -2,13 +2,13 @@
 using System.ComponentModel;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
-public abstract class InjectedView<TViewModel> : ComponentBase, IView<TViewModel>, IDisposable where TViewModel : INotifyPropertyChanged
+public class InjectedLayout<TViewModel> : LayoutComponentBase, IMvvmComponent<TViewModel>, IDisposable where TViewModel : INotifyPropertyChanged
 {
-    private readonly ViewBehavior<TViewModel> _viewBehavior;
+    private readonly ComponentBehavior<TViewModel> _componentBehavior;
 
-    public InjectedView()
+    public InjectedLayout()
     {
-        _viewBehavior = new ViewBehavior<TViewModel>(this);
+        _componentBehavior = new ComponentBehavior<TViewModel>(this);
     }
 
     private TViewModel? _viewModel;
@@ -18,17 +18,17 @@ public abstract class InjectedView<TViewModel> : ComponentBase, IView<TViewModel
         get => _viewModel!; //we just have to trust that the Inject attribute will be before this is ever used
         set
         {
-            _viewBehavior.DisposeViewModel();
+            _componentBehavior.DisposeViewModel();
 
             _viewModel = value;
 
-            _viewBehavior.ChangeViewModel();
+            _componentBehavior.ChangeViewModel();
         }
     }
 
     public void Dispose()
     {
-        _viewBehavior.DisposeViewModel();
+        _componentBehavior.DisposeViewModel();
     }
 
     public async Task InvokeStateChange()
@@ -38,7 +38,7 @@ public abstract class InjectedView<TViewModel> : ComponentBase, IView<TViewModel
 
     protected override async Task OnInitializedAsync()
     {
-        await _viewBehavior.InitializeAsync();
+        await _componentBehavior.InitializeAsync();
 
         await base.OnInitializedAsync();
     }

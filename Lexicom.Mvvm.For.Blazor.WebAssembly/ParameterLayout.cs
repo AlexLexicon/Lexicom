@@ -2,13 +2,13 @@
 using System.ComponentModel;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
-public abstract class ParameterView<TViewModel> : LayoutComponentBase, IView<TViewModel>, IDisposable where TViewModel : INotifyPropertyChanged
+public abstract class ParameterLayout<TViewModel> : LayoutComponentBase, IMvvmComponent<TViewModel>, IDisposable where TViewModel : INotifyPropertyChanged
 {
-    private readonly ViewBehavior<TViewModel> _viewBehavior;
+    private readonly ComponentBehavior<TViewModel> _componentBehavior;
 
-    public ParameterView()
+    public ParameterLayout()
     {
-        _viewBehavior = new ViewBehavior<TViewModel>(this);
+        _componentBehavior = new ComponentBehavior<TViewModel>(this);
     }
 
     private TViewModel? _viewModel;
@@ -19,18 +19,18 @@ public abstract class ParameterView<TViewModel> : LayoutComponentBase, IView<TVi
         get => _viewModel!; //technically _viewModel will be null if the implmentation doesnt set the parameter but in that case an execption will be thrown from 'OnInitializedAsync' and because of that we can actually say this is never null for the consuming implementation
         set
         {
-            _viewBehavior.DisposeViewModel();
+            _componentBehavior.DisposeViewModel();
 
             _viewModel = value;
 
-            _viewBehavior.ChangeViewModel();
+            _componentBehavior.ChangeViewModel();
         }
     }
 #pragma warning restore BL0007
 
     public void Dispose()
     {
-        _viewBehavior.DisposeViewModel();
+        _componentBehavior.DisposeViewModel();
     }
 
     public async Task InvokeStateChange()
@@ -40,7 +40,7 @@ public abstract class ParameterView<TViewModel> : LayoutComponentBase, IView<TVi
 
     protected override async Task OnInitializedAsync()
     {
-        await _viewBehavior.InitializeAsync();
+        await _componentBehavior.InitializeAsync();
 
         await base.OnInitializedAsync();
     }
