@@ -27,13 +27,16 @@ public class RuleSetValidator<TRuleSet, TProperty>(TRuleSet ruleSet) : BaseRuleS
     {
         Validate(instance);
 
+        var errors = new List<string>();
         foreach (string? error in ValidationErrors)
         {
             if (error is not null)
             {
-                yield return error;
+                errors.Add(error);
             }
         }
+
+        return errors;
     }
 }
 public interface IRuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransformer> : IRuleSetValidator, IValueValidator<TProperty> where TRuleSet : IRuleSet<TProperty> where TRuleSetTransformer : IRuleSetTransfromer<TProperty, TInProperty>, new()
@@ -58,13 +61,16 @@ public class RuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransfor
             }));
         }
 
+        var errors = new List<string>();
         foreach (string? error in ValidationErrors)
         {
             if (error is not null)
             {
-                yield return error;
+                errors.Add(error);
             }
         }
+
+        return errors;
     }
 }
 public abstract class BaseRuleSetValidator<TRuleSet, TProperty, TInProperty> : AbstractValueValidator<TProperty> where TRuleSet : IRuleSet<TProperty>
