@@ -16,7 +16,7 @@ public static class CommandExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static EventCallback BindEvent(this ICommand command)
+    public static EventCallback Bind(this ICommand command)
     {
         ArgumentNullException.ThrowIfNull(command);
 
