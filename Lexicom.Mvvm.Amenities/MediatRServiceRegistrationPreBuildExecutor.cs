@@ -26,21 +26,22 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
      * then we un-register all handlers (IRequestHandler/INotificationHandler) that are implemented on view models specifically
      * we then register one 'IEnumerable<THandler>' for each type of handler that was implemented on a view model.
      * this 'IEnumerable<THandler>' represents a factory which points to a weak refrence for all of the current view model instances using the 'WeakViewModelRefrenceCollection'
-     * that have been created by the 'ViewModelFactory'. because these are weak refrences
-     * as soon as the view model would be garbage collected it is and without handing in this 'WeakViewModelRefrenceCollection' object.
+     * that have been created by the 'ViewModelFactory'. 
+     * because these are weak refrences, as soon as the view model would be garbage collected it is without any hanging refrences from this 'WeakViewModelRefrenceCollection' object.
      * 
      * what this means is that if you new up three transient view models via the 'ViewModelFactory'
      * they will be added as weak refrences to the 'WeakViewModelRefrenceCollection' and when you send a request/notification
      * through mediatR it will use those already created instances to receive the request/notification via the 'IEnumerable<THandler>' service registration
      * 
-     * this is how we solve for view models but there is one additional complication.
+     * this is how we solve for view models but there is an additional complication.
      * if a view model and a regular service both implement the same 'IRequestHandler' or 'INotificationHandler' 
      * we must add that specific service registration to also be returned via the 'IEnumerable<THandler>' service registration.
      * to do this we remove that service's regular mediatR registration and instead replace it with a 'MediatRHandlerImplementationConflictingWithViewModels<THandler>' registration
      * then in the 'IEnumerable<THandler>' service registration factory we also pull for all 'MediatRHandlerImplementationConflictingWithViewModels<THandler>'
      * that match the 'THandler' type and combine those with the instances within the 'WeakViewModelRefrenceCollection'.
+     * finally we make sure each returned handler is unique and not duplicated.
      * 
-     * an additional complexity occurs when you have a generic class that implements an 'INotificationHandler'.
+     * another complexity occurs when you have a generic class that implements an 'INotificationHandler'.
      * in this case mediatR registers the 'INotificationHandler' as an 'INotificationHandler<TNotification>' instead of the actual concrete notification types
      * 
      * for example: if you create a class like this:
@@ -49,7 +50,7 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
      *     ...
      * }
      * MediatR will register this 'INotificationHander' as 'INotificationHandler<TNotification>' instead of 'INotificationHandler<MyNoticiation>'
-     * so in these cases I manually check for this specific generic argument 'TNotification' and manually register the notification handlers for the serivce type
+     * so in these cases I manually check for this specific generic argument 'TNotification' and register the notification handlers for the correct serivce type
      */
 
     public void Execute(IServiceCollection services)
