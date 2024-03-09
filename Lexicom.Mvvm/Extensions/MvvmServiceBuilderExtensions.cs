@@ -1,6 +1,8 @@
 ﻿using Lexicom.Mvvm.Support;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Lexicom.Mvvm.Extensions;
 public static class MvvmServiceBuilderExtensions
@@ -32,6 +34,66 @@ public static class MvvmServiceBuilderExtensions
     }
     /// <exception cref="ArgumentNullException"/>
     public static IMvvmServiceBuilder AddViewModel<TViewModelService, TViewModelImplementation>(this IMvvmServiceBuilder builder, Action<IViewModelServiceBuilder> configure) where TViewModelService : notnull where TViewModelImplementation : class, TViewModelService
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(configure);
+
+        AddViewModelGeneric<TViewModelService, TViewModelImplementation>(builder, configure);
+
+        return builder;
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    public static IMvvmServiceBuilder AddViewModel(this IMvvmServiceBuilder builder, Type viewModelImplementation, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(viewModelImplementation);
+
+        return AddViewModel(builder, viewModelImplementation, viewModelImplementation, serviceLifetime);
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public static IMvvmServiceBuilder AddViewModel(this IMvvmServiceBuilder builder, Type viewModelService, Type viewModelImplementation, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(viewModelService);
+        ArgumentNullException.ThrowIfNull(viewModelImplementation);
+
+        return AddViewModel(builder, viewModelService, viewModelImplementation, options =>
+        {
+            options.ServiceLifetime = serviceLifetime;
+        });
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public static IMvvmServiceBuilder AddViewModel(this IMvvmServiceBuilder builder, Type viewModelImplementation, Action<IViewModelServiceBuilder> configure)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(configure);
+        ArgumentNullException.ThrowIfNull(viewModelImplementation);
+
+        return AddViewModel(builder, viewModelImplementation, viewModelImplementation, configure);
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public static IMvvmServiceBuilder AddViewModel(this IMvvmServiceBuilder builder, Type viewModelService, Type viewModelImplementation, Action<IViewModelServiceBuilder> configure)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(configure);
+        ArgumentNullException.ThrowIfNull(viewModelService);
+        ArgumentNullException.ThrowIfNull(viewModelImplementation);
+
+        StaticAddViewModelGenericMethodInfo
+            .MakeGenericMethod(viewModelService, viewModelImplementation)
+            .Invoke(obj: null, parameters:
+            [
+                builder,
+                configure,
+            ]);
+
+        return builder;
+    }
+
+    private static MethodInfo? _staticAddViewModelGenericMethodInfo;
+    private static MethodInfo StaticAddViewModelGenericMethodInfo => _staticAddViewModelGenericMethodInfo ??= (typeof(MvvmServiceBuilderExtensions).GetMethod(nameof(AddViewModelGeneric), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(AddViewModelGeneric)}' was not found."));
+    private static IMvvmServiceBuilder AddViewModelGeneric<TViewModelService, TViewModelImplementation>(this IMvvmServiceBuilder builder, Action<IViewModelServiceBuilder> configure) where TViewModelService : notnull where TViewModelImplementation : class, TViewModelService
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(configure);

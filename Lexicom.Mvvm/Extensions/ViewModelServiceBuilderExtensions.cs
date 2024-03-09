@@ -10,14 +10,23 @@ public static class ViewModelServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        Type forwardType = typeof(TForwardingType);
+        builder.Forward(typeof(TForwardingType));
 
-        if (!builder.ImplementationType.IsAssignableTo(forwardType))
+        return builder;
+    }
+    /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="ImplementationTypeDoesNotImplementForwardingTypeException"/>
+    public static IViewModelServiceBuilder Forward(this IViewModelServiceBuilder builder, Type forwardingType)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(forwardingType);
+
+        if (!builder.ImplementationType.IsAssignableTo(forwardingType))
         {
-            throw new ImplementationTypeDoesNotImplementForwardingTypeException(builder.ImplementationType, forwardType);
+            throw new ImplementationTypeDoesNotImplementForwardingTypeException(builder.ImplementationType, forwardingType);
         }
 
-        builder.Services.Add(new ServiceDescriptor(forwardType, sp =>
+        builder.Services.Add(new ServiceDescriptor(forwardingType, sp =>
         {
             return sp.GetRequiredService(builder.ImplementationType);
         }, builder.ServiceLifetime));
