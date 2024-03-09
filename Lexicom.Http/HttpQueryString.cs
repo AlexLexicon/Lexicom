@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Web;
 
 namespace Lexicom.Http;
-public class HttpQueryString : ICollection<HttpQueryParameter>
+public class HttpQueryString : IList<HttpQueryParameter>
 {
     private readonly List<HttpQueryParameter> _parameters;
 
@@ -32,7 +32,9 @@ public class HttpQueryString : ICollection<HttpQueryParameter>
         return _parameters.Contains(parameter);
     }
 
+    /// <exception cref="ArgumentException"/>
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="ArgumentOutOfRangeException"/>
     public void CopyTo(HttpQueryParameter[] array, int arrayIndex)
     {
         ArgumentNullException.ThrowIfNull(array);
@@ -56,6 +58,59 @@ public class HttpQueryString : ICollection<HttpQueryParameter>
         if (!string.IsNullOrWhiteSpace(parameter.Name) && !string.IsNullOrWhiteSpace(parameter.Value))
         {
             _parameters.Add(parameter);
+        }
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    public int IndexOf(HttpQueryParameter parameter)
+    {
+        ArgumentNullException.ThrowIfNull(parameter);
+
+        return _parameters.IndexOf(parameter);
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="ArgumentOutOfRangeException"/>
+    public void Insert(int index, HttpQueryParameter parameter)
+    {
+        ArgumentNullException.ThrowIfNull(parameter);
+
+        if (!string.IsNullOrWhiteSpace(parameter.Name) && !string.IsNullOrWhiteSpace(parameter.Value))
+        {
+            _parameters.Insert(index, parameter);
+        }
+    }
+
+    /// <exception cref="ArgumentOutOfRangeException"/>
+    public void RemoveAt(int index)
+    {
+        _parameters.RemoveAt(index);
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="ArgumentOutOfRangeException"/>
+    public HttpQueryParameter this[int index]
+    {
+        get => _parameters[index];
+        set => Insert(index, value);
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public IReadOnlyList<HttpQueryParameter> this[string name]
+    {
+        get
+        {
+            ArgumentNullException.ThrowIfNull(name);
+
+            var parameters = new List<HttpQueryParameter>();
+            foreach (HttpQueryParameter parameter in _parameters)
+            {
+                if (parameter.Name == name)
+                {
+                    parameters.Add(parameter);
+                }
+            }
+
+            return parameters;
         }
     }
 
