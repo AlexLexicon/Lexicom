@@ -5,6 +5,31 @@ using System.Web;
 namespace Lexicom.Http;
 public class HttpQueryString : IList<HttpQueryParameter>
 {
+    /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="UriFormatException"/>
+    public static HttpQueryString Create(string url)
+    {
+        ArgumentNullException.ThrowIfNull(url);
+
+        var uriBuilder = new UriBuilder(url);
+        NameValueCollection query = HttpUtility.ParseQueryString(uriBuilder.Query);
+        var queryString = new HttpQueryString();
+        for (int index = 0; index < query.Count; index++)
+        {
+            string? key = query.GetKey(index);
+            string[]? values = query.GetValues(index);
+            if (key is not null && values is not null)
+            {
+                foreach (string value in values)
+                {
+                    queryString.Add(new HttpQueryParameter(key, value));
+                }
+            }
+        }
+
+        return queryString;
+    }
+
     private readonly List<HttpQueryParameter> _parameters;
 
     public HttpQueryString()
