@@ -88,6 +88,23 @@ public class HttpQueryString : IList<HttpQueryParameter>
     }
 
     /// <exception cref="ArgumentNullException"/>
+    public IReadOnlyList<HttpQueryParameter> GetParameters(string name)
+    {
+        ArgumentNullException.ThrowIfNull(name);
+
+        var parameters = new List<HttpQueryParameter>();
+        foreach (HttpQueryParameter parameter in _parameters)
+        {
+            if (parameter.Name == name)
+            {
+                parameters.Add(parameter);
+            }
+        }
+
+        return parameters;
+    }
+
+    /// <exception cref="ArgumentNullException"/>
     /// <exception cref="ArgumentOutOfRangeException"/>
     public HttpQueryParameter this[int index]
     {
@@ -95,24 +112,7 @@ public class HttpQueryString : IList<HttpQueryParameter>
         set => Insert(index, value);
     }
     /// <exception cref="ArgumentNullException"/>
-    public IReadOnlyList<HttpQueryParameter> this[string name]
-    {
-        get
-        {
-            ArgumentNullException.ThrowIfNull(name);
-
-            var parameters = new List<HttpQueryParameter>();
-            foreach (HttpQueryParameter parameter in _parameters)
-            {
-                if (parameter.Name == name)
-                {
-                    parameters.Add(parameter);
-                }
-            }
-
-            return parameters;
-        }
-    }
+    public HttpQueryParameter? this[string name] => GetParameters(name).FirstOrDefault();
 
     public override string ToString()
     {
