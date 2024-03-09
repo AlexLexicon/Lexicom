@@ -2,4 +2,5 @@
 public static class Constants
 {
     public const string COMMAND_LOADED = "LoadedCommand";
+    public const string COMMAND_RENDERED = "RenderedCommand";
 }

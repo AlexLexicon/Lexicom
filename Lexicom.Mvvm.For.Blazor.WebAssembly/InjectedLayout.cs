@@ -42,4 +42,11 @@ public class InjectedLayout<TViewModel> : LayoutComponentBase, IMvvmComponent<TV
 
         await base.OnInitializedAsync();
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await _componentBehavior.AfterRenderAsync(firstRender);
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
 }

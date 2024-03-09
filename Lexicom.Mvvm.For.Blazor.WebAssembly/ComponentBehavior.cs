@@ -16,32 +16,17 @@ public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyCha
     }
 
     private PropertyInfo? LoadedCommand { get; set; }
+    private PropertyInfo? RenderedCommand { get; set; }
     private List<PropertyInfo> NotifyCollectionChangedProperties { get; } = [];
 
     public async Task InitializeAsync()
     {
-        if (_mvvmComponent.ViewModel is null)
-        {
-            throw new ViewModelIsNullException(_mvvmComponent);
-        }
+        await ExecuteCommandAsync(Constants.COMMAND_LOADED, "OnInitializedAsync()", LoadedCommand);
+    }
 
-        if (LoadedCommand is not null)
-        {
-            object? loadedCommandPropertyValue = LoadedCommand.GetValue(_mvvmComponent.ViewModel);
-
-            if (loadedCommandPropertyValue is IAsyncRelayCommand loadedAsyncCommand)
-            {
-                await loadedAsyncCommand.ExecuteAsync(null);
-            }
-            else if (loadedCommandPropertyValue is ICommand loadedCommand)
-            {
-                loadedCommand.Execute(null);
-            }
-            else
-            {
-                throw new LoadedCommandNotValidException(_mvvmComponent, _mvvmComponent.ViewModel);
-            }
-        }
+    public async Task AfterRenderAsync(bool firstRender)
+    {
+        await ExecuteCommandAsync(Constants.COMMAND_RENDERED, "OnAfterRenderAsync()", RenderedCommand, firstRender);
     }
 
     public void DisposeViewModel()
@@ -64,6 +49,32 @@ public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyCha
         }
     }
 
+    private async Task ExecuteCommandAsync(string commmandName, string from, PropertyInfo? commandProperty, object? parameter = null)
+    {
+        if (_mvvmComponent.ViewModel is null)
+        {
+            throw new ViewModelIsNullException(_mvvmComponent);
+        }
+
+        if (commandProperty is not null)
+        {
+            object? commandPropertyValue = commandProperty.GetValue(_mvvmComponent.ViewModel);
+
+            if (commandPropertyValue is IAsyncRelayCommand asyncCommand)
+            {
+                await asyncCommand.ExecuteAsync(parameter);
+            }
+            else if (commandPropertyValue is ICommand command)
+            {
+                command.Execute(parameter);
+            }
+            else
+            {
+                throw new CommandNotValidException(commmandName, from, _mvvmComponent, _mvvmComponent.ViewModel);
+            }
+        }
+    }
+
     private void CacheViewModelProperties()
     {
         if (_mvvmComponent.ViewModel is not null)
@@ -77,6 +88,10 @@ public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyCha
                 if (property.Name is Constants.COMMAND_LOADED)
                 {
                     LoadedCommand = property;
+                }
+                else if (property.Name is Constants.COMMAND_RENDERED)
+                {
+                    RenderedCommand = property;
                 }
                 else if (property.PropertyType.IsAssignableTo(typeof(INotifyCollectionChanged)))
                 {
