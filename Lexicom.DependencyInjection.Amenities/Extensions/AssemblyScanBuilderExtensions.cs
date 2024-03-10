@@ -3,7 +3,7 @@ public static class AssemblyScanBuilderExtensions
 {
     private static AssemblyScanOptions AssemblyScanOptions { get; } = new AssemblyScanOptions();
 
-    public static AssemblyScanResult ForAssignableTo<TAssignableTo>(this AssemblyScanBuilder builder, AssemblyScanOptions? options = null)
+    public static AssemblyScanResult ForAssignableTo<TAssignableTo>(this IAssemblyScanBuilder builder, AssemblyScanOptions? options = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
