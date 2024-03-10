@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Reflection;
 
 namespace Lexicom.Mvvm.Amenities;
-public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHostPreBuildService
+public class MediatRServiceRegistrationBeforeServiceProviderBuildService : IBeforeServiceProviderBuildService
 {
     /*
      * [The problem]
@@ -53,7 +53,7 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
      * so in these cases I manually check for this specific generic argument 'TNotification' and register the notification handlers for the correct serivce type
      */
 
-    public void PreServiceProviderBuilt(IServiceCollection services)
+    public void OnBeforeServiceProviderBuild(IServiceCollection services)
     {
         var notificationHandlersForViewModels = new List<ServiceDescriptor>();
         notificationHandlersForViewModels.AddRange(ReRegisterMediatRHandlersForViewModels(services, typeof(INotificationHandler<>)));
@@ -170,7 +170,7 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
     }
 
     private static MethodInfo? _staticSetupNotificationHandlersForViewModelsMethodInfo;
-    private static MethodInfo StaticSetupNotificationHandlersForViewModelsMethodInfo => _staticSetupNotificationHandlersForViewModelsMethodInfo ??= (typeof(MediatRServiceRegistrationPreBuildExecutor).GetMethod(nameof(SetupNotificationHandlersForViewModels), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(SetupNotificationHandlersForViewModels)}' was not found."));
+    private static MethodInfo StaticSetupNotificationHandlersForViewModelsMethodInfo => _staticSetupNotificationHandlersForViewModelsMethodInfo ??= (typeof(MediatRServiceRegistrationBeforeServiceProviderBuildService).GetMethod(nameof(SetupNotificationHandlersForViewModels), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(SetupNotificationHandlersForViewModels)}' was not found."));
     private static void SetupNotificationHandlersForViewModels<TViewModelImplementation, THandler>(IServiceCollection services) where TViewModelImplementation : class, THandler where THandler : class
     {
         services.AddTransient<IMediatRHandlersProvider<THandler>, MediatRHandlersProvider<THandler, TViewModelImplementation>>();
@@ -181,7 +181,7 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
     }
 
     private static MethodInfo? _staticSetupRequestHandlersForViewModelsMethodInfo;
-    private static MethodInfo StaticSetupRequestHandlersForViewModelsMethodInfo => _staticSetupRequestHandlersForViewModelsMethodInfo ??= (typeof(MediatRServiceRegistrationPreBuildExecutor).GetMethod(nameof(SetupRequestHandlersForViewModels), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(SetupRequestHandlersForViewModels)}' was not found."));
+    private static MethodInfo StaticSetupRequestHandlersForViewModelsMethodInfo => _staticSetupRequestHandlersForViewModelsMethodInfo ??= (typeof(MediatRServiceRegistrationBeforeServiceProviderBuildService).GetMethod(nameof(SetupRequestHandlersForViewModels), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(SetupRequestHandlersForViewModels)}' was not found."));
     private static void SetupRequestHandlersForViewModels<TViewModelImplementation, THandler>(IServiceCollection services) where TViewModelImplementation : class, THandler where THandler : class
     {
         services.AddTransient<IMediatRHandlersProvider<THandler>, MediatRHandlersProvider<THandler, TViewModelImplementation>>();
@@ -219,7 +219,7 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
     }
 
     private static MethodInfo? _staticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo;
-    private static MethodInfo StaticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo => _staticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo ??= (typeof(MediatRServiceRegistrationPreBuildExecutor).GetMethod(nameof(SetupHandlersForImplementationsConflictingWithViewModels), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(SetupHandlersForImplementationsConflictingWithViewModels)}' was not found."));
+    private static MethodInfo StaticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo => _staticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo ??= (typeof(MediatRServiceRegistrationBeforeServiceProviderBuildService).GetMethod(nameof(SetupHandlersForImplementationsConflictingWithViewModels), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(SetupHandlersForImplementationsConflictingWithViewModels)}' was not found."));
     private static void SetupHandlersForImplementationsConflictingWithViewModels<THandler, TImplementation>(IServiceCollection services, ServiceLifetime serviceLifetime) where TImplementation : class, THandler
     {
         services.Add(new ServiceDescriptor(typeof(TImplementation), typeof(TImplementation), serviceLifetime));

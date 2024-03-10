@@ -1,26 +1,17 @@
-﻿namespace Lexicom.DependencyInjection.Amenities.Extensions;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Lexicom.DependencyInjection.Amenities.Extensions;
 public static class AssemblyScanBuilderExtensions
 {
-    private static AssemblyScanOptions AssemblyScanOptions { get; } = new AssemblyScanOptions();
-
-    public static AssemblyScanResult ForAssignableTo<TAssignableTo>(this IAssemblyScanBuilder builder, AssemblyScanOptions? options = null)
+    /// <exception cref="ArgumentNullException"/>
+    public static IAssemblyScan<TAssignableTo> For<TAssignableTo>(this IAssemblyScanBuilder builder, AssemblyScanOptions? options = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        options ??= AssemblyScanOptions;
+        var assemblyScan = new AssemblyScan<TAssignableTo>(builder.AssemblyScanMarker, options ?? AssemblyScanOptions.Default);
 
-        Type assignableTo = typeof(TAssignableTo);
+        builder.Services.AddSingleton<AssemblyScan>(assemblyScan);
 
-        var foundTypes = new List<Type>();
-        Type[] types = builder.AssemblyScanMarker.Assembly.GetExportedTypes();
-        foreach (Type type in types)
-        {
-            if (type.IsAssignableTo(assignableTo) && (!type.IsAbstract || options.IncludeAbstract) && (!type.IsInterface || options.IncludeInterfaces))
-            {
-                foundTypes.Add(type);
-            }
-        }
-
-        return new AssemblyScanResult(foundTypes);
+        return assemblyScan;
     }
 }

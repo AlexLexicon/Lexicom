@@ -1,4 +1,5 @@
-﻿using Lexicom.DependencyInjection.Hosting;
+﻿using FluentValidation;
+using Lexicom.DependencyInjection.Hosting;
 using Lexicom.Validation.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -6,10 +7,18 @@ using System.Diagnostics;
 using System.Reflection;
 
 namespace Lexicom.Validation.For.Blazor.WebAssembly;
-public class BlazorWebAssemblyValidateOnStartPostBuildService : IDependencyInjectionHostPostBuildService
+/*
+ * the blazor host does not support ValidateOnStart() for options validator
+ * so in order to implement that we have to find a round about way of attaching
+ * some execution as soon as the blazor app 'Build()' is called
+ * to do this I am providing a custom 'IServiceProviderFactory' to the host
+ * which really just wraps the default one but we can use the 'CreateServiceProvider' method
+ * to do the validation and other startup processes we might add in the future using the 'IDependencyInjectionHostPostBuildService' interface
+ */
+public class BlazorWebAssemblyValidateOnStartAfterServiceProviderBuildService : IAfterServiceProviderBuildService
 {
     private static MethodInfo? _staticValidateOptionsMethodInfo;
-    private static MethodInfo StaticValidateOptionsMethodInfo => _staticValidateOptionsMethodInfo ??= (typeof(BlazorWebAssemblyValidateOnStartPostBuildService).GetMethod(nameof(ValidateOptions), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(ValidateOptions)}' was not found."));
+    private static MethodInfo StaticValidateOptionsMethodInfo => _staticValidateOptionsMethodInfo ??= (typeof(BlazorWebAssemblyValidateOnStartAfterServiceProviderBuildService).GetMethod(nameof(ValidateOptions), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(ValidateOptions)}' was not found."));
     private static void ValidateOptions<TOptions>(IServiceProvider provider, string name) where TOptions : class
     {
         var validateOptions = provider.GetService<IValidateOptions<TOptions>>();
@@ -24,7 +33,7 @@ public class BlazorWebAssemblyValidateOnStartPostBuildService : IDependencyInjec
         }
     }
 
-    public void PostServiceProviderBuilt(IServiceProvider provider)
+    public void OnAfterServiceProviderBuild(IServiceProvider provider)
     {
         IEnumerable<ValidateOptionsStartRegistration> validateOptionsStartRegistrations = provider.GetServices<ValidateOptionsStartRegistration>();
 

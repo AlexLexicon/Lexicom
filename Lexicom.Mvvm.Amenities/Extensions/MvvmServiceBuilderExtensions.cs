@@ -17,7 +17,7 @@ public static class MvvmServiceBuilderExtensions
         //you have to provide the configure options in order to specify at least one assembly to scan for mediatR objects
         builder.Services.AddMediatR(mediatRServiceConfiguration);
 
-        builder.Services.AddSingleton<IDependencyInjectionHostPreBuildService, MediatRServiceRegistrationPreBuildExecutor>();
+        builder.Services.AddSingleton<IBeforeServiceProviderBuildService, MediatRServiceRegistrationBeforeServiceProviderBuildService>();
 
         return builder;
     }

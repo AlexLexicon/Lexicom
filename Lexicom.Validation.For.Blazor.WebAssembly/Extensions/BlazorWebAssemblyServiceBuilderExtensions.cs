@@ -11,7 +11,7 @@ public static class BlazorWebAssemblyServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebAssemblyHostBuilder.Services.AddSingleton<IDependencyInjectionHostPostBuildService, BlazorWebAssemblyValidateOnStartPostBuildService>();
+        builder.WebAssemblyHostBuilder.Services.AddSingleton<IAfterServiceProviderBuildService, BlazorWebAssemblyValidateOnStartAfterServiceProviderBuildService>();
 
         builder.WebAssemblyHostBuilder.Services.AddLexicomValidation(configure);
 

@@ -4,14 +4,9 @@ using System.Diagnostics;
 
 namespace Lexicom.DependencyInjection.Hosting;
 /*
- * for blazor
- * 
- * the blazor host does not support ValidateOnStart() for options validator
- * so in order to implement that we have to find a round about way of attaching
- * some execution as soon as the blazor app 'Build()' is called
- * to do this I am providing a custom 'IServiceProviderFactory' to the host
- * which really just wraps the default one but we can use the 'CreateServiceProvider' method
- * to do the validation and other startup processes we might add in the future using the 'IDependencyInjectionHostPostBuildService' interface
+ * we sometimes want to be able to have some processing happen before or just after the service provider is created.
+ * to do this you can register either a 'IBeforeServiceProviderBuildService' or a 'IAfterServiceProviderBuildService' service
+ * and this provider factory will make sure they are called before and after respectively
  */
 public class LexicomServiceProviderFactory : IServiceProviderFactory<LexicomServiceProviderFactory.LexicomServiceProviderFactoryContainerBuilder>
 {
@@ -36,32 +31,33 @@ public class LexicomServiceProviderFactory : IServiceProviderFactory<LexicomServ
             throw new UnreachableException($"The service collection was null but that should never happen since '{nameof(CreateBuilder)}' will always get called first");
         }
 
-        List<ServiceDescriptor> preBuildExecutors = Services
-            .Where(sd => sd.ServiceType == typeof(IDependencyInjectionHostPreBuildService))
+        List<ServiceDescriptor> beforeServiceProviderBuildServiceDescriptors = Services
+            .Where(sd => sd.ServiceType == typeof(IBeforeServiceProviderBuildService))
             .ToList();
 
-        foreach (ServiceDescriptor preBuildExecutor in preBuildExecutors)
+        foreach (ServiceDescriptor beforeServiceProviderBuildServiceDescriptor in beforeServiceProviderBuildServiceDescriptors)
         {
-            if (!TryExecute(preBuildExecutor.ImplementationInstance, Services))
+            if (!InvokeWhenInstanceIsBeforeServiceProviderBuildService(beforeServiceProviderBuildServiceDescriptor.ImplementationInstance, Services))
             {
-                if (preBuildExecutor.ImplementationType is not null)
+                Type? beforeServiceProviderBuildServiceType = beforeServiceProviderBuildServiceDescriptor.ImplementationType;
+                if (beforeServiceProviderBuildServiceType is not null)
                 {
-                    object? implementationInstance;
+                    object? beforeServiceProviderBuildServiceInstance;
                     try
                     {
-                        implementationInstance = Activator.CreateInstance(preBuildExecutor.ImplementationType);
+                        beforeServiceProviderBuildServiceInstance = Activator.CreateInstance(beforeServiceProviderBuildServiceType);
                     }
                     catch (MissingMethodException e)
                     {
-                        throw new PreBuildExecutorMissingParameterlessConstructorException(preBuildExecutor.ImplementationType, e);
+                        throw new PreBuildExecutorMissingParameterlessConstructorException(beforeServiceProviderBuildServiceType, e);
                     }
 
-                    if (!TryExecute(implementationInstance, Services))
+                    if (!InvokeWhenInstanceIsBeforeServiceProviderBuildService(beforeServiceProviderBuildServiceInstance, Services))
                     {
-                        throw new UnreachableException($"The implementation instance of the type '{preBuildExecutor.ImplementationType.FullName}' did not implement the interface '{nameof(IDependencyInjectionHostPreBuildService)}' but that shouldn't be possible since we queried only for service descriptors where that is true.");
+                        throw new UnreachableException($"The implementation instance of the type '{beforeServiceProviderBuildServiceType.FullName}' did not implement the interface '{nameof(IBeforeServiceProviderBuildService)}' but that shouldn't be possible since we queried only for service descriptors where that is true.");
                     }
                 }
-                else if (preBuildExecutor.ImplementationFactory is not null)
+                else if (beforeServiceProviderBuildServiceDescriptor.ImplementationFactory is not null)
                 {
                     throw new PreBuildExecutorImplementationFactoryException();
                 }
@@ -70,20 +66,20 @@ public class LexicomServiceProviderFactory : IServiceProviderFactory<LexicomServ
 
         ServiceProvider provider = Services.BuildServiceProvider();
 
-        IEnumerable<IDependencyInjectionHostPostBuildService> postBuildServices = provider.GetServices<IDependencyInjectionHostPostBuildService>();
+        IEnumerable<IAfterServiceProviderBuildService> afterServiceProviderBuildServices = provider.GetServices<IAfterServiceProviderBuildService>();
 
-        foreach (IDependencyInjectionHostPostBuildService postBuildService in postBuildServices)
+        foreach (IAfterServiceProviderBuildService afterServiceProviderBuildService in afterServiceProviderBuildServices)
         {
-            postBuildService.PostServiceProviderBuilt(provider);
+            afterServiceProviderBuildService.OnAfterServiceProviderBuild(provider);
         }
 
         return provider;
 
-        bool TryExecute(object? implementationInstance, IServiceCollection services)
+        bool InvokeWhenInstanceIsBeforeServiceProviderBuildService(object? possibleInstance, IServiceCollection services)
         {
-            if (implementationInstance is not null and IDependencyInjectionHostPreBuildService implementationExecutor)
+            if (possibleInstance is not null and IBeforeServiceProviderBuildService beforeServiceProviderBuildService)
             {
-                implementationExecutor.PreServiceProviderBuilt(services);
+                beforeServiceProviderBuildService.OnBeforeServiceProviderBuild(services);
 
                 return true;
             }

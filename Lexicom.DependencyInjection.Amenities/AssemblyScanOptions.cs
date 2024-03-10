@@ -1,6 +1,8 @@
 ﻿namespace Lexicom.DependencyInjection.Amenities;
 public class AssemblyScanOptions
 {
-    public bool IncludeAbstract { get; set; }
-    public bool IncludeInterfaces { get; set; }
+    public static readonly AssemblyScanOptions Default = new AssemblyScanOptions();
+
+    public bool AllowNonExportedTypes { get; set; }
+    public AssignableToOptions AssignableToOptions { get; set; } = AssignableToOptions.Default;
 }
