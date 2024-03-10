@@ -3,5 +3,5 @@
 //have their run function called immediately after the service provider is built
 public interface IDependencyInjectionHostPostBuildService
 {
-    void Run(IServiceProvider provider);
+    void PostServiceProviderBuilt(IServiceProvider provider);
 }

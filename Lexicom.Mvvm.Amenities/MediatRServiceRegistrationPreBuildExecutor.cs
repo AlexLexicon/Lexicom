@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Reflection;
 
 namespace Lexicom.Mvvm.Amenities;
-public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHostPreBuildExecutor
+public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHostPreBuildService
 {
     /*
      * [The problem]
@@ -53,7 +53,7 @@ public class MediatRServiceRegistrationPreBuildExecutor : IDependencyInjectionHo
      * so in these cases I manually check for this specific generic argument 'TNotification' and register the notification handlers for the correct serivce type
      */
 
-    public void Execute(IServiceCollection services)
+    public void PreServiceProviderBuilt(IServiceCollection services)
     {
         var notificationHandlersForViewModels = new List<ServiceDescriptor>();
         notificationHandlersForViewModels.AddRange(ReRegisterMediatRHandlersForViewModels(services, typeof(INotificationHandler<>)));

@@ -24,7 +24,7 @@ public class BlazorWebAssemblyValidateOnStartPostBuildService : IDependencyInjec
         }
     }
 
-    public void Run(IServiceProvider provider)
+    public void PostServiceProviderBuilt(IServiceProvider provider)
     {
         IEnumerable<ValidateOptionsStartRegistration> validateOptionsStartRegistrations = provider.GetServices<ValidateOptionsStartRegistration>();
 

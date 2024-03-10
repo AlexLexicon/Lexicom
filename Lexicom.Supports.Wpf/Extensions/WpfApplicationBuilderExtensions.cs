@@ -5,19 +5,22 @@ namespace Lexicom.Supports.Wpf.Extensions;
 public static class WpfApplicationBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static WpfApplicationBuilder Lexicom(this WpfApplicationBuilder builder, Action<IWpfServiceBuilder>? configure)
+    public static WpfApplicationBuilder Lexicom(this WpfApplicationBuilder builder, Action<IWpfServiceBuilder>? configure, bool configureContainerForLexicomHostingFeatures = true)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
         configure?.Invoke(new WpfServiceBuilder(builder));
 
-        builder.AddLexicomHosting();
+        if (configureContainerForLexicomHostingFeatures)
+        {
+            builder.ConfigureContainerForLexicomHostingFeatures();
+        }
 
         return builder;
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static WpfApplicationBuilder AddLexicomHosting(this WpfApplicationBuilder builder)
+    public static WpfApplicationBuilder ConfigureContainerForLexicomHostingFeatures(this WpfApplicationBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 

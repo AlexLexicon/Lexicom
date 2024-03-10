@@ -37,7 +37,7 @@ public class LexicomServiceProviderFactory : IServiceProviderFactory<LexicomServ
         }
 
         List<ServiceDescriptor> preBuildExecutors = Services
-            .Where(sd => sd.ServiceType == typeof(IDependencyInjectionHostPreBuildExecutor))
+            .Where(sd => sd.ServiceType == typeof(IDependencyInjectionHostPreBuildService))
             .ToList();
 
         foreach (ServiceDescriptor preBuildExecutor in preBuildExecutors)
@@ -58,7 +58,7 @@ public class LexicomServiceProviderFactory : IServiceProviderFactory<LexicomServ
 
                     if (!TryExecute(implementationInstance, Services))
                     {
-                        throw new UnreachableException($"The implementation instance of the type '{preBuildExecutor.ImplementationType.FullName}' did not implement the interface '{nameof(IDependencyInjectionHostPreBuildExecutor)}' but that shouldn't be possible since we queried only for service descriptors where that is true.");
+                        throw new UnreachableException($"The implementation instance of the type '{preBuildExecutor.ImplementationType.FullName}' did not implement the interface '{nameof(IDependencyInjectionHostPreBuildService)}' but that shouldn't be possible since we queried only for service descriptors where that is true.");
                     }
                 }
                 else if (preBuildExecutor.ImplementationFactory is not null)
@@ -74,16 +74,16 @@ public class LexicomServiceProviderFactory : IServiceProviderFactory<LexicomServ
 
         foreach (IDependencyInjectionHostPostBuildService postBuildService in postBuildServices)
         {
-            postBuildService.Run(provider);
+            postBuildService.PostServiceProviderBuilt(provider);
         }
 
         return provider;
 
         bool TryExecute(object? implementationInstance, IServiceCollection services)
         {
-            if (implementationInstance is not null and IDependencyInjectionHostPreBuildExecutor implementationExecutor)
+            if (implementationInstance is not null and IDependencyInjectionHostPreBuildService implementationExecutor)
             {
-                implementationExecutor.Execute(services);
+                implementationExecutor.PreServiceProviderBuilt(services);
 
                 return true;
             }

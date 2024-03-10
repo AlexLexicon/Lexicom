@@ -6,19 +6,22 @@ namespace Lexicom.AspNetCore.Controllers.Extensions;
 public static class ConsoleApplicationBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static ConsoleApplicationBuilder Lexicom(this ConsoleApplicationBuilder builder, Action<IConsoleAppServiceBuilder>? configure)
+    public static ConsoleApplicationBuilder Lexicom(this ConsoleApplicationBuilder builder, Action<IConsoleAppServiceBuilder>? configure, bool configureContainerForLexicomHostingFeatures = true)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
         configure?.Invoke(new ConsoleAppServiceBuilder(builder));
 
-        builder.AddLexicomHosting();
+        if (configureContainerForLexicomHostingFeatures)
+        {
+            builder.ConfigureContainerForLexicomHostingFeatures();
+        }
 
         return builder;
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static ConsoleApplicationBuilder AddLexicomHosting(this ConsoleApplicationBuilder builder)
+    public static ConsoleApplicationBuilder ConfigureContainerForLexicomHostingFeatures(this ConsoleApplicationBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 

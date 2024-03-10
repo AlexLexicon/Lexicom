@@ -5,22 +5,22 @@ namespace Lexicom.Supports.Blazor.WebAssembly.Extensions;
 public static class WebAssemblyHostBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static WebAssemblyHostBuilder Lexicom(this WebAssemblyHostBuilder builder, Action<IBlazorWebAssemblyServiceBuilder>? configure, bool useLexicomContainerForHosting = true)
+    public static WebAssemblyHostBuilder Lexicom(this WebAssemblyHostBuilder builder, Action<IBlazorWebAssemblyServiceBuilder>? configure, bool configureContainerForLexicomHostingFeatures = true)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
         configure?.Invoke(new BlazorWebAssemblyServiceBuilder(builder));
 
-        if (useLexicomContainerForHosting)
+        if (configureContainerForLexicomHostingFeatures)
         {
-            builder.AddLexicomContainerForHosting();
+            builder.ConfigureContainerForLexicomHostingFeatures();
         }
 
         return builder;
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static WebAssemblyHostBuilder AddLexicomContainerForHosting(this WebAssemblyHostBuilder builder)
+    public static WebAssemblyHostBuilder ConfigureContainerForLexicomHostingFeatures(this WebAssemblyHostBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
