@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-
-namespace Lexicom.DependencyInjection.Amenities.Extensions;
+﻿namespace Lexicom.DependencyInjection.Amenities.Extensions;
 public static class TypeExtensions
 {
     /// <exception cref="ArgumentNullException"/>

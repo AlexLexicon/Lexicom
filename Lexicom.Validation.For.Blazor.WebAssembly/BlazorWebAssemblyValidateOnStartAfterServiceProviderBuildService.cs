@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Lexicom.DependencyInjection.Hosting;
+﻿using Lexicom.DependencyInjection.Hosting;
 using Lexicom.Validation.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
