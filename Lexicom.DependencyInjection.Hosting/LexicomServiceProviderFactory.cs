@@ -1,4 +1,5 @@
 ﻿using Lexicom.DependencyInjection.Hosting.Exceptions;
+using Lexicom.DependencyInjection.Hosting.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 
@@ -22,8 +23,10 @@ public class LexicomServiceProviderFactory : IServiceProviderFactory<LexicomServ
         return new LexicomServiceProviderFactoryContainerBuilder();
     }
 
-    /// <exception cref="PreBuildExecutorMissingParameterlessConstructorException"/>
-    /// <exception cref="PreBuildExecutorImplementationFactoryException"/>
+    /// <exception cref="BeforeServiceProviderBuildServiceMissingParameterlessConstructorException"/>
+    /// <exception cref="BeforeServiceProviderBuildServiceActivationNullException"/>
+    /// <exception cref="BeforeServiceProviderBuildServiceCastException"/>
+    /// <exception cref="BeforeServiceProviderBuildServiceImplementationFactoryException"/>
     public IServiceProvider CreateServiceProvider(LexicomServiceProviderFactoryContainerBuilder containerBuilder)
     {
         if (Services is null)
@@ -31,37 +34,10 @@ public class LexicomServiceProviderFactory : IServiceProviderFactory<LexicomServ
             throw new UnreachableException($"The service collection was null but that should never happen since '{nameof(CreateBuilder)}' will always get called first");
         }
 
-        List<ServiceDescriptor> beforeServiceProviderBuildServiceDescriptors = Services
-            .Where(sd => sd.ServiceType == typeof(IBeforeServiceProviderBuildService))
-            .ToList();
-
-        foreach (ServiceDescriptor beforeServiceProviderBuildServiceDescriptor in beforeServiceProviderBuildServiceDescriptors)
+        IReadOnlyList<IBeforeServiceProviderBuildService> beforeServiceProviderBuildServices = Services.ResolveBeforeServiceProviderBuildServices();
+        foreach (var beforeServiceProviderBuildService in beforeServiceProviderBuildServices)
         {
-            if (!InvokeWhenInstanceIsBeforeServiceProviderBuildService(beforeServiceProviderBuildServiceDescriptor.ImplementationInstance, Services))
-            {
-                Type? beforeServiceProviderBuildServiceType = beforeServiceProviderBuildServiceDescriptor.ImplementationType;
-                if (beforeServiceProviderBuildServiceType is not null)
-                {
-                    object? beforeServiceProviderBuildServiceInstance;
-                    try
-                    {
-                        beforeServiceProviderBuildServiceInstance = Activator.CreateInstance(beforeServiceProviderBuildServiceType);
-                    }
-                    catch (MissingMethodException e)
-                    {
-                        throw new PreBuildExecutorMissingParameterlessConstructorException(beforeServiceProviderBuildServiceType, e);
-                    }
-
-                    if (!InvokeWhenInstanceIsBeforeServiceProviderBuildService(beforeServiceProviderBuildServiceInstance, Services))
-                    {
-                        throw new UnreachableException($"The implementation instance of the type '{beforeServiceProviderBuildServiceType.FullName}' did not implement the interface '{nameof(IBeforeServiceProviderBuildService)}' but that shouldn't be possible since we queried only for service descriptors where that is true.");
-                    }
-                }
-                else if (beforeServiceProviderBuildServiceDescriptor.ImplementationFactory is not null)
-                {
-                    throw new PreBuildExecutorImplementationFactoryException();
-                }
-            }
+            beforeServiceProviderBuildService.OnBeforeServiceProviderBuild(Services);
         }
 
         ServiceProvider provider = Services.BuildServiceProvider();
@@ -74,18 +50,6 @@ public class LexicomServiceProviderFactory : IServiceProviderFactory<LexicomServ
         }
 
         return provider;
-
-        bool InvokeWhenInstanceIsBeforeServiceProviderBuildService(object? possibleInstance, IServiceCollection services)
-        {
-            if (possibleInstance is not null and IBeforeServiceProviderBuildService beforeServiceProviderBuildService)
-            {
-                beforeServiceProviderBuildService.OnBeforeServiceProviderBuild(services);
-
-                return true;
-            }
-
-            return false;
-        }
     }
 
     public class LexicomServiceProviderFactoryContainerBuilder
