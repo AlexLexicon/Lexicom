@@ -1,5 +1,4 @@
-﻿using Lexicom.DependencyInjection.Amenities.Exceptions;
-using Lexicom.DependencyInjection.Amenities.Extensions;
+﻿using Lexicom.DependencyInjection.Amenities.Extensions;
 
 namespace Lexicom.DependencyInjection.Amenities;
 public interface IAssemblyScan
@@ -32,7 +31,7 @@ public class AssemblyScan<TAssignableTo> : AssemblyScan, IAssemblyScan<TAssignab
 
     /// <exception cref="ArgumentNullException"/>
     public AssemblyScan(
-        Type assemblyScanMarkerType, 
+        Type assemblyScanMarkerType,
         AssemblyScanOptions assemblyScanOptions)
     {
         ArgumentNullException.ThrowIfNull(assemblyScanMarkerType);
@@ -47,7 +46,7 @@ public class AssemblyScan<TAssignableTo> : AssemblyScan, IAssemblyScan<TAssignab
     /// <exception cref="AssemblyScanAlreadyExecutedException"/>
     public override IReadOnlyList<Type> GetTypes()
     {
-        Type assignableToType =typeof(TAssignableTo);
+        Type assignableToType = typeof(TAssignableTo);
 
         Type[] types;
         if (_assemblyScanOptions.AllowNonExportedTypes)
@@ -58,7 +57,7 @@ public class AssemblyScan<TAssignableTo> : AssemblyScan, IAssemblyScan<TAssignab
         {
             types = _assemblyScanMarkerType.Assembly.GetExportedTypes();
         }
-        
+
         var registeredTypes = new List<Type>();
         foreach (Type type in types)
         {
