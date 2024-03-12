@@ -1,4 +1,4 @@
-﻿using Lexicom.Extensions.Reflection;
+﻿using Lexicom.DependencyInjection.Amenities.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.ConsoleApp.Tui.Extensions;
@@ -10,7 +10,10 @@ public static class ServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        List<Type> operationTypes = AssemblyScanner.GetConcreteTypesImplementingInterface<TAssemblyScanMarker, ITuiOperation>();
+        IReadOnlyList<Type> operationTypes = services
+            .Scan<TAssemblyScanMarker>()
+            .For<ITuiOperation>()
+            .GetTypes();
 
         services.AddSingleton<ITuiConsoleApp, TuiConsoleApp>();
 

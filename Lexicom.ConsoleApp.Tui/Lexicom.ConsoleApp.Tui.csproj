@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lexicom.ConsoleApp.DependencyInjection\Lexicom.ConsoleApp.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Lexicom.DependencyInjection.Amenities\Lexicom.DependencyInjection.Amenities.csproj" />
     <ProjectReference Include="..\Lexicom.Extensions.Reflection\Lexicom.Extensions.Reflection.csproj" />
     <ProjectReference Include="..\Lexicom.Supports.ConsoleApp\Lexicom.Supports.ConsoleApp.csproj" />
   </ItemGroup>

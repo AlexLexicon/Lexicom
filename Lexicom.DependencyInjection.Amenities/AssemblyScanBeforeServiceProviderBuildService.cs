@@ -14,7 +14,7 @@ public class AssemblyScanBeforeServiceProviderBuildService : IBeforeServiceProvi
         {
             if (serviceDescriptor.ImplementationInstance is not null and AssemblyScan assemblyScan)
             {
-                assemblyScan.Execute();
+                assemblyScan.GetTypes();
             }
         }
     }

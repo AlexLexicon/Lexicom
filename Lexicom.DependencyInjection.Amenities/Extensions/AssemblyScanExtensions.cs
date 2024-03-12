@@ -1,6 +1,8 @@
 ﻿namespace Lexicom.DependencyInjection.Amenities.Extensions;
 public static class AssemblyScanExtensions
 {
+
+
     /// <exception cref="ArgumentNullException"/>
     public static IAssemblyScan Register(this IAssemblyScan assemblyScan, Action<Type> registerDelegate)
     {
