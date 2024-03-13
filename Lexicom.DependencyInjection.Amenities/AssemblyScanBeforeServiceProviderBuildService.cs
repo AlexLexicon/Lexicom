@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Lexicom.DependencyInjection.Amenities;
 public class AssemblyScanBeforeServiceProviderBuildService : IBeforeServiceProviderBuildService
 {
-    public int Priority => 1;
+    public ServiceProviderBuildPriority Priority => ServiceProviderBuildPriority.First;
 
     public void OnBeforeServiceProviderBuild(IServiceCollection services)
     {

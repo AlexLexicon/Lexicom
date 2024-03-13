@@ -6,6 +6,6 @@ namespace Lexicom.DependencyInjection.Hosting;
 //must have a parameterless constructor
 public interface IBeforeServiceProviderBuildService
 {
-    int Priority { get; }
+    ServiceProviderBuildPriority Priority { get; }
     void OnBeforeServiceProviderBuild(IServiceCollection services);
 }

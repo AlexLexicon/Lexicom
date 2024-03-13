@@ -42,8 +42,7 @@ public class LexicomServiceProviderFactory : IServiceProviderFactory<LexicomServ
 
         ServiceProvider provider = Services.BuildServiceProvider();
 
-        IEnumerable<IAfterServiceProviderBuildService> afterServiceProviderBuildServices = provider.GetServices<IAfterServiceProviderBuildService>();
-
+        IReadOnlyList<IAfterServiceProviderBuildService> afterServiceProviderBuildServices = provider.ResolveAfterServiceProviderBuildServices();
         foreach (IAfterServiceProviderBuildService afterServiceProviderBuildService in afterServiceProviderBuildServices)
         {
             afterServiceProviderBuildService.OnAfterServiceProviderBuild(provider);

@@ -3,5 +3,6 @@
 //have their run function called immediately after the service provider is built
 public interface IAfterServiceProviderBuildService
 {
+    ServiceProviderBuildPriority Priority { get; }
     void OnAfterServiceProviderBuild(IServiceProvider provider);
 }
