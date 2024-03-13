@@ -63,6 +63,8 @@ public static class ServiceCollectionExtensions
             }
         }
 
-        return beforeServiceProviderBuildServices;
+        return beforeServiceProviderBuildServices
+            .OrderBy(bspbs => bspbs.Priority)
+            .ToList();
     }
 }

@@ -10,6 +10,7 @@ using System.Reflection;
 namespace Lexicom.Mvvm.Amenities;
 public class MediatRServiceRegistrationBeforeServiceProviderBuildService : IBeforeServiceProviderBuildService
 {
+    public int Priority => 0;
     /*
      * [The problem]
      * the default mediatR service registration will create a new instance of a service that is implementing a handler based on the registred lifetime for handlers given to mediatR.
