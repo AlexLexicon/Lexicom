@@ -24,4 +24,15 @@ public static class AssemblyScanExtensions
 
         return assemblyScan;
     }
+
+    /// <exception cref="ArgumentNullException"/>
+    public static IAssemblyScan Register<TWhen>(this IAssemblyScan assemblyScan, Action<Type> registerDelegate)
+    {
+        ArgumentNullException.ThrowIfNull(assemblyScan);
+        ArgumentNullException.ThrowIfNull(registerDelegate);
+
+        Register(assemblyScan, t => t.When<TWhen>(registerDelegate));
+
+        return assemblyScan;
+    }
 }
