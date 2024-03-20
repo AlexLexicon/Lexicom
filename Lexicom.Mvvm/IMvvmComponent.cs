@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
+namespace Lexicom.Mvvm;
 public interface IMvvmComponent<TViewModel> where TViewModel : INotifyPropertyChanged
 {
     TViewModel ViewModel { get; }

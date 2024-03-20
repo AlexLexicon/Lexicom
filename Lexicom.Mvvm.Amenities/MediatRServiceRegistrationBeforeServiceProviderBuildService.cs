@@ -56,10 +56,12 @@ public class MediatRServiceRegistrationBeforeServiceProviderBuildService : IBefo
 
     public void OnBeforeServiceProviderBuild(IServiceCollection services)
     {
-        var notificationHandlersForViewModels = new List<ServiceDescriptor>();
-        notificationHandlersForViewModels.AddRange(ReRegisterMediatRHandlersForViewModels(services, typeof(INotificationHandler<>)));
+        List<ServiceDescriptor> ReRegisteredNotificationHandlers = ReRegisterMediatRHandlersForViewModels(services, typeof(INotificationHandler<>));
         ReRegisterMediatRHandlersForViewModels(services, typeof(IRequestHandler<>));
         ReRegisterMediatRHandlersForViewModels(services, typeof(IRequestHandler<,>));
+
+        var notificationHandlersForViewModels = new List<ServiceDescriptor>();
+        notificationHandlersForViewModels.AddRange(ReRegisteredNotificationHandlers);
 
         foreach (ServiceDescriptor notificationHandlerDescription in notificationHandlersForViewModels)
         {
