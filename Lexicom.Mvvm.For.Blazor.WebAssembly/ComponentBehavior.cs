@@ -136,11 +136,11 @@ public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyCha
             SubscribeToCollectionChanged();
         }
 
-        await _mvvmComponent.InvokeStateChange();
+        await _mvvmComponent.InvokeStateChangeAsync();
     }
 
     private async void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        await _mvvmComponent.InvokeStateChange();
+        await _mvvmComponent.InvokeStateChangeAsync();
     }
 }

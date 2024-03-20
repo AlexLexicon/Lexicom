@@ -33,7 +33,7 @@ public abstract class ParameterLayout<TViewModel> : LayoutComponentBase, IMvvmCo
         _componentBehavior.DisposeViewModel();
     }
 
-    public async Task InvokeStateChange()
+    public async Task InvokeStateChangeAsync()
     {
         await InvokeAsync(StateHasChanged);
     }

@@ -26,12 +26,12 @@ public class InjectedLayout<TViewModel> : LayoutComponentBase, IMvvmComponent<TV
         }
     }
 
-    public void Dispose()
+    public virtual void Dispose()
     {
         _componentBehavior.DisposeViewModel();
     }
 
-    public async Task InvokeStateChange()
+    public virtual async Task InvokeStateChangeAsync()
     {
         await InvokeAsync(StateHasChanged);
     }
