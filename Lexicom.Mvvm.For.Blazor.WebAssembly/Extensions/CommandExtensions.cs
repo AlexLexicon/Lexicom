@@ -16,11 +16,11 @@ public static class CommandExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static EventCallback Bind(this ICommand command)
+    public static EventCallback Bind(this ICommand command, object? arg = null)
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        var commandHandleEvent = new CommandHandleEvent(command);
+        var commandHandleEvent = new CommandHandleEvent(command, arg);
 
         return new EventCallback(commandHandleEvent, @delegate: null);
     }
