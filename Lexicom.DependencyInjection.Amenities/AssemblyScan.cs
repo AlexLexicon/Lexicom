@@ -1,15 +1,23 @@
 ﻿using Lexicom.DependencyInjection.Amenities.Extensions;
 
 namespace Lexicom.DependencyInjection.Amenities;
+public interface IAssemblyScanInital : IAssemblyScan
+{
+    IAssemblyScanPartial GetPartial();
+}
+public interface IAssemblyScanPartial : IAssemblyScan
+{
+    IAssemblyScanFinal GetFinal();
+}
+public interface IAssemblyScanFinal : IAssemblyScan
+{
+}
 public interface IAssemblyScan
 {
     List<Action<Type>> RegisterDelegates { get; }
     List<Func<Type, bool>> TryRegisterDelegates { get; }
 
     IReadOnlyList<Type> GetTypes();
-}
-public interface IAssemblyScan<TAssignableTo> : IAssemblyScan
-{
 }
 public abstract class AssemblyScan : IAssemblyScan
 {
@@ -24,7 +32,7 @@ public abstract class AssemblyScan : IAssemblyScan
 
     public abstract IReadOnlyList<Type> GetTypes();
 }
-public class AssemblyScan<TAssignableTo> : AssemblyScan, IAssemblyScan<TAssignableTo>
+public class AssemblyScan<TAssignableTo> : AssemblyScan, IAssemblyScanInital, IAssemblyScanPartial, IAssemblyScanFinal
 {
     private readonly Type _assemblyScanMarkerType;
     private readonly AssemblyScanOptions _assemblyScanOptions;
@@ -43,7 +51,9 @@ public class AssemblyScan<TAssignableTo> : AssemblyScan, IAssemblyScan<TAssignab
 
     private bool HasRegistered { get; set; }
 
-    /// <exception cref="AssemblyScanAlreadyExecutedException"/>
+    public IAssemblyScanPartial GetPartial() => this;
+    public IAssemblyScanFinal GetFinal() => this;
+
     public override IReadOnlyList<Type> GetTypes()
     {
         Type assignableToType = typeof(TAssignableTo);

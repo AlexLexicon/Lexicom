@@ -4,7 +4,7 @@ namespace Lexicom.DependencyInjection.Amenities.Extensions;
 public static class AssemblyScanBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IAssemblyScan<TAssignableTo> For<TAssignableTo>(this IAssemblyScanBuilder builder, AssemblyScanOptions? options = null)
+    public static IAssemblyScanInital For<TAssignableTo>(this IAssemblyScanBuilder builder, AssemblyScanOptions? options = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
