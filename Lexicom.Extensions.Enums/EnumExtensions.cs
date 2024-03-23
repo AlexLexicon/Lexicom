@@ -35,6 +35,14 @@ public static class EnumExtensions
     {
         ArgumentNullException.ThrowIfNull(value);
 
-        return new NotImplementedException($"An operation using the enum '{value.GetType().FullName}' did not implement the value '{value}'.");
+        return new NotImplementedException($"This operation using the enum '{value.GetType().FullName}' did not implement the value '{value}'.");
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    public static NotSupportedException ToNotSupportedException(this Enum value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        return new NotSupportedException($"This operation using the enum '{value.GetType().FullName}' does not support the value '{value}'.");
     }
 }
