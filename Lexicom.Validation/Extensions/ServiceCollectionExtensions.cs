@@ -20,8 +20,8 @@ public static class ServiceCollectionExtensions
 
         var ValidationBuilder = new ValidationServiceBuilder(services, languageManager);
 
-        ValidationBuilder.Services.TryAddScoped(typeof(IRuleSetValidator<,>), typeof(RuleSetValidator<,>));
-        ValidationBuilder.Services.TryAddScoped(typeof(IRuleSetValidator<,,,>), typeof(RuleSetValidator<,,,>));
+        ValidationBuilder.Services.TryAddTransient(typeof(IRuleSetValidator<,>), typeof(RuleSetValidator<,>));
+        ValidationBuilder.Services.TryAddTransient(typeof(IRuleSetValidator<,,,>), typeof(RuleSetValidator<,,,>));
 
         configure?.Invoke(ValidationBuilder);
 
