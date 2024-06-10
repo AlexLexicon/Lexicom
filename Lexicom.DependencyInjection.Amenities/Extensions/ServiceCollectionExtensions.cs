@@ -5,7 +5,7 @@ namespace Lexicom.DependencyInjection.Amenities.Extensions;
 public static class ServiceCollectionExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IAssemblyScanBuilder Scan<TAssemblyScanMarker>(this IServiceCollection services)
+    public static IAssemblyScanBuilder AssemblyScan<TAssemblyScanMarker>(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
 

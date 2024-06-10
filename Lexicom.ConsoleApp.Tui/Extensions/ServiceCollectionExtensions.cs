@@ -11,7 +11,7 @@ public static class ServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(services);
 
         IReadOnlyList<Type> operationTypes = services
-            .Scan<TAssemblyScanMarker>()
+            .AssemblyScan<TAssemblyScanMarker>()
             .For<ITuiOperation>()
             .GetTypes();
 
