@@ -1,4 +1,5 @@
-﻿using Lexicom.Mvvm.Support;
+﻿using Lexicom.Mvvm.Exceptions;
+using Lexicom.Mvvm.Support;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
@@ -11,6 +12,7 @@ public class WpfViewModelFactory(IServiceProvider serviceProvider) : ViewModelPr
         return CreateViewModelAndTryCoupleWindow<TViewModel>();
     }
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="SingletonViewModelAlreadyExistsException"/>
     public TViewModel Create<TViewModel, TModel>(TModel model) where TViewModel : notnull
     {
         ArgumentNullException.ThrowIfNull(model);
@@ -22,6 +24,7 @@ public class WpfViewModelFactory(IServiceProvider serviceProvider) : ViewModelPr
         return viewModel;
     }
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="SingletonViewModelAlreadyExistsException"/>
     public TViewModel Create<TViewModel, TModel1, TModel2>(TModel1 model1, TModel2 model2) where TViewModel : notnull
     {
         ArgumentNullException.ThrowIfNull(model1);
@@ -34,6 +37,7 @@ public class WpfViewModelFactory(IServiceProvider serviceProvider) : ViewModelPr
         return viewModel;
     }
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="SingletonViewModelAlreadyExistsException"/>
     public TViewModel Create<TViewModel, TModel1, TModel2, TModel3>(TModel1 model1, TModel2 model2, TModel3 model3) where TViewModel : notnull
     {
         ArgumentNullException.ThrowIfNull(model1);

@@ -1,4 +1,5 @@
 ﻿using Lexicom.Mvvm.Support;
+using Lexicom.Mvvm.Exceptions;
 
 namespace Lexicom.Mvvm;
 public interface IViewModelFactory
@@ -17,6 +18,7 @@ public class ViewModelFactory(IServiceProvider serviceProvider) : ViewModelProvi
     }
 
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="SingletonViewModelAlreadyExistsException"/>
     public TViewModel Create<TViewModel, TModel>(TModel model) where TViewModel : notnull
     {
         ArgumentNullException.ThrowIfNull(model);
@@ -25,6 +27,7 @@ public class ViewModelFactory(IServiceProvider serviceProvider) : ViewModelProvi
     }
 
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="SingletonViewModelAlreadyExistsException"/>
     public TViewModel Create<TViewModel, TModel1, TModel2>(TModel1 model1, TModel2 model2) where TViewModel : notnull
     {
         ArgumentNullException.ThrowIfNull(model1);
@@ -34,6 +37,7 @@ public class ViewModelFactory(IServiceProvider serviceProvider) : ViewModelProvi
     }
 
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="SingletonViewModelAlreadyExistsException"/>
     public TViewModel Create<TViewModel, TModel1, TModel2, TModel3>(TModel1 model1, TModel2 model2, TModel3 model3) where TViewModel : notnull
     {
         ArgumentNullException.ThrowIfNull(model1);

@@ -42,40 +42,43 @@ public abstract class ViewModelProvider
 
     protected virtual TViewModel CreateViewModel<TViewModel>() where TViewModel : notnull
     {
-        return InitializeViewModel(hasModel: false, implementationType =>
+        return InitializeViewModel(isWithModels: false, implementationType =>
         {
             return (TViewModel)ActivatorUtilities.CreateInstance(_serviceProvider, implementationType);
         });
     }
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="SingletonViewModelAlreadyExistsException"/>
     protected virtual TViewModel CreateViewModel<TViewModel, TModel>(TModel model) where TViewModel : notnull
     {
         ArgumentNullException.ThrowIfNull(model);
 
-        return InitializeViewModel(hasModel: true, implementationType =>
+        return InitializeViewModel(isWithModels: true, implementationType =>
         {
             return (TViewModel)ActivatorUtilities.CreateInstance(_serviceProvider, implementationType, model);
         });
     }
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="SingletonViewModelAlreadyExistsException"/>
     protected virtual TViewModel CreateViewModel<TViewModel, TModel1, TModel2>(TModel1 model1, TModel2 model2) where TViewModel : notnull
     {
         ArgumentNullException.ThrowIfNull(model1);
         ArgumentNullException.ThrowIfNull(model2);
 
-        return InitializeViewModel(hasModel: true, implementationType =>
+        return InitializeViewModel(isWithModels: true, implementationType =>
         {
             return (TViewModel)ActivatorUtilities.CreateInstance(_serviceProvider, implementationType, model1, model2);
         });
     }
     /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="SingletonViewModelAlreadyExistsException"/>
     protected virtual TViewModel CreateViewModel<TViewModel, TModel1, TModel2, TModel3>(TModel1 model1, TModel2 model2, TModel3 model3) where TViewModel : notnull
     {
         ArgumentNullException.ThrowIfNull(model1);
         ArgumentNullException.ThrowIfNull(model2);
         ArgumentNullException.ThrowIfNull(model3);
 
-        return InitializeViewModel(hasModel: true, implementationType =>
+        return InitializeViewModel(isWithModels: true, implementationType =>
         {
             return (TViewModel)ActivatorUtilities.CreateInstance(_serviceProvider, implementationType, model1, model2, model3);
         });
@@ -116,7 +119,7 @@ public abstract class ViewModelProvider
         return serviceLifetime;
     }
 
-    private TViewModel InitializeViewModel<TViewModel>(bool hasModel, Func<Type, TViewModel> activateImplementationTypeDelegate) where TViewModel : notnull
+    private TViewModel InitializeViewModel<TViewModel>(bool isWithModels, Func<Type, TViewModel> activateImplementationTypeDelegate) where TViewModel : notnull
     {
         Type viewModelType = typeof(TViewModel);
         Type implementationType = GetViewModelImplementationType<TViewModel>();
@@ -127,9 +130,9 @@ public abstract class ViewModelProvider
         {
             viewModel = (TViewModel)instance;
 
-            if (hasModel && viewModel is not null)
+            if (isWithModels)
             {
-                throw new CannotCreateSingletonWithModelsException(viewModelType);
+                throw new SingletonViewModelAlreadyExistsException(viewModelType);
             }
         }
 
@@ -143,6 +146,12 @@ public abstract class ViewModelProvider
 
             if (serviceLifetime is ServiceLifetime.Singleton)
             {
+                if (ViewModelTypeToSingletonInstance.ContainsKey(viewModelType))
+                {
+                    //if the type is a singleton than we should have been able to access the instance above thus this should not be possible.
+                    throw new UnreachableException($"The view model '{viewModelType?.FullName ?? "null"}' has already been created.");
+                }
+
                 ViewModelTypeToSingletonInstance.Add(viewModelType, viewModel);
             }
         }
