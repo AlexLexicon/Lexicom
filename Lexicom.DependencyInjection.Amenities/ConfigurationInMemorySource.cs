@@ -152,10 +152,10 @@ public class ConfigurationInMemorySource : IEnumerable<KeyValuePair<string, stri
         {
             ArgumentNullException.ThrowIfNull(path);
 
-            return Build(new[]
-            {
+            return Build(
+            [
                 path
-            });
+            ]);
         }
         /// <exception cref="ArgumentNullException"/>
         public KeyStringBuilder Build(params string[] paths)
