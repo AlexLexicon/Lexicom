@@ -28,6 +28,8 @@ public abstract class ViewModelProvider
         weakViewModelRefrenceCollection.Add(viewModel);
     }
 
+    private static Dictionary<Type, object> ViewModelTypeToSingletonInstance { get; } = [];
+
     protected readonly IServiceProvider _serviceProvider;
 
     /// <exception cref="ArgumentNullException"/>
@@ -99,7 +101,7 @@ public abstract class ViewModelProvider
     protected virtual ServiceLifetime GetViewModelServiceLifetime<TViewModel>() where TViewModel : notnull
     {
         var viewModelRegistrations = _serviceProvider.GetService<IEnumerable<ViewModelRegistration>>();
-        var viewModelRegistration = viewModelRegistrations?.FirstOrDefault(vmr => vmr.ServiceType == typeof(TViewModel));
+        ViewModelRegistration? viewModelRegistration = viewModelRegistrations?.FirstOrDefault(vmr => vmr.ServiceType == typeof(TViewModel));
 
         ServiceLifetime serviceLifetime;
         if (viewModelRegistration is not null)
@@ -116,20 +118,21 @@ public abstract class ViewModelProvider
 
     private TViewModel InitializeViewModel<TViewModel>(bool hasModel, Func<Type, TViewModel> activateImplementationTypeDelegate) where TViewModel : notnull
     {
+        Type viewModelType = typeof(TViewModel);
         Type implementationType = GetViewModelImplementationType<TViewModel>();
         ServiceLifetime serviceLifetime = GetViewModelServiceLifetime<TViewModel>();
 
         TViewModel? viewModel = default;
-        if (serviceLifetime is ServiceLifetime.Singleton)
+        if (serviceLifetime is ServiceLifetime.Singleton && ViewModelTypeToSingletonInstance.TryGetValue(viewModelType, out object? instance))
         {
-            viewModel = _serviceProvider.GetService<TViewModel>();
+            viewModel = (TViewModel)instance;
 
             if (hasModel && viewModel is not null)
             {
-                throw new CannotCreateSingletonWithModelsException(typeof(TViewModel));
+                throw new CannotCreateSingletonWithModelsException(viewModelType);
             }
         }
-        
+
         if (viewModel is null)
         {
             viewModel = activateImplementationTypeDelegate.Invoke(implementationType);
@@ -137,6 +140,11 @@ public abstract class ViewModelProvider
             StaticAddToWeakViewModelRefrenceCollectionMethodInfo
                 .MakeGenericMethod(implementationType)
                 .Invoke(null, [_serviceProvider, viewModel]);
+
+            if (serviceLifetime is ServiceLifetime.Singleton)
+            {
+                ViewModelTypeToSingletonInstance.Add(viewModelType, viewModel);
+            }
         }
 
         return viewModel;
