@@ -9,7 +9,14 @@ public static class DependencyInjectionPrimitivesServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.Services.AddSingleton<ITimeProvider>(TimeProvider.System);
+        builder.Services.AddSingleton(sp =>
+        {
+            return new TimeProviderInterfaceWrapper(TimeProvider.System);
+        });
+        builder.Services.AddSingleton<ITimeProvider>(sp =>
+        {
+            return sp.GetRequiredService<TimeProviderInterfaceWrapper>();
+        });
 
         return builder;
     }

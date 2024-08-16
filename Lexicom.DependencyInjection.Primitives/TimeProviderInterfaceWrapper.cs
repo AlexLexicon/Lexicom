@@ -1,20 +1,31 @@
-﻿namespace Lexicom.DependencyInjection.Primitives;
-public interface ITimeProvider
+﻿
+namespace Lexicom.DependencyInjection.Primitives;
+public class TimeProviderInterfaceWrapper : ITimeProvider
 {
+    private readonly TimeProvider _timeProvider;
+
+    /// <exception cref="ArgumentNullException"/>
+    public TimeProviderInterfaceWrapper(TimeProvider timeProvider)
+    {
+        ArgumentNullException.ThrowIfNull(timeProvider);
+
+        _timeProvider = timeProvider;
+    }
+
     /// <summary>
     /// Gets a <see cref="TimeZoneInfo"/> object that represents the local time zone according to this <see cref="TimeProvider"/>'s notion of time.
     /// </summary>
     /// <remarks>
     /// The default implementation returns <see cref="TimeZoneInfo.Local"/>.
     /// </remarks>
-    TimeZoneInfo LocalTimeZone { get; }
+    public TimeZoneInfo LocalTimeZone => _timeProvider.LocalTimeZone;
     /// <summary>
     /// Gets the frequency of <see cref="GetTimestamp"/> of high-frequency value per second.
     /// </summary>
     /// <remarks>
     /// The default implementation returns <see cref="Stopwatch.Frequency"/>. For a given TimeProvider instance, the value must be idempotent and remain unchanged.
     /// </remarks>
-    long TimestampFrequency { get; }
+    public long TimestampFrequency => _timeProvider.TimestampFrequency;
 
     /// <summary>
     /// Gets a <see cref="DateTimeOffset"/> value whose date and time are set to the current
@@ -24,12 +35,12 @@ public interface ITimeProvider
     /// <remarks>
     /// The default implementation returns <see cref="DateTimeOffset.UtcNow"/>.
     /// </remarks>
-    DateTimeOffset GetUtcNow();
+    public DateTimeOffset GetUtcNow() => _timeProvider.GetUtcNow();
     /// <summary>
     /// Gets a <see cref="DateTimeOffset"/> value that is set to the current date and time according to this <see cref="TimeProvider"/>'s
     /// notion of time based on <see cref="GetUtcNow"/>, with the offset set to the <see cref="LocalTimeZone"/>'s offset from Coordinated Universal Time (UTC).
     /// </summary>
-    DateTimeOffset GetLocalNow();
+    public DateTimeOffset GetLocalNow() => _timeProvider.GetLocalNow();
     /// <summary>
     /// Gets the current high-frequency value designed to measure small time intervals with high accuracy in the timer mechanism.
     /// </summary>
@@ -37,20 +48,20 @@ public interface ITimeProvider
     /// <remarks>
     /// The default implementation returns <see cref="Stopwatch.GetTimestamp"/>.
     /// </remarks>
-    long GetTimestamp();
+    public long GetTimestamp() => _timeProvider.GetTimestamp();
     /// <summary>
     /// Gets the elapsed time since the <paramref name="startingTimestamp"/> value retrieved using <see cref="GetTimestamp"/>.
     /// </summary>
     /// <param name="startingTimestamp">The timestamp marking the beginning of the time period.</param>
     /// <returns>A <see cref="TimeSpan"/> for the elapsed time between the starting timestamp and the time of this call./></returns>
-    TimeSpan GetElapsedTime(long startingTimestamp);
+    public TimeSpan GetElapsedTime(long startingTimestamp) => _timeProvider.GetElapsedTime(startingTimestamp);
     /// <summary>
     /// Gets the elapsed time between two timestamps retrieved using <see cref="GetTimestamp"/>.
     /// </summary>
     /// <param name="startingTimestamp">The timestamp marking the beginning of the time period.</param>
     /// <param name="endingTimestamp">The timestamp marking the end of the time period.</param>
     /// <returns>A <see cref="TimeSpan"/> for the elapsed time between the starting and ending timestamps.</returns>
-    TimeSpan GetElapsedTime(long startingTimestamp, long endingTimestamp);
+    public TimeSpan GetElapsedTime(long startingTimestamp, long endingTimestamp) => _timeProvider.GetElapsedTime(startingTimestamp, endingTimestamp);
     /// <summary>Creates a new <see cref="ITimer"/> instance, using <see cref="TimeSpan"/> values to measure time intervals.</summary>
     /// <param name="callback">
     /// A delegate representing a method to be executed when the timer fires. The method specified for callback should be reentrant,
@@ -84,5 +95,5 @@ public interface ITimeProvider
     /// each time it's called. That capture can be suppressed with <see cref="ExecutionContext.SuppressFlow"/>.
     /// </para>
     /// </remarks>
-    ITimer CreateTimer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period);
+    public ITimer CreateTimer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period) => _timeProvider.CreateTimer(callback, state, dueTime, period);
 }

@@ -6,11 +6,9 @@ public class TestGuidProvider : IGuidProvider
     public TestGuidProvider()
     {
         _guids = new Queue<Guid>();
-
-        Empty = Guid.Empty;
     }
 
-    public virtual Guid Empty { get; set; }
+    public virtual Guid GetEmpty() => Guid.Empty;
     public virtual Guid NewGuid()
     {
         if (_guids.TryDequeue(out Guid queueGuid))
