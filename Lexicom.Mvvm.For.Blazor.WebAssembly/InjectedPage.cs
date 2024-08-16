@@ -22,7 +22,7 @@ public abstract class InjectedPage<TViewModel> : ComponentBase, IMvvmComponent<T
 
             _viewModel = value;
 
-            _componentBehavior.ChangeViewModel();
+            _componentBehavior.SubmitViewModel();
         }
     }
 

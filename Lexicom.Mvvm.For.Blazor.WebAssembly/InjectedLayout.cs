@@ -22,7 +22,7 @@ public class InjectedLayout<TViewModel> : LayoutComponentBase, IMvvmComponent<TV
 
             _viewModel = value;
 
-            _componentBehavior.ChangeViewModel();
+            _componentBehavior.SubmitViewModel();
         }
     }
 

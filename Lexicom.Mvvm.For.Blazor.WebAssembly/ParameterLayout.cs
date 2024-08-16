@@ -23,7 +23,7 @@ public abstract class ParameterLayout<TViewModel> : LayoutComponentBase, IMvvmCo
 
             _viewModel = value;
 
-            _componentBehavior.ChangeViewModel();
+            _componentBehavior.SubmitViewModel();
         }
     }
 #pragma warning restore BL0007

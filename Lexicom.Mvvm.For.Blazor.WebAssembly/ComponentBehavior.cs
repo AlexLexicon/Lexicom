@@ -39,13 +39,15 @@ public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyCha
         }
     }
 
-    public void ChangeViewModel()
+    public void SubmitViewModel()
     {
         if (_mvvmComponent.ViewModel is not null)
         {
+            CacheViewModelProperties();
+
             _mvvmComponent.ViewModel.PropertyChanged += OnPropertyChanged;
 
-            CacheViewModelProperties();
+            SubscribeToCollectionChanged();
         }
     }
 
@@ -98,8 +100,6 @@ public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyCha
                     NotifyCollectionChangedProperties.Add(property);
                 }
             }
-
-            SubscribeToCollectionChanged();
         }
     }
 
@@ -133,6 +133,7 @@ public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyCha
     {
         if (_mvvmComponent.ViewModel is not null)
         {
+            UnSubscribeToCollectionChanged();
             SubscribeToCollectionChanged();
         }
 
