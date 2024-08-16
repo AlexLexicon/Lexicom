@@ -1,10 +1,10 @@
-﻿namespace Lexicom.Extensions.DateTimes;
+﻿namespace Lexicom.Extensions.Strings;
 public static class IntegerExtensions
 {
-    public static string ToDayOfMonthSuffix(this int dayOfMonth)
+    public static string GetNumberSuffix(this int number)
     {
-        double below100 = dayOfMonth % 10;
-        double above100 = dayOfMonth % 100;
+        double below100 = number % 10;
+        double above100 = number % 100;
 
         if (below100 is 1 && above100 is not 11)
         {
