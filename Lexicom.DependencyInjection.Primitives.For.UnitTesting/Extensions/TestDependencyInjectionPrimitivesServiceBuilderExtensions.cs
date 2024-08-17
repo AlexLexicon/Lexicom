@@ -1,5 +1,4 @@
-﻿using Lexicom.DependencyInjection.Primitives.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting.Extensions;
 public static class TestDependencyInjectionPrimitivesServiceBuilderExtensions

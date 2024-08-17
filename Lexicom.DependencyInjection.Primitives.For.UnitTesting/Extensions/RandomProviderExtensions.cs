@@ -1,5 +1,4 @@
-﻿using Lexicom.DependencyInjection.Primitives.Abstractions;
-using Lexicom.DependencyInjection.Primitives.For.UnitTesting.Exceptions;
+﻿using Lexicom.DependencyInjection.Primitives.For.UnitTesting.Exceptions;
 
 namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting.Extensions;
 public static class RandomProviderExtensions

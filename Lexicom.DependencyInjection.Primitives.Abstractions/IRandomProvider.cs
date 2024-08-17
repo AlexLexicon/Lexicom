@@ -1,4 +1,4 @@
-﻿namespace Lexicom.DependencyInjection.Primitives.Abstractions;
+﻿namespace Lexicom.DependencyInjection.Primitives;
 public interface IRandomProvider
 {
     /// <summary>Returns a non-negative random integer.</summary>

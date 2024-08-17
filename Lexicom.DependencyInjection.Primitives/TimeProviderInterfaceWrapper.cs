@@ -1,5 +1,4 @@
-﻿
-namespace Lexicom.DependencyInjection.Primitives;
+﻿namespace Lexicom.DependencyInjection.Primitives;
 public class TimeProviderInterfaceWrapper : ITimeProvider
 {
     private readonly TimeProvider _timeProvider;

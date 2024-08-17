@@ -1,5 +1,6 @@
 ﻿using Lexicom.DependencyInjection.Primitives.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Lexicom.DependencyInjection.Primitives.Extensions;
 public static class DependencyInjectionPrimitivesServiceBuilderExtensions
@@ -11,7 +12,13 @@ public static class DependencyInjectionPrimitivesServiceBuilderExtensions
 
         builder.Services.AddSingleton(sp =>
         {
-            return new TimeProviderInterfaceWrapper(TimeProvider.System);
+            return TimeProvider.System;
+        });
+        builder.Services.AddSingleton(sp =>
+        {
+            var timeProvider = sp.GetRequiredService<TimeProvider>();
+
+            return new TimeProviderInterfaceWrapper(timeProvider);
         });
         builder.Services.AddSingleton<ITimeProvider>(sp =>
         {
@@ -30,13 +37,28 @@ public static class DependencyInjectionPrimitivesServiceBuilderExtensions
 
         return builder;
     }
-    
+
+    /// <exception cref="ArgumentNullException"/>
+    public static IDependencyInjectionPrimitivesServiceBuilder AddRandomProviderFactory(this IDependencyInjectionPrimitivesServiceBuilder builder)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+
+        builder.Services.TryAddSingleton<IRandomProviderFactory, RandomProviderFactory>();
+
+        return builder;
+    }
     /// <exception cref="ArgumentNullException"/>
     public static IDependencyInjectionPrimitivesServiceBuilder AddRandomProvider(this IDependencyInjectionPrimitivesServiceBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.Services.AddSingleton<IRandomProvider, RandomProvider>();
+        AddRandomProviderFactory(builder);
+        builder.Services.AddSingleton(sp =>
+        {
+            var factory = sp.GetRequiredService<IRandomProviderFactory>();
+
+            return factory.Create();
+        });
 
         return builder;
     }
@@ -45,9 +67,12 @@ public static class DependencyInjectionPrimitivesServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.Services.AddSingleton<IRandomProvider>(sp =>
+        AddRandomProviderFactory(builder);
+        builder.Services.AddSingleton(sp =>
         {
-            return new RandomProvider(seed);
+            var factory = sp.GetRequiredService<IRandomProviderFactory>();
+
+            return factory.Create(seed);
         });
 
         return builder;

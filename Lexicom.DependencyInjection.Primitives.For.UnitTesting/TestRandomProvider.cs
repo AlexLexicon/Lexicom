@@ -1,6 +1,4 @@
-﻿using Lexicom.DependencyInjection.Primitives.Abstractions;
-
-namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting;
+﻿namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting;
 public class TestRandomProvider : IRandomProvider
 {
     protected readonly Queue<int> _nexts;
