@@ -5,7 +5,7 @@ namespace Lexicom.Cryptography.For.Blazor.WebAssembly.Extensions;
 public static class BlazorWebAssemblyServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IBlazorWebAssemblyServiceBuilder AddMvvm(this IBlazorWebAssemblyServiceBuilder builder, Action<ICryptographyServiceBuilder>? configure = null)
+    public static IBlazorWebAssemblyServiceBuilder AddCryptography(this IBlazorWebAssemblyServiceBuilder builder, Action<ICryptographyServiceBuilder>? configure = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
