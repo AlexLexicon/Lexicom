@@ -46,8 +46,6 @@ public interface IRuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTra
 /// <exception cref="ArgumentNullException"/>
 public class RuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransformer> : BaseRuleSetValidator<TRuleSet, TProperty, TInProperty>, IRuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransformer> where TRuleSet : IRuleSet<TProperty> where TRuleSetTransformer : IRuleSetTransfromer<TProperty, TInProperty>
 {
-    private readonly TRuleSetTransformer _ruleSetTransformer;
-
     /// <exception cref="ArgumentNullException"/>
     public RuleSetValidator(
         TRuleSet ruleSet, 
@@ -55,13 +53,15 @@ public class RuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransfor
     {
         ArgumentNullException.ThrowIfNull(ruleSetTransformer);
 
-        _ruleSetTransformer = ruleSetTransformer;
+        Transformer = ruleSetTransformer;
     }
+
+    public TRuleSetTransformer Transformer { get; }
 
     protected override IEnumerable<string> ValidateAndGetErrorMessages(TInProperty instance)
     {
         bool isValidated = true;
-        if (_ruleSetTransformer is IRuleSetTransfromerValidator<TInProperty> transformerValidator)
+        if (Transformer is IRuleSetTransfromerValidator<TInProperty> transformerValidator)
         {
             ValidationResult result = transformerValidator.Validate(instance);
 
@@ -75,7 +75,7 @@ public class RuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransfor
 
         if (isValidated)
         {
-            if (_ruleSetTransformer.TryTransform(instance, out TProperty transformedInstance))
+            if (Transformer.TryTransform(instance, out TProperty transformedInstance))
             {
                 Validate(transformedInstance);
             }
@@ -83,7 +83,7 @@ public class RuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransfor
             {
                 SetValidationErrors(new ValidationResult(new List<ValidationFailure>
             {
-                new ValidationFailure(propertyName: "", errorMessage: $"Must be a valid {_ruleSetTransformer.ErrorMessageTypeName}."),
+                new ValidationFailure(propertyName: "", errorMessage: $"Must be a valid {Transformer.ErrorMessageTypeName}."),
             }));
             }
         }
