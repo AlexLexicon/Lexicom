@@ -27,6 +27,7 @@ public class RuleSetValidator<TRuleSet, TProperty>(TRuleSet ruleSet) : BaseRuleS
 }
 public interface IRuleSetValidator<TRuleSet, TProperty, TTransformer, TNextProperty> : IRuleSetValidator<TProperty>, IValueValidator<TProperty> where TRuleSet : IRuleSet<TProperty> where TTransformer : IRuleSetTransfromer<TProperty, TNextProperty>
 {
+    TTransformer Transformer { get; }
 }
 /// <exception cref="ArgumentNullException"/>
 public class RuleSetValidator<TRuleSet, TProperty, TTransformer, TNextProperty> : BaseRuleSetValidator<TRuleSet, TProperty, TNextProperty>, IRuleSetValidator<TRuleSet, TProperty, TTransformer, TNextProperty> where TRuleSet : IRuleSet<TProperty> where TTransformer : IRuleSetTransfromer<TProperty, TNextProperty>
