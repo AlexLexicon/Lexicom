@@ -12,11 +12,11 @@ public static class WpfServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WpfApplicationBuilder.Services.AddLexicomMvvm(configure);
+        builder.Services.AddLexicomMvvm(configure);
 
-        builder.WpfApplicationBuilder.Services.Replace(new ServiceDescriptor(typeof(IViewModelFactory), typeof(WpfViewModelFactory), ServiceLifetime.Singleton));
+        builder.Services.Replace(new ServiceDescriptor(typeof(IViewModelFactory), typeof(WpfViewModelFactory), ServiceLifetime.Singleton));
 
-        builder.WpfApplicationBuilder.Services.AugmentViewModelRegistrations(new WpfViewModelRegistrationAugmenter());
+        builder.Services.AugmentViewModelRegistrations(new WpfViewModelRegistrationAugmenter());
 
         return builder;
     }

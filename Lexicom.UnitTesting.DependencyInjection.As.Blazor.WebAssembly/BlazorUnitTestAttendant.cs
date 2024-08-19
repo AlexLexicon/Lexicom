@@ -1,11 +1,10 @@
 ﻿namespace Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly;
-
 public class BlazorUnitTestAttendant : UnitTestAttendant
 {
     public BlazorUnitTestAttendant()
     {
-        BlazorBuilder = new BlazorWebAssemblyServiceBuilder(this);
+        BlazorBuilder = new TestBlazorWebAssemblyServiceBuilder(this);
     }
 
-    public BlazorWebAssemblyServiceBuilder BlazorBuilder { get; }
+    public TestBlazorWebAssemblyServiceBuilder BlazorBuilder { get; }
 }

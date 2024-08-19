@@ -9,7 +9,7 @@ public static class WpfServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WpfApplicationBuilder.Services.AddLexicomAuthority(configure);
+        builder.Services.AddLexicomAuthority(configure);
 
         return builder;
     }

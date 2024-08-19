@@ -2,11 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly;
-public class BlazorWebAssemblyServiceBuilder : IBlazorWebAssemblyServiceBuilder
+public class TestBlazorWebAssemblyServiceBuilder : IBlazorWebAssemblyServiceBuilder
 {
     private readonly BlazorUnitTestAttendant _blazorUnitTestAttendant;
 
-    public BlazorWebAssemblyServiceBuilder(BlazorUnitTestAttendant blazorUnitTestAttendant)
+    public TestBlazorWebAssemblyServiceBuilder(BlazorUnitTestAttendant blazorUnitTestAttendant)
     {
         _blazorUnitTestAttendant = blazorUnitTestAttendant;
     }

@@ -9,7 +9,7 @@ public static class WpfServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WpfApplicationBuilder.Configuration.AddLexicomAzureKeyVault();
+        builder.Configuration.AddLexicomAzureKeyVault();
 
         return builder;
     }

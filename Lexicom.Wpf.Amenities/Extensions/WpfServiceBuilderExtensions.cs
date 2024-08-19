@@ -13,10 +13,10 @@ public static class WpfServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WpfApplicationBuilder.Services.AddSingleton<IWindowsDialog, WpfWindowsDialog>();
-        builder.WpfApplicationBuilder.Services.AddSingleton<IThemeApplicator, WpfThemeApplicator>();
-        builder.WpfApplicationBuilder.Services.AddSingleton<IThemeProvider, WpfThemeProvider>();
-        builder.WpfApplicationBuilder.Services.AddSingleton<IDispatcher>(sp =>
+        builder.Services.AddSingleton<IWindowsDialog, WpfWindowsDialog>();
+        builder.Services.AddSingleton<IThemeApplicator, WpfThemeApplicator>();
+        builder.Services.AddSingleton<IThemeProvider, WpfThemeProvider>();
+        builder.Services.AddSingleton<IDispatcher>(sp =>
         {
             var dispatcher = sp.GetRequiredService<Dispatcher>();
 

@@ -9,7 +9,7 @@ public static class WpfServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WpfApplicationBuilder.Services.AddLexicomCryptography(configure);
+        builder.Services.AddLexicomCryptography(configure);
 
         return builder;
     }

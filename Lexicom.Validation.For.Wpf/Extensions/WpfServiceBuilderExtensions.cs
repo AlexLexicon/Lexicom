@@ -9,7 +9,7 @@ public static class WpfServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WpfApplicationBuilder.Services.AddLexicomValidation(configure);
+        builder.Services.AddLexicomValidation(configure);
 
         return builder;
     }

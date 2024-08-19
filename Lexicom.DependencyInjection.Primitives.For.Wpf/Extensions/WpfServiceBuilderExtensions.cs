@@ -9,7 +9,7 @@ public static class WpfServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WpfApplicationBuilder.Services.AddLexicomDependencyInjectionPrimitives(configure);
+        builder.Services.AddLexicomDependencyInjectionPrimitives(configure);
 
         return builder;
     }

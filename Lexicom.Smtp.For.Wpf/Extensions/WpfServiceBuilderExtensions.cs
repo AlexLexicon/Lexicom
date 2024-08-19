@@ -10,7 +10,7 @@ public static class WpfServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WpfApplicationBuilder.Services.AddLexicomSmtp(builder.WpfApplicationBuilder.Configuration, configure);
+        builder.Services.AddLexicomSmtp(builder.Configuration, configure);
 
         return builder;
     }
