@@ -9,7 +9,7 @@ public static class BlazorWebAssemblyServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebAssemblyHostBuilder.Services.AddLexicomDependencyInjectionPrimitives(configure);
+        builder.Services.AddLexicomDependencyInjectionPrimitives(configure);
 
         return builder;
     }

@@ -11,12 +11,12 @@
 
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Derives the Lexicom.Cryptography package to provide an implementation specific for a Blazor web assembly application project.</Description>
+    <Description>Simplifies the setup necessary to unit test dependency injection based classes with implemented dependencies to mock a Blazor webassembly WebAssemblyHostBuilder environment.</Description>
     <Copyright>2024</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Cryptography.For.Wpf</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>blazor;dependencyinjection;webassembly</PackageTags>
+    <PackageTags>dependencyinjection</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,8 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lexicom.Cryptography\Lexicom.Cryptography.csproj" />
     <ProjectReference Include="..\Lexicom.Supports.Blazor.WebAssembly\Lexicom.Supports.Blazor.WebAssembly.csproj" />
+    <ProjectReference Include="..\Lexicom.UnitTesting.DependencyInjection\Lexicom.UnitTesting.DependencyInjection.csproj" />
   </ItemGroup>
 
 </Project>

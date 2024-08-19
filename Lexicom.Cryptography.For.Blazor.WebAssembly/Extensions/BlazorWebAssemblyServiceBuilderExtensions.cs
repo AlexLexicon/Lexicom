@@ -1,5 +1,7 @@
 ﻿using Lexicom.Cryptography.Extensions;
 using Lexicom.Supports.Blazor.WebAssembly;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Lexicom.Cryptography.For.Blazor.WebAssembly.Extensions;
 public static class BlazorWebAssemblyServiceBuilderExtensions
@@ -9,7 +11,9 @@ public static class BlazorWebAssemblyServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebAssemblyHostBuilder.Services.AddLexicomCryptography(configure);
+        builder.Services.AddLexicomCryptography(configure);
+
+        builder.Services.Replace(new ServiceDescriptor(typeof(IAesProvider), typeof(BlazorAesProvider), ServiceLifetime.Singleton));
 
         return builder;
     }

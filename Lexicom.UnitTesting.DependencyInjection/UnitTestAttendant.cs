@@ -4,7 +4,7 @@ using NSubstitute;
 using System.Collections;
 
 namespace Lexicom.UnitTesting;
-public sealed class UnitTestAttendant : IServiceCollection
+public class UnitTestAttendant : IServiceCollection
 {
     private readonly IServiceCollection _services;
     private readonly Dictionary<Type, Func<object>> _mocks;

@@ -262,7 +262,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Cryptography.For.Bl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Validation.UnitTests", "Lexicom.Validation.UnitTests\Lexicom.Validation.UnitTests.csproj", "{A824369B-6E16-464E-8402-F9657BAD3E62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Cryptography.UnitTests", "Lexicom.Cryptography.UnitTests\Lexicom.Cryptography.UnitTests.csproj", "{8796F95D-81AC-4F19-80E7-B8E28527E1C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Cryptography.UnitTests", "Lexicom.Cryptography.UnitTests\Lexicom.Cryptography.UnitTests.csproj", "{8796F95D-81AC-4F19-80E7-B8E28527E1C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests", "Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests\Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests.csproj", "{00346512-E60C-4D0E-91F4-5DB74B4C5C60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly", "Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly\Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly.csproj", "{E9A135C0-D20D-4B10-923A-F3DC6FDB1CFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -654,6 +658,14 @@ Global
 		{8796F95D-81AC-4F19-80E7-B8E28527E1C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8796F95D-81AC-4F19-80E7-B8E28527E1C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8796F95D-81AC-4F19-80E7-B8E28527E1C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00346512-E60C-4D0E-91F4-5DB74B4C5C60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00346512-E60C-4D0E-91F4-5DB74B4C5C60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00346512-E60C-4D0E-91F4-5DB74B4C5C60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00346512-E60C-4D0E-91F4-5DB74B4C5C60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9A135C0-D20D-4B10-923A-F3DC6FDB1CFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9A135C0-D20D-4B10-923A-F3DC6FDB1CFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9A135C0-D20D-4B10-923A-F3DC6FDB1CFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9A135C0-D20D-4B10-923A-F3DC6FDB1CFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -756,6 +768,8 @@ Global
 		{DC002125-8C18-41D0-B76B-DCDE91CCA1C8} = {75C7FD2F-FC02-48CB-846C-625A2C5348ED}
 		{A824369B-6E16-464E-8402-F9657BAD3E62} = {EB743DFF-F157-4B53-9F0C-5FDA53E68689}
 		{8796F95D-81AC-4F19-80E7-B8E28527E1C5} = {75C7FD2F-FC02-48CB-846C-625A2C5348ED}
+		{00346512-E60C-4D0E-91F4-5DB74B4C5C60} = {75C7FD2F-FC02-48CB-846C-625A2C5348ED}
+		{E9A135C0-D20D-4B10-923A-F3DC6FDB1CFB} = {FAD40A0F-C9A7-422C-A495-51241D224F62}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {065A3AC7-C473-43B9-A4CC-BC8EFB53BF19}
