@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Lexicom.UnitTesting;
 using Lexicom.Validation.Amenities.Extensions;
-using Lexicom.Validation.Amenities.UnitTests.RuleSets;
+using Lexicom.Validation.Amenities.UnitTests.ModelsForTests.RuleSets;
 using Lexicom.Validation.Extensions;
 using Xunit;
 

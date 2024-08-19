@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Lexicom.UnitTesting;
 using Lexicom.Validation.Amenities.Extensions;
-using Lexicom.Validation.Amenities.UnitTests.RuleSets;
+using Lexicom.Validation.Amenities.UnitTests.ModelsForTests.RuleSets;
 using Lexicom.Validation.Extensions;
 using Xunit;
 
@@ -19,8 +19,6 @@ public class GreaterThanOrEqualUnitTests
             options.AddRuleSets<AssemblyScanMarker>();
             options.AddValidators<AssemblyScanMarker>();
         });
-
-        var xxx = uta.Get<NumberStringRuleSet>();
 
         var validator = uta.Get<IRuleSetValidator<NumberStringRuleSet, string?>>();
 

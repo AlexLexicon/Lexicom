@@ -39,26 +39,53 @@ public class RuleSetValidator<TRuleSet, TProperty>(TRuleSet ruleSet) : BaseRuleS
         return errors;
     }
 }
-public interface IRuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransformer> : IRuleSetValidator, IValueValidator<TProperty> where TRuleSet : IRuleSet<TProperty> where TRuleSetTransformer : IRuleSetTransfromer<TProperty, TInProperty>, new()
+public interface IRuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransformer> : IRuleSetValidator, IValueValidator<TProperty> where TRuleSet : IRuleSet<TProperty> where TRuleSetTransformer : IRuleSetTransfromer<TProperty, TInProperty>
 {
     Func<TInProperty, IEnumerable<string>> Validation { get; }
 }
 /// <exception cref="ArgumentNullException"/>
-public class RuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransformer>(TRuleSet ruleSet) : BaseRuleSetValidator<TRuleSet, TProperty, TInProperty>(ruleSet), IRuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransformer> where TRuleSet : IRuleSet<TProperty> where TRuleSetTransformer : IRuleSetTransfromer<TProperty, TInProperty>, new()
+public class RuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransformer> : BaseRuleSetValidator<TRuleSet, TProperty, TInProperty>, IRuleSetValidator<TRuleSet, TProperty, TInProperty, TRuleSetTransformer> where TRuleSet : IRuleSet<TProperty> where TRuleSetTransformer : IRuleSetTransfromer<TProperty, TInProperty>
 {
+    private readonly TRuleSetTransformer _ruleSetTransformer;
+
+    /// <exception cref="ArgumentNullException"/>
+    public RuleSetValidator(
+        TRuleSet ruleSet, 
+        TRuleSetTransformer ruleSetTransformer) : base(ruleSet)
+    {
+        ArgumentNullException.ThrowIfNull(ruleSetTransformer);
+
+        _ruleSetTransformer = ruleSetTransformer;
+    }
+
     protected override IEnumerable<string> ValidateAndGetErrorMessages(TInProperty instance)
     {
-        var ruleSetTransformer = new TRuleSetTransformer();
-        if (ruleSetTransformer.TryTransform(instance, out TProperty transformedInstance))
+        bool isValidated = true;
+        if (_ruleSetTransformer is IRuleSetTransfromerValidator<TInProperty> transformerValidator)
         {
-            Validate(transformedInstance);
-        }
-        else
-        {
-            SetValidationErrors(new ValidationResult(new List<ValidationFailure>
+            ValidationResult result = transformerValidator.Validate(instance);
+
+            isValidated = result.IsValid;
+
+            if (!isValidated)
             {
-                new ValidationFailure(propertyName: "", errorMessage: $"Must be a valid {ruleSetTransformer.ErrorMessageTypeName}."),
+                SetValidationErrors(result);
+            }
+        }
+
+        if (isValidated)
+        {
+            if (_ruleSetTransformer.TryTransform(instance, out TProperty transformedInstance))
+            {
+                Validate(transformedInstance);
+            }
+            else
+            {
+                SetValidationErrors(new ValidationResult(new List<ValidationFailure>
+            {
+                new ValidationFailure(propertyName: "", errorMessage: $"Must be a valid {_ruleSetTransformer.ErrorMessageTypeName}."),
             }));
+            }
         }
 
         var errors = new List<string>();
