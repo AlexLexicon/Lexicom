@@ -1,9 +1,9 @@
 ﻿using Lexicom.Validation.UnitTests.ModelsForTests.RuleSets;
 
 namespace Lexicom.Validation.UnitTests.ModelsForTests.Transformers;
-public class TransformerForIntegerGreaterThan5RuleSetAndStringDigitsRuleSet : AbstractRuleSetTransformer<int, string?, IRuleSetValidator<StringDigitsRuleSet, string?>>
+public class TransformerForIntegerGreaterThan1RuleSetAndString123abcRuleSet : AbstractRuleSetTransformer<string?, int, IRuleSetValidator<IntegerGreaterThan1RuleSet, int>>
 {
-    public TransformerForIntegerGreaterThan5RuleSetAndStringDigitsRuleSet(IRuleSetValidator<StringDigitsRuleSet, string?> ruleSetValidator) : base(ruleSetValidator)
+    public TransformerForIntegerGreaterThan1RuleSetAndString123abcRuleSet(IRuleSetValidator<IntegerGreaterThan1RuleSet, int> ruleSetValidator) : base(ruleSetValidator)
     {
     }
 

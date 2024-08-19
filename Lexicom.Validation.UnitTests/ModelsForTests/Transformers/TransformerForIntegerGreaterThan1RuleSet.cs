@@ -1,5 +1,5 @@
 ﻿namespace Lexicom.Validation.UnitTests.ModelsForTests.Transformers;
-public class TransformerForIntegerGreaterThan5RuleSet : AbstractRuleSetTransformer<int, string?>
+public class TransformerForIntegerGreaterThan1RuleSet : AbstractRuleSetTransformer<string?, int>
 {
     public override string ErrorMessageTypeName => "Number";
 
