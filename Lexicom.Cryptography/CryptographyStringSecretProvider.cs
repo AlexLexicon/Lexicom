@@ -5,6 +5,11 @@ using Microsoft.Extensions.Options;
 namespace Lexicom.Cryptography;
 public class CryptographyStringSecretProvider : ICryptographySecretProvider
 {
+    public static byte[] ConvertBase64SecretToBytes(string base64SecretKey)
+    {
+        return Convert.FromBase64String(base64SecretKey);
+    }
+
     private readonly IOptions<CryptographyStringSecretOptions> _cryptographyStringSecretOptions;
 
     /// <exception cref="ArgumentNullException"/>
@@ -20,7 +25,7 @@ public class CryptographyStringSecretProvider : ICryptographySecretProvider
         CryptographyStringSecretOptions cryptographyStringSecretOptions = _cryptographyStringSecretOptions.Value;
         CryptographyStringSecretOptionsValidator.ThrowIfNull(cryptographyStringSecretOptions.Base64StringSecretKey);
 
-        byte[] secretKey = Convert.FromBase64String(cryptographyStringSecretOptions.Base64StringSecretKey);
+        byte[] secretKey = ConvertBase64SecretToBytes(cryptographyStringSecretOptions.Base64StringSecretKey);
 
         return Task.FromResult(secretKey);
     }

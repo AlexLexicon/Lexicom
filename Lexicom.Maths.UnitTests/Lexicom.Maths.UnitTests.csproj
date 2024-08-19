@@ -24,6 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Lexicom.Maths\Lexicom.Maths.csproj" />
   </ItemGroup>
 

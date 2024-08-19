@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Xunit;
 
 namespace Lexicom.Maths.UnitTests;
 public class MathxTests

@@ -3,7 +3,6 @@ using Lexicom.UnitTesting;
 using Lexicom.Validation.Amenities.Extensions;
 using Lexicom.Validation.Amenities.UnitTests.ModelsForTests.RuleSets;
 using Lexicom.Validation.Extensions;
-using Xunit;
 
 namespace Lexicom.Validation.Amenities.UnitTests.PropertyValidators;
 public class GreaterThanUnitTests
@@ -27,7 +26,7 @@ public class GreaterThanUnitTests
         validator.ValidationErrors.First().Should().Be("Must be greater than 5.");
 
         validator.Validate("4");
-        
+
         validator.ValidationErrors.First().Should().Be("Must be greater than 5.");
     }
 }

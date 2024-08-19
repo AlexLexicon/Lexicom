@@ -24,7 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lexicom.Extensions.Debugging\Lexicom.Extensions.Debugging.csproj" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Lexicom.UnitTesting.DependencyInjection\Lexicom.UnitTesting.DependencyInjection.csproj" />
     <ProjectReference Include="..\Lexicom.Validation\Lexicom.Validation.csproj" />
   </ItemGroup>

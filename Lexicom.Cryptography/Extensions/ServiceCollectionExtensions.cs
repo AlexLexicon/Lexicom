@@ -9,6 +9,7 @@ public static class ServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(services);
 
         services.AddSingleton<ICryptographyService, CryptographyService>();
+        services.AddSingleton<IAesProvider, AesProvider>();
 
         configure?.Invoke(new CryptographyServiceBuilder(services));
 

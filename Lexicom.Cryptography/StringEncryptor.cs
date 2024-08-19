@@ -1,18 +1,21 @@
 ﻿using Lexicom.Cryptography.Exceptions;
+using Lexicom.Cryptography.Extensions;
 using System.Security.Cryptography;
 
 namespace Lexicom.Cryptography;
 public static class StringEncryptor
 {
     /// <exception cref="ArgumentNullException"/>
-    /// <exception cref="SecretKeyNotValidException"/>
-    public static string? Encrypt(byte[] secretKey, string? plainText)
+    /// <exception cref="SecretKeyEmptyException"/>
+    /// <exception cref="SecretKeySizeException"/>
+    public static string? Encrypt(IAesProvider aesProvider, byte[] secretKey, string? plainText)
     {
+        ArgumentNullException.ThrowIfNull(aesProvider);
         ArgumentNullException.ThrowIfNull(secretKey);
 
         if (secretKey.Length is 0)
         {
-            throw new SecretKeyNotValidException();
+            throw new SecretKeyEmptyException();
         }
 
         if (plainText is null)
@@ -20,7 +23,13 @@ public static class StringEncryptor
             return null;
         }
 
-        using var aes = Aes.Create();
+        using var aes = aesProvider.Create();
+
+        SecretBitSize size = aes.CalculateSecretSize(secretKey);
+        if (!size.IsValid)
+        {
+            throw new SecretKeySizeException(size);
+        }
 
         using ICryptoTransform encryptor = aes.CreateEncryptor(secretKey, aes.IV);
 
@@ -45,14 +54,16 @@ public static class StringEncryptor
     }
 
     /// <exception cref="ArgumentNullException"/>
-    /// <exception cref="SecretKeyNotValidException"/>
-    public static async Task<string?> EncryptAsync(byte[] secretKey, string? plainText)
+    /// <exception cref="SecretKeyEmptyException"/>
+    /// <exception cref="SecretKeySizeException"/>
+    public static async Task<string?> EncryptAsync(IAesProvider aesProvider, byte[] secretKey, string? plainText)
     {
+        ArgumentNullException.ThrowIfNull(aesProvider);
         ArgumentNullException.ThrowIfNull(secretKey);
 
         if (secretKey.Length is 0)
         {
-            throw new SecretKeyNotValidException();
+            throw new SecretKeyEmptyException();
         }
 
         if (plainText is null)
@@ -60,7 +71,13 @@ public static class StringEncryptor
             return null;
         }
 
-        using var aes = Aes.Create();
+        using var aes = aesProvider.Create();
+
+        SecretBitSize size = aes.CalculateSecretSize(secretKey);
+        if (!size.IsValid)
+        {
+            throw new SecretKeySizeException(size);
+        }
 
         using ICryptoTransform encryptor = aes.CreateEncryptor(secretKey, aes.IV);
 

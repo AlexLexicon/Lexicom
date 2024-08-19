@@ -20,6 +20,17 @@ public interface ICryptographyService
         });
     }
     /// <exception cref="ArgumentNullException"/>
+    public static ICryptographyService Create(byte[] byteArraySecretKey, IAesProvider aesProvider)
+    {
+        ArgumentNullException.ThrowIfNull(byteArraySecretKey);
+        ArgumentNullException.ThrowIfNull(aesProvider);
+
+        return Create(new CryptographyByteSecretOptions
+        {
+            ByteArraySecretKey = byteArraySecretKey
+        }, aesProvider);
+    }
+    /// <exception cref="ArgumentNullException"/>
     public static ICryptographyService Create(string base64StringSecretKey)
     {
         ArgumentNullException.ThrowIfNull(base64StringSecretKey);
@@ -30,22 +41,49 @@ public interface ICryptographyService
         });
     }
     /// <exception cref="ArgumentNullException"/>
+    public static ICryptographyService Create(string base64StringSecretKey, IAesProvider aesProvider)
+    {
+        ArgumentNullException.ThrowIfNull(base64StringSecretKey);
+        ArgumentNullException.ThrowIfNull(aesProvider);
+
+        return Create(new CryptographyStringSecretOptions
+        {
+            Base64StringSecretKey = base64StringSecretKey
+        }, aesProvider);
+    }
+    /// <exception cref="ArgumentNullException"/>
     public static ICryptographyService Create(CryptographyByteSecretOptions cryptographyByteSecretOptions)
     {
         ArgumentNullException.ThrowIfNull(cryptographyByteSecretOptions);
 
+        return Create(cryptographyByteSecretOptions, new AesProvider());
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public static ICryptographyService Create(CryptographyByteSecretOptions cryptographyByteSecretOptions, IAesProvider aesProvider)
+    {
+        ArgumentNullException.ThrowIfNull(cryptographyByteSecretOptions);
+        ArgumentNullException.ThrowIfNull(aesProvider);
+
         IOptions<CryptographyByteSecretOptions> options = Microsoft.Extensions.Options.Options.Create(cryptographyByteSecretOptions);
 
-        return new CryptographyService(new CryptographyByteSecretProvider(options));
+        return new CryptographyService(new CryptographyByteSecretProvider(options), aesProvider);
     }
     /// <exception cref="ArgumentNullException"/>
     public static ICryptographyService Create(CryptographyStringSecretOptions cryptographyStringSecretOptions)
     {
         ArgumentNullException.ThrowIfNull(cryptographyStringSecretOptions);
 
+        return Create(cryptographyStringSecretOptions, new AesProvider());
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public static ICryptographyService Create(CryptographyStringSecretOptions cryptographyStringSecretOptions, IAesProvider aesProvider)
+    {
+        ArgumentNullException.ThrowIfNull(cryptographyStringSecretOptions);
+        ArgumentNullException.ThrowIfNull(aesProvider);
+
         IOptions<CryptographyStringSecretOptions> options = Microsoft.Extensions.Options.Options.Create(cryptographyStringSecretOptions);
 
-        return new CryptographyService(new CryptographyStringSecretProvider(options));
+        return new CryptographyService(new CryptographyStringSecretProvider(options), aesProvider);
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -64,13 +102,18 @@ public interface ICryptographyService
 public class CryptographyService : ICryptographyService
 {
     private readonly ICryptographySecretProvider _cryptographySecretProvider;
+    private readonly IAesProvider _aesProvider;
 
     /// <exception cref="ArgumentNullException"/>
-    public CryptographyService(ICryptographySecretProvider cryptographySecretProvider)
+    public CryptographyService(
+        ICryptographySecretProvider cryptographySecretProvider, 
+        IAesProvider aesProvider)
     {
         ArgumentNullException.ThrowIfNull(cryptographySecretProvider);
+        ArgumentNullException.ThrowIfNull(aesProvider);
 
         _cryptographySecretProvider = cryptographySecretProvider;
+        _aesProvider = aesProvider;
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -92,7 +135,7 @@ public class CryptographyService : ICryptographyService
     {
         byte[] secretKey = _cryptographySecretProvider.GetSecretAsync().Result;
 
-        return StringEncryptor.Encrypt(secretKey, plainText);
+        return StringEncryptor.Encrypt(_aesProvider, secretKey, plainText);
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -114,7 +157,7 @@ public class CryptographyService : ICryptographyService
     {
         byte[] secretKey = await _cryptographySecretProvider.GetSecretAsync();
 
-        return await StringEncryptor.EncryptAsync(secretKey, plainText);
+        return await StringEncryptor.EncryptAsync(_aesProvider, secretKey, plainText);
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -136,7 +179,7 @@ public class CryptographyService : ICryptographyService
     {
         byte[] secretKey = _cryptographySecretProvider.GetSecretAsync().Result;
 
-        return StringDecryptor.Decrypt(encryptedBase64, secretKey);
+        return StringDecryptor.Decrypt(_aesProvider, encryptedBase64, secretKey);
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -158,6 +201,6 @@ public class CryptographyService : ICryptographyService
     {
         byte[] secretKey = await _cryptographySecretProvider.GetSecretAsync();
 
-        return await StringDecryptor.DecryptAsync(encryptedBase64, secretKey);
+        return await StringDecryptor.DecryptAsync(_aesProvider, encryptedBase64, secretKey);
     }
 }

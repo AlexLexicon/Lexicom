@@ -4,7 +4,6 @@ using Lexicom.Validation.Extensions;
 using Lexicom.Validation.UnitTests.ModelsForTests.RuleSets;
 using Lexicom.Validation.UnitTests.ModelsForTests.Transformers;
 using System.Diagnostics;
-using Xunit;
 
 namespace Lexicom.Validation.UnitTests;
 public class TransformationTests

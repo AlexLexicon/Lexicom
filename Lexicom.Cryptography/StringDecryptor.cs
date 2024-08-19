@@ -1,18 +1,21 @@
 ﻿using Lexicom.Cryptography.Exceptions;
+using Lexicom.Cryptography.Extensions;
 using System.Security.Cryptography;
 
 namespace Lexicom.Cryptography;
 public static class StringDecryptor
 {
     /// <exception cref="ArgumentNullException"/>
-    /// <exception cref="SecretKeyNotValidException"/>
-    public static string? Decrypt(string? encryptedBase64, byte[] secretKey)
+    /// <exception cref="SecretKeyEmptyException"/>
+    /// <exception cref="SecretKeySizeException"/>
+    public static string? Decrypt(IAesProvider aesProvider, string? encryptedBase64, byte[] secretKey)
     {
+        ArgumentNullException.ThrowIfNull(aesProvider);
         ArgumentNullException.ThrowIfNull(secretKey);
 
         if (secretKey.Length is 0)
         {
-            throw new SecretKeyNotValidException();
+            throw new SecretKeyEmptyException();
         }
 
         if (encryptedBase64 is null)
@@ -29,6 +32,12 @@ public static class StringDecryptor
         Buffer.BlockCopy(ivAndEncryptedBytesComposite, iv.Length, encryptedBytes, 0, ivAndEncryptedBytesComposite.Length - iv.Length);
 
         using var aes = Aes.Create();
+
+        SecretBitSize size = aes.CalculateSecretSize(secretKey);
+        if (!size.IsValid)
+        {
+            throw new SecretKeySizeException(size);
+        }
 
         using ICryptoTransform decryptor = aes.CreateDecryptor(secretKey, iv);
 
@@ -47,14 +56,16 @@ public static class StringDecryptor
     }
 
     /// <exception cref="ArgumentNullException"/>
-    /// <exception cref="SecretKeyNotValidException"/>
-    public static async Task<string?> DecryptAsync(string? encryptedBase64, byte[] secretKey)
+    /// <exception cref="SecretKeyEmptyException"/>
+    /// <exception cref="SecretKeySizeException"/>
+    public static async Task<string?> DecryptAsync(IAesProvider aesProvider, string? encryptedBase64, byte[] secretKey)
     {
+        ArgumentNullException.ThrowIfNull(aesProvider);
         ArgumentNullException.ThrowIfNull(secretKey);
 
         if (secretKey.Length is 0)
         {
-            throw new SecretKeyNotValidException();
+            throw new SecretKeyEmptyException();
         }
 
         if (encryptedBase64 is null)
@@ -71,6 +82,12 @@ public static class StringDecryptor
         Buffer.BlockCopy(ivAndEncryptedBytesComposite, iv.Length, encryptedBytes, 0, ivAndEncryptedBytesComposite.Length - iv.Length);
 
         using var aes = Aes.Create();
+
+        SecretBitSize size = aes.CalculateSecretSize(secretKey);
+        if (!size.IsValid)
+        {
+            throw new SecretKeySizeException(size);
+        }
 
         using ICryptoTransform decryptor = aes.CreateDecryptor(secretKey, iv);
 
