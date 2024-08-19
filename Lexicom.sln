@@ -256,7 +256,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Wpf.DependencyInjec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Validation.Amenities.UnitTests", "Lexicom.Validation.Amenities.UnitTests\Lexicom.Validation.Amenities.UnitTests.csproj", "{4509F597-49EC-42AE-9F37-1E13F20B16B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.DependencyInjection.Primitives.Abstractions", "Lexicom.DependencyInjection.Primitives.Abstractions\Lexicom.DependencyInjection.Primitives.Abstractions.csproj", "{934D2DDB-DFAC-4764-A4DB-A7F4098EE714}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.DependencyInjection.Primitives.Abstractions", "Lexicom.DependencyInjection.Primitives.Abstractions\Lexicom.DependencyInjection.Primitives.Abstractions.csproj", "{934D2DDB-DFAC-4764-A4DB-A7F4098EE714}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Cryptography.For.Blazor.WebAssembly", "Lexicom.Cryptography.For.Blazor.WebAssembly\Lexicom.Cryptography.For.Blazor.WebAssembly.csproj", "{DC002125-8C18-41D0-B76B-DCDE91CCA1C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -636,6 +638,10 @@ Global
 		{934D2DDB-DFAC-4764-A4DB-A7F4098EE714}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{934D2DDB-DFAC-4764-A4DB-A7F4098EE714}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{934D2DDB-DFAC-4764-A4DB-A7F4098EE714}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC002125-8C18-41D0-B76B-DCDE91CCA1C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC002125-8C18-41D0-B76B-DCDE91CCA1C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC002125-8C18-41D0-B76B-DCDE91CCA1C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC002125-8C18-41D0-B76B-DCDE91CCA1C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -735,6 +741,7 @@ Global
 		{4CE21C12-E3BD-41DE-9A1F-5951B4A99C8D} = {BCA1C7B5-7C96-4478-80EE-5B12119CA3F7}
 		{4509F597-49EC-42AE-9F37-1E13F20B16B5} = {EB743DFF-F157-4B53-9F0C-5FDA53E68689}
 		{934D2DDB-DFAC-4764-A4DB-A7F4098EE714} = {EA247DA2-BD82-443C-B2AB-6F851482417C}
+		{DC002125-8C18-41D0-B76B-DCDE91CCA1C8} = {75C7FD2F-FC02-48CB-846C-625A2C5348ED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {065A3AC7-C473-43B9-A4CC-BC8EFB53BF19}
