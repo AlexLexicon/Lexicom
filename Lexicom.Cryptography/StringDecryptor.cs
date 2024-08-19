@@ -31,7 +31,7 @@ public static class StringDecryptor
         Buffer.BlockCopy(ivAndEncryptedBytesComposite, 0, iv, 0, iv.Length);
         Buffer.BlockCopy(ivAndEncryptedBytesComposite, iv.Length, encryptedBytes, 0, ivAndEncryptedBytesComposite.Length - iv.Length);
 
-        using var aes = Aes.Create();
+        using var aes = aesProvider.Create();
 
         SecretBitSize size = aes.CalculateSecretSize(secretKey);
         if (!size.IsValid)
@@ -81,7 +81,7 @@ public static class StringDecryptor
         Buffer.BlockCopy(ivAndEncryptedBytesComposite, 0, iv, 0, iv.Length);
         Buffer.BlockCopy(ivAndEncryptedBytesComposite, iv.Length, encryptedBytes, 0, ivAndEncryptedBytesComposite.Length - iv.Length);
 
-        using var aes = Aes.Create();
+        using var aes = aesProvider.Create();
 
         SecretBitSize size = aes.CalculateSecretSize(secretKey);
         if (!size.IsValid)
