@@ -5,13 +5,13 @@ public interface IRuleSetTransfromer<TProperty, TNextProperty>
 {
     string ErrorMessageTypeName { get; }
 
-    bool TryTransform(TProperty inProperty, out TNextProperty property);
+    bool TryTransform(TProperty property, out TNextProperty nextProperty);
 }
 public abstract class AbstractRuleSetTransformer<TProperty, TNextProperty> : IRuleSetTransfromer<TProperty, TNextProperty>
 {
     public abstract string ErrorMessageTypeName { get; }
 
-    public abstract bool TryTransform(TProperty inProperty, out TNextProperty property);
+    public abstract bool TryTransform(TProperty property, out TNextProperty nextProperty);
 }
 public interface IRuleSetTransfromerValidator<TNextProperty>
 {
