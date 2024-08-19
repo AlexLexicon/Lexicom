@@ -7,13 +7,13 @@ namespace Lexicom.Validation.For.Blazor.WebAssembly.Extensions;
 public static class BlazorWebAssemblyServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IDependantBlazorWebAssemblyServiceBuilder AddValidation(this IDependantBlazorWebAssemblyServiceBuilder builder, Action<IValidationServiceBuilder>? configure = null)
+    public static IBlazorWebAssemblyServiceBuilder AddValidation(this IBlazorWebAssemblyServiceBuilder builder, Action<IValidationServiceBuilder>? configure = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebAssemblyHostBuilder.Services.AddSingleton<IAfterServiceProviderBuildService, BlazorWebAssemblyValidateOnStartAfterServiceProviderBuildService>();
+        builder.Services.AddSingleton<IAfterServiceProviderBuildService, BlazorWebAssemblyValidateOnStartAfterServiceProviderBuildService>();
 
-        builder.WebAssemblyHostBuilder.Services.AddLexicomValidation(configure);
+        builder.Services.AddLexicomValidation(configure);
 
         return builder;
     }

@@ -5,7 +5,7 @@ namespace Lexicom.Supports.AspNetCore.Controllers.Extensions;
 public static class WebApplicationBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static WebApplicationBuilder Lexicom(this WebApplicationBuilder builder, Action<IAspNetCoreControllersServiceBuilder>? configure, bool configureContainerForLexicomHostingFeatures = true)
+    public static WebApplicationBuilder Lexicom(this WebApplicationBuilder builder, Action<IDependantAspNetCoreControllersServiceBuilder>? configure, bool configureContainerForLexicomHostingFeatures = true)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
