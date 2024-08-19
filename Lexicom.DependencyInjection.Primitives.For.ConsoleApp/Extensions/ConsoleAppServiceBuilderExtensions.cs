@@ -9,7 +9,7 @@ public static class ConsoleAppServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ConsoleApplicationBuilder.Services.AddLexicomDependencyInjectionPrimitives(configure);
+        builder.Services.AddLexicomDependencyInjectionPrimitives(configure);
 
         return builder;
     }

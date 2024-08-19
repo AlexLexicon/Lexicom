@@ -5,7 +5,7 @@ namespace Lexicom.Smtp.AspNetCore.Controllers.Extensions;
 public static class AspNetCoreControllersServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IAspNetCoreControllersServiceBuilder AddLogging(this IAspNetCoreControllersServiceBuilder builder)
+    public static IDependantAspNetCoreControllersServiceBuilder AddLogging(this IDependantAspNetCoreControllersServiceBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 

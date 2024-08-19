@@ -8,7 +8,7 @@ public static class AspNetCoreControllersServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebApplicationBuilder.Services.AddLexicomSwaggerGen();
+        builder.Services.AddLexicomSwaggerGen();
 
         return builder;
     }
@@ -17,7 +17,7 @@ public static class AspNetCoreControllersServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebApplicationBuilder.Services.AddLexicomSwaggerGen(settings);
+        builder.Services.AddLexicomSwaggerGen(settings);
 
         return builder;
     }

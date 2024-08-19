@@ -9,7 +9,7 @@ public static class AspNetCoreControllersServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebApplicationBuilder.Services.AddLexicomDependencyInjectionPrimitives(configure);
+        builder.Services.AddLexicomDependencyInjectionPrimitives(configure);
 
         return builder;
     }

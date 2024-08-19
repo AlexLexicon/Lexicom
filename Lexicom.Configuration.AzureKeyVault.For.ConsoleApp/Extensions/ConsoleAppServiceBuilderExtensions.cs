@@ -9,7 +9,7 @@ public static class ConsoleAppServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ConsoleApplicationBuilder.Configuration.AddLexicomAzureKeyVault();
+        builder.Configuration.AddLexicomAzureKeyVault();
 
         return builder;
     }

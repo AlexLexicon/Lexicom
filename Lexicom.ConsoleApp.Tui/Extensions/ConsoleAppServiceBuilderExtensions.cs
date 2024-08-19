@@ -9,7 +9,7 @@ public static class ConsoleAppServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ConsoleApplicationBuilder.Services.AddLexicomConsoleAppTui<TAssemblyScanMarker>(operationsLifetime);
+        builder.Services.AddLexicomConsoleAppTui<TAssemblyScanMarker>(operationsLifetime);
 
         return builder;
     }

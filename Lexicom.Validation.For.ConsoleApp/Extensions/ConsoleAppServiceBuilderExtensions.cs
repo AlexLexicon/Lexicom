@@ -9,7 +9,7 @@ public static class ConsoleAppServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ConsoleApplicationBuilder.Services.AddLexicomValidation(configure);
+        builder.Services.AddLexicomValidation(configure);
 
         return builder;
     }

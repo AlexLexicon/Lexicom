@@ -9,7 +9,7 @@ public static class AspNetCoreControllersServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebApplicationBuilder.Services.AddLexicomCryptography(configure);
+        builder.Services.AddLexicomCryptography(configure);
 
         return builder;
     }

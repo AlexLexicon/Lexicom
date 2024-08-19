@@ -8,7 +8,7 @@ public static class AspNetCoreControllersServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebApplicationBuilder.Services.AddLexicomAspNetCoreControllersSmtp(builder.WebApplicationBuilder.Configuration, configure);
+        builder.Services.AddLexicomAspNetCoreControllersSmtp(builder.Configuration, configure);
 
         return builder;
     }

@@ -9,7 +9,7 @@ public static class ConsoleAppServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ConsoleApplicationBuilder.Services.AddLexicomSmtp(builder.ConsoleApplicationBuilder.Configuration, configure);
+        builder.Services.AddLexicomSmtp(builder.Configuration, configure);
 
         return builder;
     }

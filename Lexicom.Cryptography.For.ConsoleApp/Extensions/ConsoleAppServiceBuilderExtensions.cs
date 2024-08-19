@@ -9,7 +9,7 @@ public static class ConsoleAppServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ConsoleApplicationBuilder.Services.AddLexicomCryptography(configure);
+        builder.Services.AddLexicomCryptography(configure);
 
         return builder;
     }

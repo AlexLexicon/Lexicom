@@ -11,7 +11,7 @@ public static class ConsoleAppServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ConsoleApplicationBuilder.Services.AddLexicomEntityFrameworkIdentity<TDbContext>();
+        builder.Services.AddLexicomEntityFrameworkIdentity<TDbContext>();
 
         return builder;
     }
@@ -24,7 +24,7 @@ public static class ConsoleAppServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ConsoleApplicationBuilder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey>(settings);
+        builder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey>(settings);
 
         return builder;
     }
@@ -38,7 +38,7 @@ public static class ConsoleAppServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ConsoleApplicationBuilder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole>(settings);
+        builder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole>(settings);
 
         return builder;
     }
@@ -56,7 +56,7 @@ public static class ConsoleAppServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ConsoleApplicationBuilder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole, TUserClaim, TUserLogin, TRoleClaim, TUserToken>(settings);
+        builder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole, TUserClaim, TUserLogin, TRoleClaim, TUserToken>(settings);
 
         return builder;
     }

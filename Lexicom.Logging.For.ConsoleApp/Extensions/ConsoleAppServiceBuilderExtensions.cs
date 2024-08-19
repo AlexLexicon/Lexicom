@@ -9,7 +9,7 @@ public static class ConsoleAppServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.ConsoleApplicationBuilder.Services.AddLexicomLogging(builder.ConsoleApplicationBuilder.Configuration);
+        builder.Services.AddLexicomLogging(builder.Configuration);
 
         return builder;
     }

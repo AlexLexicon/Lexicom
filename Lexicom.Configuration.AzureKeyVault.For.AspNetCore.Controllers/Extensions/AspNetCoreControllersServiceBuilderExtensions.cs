@@ -9,7 +9,7 @@ public static class AspNetCoreControllersServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WebApplicationBuilder.Configuration.AddLexicomAzureKeyVault();
+        builder.Configuration.AddLexicomAzureKeyVault();
 
         return builder;
     }

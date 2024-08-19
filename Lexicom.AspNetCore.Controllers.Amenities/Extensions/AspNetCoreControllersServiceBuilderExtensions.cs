@@ -4,7 +4,7 @@ namespace Lexicom.AspNetCore.Controllers.Amenities.Extensions;
 public static class AspNetCoreControllersServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IAspNetCoreControllersServiceBuilder AddAmenities(this IAspNetCoreControllersServiceBuilder builder, Action<IAspNetCoreControllersAmenitiesServiceBuilder>? configure)
+    public static IDependantAspNetCoreControllersServiceBuilder AddAmenities(this IDependantAspNetCoreControllersServiceBuilder builder, Action<IAspNetCoreControllersAmenitiesServiceBuilder>? configure)
     {
         ArgumentNullException.ThrowIfNull(builder);
 

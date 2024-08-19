@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>lexicom.nuget.icon.png</PackageIcon>
+
+    <Authors>Alex Stroot</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Simplifies the setup necessary to unit test dependency injection based classes with implemented dependencies to mock a Microsoft.AspNetCore.App framework AspNetCoreControllersServiceBuilder environment.</Description>
+    <Copyright>2024</Copyright>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>dependencyinjection</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" />
+    <None Include="..\lexicom.nuget.icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lexicom.Supports.AspNetCore.Controllers\Lexicom.Supports.AspNetCore.Controllers.csproj" />
+    <ProjectReference Include="..\Lexicom.UnitTesting.DependencyInjection\Lexicom.UnitTesting.DependencyInjection.csproj" />
+  </ItemGroup>
+
+</Project>
