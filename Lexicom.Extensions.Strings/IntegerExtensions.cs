@@ -28,6 +28,7 @@ public static class IntegerExtensions
     {
         return number switch
         {
+            0 => "zero",
             1 => "one",
             2 => "two",
             3 => "three",
