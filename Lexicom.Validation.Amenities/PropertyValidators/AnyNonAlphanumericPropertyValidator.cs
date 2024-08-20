@@ -1,6 +1,18 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+public static class AnyNonAlphanumericValidator
+{
+    public static bool IsValid(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return true;
+        }
+
+        return value.Any(c => !char.IsLetter(c) && !char.IsDigit(c));
+    }
+}
 public class AnyNonAlphanumericPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
     public const string NAME = nameof(AnyNonAlphanumericPropertyValidator<T>);
@@ -14,11 +26,6 @@ public class AnyNonAlphanumericPropertyValidator<T> : AbstractPropertyValidator<
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            return true;
-        }
-
-        return value.Any(c => !char.IsLetter(c) && !char.IsDigit(c));
+        return AnyNonAlphanumericValidator.IsValid(value);
     }
 }

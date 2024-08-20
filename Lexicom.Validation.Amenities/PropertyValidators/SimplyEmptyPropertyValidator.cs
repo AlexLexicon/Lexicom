@@ -2,6 +2,24 @@
 using System.Collections;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+public static class SimplyEmptyValidator<T>
+{
+    public static bool IsValid(T value)
+    {
+        switch (value)
+        {
+            case null:
+            case string s when s == string.Empty:
+            case Guid g when g == Guid.Empty:
+            case ICollection { Count: 0 }:
+            case Array { Length: 0 }:
+            case IEnumerable e when !e.GetEnumerator().MoveNext():
+                return true;
+        }
+
+        return false;
+    }
+}
 public class SimplyEmptyPropertyValidator<T, TProperty> : AbstractPropertyValidator<T, TProperty>
 {
     public const string NAME = nameof(SimplyEmptyPropertyValidator<T, TProperty>);
@@ -15,17 +33,6 @@ public class SimplyEmptyPropertyValidator<T, TProperty> : AbstractPropertyValida
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        switch (value)
-        {
-            case null:
-            case string s when s == string.Empty:
-            case Guid g when g == Guid.Empty:
-            case ICollection { Count: 0 }:
-            case Array { Length: 0 }:
-            case IEnumerable e when !e.GetEnumerator().MoveNext():
-                return true;
-        }
-
-        return false;
+        return SimplyEmptyValidator<TProperty>.IsValid(value);
     }
 }

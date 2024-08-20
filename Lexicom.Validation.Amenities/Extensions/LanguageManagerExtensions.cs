@@ -17,11 +17,11 @@ public static class LanguageManagerExtensions
         languageManager.AddEnTranslation(AnyNonAlphanumericPropertyValidator<object>.NAME, AnyNonAlphanumericPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(AnyUpperCaseCharactersPropertyValidator<object>.NAME, AnyUpperCaseCharactersPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(DigitsPropertyValidator<object>.NAME, DigitsPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
-        languageManager.AddEnTranslation(GreaterThan<object>.NAME, GreaterThan<object>.DEFAULT_MESSAGE_TEMPLATE);
-        languageManager.AddEnTranslation(GreaterThanOrEqualTo<object>.NAME, GreaterThanOrEqualTo<object>.DEFAULT_MESSAGE_TEMPLATE);
+        languageManager.AddEnTranslation(GreaterThanPropertyValidator<object>.NAME, GreaterThanPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
+        languageManager.AddEnTranslation(GreaterThanOrEqualToPropertyValidator<object>.NAME, GreaterThanOrEqualToPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(GuidPropertyValidator<object, object>.NAME, GuidPropertyValidator<object, object>.DEFAULT_MESSAGE_TEMPLATE);
-        languageManager.AddEnTranslation(LessThan<object>.NAME, LessThan<object>.DEFAULT_MESSAGE_TEMPLATE);
-        languageManager.AddEnTranslation(LessThanOrEqualTo<object>.NAME, LessThanOrEqualTo<object>.DEFAULT_MESSAGE_TEMPLATE);
+        languageManager.AddEnTranslation(LessThanPropertyValidator<object>.NAME, LessThanPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
+        languageManager.AddEnTranslation(LessThanOrEqualToPropertyValidator<object>.NAME, LessThanOrEqualToPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(LettersPropertyValidator<object>.NAME, LettersPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(NotAllWhiteSpacesPropertyValidator<object>.NAME, NotAllWhiteSpacesPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(NotAnyDigitsPropertyValidator<object>.NAME, NotAnyDigitsPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);

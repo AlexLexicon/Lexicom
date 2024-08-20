@@ -1,19 +1,10 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
-public class GuidPropertyValidator<T, TProperty> : AbstractPropertyValidator<T, TProperty>
-{ 
-    public const string NAME = nameof(GuidPropertyValidator<T, TProperty>);
-    public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must be a Guid.";
-
-    public override string Name { get; } = NAME;
-    public override string DefaultMessageTemplate { get; } = DEFAULT_MESSAGE_TEMPLATE;
-
-    /// <exception cref="ArgumentNullException"/>
-    public override bool IsValid(ValidationContext<T> context, TProperty value)
+public static class GuidValidator<T>
+{
+    public static bool IsValid(T value)
     {
-        ArgumentNullException.ThrowIfNull(context);
-
         if (value is null)
         {
             return true;
@@ -30,5 +21,21 @@ public class GuidPropertyValidator<T, TProperty> : AbstractPropertyValidator<T, 
         }
 
         return false;
+    }
+}
+public class GuidPropertyValidator<T, TProperty> : AbstractPropertyValidator<T, TProperty>
+{
+    public const string NAME = nameof(GuidPropertyValidator<T, TProperty>);
+    public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must be a Guid.";
+
+    public override string Name { get; } = NAME;
+    public override string DefaultMessageTemplate { get; } = DEFAULT_MESSAGE_TEMPLATE;
+
+    /// <exception cref="ArgumentNullException"/>
+    public override bool IsValid(ValidationContext<T> context, TProperty value)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+
+        return GuidValidator<TProperty>.IsValid(value);
     }
 }

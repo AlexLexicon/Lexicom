@@ -1,6 +1,18 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+public static class NotEscapedCharactersValidator
+{
+    public static bool IsValid(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return true;
+        }
+
+        return !value.Any(Constants.CHARACTERS_ESCAPED.Contains);
+    }
+}
 public class NotEscapedCharactersPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
     public const string NAME = nameof(NotEscapedCharactersPropertyValidator<T>);
@@ -14,11 +26,6 @@ public class NotEscapedCharactersPropertyValidator<T> : AbstractPropertyValidato
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            return true;
-        }
-
-        return !value.Any(Constants.CHARACTERS_ESCAPED.Contains);
+        return NotEscapedCharactersValidator.IsValid(value);
     }
 }

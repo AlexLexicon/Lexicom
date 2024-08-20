@@ -1,6 +1,18 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+public static class NotAnyWhiteSpacePropertyValidator
+{
+    public static bool IsValid(string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            return true;
+        }
+
+        return !value.Any(char.IsWhiteSpace);
+    }
+}
 public class NotAnyWhiteSpacePropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
     public const string NAME = nameof(NotAnyWhiteSpacePropertyValidator<T>);
@@ -14,11 +26,6 @@ public class NotAnyWhiteSpacePropertyValidator<T> : AbstractPropertyValidator<T,
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        if (string.IsNullOrEmpty(value))
-        {
-            return true;
-        }
-
-        return !value.Any(char.IsWhiteSpace);
+        return NotAnyWhiteSpacePropertyValidator.IsValid(value);
     }
 }

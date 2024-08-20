@@ -1,6 +1,18 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+public static class DigitsValidator
+{
+    public static bool IsValid(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return true;
+        }
+
+        return value.All(c => char.IsDigit(c) || char.IsWhiteSpace(c));
+    }
+}
 public class DigitsPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 { 
     public const string NAME = nameof(DigitsPropertyValidator<T>);
@@ -14,11 +26,6 @@ public class DigitsPropertyValidator<T> : AbstractPropertyValidator<T, string?>
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            return true;
-        }
-
-        return value.All(c => char.IsDigit(c) || char.IsWhiteSpace(c));
+        return DigitsValidator.IsValid(value);
     }
 }

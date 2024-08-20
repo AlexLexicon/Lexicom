@@ -1,6 +1,18 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+public static class AnyUpperCaseCharactersValidator
+{
+    public static bool IsValid(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return true;
+        }
+
+        return value.Any(char.IsUpper);
+    }
+}
 public class AnyUpperCaseCharactersPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
     public const string NAME = nameof(AnyUpperCaseCharactersPropertyValidator<T>);
@@ -14,11 +26,6 @@ public class AnyUpperCaseCharactersPropertyValidator<T> : AbstractPropertyValida
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            return true;
-        }
-
-        return value.Any(char.IsUpper);
+        return AnyUpperCaseCharactersValidator.IsValid(value);
     }
 }
