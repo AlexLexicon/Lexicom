@@ -42,6 +42,7 @@ public class JwtBearerOptionsConfiguration : IConfigureNamedOptions<JwtBearerOpt
         var symmetricSecurityKey = new SymmetricSecurityKey(symmetricSecurityKeyBytes);
 
         options.SaveToken = true;
+        options.MapInboundClaims = _jwtOptions.CurrentValue.MapInboundClaims;
 
         options.TokenValidationParameters = new TokenValidationParameters
         {

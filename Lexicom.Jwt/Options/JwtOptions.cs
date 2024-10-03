@@ -6,4 +6,5 @@ public class JwtOptions
 
     public string? SymmetricSecurityKey { get; set; }
     public TimeSpan ClockSkew { get; set; } = TimeSpan.FromSeconds(10);
+    public bool MapInboundClaims { get; set; } = false;
 }
