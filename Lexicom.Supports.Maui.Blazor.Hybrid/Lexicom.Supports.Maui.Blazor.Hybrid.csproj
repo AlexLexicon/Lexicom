@@ -40,4 +40,12 @@
     <ProjectReference Include="..\Lexicom.DependencyInjection.Hosting\Lexicom.DependencyInjection.Hosting.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="Microsoft.Maui.Controls" Version="8.0.100" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.100" />
+  </ItemGroup>
+
 </Project>

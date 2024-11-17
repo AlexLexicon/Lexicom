@@ -41,4 +41,12 @@
     <ProjectReference Include="..\Lexicom.Supports.Maui.Blazor.Hybrid\Lexicom.Supports.Maui.Blazor.Hybrid.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="Microsoft.Maui.Controls" Version="8.0.100" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.100" />
+  </ItemGroup>
+
 </Project>
