@@ -33,6 +33,10 @@ public static class LanguageManagerExtensions
         languageManager.AddEnTranslation(AnyNonAlphanumericPropertyValidator<object>.NAME, AnyNonAlphanumericPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(AnyUpperCaseCharactersPropertyValidator<object>.NAME, AnyUpperCaseCharactersPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(DigitsPropertyValidator<object>.NAME, DigitsPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
+        languageManager.AddEnTranslation(DirectoryExistsPropertyValidator<object>.NAME, DirectoryExistsPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
+        languageManager.AddEnTranslation(DirectoryPathPropertyValidator<object>.NAME, DirectoryPathPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
+        languageManager.AddEnTranslation(FileExistsPropertyValidator<object>.NAME, FileExistsPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
+        languageManager.AddEnTranslation(FilePathPropertyValidator<object>.NAME, FilePathPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(GuidPropertyValidator<object, object>.NAME, GuidPropertyValidator<object, object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(LettersPropertyValidator<object>.NAME, LettersPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(NotAllWhiteSpacesPropertyValidator<object>.NAME, NotAllWhiteSpacesPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
