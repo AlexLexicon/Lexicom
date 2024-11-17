@@ -21,6 +21,14 @@ public static class RuleBuilderExtensions
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> Digits<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<DigitsPropertyValidator<T>, T, string?>();
     /// <exception cref="ArgumentNullException"/>
+    public static IRuleBuilderOptions<T, string?> DirectoryExists<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<DirectoryExistsPropertyValidator<T>, T, string?>();
+    /// <exception cref="ArgumentNullException"/>
+    public static IRuleBuilderOptions<T, string?> DirectoryPath<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<DirectoryPathPropertyValidator<T>, T, string?>();
+    /// <exception cref="ArgumentNullException"/>
+    public static IRuleBuilderOptions<T, string?> FileExists<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<FileExistsPropertyValidator<T>, T, string?>();
+    /// <exception cref="ArgumentNullException"/>
+    public static IRuleBuilderOptions<T, string?> FilePath<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<FilePathPropertyValidator<T>, T, string?>();
+    /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, TProperty> Guid<T, TProperty>(this IRuleBuilder<T, TProperty> ruleBuilder) => ruleBuilder.SetPropertyValidator<GuidPropertyValidator<T, TProperty>, T, TProperty>();
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> Letters<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<LettersPropertyValidator<T>, T, string?>();
