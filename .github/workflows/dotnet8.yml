@@ -20,12 +20,12 @@ jobs:
       with:
         dotnet-version: 8.x
         
+    - name: Restore Workload
+      run: dotnet workload restore
+
     - name: Restore
       run: dotnet restore
 
-    - name: Restore Workload
-      run: dotnet workload restore
-      
     - name: Build
       run: dotnet build --configuration Release --no-restore /p:VersionPrefix=8.0.$env:GITHUB_RUN_NUMBER
 
