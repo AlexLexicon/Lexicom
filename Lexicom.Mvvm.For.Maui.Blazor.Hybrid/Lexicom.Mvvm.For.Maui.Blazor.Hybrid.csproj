@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+    
+    <ImplicitUsings>enable</ImplicitUsings>
+    <SingleProject>true</SingleProject>
+    <Nullable>enable</Nullable>
+    <UseMaui>true</UseMaui>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>lexicom.nuget.icon.png</PackageIcon>
+
+    <Authors>Alex Stroot</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Derives the Lexicom.Mvvm package to provide an implementation specific for a Maui Blazor hybrid application project.</Description>
+    <Copyright>2024</Copyright>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Mvvm.For.Maui.Blazor.Hybrid</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>maui;blazor;dependencyinjection;mvvm</PackageTags>
+
+    <SkipValidateMauiImplicitPackageReferences>true</SkipValidateMauiImplicitPackageReferences>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\lexicom.nuget.icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lexicom.Mvvm.For.Blazor.WebAssembly\Lexicom.Mvvm.For.Blazor.WebAssembly.csproj" />
+    <ProjectReference Include="..\Lexicom.Mvvm\Lexicom.Mvvm.csproj" />
+    <ProjectReference Include="..\Lexicom.Supports.Maui.Blazor.Hybrid\Lexicom.Supports.Maui.Blazor.Hybrid.csproj" />
+  </ItemGroup>
+
+</Project>

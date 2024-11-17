@@ -264,15 +264,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Validation.UnitTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Cryptography.UnitTests", "Lexicom.Cryptography.UnitTests\Lexicom.Cryptography.UnitTests.csproj", "{8796F95D-81AC-4F19-80E7-B8E28527E1C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests", "Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests\Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests.csproj", "{00346512-E60C-4D0E-91F4-5DB74B4C5C60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests", "Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests\Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests.csproj", "{00346512-E60C-4D0E-91F4-5DB74B4C5C60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly", "Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly\Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly.csproj", "{E9A135C0-D20D-4B10-923A-F3DC6FDB1CFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly", "Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly\Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly.csproj", "{E9A135C0-D20D-4B10-923A-F3DC6FDB1CFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.UnitTesting.DependencyInjection.As.Wpf", "Lexicom.UnitTesting.DependencyInjection.As.Wpf\Lexicom.UnitTesting.DependencyInjection.As.Wpf.csproj", "{FB036559-48AF-42D0-A576-DB5F9E88E2FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.UnitTesting.DependencyInjection.As.Wpf", "Lexicom.UnitTesting.DependencyInjection.As.Wpf\Lexicom.UnitTesting.DependencyInjection.As.Wpf.csproj", "{FB036559-48AF-42D0-A576-DB5F9E88E2FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.UnitTesting.DependencyInjection.As.ConsoleApp", "Lexicom.UnitTesting.DependencyInjection.As.ConsoleApp\Lexicom.UnitTesting.DependencyInjection.As.ConsoleApp.csproj", "{BFD6CBD0-4436-4310-8F1D-E1D73C5E2C3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.UnitTesting.DependencyInjection.As.ConsoleApp", "Lexicom.UnitTesting.DependencyInjection.As.ConsoleApp\Lexicom.UnitTesting.DependencyInjection.As.ConsoleApp.csproj", "{BFD6CBD0-4436-4310-8F1D-E1D73C5E2C3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers", "Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers\Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers.csproj", "{A4D64A97-1590-4FC3-9467-E797D09E335C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers", "Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers\Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers.csproj", "{A4D64A97-1590-4FC3-9467-E797D09E335C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Supports.Maui.Blazor.Hybrid", "Lexicom.Supports.Maui.Blazor.Hybrid\Lexicom.Supports.Maui.Blazor.Hybrid.csproj", "{67D78135-D5C7-45CA-B385-F901882AD399}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Mvvm.For.Maui.Blazor.Hybrid", "Lexicom.Mvvm.For.Maui.Blazor.Hybrid\Lexicom.Mvvm.For.Maui.Blazor.Hybrid.csproj", "{1A8CB41E-DB8D-4EB6-ADE2-0F0B5055B3A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Validation.For.Maui.Blazor.Hybrid", "Lexicom.Validation.For.Maui.Blazor.Hybrid\Lexicom.Validation.For.Maui.Blazor.Hybrid.csproj", "{F5514F11-B3D5-4A36-87F8-59EBB3FBA418}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.DependencyInjection.Primitives.For.Maui.Blazor.Hybrid", "Lexicom.DependencyInjection.Primitives.For.Maui.Blazor.Hybrid\Lexicom.DependencyInjection.Primitives.For.Maui.Blazor.Hybrid.csproj", "{3207B584-3010-41DD-BF33-3BBF3370DCC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Cryptography.For.Maui.Blazor.Hybrid", "Lexicom.Cryptography.For.Maui.Blazor.Hybrid\Lexicom.Cryptography.For.Maui.Blazor.Hybrid.csproj", "{6D0541DC-A687-428D-BBAD-A2057A101D87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -684,6 +694,26 @@ Global
 		{A4D64A97-1590-4FC3-9467-E797D09E335C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4D64A97-1590-4FC3-9467-E797D09E335C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4D64A97-1590-4FC3-9467-E797D09E335C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67D78135-D5C7-45CA-B385-F901882AD399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67D78135-D5C7-45CA-B385-F901882AD399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67D78135-D5C7-45CA-B385-F901882AD399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67D78135-D5C7-45CA-B385-F901882AD399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A8CB41E-DB8D-4EB6-ADE2-0F0B5055B3A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A8CB41E-DB8D-4EB6-ADE2-0F0B5055B3A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A8CB41E-DB8D-4EB6-ADE2-0F0B5055B3A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A8CB41E-DB8D-4EB6-ADE2-0F0B5055B3A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5514F11-B3D5-4A36-87F8-59EBB3FBA418}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5514F11-B3D5-4A36-87F8-59EBB3FBA418}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5514F11-B3D5-4A36-87F8-59EBB3FBA418}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5514F11-B3D5-4A36-87F8-59EBB3FBA418}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3207B584-3010-41DD-BF33-3BBF3370DCC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3207B584-3010-41DD-BF33-3BBF3370DCC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3207B584-3010-41DD-BF33-3BBF3370DCC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3207B584-3010-41DD-BF33-3BBF3370DCC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D0541DC-A687-428D-BBAD-A2057A101D87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D0541DC-A687-428D-BBAD-A2057A101D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D0541DC-A687-428D-BBAD-A2057A101D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D0541DC-A687-428D-BBAD-A2057A101D87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -791,6 +821,11 @@ Global
 		{FB036559-48AF-42D0-A576-DB5F9E88E2FA} = {FAD40A0F-C9A7-422C-A495-51241D224F62}
 		{BFD6CBD0-4436-4310-8F1D-E1D73C5E2C3B} = {FAD40A0F-C9A7-422C-A495-51241D224F62}
 		{A4D64A97-1590-4FC3-9467-E797D09E335C} = {FAD40A0F-C9A7-422C-A495-51241D224F62}
+		{67D78135-D5C7-45CA-B385-F901882AD399} = {D943A243-4872-4A70-B9E4-4E8F25339E47}
+		{1A8CB41E-DB8D-4EB6-ADE2-0F0B5055B3A5} = {B3A07EC3-C43E-4AA3-B8F8-3B44E8E30FCB}
+		{F5514F11-B3D5-4A36-87F8-59EBB3FBA418} = {EB743DFF-F157-4B53-9F0C-5FDA53E68689}
+		{3207B584-3010-41DD-BF33-3BBF3370DCC3} = {EA247DA2-BD82-443C-B2AB-6F851482417C}
+		{6D0541DC-A687-428D-BBAD-A2057A101D87} = {75C7FD2F-FC02-48CB-846C-625A2C5348ED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {065A3AC7-C473-43B9-A4CC-BC8EFB53BF19}
