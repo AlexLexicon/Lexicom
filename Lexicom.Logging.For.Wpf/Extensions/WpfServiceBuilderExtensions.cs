@@ -6,7 +6,7 @@ namespace Lexicom.Logging.For.Wpf.Extensions;
 public static class WpfServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IWpfServiceBuilder AddSmtp(this IWpfServiceBuilder builder, IConfiguration configuration)
+    public static IWpfServiceBuilder AddLogging(this IWpfServiceBuilder builder, IConfiguration configuration)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
