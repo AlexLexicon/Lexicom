@@ -192,9 +192,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{61A0674C-13A2-4E4B-89E7-B533498A1E85}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{6B1FE9E3-233A-401F-A8BC-6025A8FD9851}"
-	ProjectSection(SolutionItems) = preProject
-		.github\workflows\dotnet8.yml = .github\workflows\dotnet8.yml
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SourceGenerator", "SourceGenerator", "{BD112656-0ECB-42AB-AD15-EFDE8B7082DB}"
 EndProject
@@ -274,15 +271,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.UnitTesting.Depende
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers", "Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers\Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers.csproj", "{A4D64A97-1590-4FC3-9467-E797D09E335C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Supports.Maui.Blazor.Hybrid", "Lexicom.Supports.Maui.Blazor.Hybrid\Lexicom.Supports.Maui.Blazor.Hybrid.csproj", "{67D78135-D5C7-45CA-B385-F901882AD399}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Supports.Maui.Blazor.Hybrid", "Lexicom.Supports.Maui.Blazor.Hybrid\Lexicom.Supports.Maui.Blazor.Hybrid.csproj", "{67D78135-D5C7-45CA-B385-F901882AD399}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Mvvm.For.Maui.Blazor.Hybrid", "Lexicom.Mvvm.For.Maui.Blazor.Hybrid\Lexicom.Mvvm.For.Maui.Blazor.Hybrid.csproj", "{1A8CB41E-DB8D-4EB6-ADE2-0F0B5055B3A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Mvvm.For.Maui.Blazor.Hybrid", "Lexicom.Mvvm.For.Maui.Blazor.Hybrid\Lexicom.Mvvm.For.Maui.Blazor.Hybrid.csproj", "{1A8CB41E-DB8D-4EB6-ADE2-0F0B5055B3A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Validation.For.Maui.Blazor.Hybrid", "Lexicom.Validation.For.Maui.Blazor.Hybrid\Lexicom.Validation.For.Maui.Blazor.Hybrid.csproj", "{F5514F11-B3D5-4A36-87F8-59EBB3FBA418}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Validation.For.Maui.Blazor.Hybrid", "Lexicom.Validation.For.Maui.Blazor.Hybrid\Lexicom.Validation.For.Maui.Blazor.Hybrid.csproj", "{F5514F11-B3D5-4A36-87F8-59EBB3FBA418}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.DependencyInjection.Primitives.For.Maui.Blazor.Hybrid", "Lexicom.DependencyInjection.Primitives.For.Maui.Blazor.Hybrid\Lexicom.DependencyInjection.Primitives.For.Maui.Blazor.Hybrid.csproj", "{3207B584-3010-41DD-BF33-3BBF3370DCC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.DependencyInjection.Primitives.For.Maui.Blazor.Hybrid", "Lexicom.DependencyInjection.Primitives.For.Maui.Blazor.Hybrid\Lexicom.DependencyInjection.Primitives.For.Maui.Blazor.Hybrid.csproj", "{3207B584-3010-41DD-BF33-3BBF3370DCC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Cryptography.For.Maui.Blazor.Hybrid", "Lexicom.Cryptography.For.Maui.Blazor.Hybrid\Lexicom.Cryptography.For.Maui.Blazor.Hybrid.csproj", "{6D0541DC-A687-428D-BBAD-A2057A101D87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Cryptography.For.Maui.Blazor.Hybrid", "Lexicom.Cryptography.For.Maui.Blazor.Hybrid\Lexicom.Cryptography.For.Maui.Blazor.Hybrid.csproj", "{6D0541DC-A687-428D-BBAD-A2057A101D87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
