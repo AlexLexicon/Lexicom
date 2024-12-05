@@ -6,7 +6,7 @@ namespace Lexicom.Configuration.Settings.For.Wpf.Extensions;
 public static class WpfServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IWpfServiceBuilder AddSettings(this IWpfServiceBuilder builder, ApplicationSettingsBase settings)
+    public static IWpfServiceBuilder AddLogging(this IWpfServiceBuilder builder, ApplicationSettingsBase settings)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(settings);
