@@ -287,6 +287,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.DependencyInjection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Cryptography.For.Maui.Blazor.Hybrid", "Lexicom.Cryptography.For.Maui.Blazor.Hybrid\Lexicom.Cryptography.For.Maui.Blazor.Hybrid.csproj", "{6D0541DC-A687-428D-BBAD-A2057A101D87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Logging.For.Wpf", "Lexicom.Logging.For.Wpf\Lexicom.Logging.For.Wpf.csproj", "{AF774A8A-6D1E-4385-9283-01B51790BBDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -717,6 +719,10 @@ Global
 		{6D0541DC-A687-428D-BBAD-A2057A101D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D0541DC-A687-428D-BBAD-A2057A101D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D0541DC-A687-428D-BBAD-A2057A101D87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF774A8A-6D1E-4385-9283-01B51790BBDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF774A8A-6D1E-4385-9283-01B51790BBDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF774A8A-6D1E-4385-9283-01B51790BBDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF774A8A-6D1E-4385-9283-01B51790BBDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -829,6 +835,7 @@ Global
 		{F5514F11-B3D5-4A36-87F8-59EBB3FBA418} = {EB743DFF-F157-4B53-9F0C-5FDA53E68689}
 		{3207B584-3010-41DD-BF33-3BBF3370DCC3} = {EA247DA2-BD82-443C-B2AB-6F851482417C}
 		{6D0541DC-A687-428D-BBAD-A2057A101D87} = {75C7FD2F-FC02-48CB-846C-625A2C5348ED}
+		{AF774A8A-6D1E-4385-9283-01B51790BBDB} = {F6B989B9-2D86-4C26-AE1B-77EA674E0480}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {065A3AC7-C473-43B9-A4CC-BC8EFB53BF19}
