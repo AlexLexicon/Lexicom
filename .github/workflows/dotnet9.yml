@@ -15,10 +15,10 @@ jobs:
     steps:          
     - uses: actions/checkout@v2
     
-    - name: Install .NET 8
+    - name: Install .NET 9
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 8.x
+        dotnet-version: 9.x
         
     - name: Restore Workload
       run: dotnet workload restore
@@ -27,7 +27,7 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build --configuration Release --no-restore /p:VersionPrefix=8.0.$env:GITHUB_RUN_NUMBER
+      run: dotnet build --configuration Release --no-restore /p:VersionPrefix=9.0.$env:GITHUB_RUN_NUMBER
 
     - name: Test
       run: dotnet test --no-build --configuration Release --verbosity normal
