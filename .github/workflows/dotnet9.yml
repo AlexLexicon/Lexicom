@@ -1,4 +1,4 @@
-name: .net8 Build and Publish
+name: .net9 Build and Publish
 
 on:
   workflow_dispatch:
