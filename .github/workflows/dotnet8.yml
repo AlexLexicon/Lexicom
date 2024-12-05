@@ -3,9 +3,9 @@ name: .net8 Build and Publish
 on:
   workflow_dispatch:
   push:
-    branches: [ master ]
+    branches: [ dotnet8 ]
   pull_request:
-    branches: [ master ]
+    branches: [ dotnet8 ]
     
 jobs:
   build:
