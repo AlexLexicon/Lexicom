@@ -193,8 +193,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{61A0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{6B1FE9E3-233A-401F-A8BC-6025A8FD9851}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\dotnet8.yml = .github\workflows\dotnet8.yml
-		.github\workflows\pipeline.yml = .github\workflows\pipeline.yml
+		.github\workflows\dotnet6.yml = .github\workflows\dotnet6.yml
+		.github\workflows\dotnet7.yml = .github\workflows\dotnet7.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SourceGenerator", "SourceGenerator", "{BD112656-0ECB-42AB-AD15-EFDE8B7082DB}"
