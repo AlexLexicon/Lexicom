@@ -24,8 +24,9 @@ public interface IDispatcher
     void Invoke(Action callback);
     void Invoke(Action callback, Priority priority);
     void Invoke(Action callback, Priority priority, CancellationToken cancellationToken);
-#pragma warning disable CA1068 // CancellationToken parameters must come last
+
     //the actual Dispatcher class violates this analysis 
+#pragma warning disable CA1068 // CancellationToken parameters must come last
     void Invoke(Action callback, Priority priority, CancellationToken cancellationToken, TimeSpan timeout);
 #pragma warning restore CA1068 // CancellationToken parameters must come last
     TResult Invoke<TResult>(Func<TResult> callback);

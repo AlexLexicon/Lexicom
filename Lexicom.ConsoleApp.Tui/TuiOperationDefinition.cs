@@ -10,9 +10,9 @@ internal class TuiOperationDefinition
 
         OperationType = operationType;
 
-        PageAttribute = (TuiPageAttribute?)operationType.GetCustomAttribute(typeof(TuiPageAttribute));
-        TitleAttribute = (TuiTitleAttribute?)operationType.GetCustomAttribute(typeof(TuiTitleAttribute));
-        PriorityAttribute = (TuiPriorityAttribute?)operationType.GetCustomAttribute(typeof(TuiPriorityAttribute));
+        PageAttribute = operationType.GetCustomAttribute<TuiPageAttribute>();
+        TitleAttribute = operationType.GetCustomAttribute<TuiTitleAttribute>();
+        PriorityAttribute = operationType.GetCustomAttribute<TuiPriorityAttribute>();
 
         Title = TitleAttribute?.Title ?? operationType.Name;
     }

@@ -20,7 +20,7 @@ public class DefaultExampleFilter : IOperationFilter
 
         foreach (ParameterInfo parameter in parameters)
         {
-            Attribute? fromBodyAttribute = parameter.GetCustomAttribute(typeof(FromBodyAttribute));
+            Attribute? fromBodyAttribute = parameter.GetCustomAttribute<FromBodyAttribute>();
 
             if (fromBodyAttribute is not null)
             {
@@ -37,7 +37,7 @@ public class DefaultExampleFilter : IOperationFilter
         ArgumentNullException.ThrowIfNull(operation);
         ArgumentNullException.ThrowIfNull(context);
 
-        var exampleAttribute = (SwaggerExampleAttribute?)context.MethodInfo.GetCustomAttribute(typeof(SwaggerExampleAttribute));
+        var exampleAttribute = context.MethodInfo.GetCustomAttribute<SwaggerExampleAttribute>();
 
         if (exampleAttribute is not null)
         {

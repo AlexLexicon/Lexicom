@@ -88,10 +88,10 @@ public class RuleSetValidator<TRuleSet, TProperty, TTransformer, TNextProperty> 
 
         if (!isTransformable)
         {
-            result = new ValidationResult(new List<ValidationFailure>
-            {
+            result = new ValidationResult(
+            [
                 new ValidationFailure(propertyName: "", errorMessage: $"Must be a valid {Transformer.ErrorMessageTypeName}."),
-            });
+            ]);
         }
 
         return isTransformable;

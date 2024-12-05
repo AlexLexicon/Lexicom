@@ -146,8 +146,8 @@ public static class ServiceCollectionExtensions
 
         identityBuilder
             .AddDefaultTokenProviders()
-            .AddTokenProvider(ChangeEmailTokenProviderOptions.NAME, typeof(IdentityChangeEmailTokenProvider<TUser>))
-            .AddTokenProvider(EmailConfirmationTokenProviderOptions.NAME, typeof(IdentityEmailConfirmationTokenProvider<TUser>))
-            .AddTokenProvider(PasswordResetTokenProviderOptions.NAME, typeof(IdentityPasswordResetTokenProvider<TUser>));
+            .AddTokenProvider<IdentityChangeEmailTokenProvider<TUser>>(ChangeEmailTokenProviderOptions.NAME)
+            .AddTokenProvider<IdentityEmailConfirmationTokenProvider<TUser>>(EmailConfirmationTokenProviderOptions.NAME)
+            .AddTokenProvider<IdentityPasswordResetTokenProvider<TUser>>(PasswordResetTokenProviderOptions.NAME);
     }
 }
