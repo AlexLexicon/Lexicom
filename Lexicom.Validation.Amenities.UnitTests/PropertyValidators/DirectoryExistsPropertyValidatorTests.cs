@@ -1,9 +1,7 @@
-﻿using FluentAssertions;
-using FluentValidation;
+﻿using FluentValidation;
 using Lexicom.UnitTesting;
 using Lexicom.Validation.Amenities.Extensions;
 using Lexicom.Validation.Amenities.PropertyValidators;
-using Lexicom.Validation.Amenities.UnitTests.ModelsForTests.RuleSets;
 using Lexicom.Validation.Extensions;
 
 namespace Lexicom.Validation.Amenities.UnitTests.PropertyValidators;
