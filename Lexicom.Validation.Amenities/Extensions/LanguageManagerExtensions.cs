@@ -39,6 +39,7 @@ public static class LanguageManagerExtensions
         languageManager.AddEnTranslation(FilePathPropertyValidator<object>.NAME, FilePathPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(GuidPropertyValidator<object, object>.NAME, GuidPropertyValidator<object, object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(LettersPropertyValidator<object>.NAME, LettersPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
+        languageManager.AddEnTranslation(NotAllDigitsPropertyValidator<object>.NAME, NotAllDigitsPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(NotAllWhiteSpacesPropertyValidator<object>.NAME, NotAllWhiteSpacesPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(NotAnyDigitsPropertyValidator<object>.NAME, NotAnyDigitsPropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);
         languageManager.AddEnTranslation(NotAnyWhiteSpacePropertyValidator<object>.NAME, NotAnyWhiteSpacePropertyValidator<object>.DEFAULT_MESSAGE_TEMPLATE);

@@ -33,6 +33,8 @@ public static class RuleBuilderExtensions
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> Letters<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<LettersPropertyValidator<T>, T, string?>();
     /// <exception cref="ArgumentNullException"/>
+    public static IRuleBuilderOptions<T, string?> NotAllDigits<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<NotAllDigitsPropertyValidator<T>, T, string?>();
+    /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> NotAllWhitespaces<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<NotAllWhiteSpacesPropertyValidator<T>, T, string?>();
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> NotAnyDigits<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<NotAnyDigitsPropertyValidator<T>, T, string?>();
