@@ -43,7 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.12" />
+    <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.30" />
   </ItemGroup>
 
   <ItemGroup>
