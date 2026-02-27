@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.5.33424.131
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11430.68 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.AspNetCore.Controllers.Amenities", "Lexicom.AspNetCore.Controllers.Amenities\Lexicom.AspNetCore.Controllers.Amenities.csproj", "{86CD7B00-727C-4CE1-8EA5-DC947D50BDAB}"
 EndProject
@@ -193,6 +193,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{61A0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{6B1FE9E3-233A-401F-A8BC-6025A8FD9851}"
 	ProjectSection(SolutionItems) = preProject
+		dotnet10.yml = dotnet10.yml
 		.github\workflows\dotnet6.yml = .github\workflows\dotnet6.yml
 		.github\workflows\dotnet7.yml = .github\workflows\dotnet7.yml
 		.github\workflows\dotnet8.yml = .github\workflows\dotnet8.yml
