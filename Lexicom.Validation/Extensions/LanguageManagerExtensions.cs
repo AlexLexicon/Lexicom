@@ -31,7 +31,6 @@ public static class LanguageManagerExtensions
         languageManager.AddEnTranslation(nameof(InclusiveBetweenValidator<object, object>), "'{PropertyName}' must be between {From} and {To} but was {PropertyValue}.");
         languageManager.AddEnTranslation(nameof(ExclusiveBetweenValidator<object, object>), "'{PropertyName}' must be between {From} and {To} (exclusive) but was {PropertyValue}.");
         languageManager.AddEnTranslation(nameof(CreditCardValidator<object>), "'{PropertyName}' must be a valid credit card number.");
-        languageManager.AddEnTranslation(nameof(ScalePrecisionValidator<object>), "'{PropertyName}' must not have more than {ExpectedPrecision} digits in total, with allowance for {ExpectedScale} decimals but {Digits} digits with {ActualScale} decimals were found.");
         languageManager.AddEnTranslation(nameof(EmptyValidator<object, object>), "The '{PropertyName}' field must not be provided.");
         languageManager.AddEnTranslation(nameof(NullValidator<object, object>), "The '{PropertyName}' field must not be provided.");
         languageManager.AddEnTranslation(nameof(EnumValidator<object, object>), "'{PropertyName}' must be in a range of values which does not include '{PropertyValue}'.");
