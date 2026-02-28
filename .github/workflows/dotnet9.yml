@@ -3,9 +3,9 @@ name: .net9 Build and Publish
 on:
   workflow_dispatch:
   push:
-    branches: [ master ]
+    branches: [ dotnet9 ]
   pull_request:
-    branches: [ master ]
+    branches: [ dotnet9 ]
     
 jobs:
   build:
