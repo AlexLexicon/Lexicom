@@ -1,68 +1,120 @@
-﻿namespace Lexicom.Http;
+﻿using Lexicom.Http.Exceptions;
+
+namespace Lexicom.Http;
+
 public class HttpQueryParameter
 {
-    //these constructors are to avoid boxing common value types
     /// <exception cref="ArgumentNullException"/>
+    ///<exception cref="InvalidHttpQueryParameterNameException"/>
     public HttpQueryParameter(
         string name,
-        int value) : this(name, value.ToString()!)
+        short value)
+        : this(name, value.ToString()!)
     {
     }
     /// <exception cref="ArgumentNullException"/>
+    ///<exception cref="InvalidHttpQueryParameterNameException"/>
     public HttpQueryParameter(
         string name,
-        long value) : this(name, value.ToString()!)
+        int value)
+        : this(name, value.ToString()!)
     {
     }
     /// <exception cref="ArgumentNullException"/>
+    ///<exception cref="InvalidHttpQueryParameterNameException"/>
     public HttpQueryParameter(
         string name,
-        float value) : this(name, value.ToString()!)
+        long value)
+        : this(name, value.ToString()!)
     {
     }
     /// <exception cref="ArgumentNullException"/>
+    ///<exception cref="InvalidHttpQueryParameterNameException"/>
     public HttpQueryParameter(
         string name,
-        double value) : this(name, value.ToString()!)
+        float value)
+        : this(name, value.ToString()!)
     {
     }
     /// <exception cref="ArgumentNullException"/>
+    ///<exception cref="InvalidHttpQueryParameterNameException"/>
     public HttpQueryParameter(
         string name,
-        decimal value) : this(name, value.ToString()!)
+        double value)
+        : this(name, value.ToString()!)
     {
     }
     /// <exception cref="ArgumentNullException"/>
+    ///<exception cref="InvalidHttpQueryParameterNameException"/>
     public HttpQueryParameter(
         string name,
-        Guid value) : this(name, value.ToString()!)
+        decimal value)
+        : this(name, value.ToString()!)
     {
     }
     /// <exception cref="ArgumentNullException"/>
+    ///<exception cref="InvalidHttpQueryParameterNameException"/>
     public HttpQueryParameter(
         string name,
-        DateTime value) : this(name, value.ToString()!)
+        uint value)
+        : this(name, value.ToString()!)
     {
     }
     /// <exception cref="ArgumentNullException"/>
+    ///<exception cref="InvalidHttpQueryParameterNameException"/>
     public HttpQueryParameter(
         string name,
-        DateTimeOffset value) : this(name, value.ToString()!)
+        ulong value)
+        : this(name, value.ToString()!)
     {
     }
     /// <exception cref="ArgumentNullException"/>
+    ///<exception cref="InvalidHttpQueryParameterNameException"/>
     public HttpQueryParameter(
         string name,
-        object value) :this(name, value?.ToString()!)
+        Guid value)
+        : this(name, value.ToString()!)
     {
     }
     /// <exception cref="ArgumentNullException"/>
+    ///<exception cref="InvalidHttpQueryParameterNameException"/>
     public HttpQueryParameter(
-        string name, 
+        string name,
+        DateTime value)
+        : this(name, value.ToString()!)
+    {
+    }
+    /// <exception cref="ArgumentNullException"/>
+    ///<exception cref="InvalidHttpQueryParameterNameException"/>
+    public HttpQueryParameter(
+        string name,
+        DateTimeOffset value)
+        : this(name, value.ToString()!)
+    {
+    }
+    /// <exception cref="ArgumentNullException"/>
+    ///<exception cref="InvalidHttpQueryParameterNameException"/>
+    public HttpQueryParameter(
+        string name,
+        object value)
+        : this(name, value.ToString()!)
+    {
+    }
+    /// <exception cref="ArgumentNullException"/>
+    ///<exception cref="InvalidHttpQueryParameterNameException"/>
+    public HttpQueryParameter(
+        string name,
         string value)
     {
         ArgumentNullException.ThrowIfNull(name);
         ArgumentNullException.ThrowIfNull(value);
+
+        //the name is invalud if the name is empty or if the
+        //name contains characters that would need to be escaped
+        if (string.IsNullOrWhiteSpace(name) || name != Uri.EscapeDataString(name))
+        {
+            throw new InvalidHttpQueryParameterNameException(name);
+        }
 
         Name = name;
         Value = value;
@@ -70,4 +122,11 @@ public class HttpQueryParameter
 
     public string Name { get; }
     public string Value { get; }
+
+    public string EscapedValue => field ??= Uri.EscapeDataString(Value);
+
+    public override string ToString()
+    {
+        return $"{Name}={EscapedValue}";
+    }
 }

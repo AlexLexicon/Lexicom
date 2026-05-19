@@ -107,6 +107,9 @@
   <Folder Name="/Http/">
     <Project Path="Lexicom.Http/Lexicom.Http.csproj" />
   </Folder>
+  <Folder Name="/Http/UnitTests/">
+    <Project Path="Lexicom.Http.UnitTests/Lexicom.Http.UnitTests.csproj" Id="6464e74b-5a7e-4c1b-9087-def411a72021" />
+  </Folder>
   <Folder Name="/Jwt/">
     <Project Path="Lexicom.Jwt/Lexicom.Jwt.csproj" />
   </Folder>

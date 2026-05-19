@@ -12,7 +12,9 @@ public class HttpQueryString : IList<HttpQueryParameter>
         ArgumentNullException.ThrowIfNull(url);
 
         var uriBuilder = new UriBuilder(url);
+
         NameValueCollection query = HttpUtility.ParseQueryString(uriBuilder.Query);
+
         var queryString = new HttpQueryString();
         for (int index = 0; index < query.Count; index++)
         {
@@ -149,19 +151,24 @@ public class HttpQueryString : IList<HttpQueryParameter>
 
         foreach (HttpQueryParameter parameter in _parameters)
         {
-            nameValueCollection.Add(parameter.Name, parameter.Value);
+            nameValueCollection.Add(parameter.Name, parameter.EscapedValue);
         }
 
         string? parameters = nameValueCollection.ToString();
 
+        if (!string.IsNullOrWhiteSpace(url))
+        {
+            if (string.IsNullOrWhiteSpace(parameters))
+            {
+                return url;
+            }
+
+            return $"{url}?{parameters}";
+        }
+
         if (string.IsNullOrWhiteSpace(parameters))
         {
             return string.Empty;
-        }
-
-        if (!string.IsNullOrWhiteSpace(url))
-        {
-            return $"{url}?{parameters}";
         }
 
         return parameters;

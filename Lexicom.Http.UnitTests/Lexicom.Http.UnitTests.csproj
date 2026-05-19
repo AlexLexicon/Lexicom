@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <IsTestProject>true</IsTestProject>
     <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,11 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
+    <ProjectReference Include="..\Lexicom.Http\Lexicom.Http.csproj" />
+    <ProjectReference Include="..\Lexicom.Supports.Testing\Lexicom.Supports.Testing.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lexicom.Maths\Lexicom.Maths.csproj" />
+    <Using Include="Xunit" />
   </ItemGroup>
 
 </Project>
