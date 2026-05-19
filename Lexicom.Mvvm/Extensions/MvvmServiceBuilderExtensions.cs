@@ -8,14 +8,14 @@ namespace Lexicom.Mvvm.Extensions;
 public static class MvvmServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IMvvmServiceBuilder AddViewModel<TViewModel>(this IMvvmServiceBuilder builder, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton) where TViewModel : class
+    public static IMvvmServiceBuilder AddViewModel<TViewModel>(this IMvvmServiceBuilder builder, ServiceLifetime serviceLifetime = ServiceLifetime.Transient) where TViewModel : class
     {
         ArgumentNullException.ThrowIfNull(builder);
 
         return AddViewModel<TViewModel, TViewModel>(builder, serviceLifetime);
     }
     /// <exception cref="ArgumentNullException"/>
-    public static IMvvmServiceBuilder AddViewModel<TViewModelService, TViewModelImplementation>(this IMvvmServiceBuilder builder, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton) where TViewModelService : notnull where TViewModelImplementation : class, TViewModelService
+    public static IMvvmServiceBuilder AddViewModel<TViewModelService, TViewModelImplementation>(this IMvvmServiceBuilder builder, ServiceLifetime serviceLifetime = ServiceLifetime.Transient) where TViewModelService : notnull where TViewModelImplementation : class, TViewModelService
     {
         ArgumentNullException.ThrowIfNull(builder);
 
@@ -44,7 +44,7 @@ public static class MvvmServiceBuilderExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static IMvvmServiceBuilder AddViewModel(this IMvvmServiceBuilder builder, Type viewModelImplementation, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
+    public static IMvvmServiceBuilder AddViewModel(this IMvvmServiceBuilder builder, Type viewModelImplementation, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(viewModelImplementation);
@@ -52,7 +52,7 @@ public static class MvvmServiceBuilderExtensions
         return AddViewModel(builder, viewModelImplementation, viewModelImplementation, serviceLifetime);
     }
     /// <exception cref="ArgumentNullException"/>
-    public static IMvvmServiceBuilder AddViewModel(this IMvvmServiceBuilder builder, Type viewModelService, Type viewModelImplementation, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
+    public static IMvvmServiceBuilder AddViewModel(this IMvvmServiceBuilder builder, Type viewModelService, Type viewModelImplementation, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(viewModelService);
