@@ -21,6 +21,7 @@
   </Folder>
   <Folder Name="/Authentication/">
     <Project Path="Lexicom.Authentication.For.AspNetCore.Controllers/Lexicom.Authentication.For.AspNetCore.Controllers.csproj" />
+    <Project Path="Lexicom.Authentication.For.ConsoleApp/Lexicom.Authentication.For.ConsoleApp.csproj" Id="02b5cc3e-a8c3-47e7-8cda-f8694a701bb0" />
     <Project Path="Lexicom.Authentication.Http/Lexicom.Authentication.Http.csproj" />
     <Project Path="Lexicom.Authentication/Lexicom.Authentication.csproj" />
   </Folder>

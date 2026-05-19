@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Lexicom.Authentication.For.AspNetCore.Controllers.Configurations;
+namespace Lexicom.Authentication.Configurations;
 public class JwtBearerOptionsConfiguration : IConfigureNamedOptions<JwtBearerOptions>
 {
     private readonly IOptionsMonitor<JwtOptions> _jwtOptions;

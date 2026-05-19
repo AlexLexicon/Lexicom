@@ -1,12 +1,12 @@
-﻿using Lexicom.AspNetCore.Controllers.Amenities.Abstractions;
-using Lexicom.Authentication.For.AspNetCore.Controllers.Configurations;
+﻿using Lexicom.Authentication.Configurations;
 using Lexicom.Jwt.Extensions;
 using Lexicom.Jwt.Options;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Lexicom.Authentication.For.AspNetCore.Controllers;
+namespace Lexicom.Authentication;
+
 public interface IAuthenticationAccessTokenBuilder
 {
     IServiceCollection Services { get; }
@@ -49,18 +49,14 @@ public class AuthenticationAccessTokenBuilder : IAuthenticationAccessTokenBuilde
         return this;
     }
 
-    public void Build()
+    public virtual void Build()
     {
         Services.AddJwtSecretsOptions(JwtOptions.ACCESS_TOKEN_SECTION);
 
         Services.ConfigureOptions<AuthenticationOptionsConfiguration>();
         Services.ConfigureOptions<JwtBearerOptionsConfiguration>();
 
-        //This exception handler will catch the 
-        //'ClaimDoesNotExistException' or 'ClaimNotValidException' exceptions
-        //which can potentially occur if a jwt's claims are changed but it's still valid
-        //it will return a 401 unauthorized in this case
-        Services.AddSingleton<IExceptionHandler, BearerTokenClaimExceptionHandler>();
+
 
         AuthenticationBuilder builder;
         if (ConfigureAuthenticationDelegate is not null)

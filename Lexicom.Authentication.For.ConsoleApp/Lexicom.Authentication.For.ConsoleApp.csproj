@@ -11,12 +11,12 @@
 
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Derives the Lexicom.Authentication package to provide an implementation specific for an AspNetCore controller application project.</Description>
+    <Description>Derives the Lexicom.Authentication package to provide an implementation specific for a Console application project.</Description>
     <Copyright>2026</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Authentication.For.AspNetCore.Controllers</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Authentication.For.ConsoleApp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>aspnetcore;authentication;dependencyinjection;jwt</PackageTags>
+    <PackageTags>authentication;dependencyinjection</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,9 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lexicom.AspNetCore.Controllers.Amenities\Lexicom.AspNetCore.Controllers.Amenities.csproj" />
     <ProjectReference Include="..\Lexicom.Authentication\Lexicom.Authentication.csproj" />
-    <ProjectReference Include="..\Lexicom.Supports.AspNetCore.Controllers\Lexicom.Supports.AspNetCore.Controllers.csproj" />
+    <ProjectReference Include="..\Lexicom.Supports.ConsoleApp\Lexicom.Supports.ConsoleApp.csproj" />
   </ItemGroup>
 
 </Project>

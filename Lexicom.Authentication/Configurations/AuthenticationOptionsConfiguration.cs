@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 
-namespace Lexicom.Authentication.For.AspNetCore.Controllers.Configurations;
+namespace Lexicom.Authentication.Configurations;
 public class AuthenticationOptionsConfiguration : IConfigureOptions<AuthenticationOptions>
 {
     /// <exception cref="ArgumentNullException"/>

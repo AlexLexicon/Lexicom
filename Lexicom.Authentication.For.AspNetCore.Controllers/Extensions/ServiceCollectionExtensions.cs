@@ -8,7 +8,7 @@ public static class ServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        var authenticationBearerTokenBuilder = new AuthenticationAccessTokenBuilder(services);
+        var authenticationBearerTokenBuilder = new AspNetCoreAuthenticationAccessTokenBuilder(services);
 
         configure?.Invoke(authenticationBearerTokenBuilder);
 
