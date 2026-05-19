@@ -43,7 +43,7 @@ public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
 
         MockTypeToContainer.Add(container.ServiceType, container);
 
-        return new UnitTestAssistantMockFluentBuilder<TService>(container);
+        return new UnitTestAssistantMockFluentBuilder<TService>(this, container);
     }
     internal UnitTestAssistantMockFluentBuilder Mock(Type serviceType, MockLifetime lifetime)
     {
@@ -51,7 +51,7 @@ public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
 
         MockTypeToContainer.Add(container.ServiceType, container);
 
-        return new UnitTestAssistantMockFluentBuilder(container);
+        return new UnitTestAssistantMockFluentBuilder(this, container);
     }
 
     /// <exception cref="PullValueTypeException"></exception>

@@ -4,12 +4,21 @@ using Lexicom.ConsoleApp.Amenities.ReadLines.Abstractions;
 using Lexicom.ConsoleApp.Amenities.ReadLines.Settings;
 using Newtonsoft.Json;
 using System.Globalization;
-using System.Runtime;
 
 namespace Lexicom.ConsoleApp.Amenities;
 
 public static class Consolex
 {
+    internal static IConsolexConsole GetConsolexConsole()
+    {
+        if (Consolex.ConsolexConsole is null)
+        {
+            throw new NullReferenceException($"{nameof(Consolex)}.{nameof(ConsolexConsole)} is null.");
+        }
+
+        return Consolex.ConsolexConsole;
+    }
+
     public delegate bool TryParseDelegate<T>(string? input, out T result);
     public delegate bool TryParseWithSettingsDelegate<T, TSettings>(string? input, TSettings settings, out T result) where TSettings : ReadLineSettings;
 
@@ -29,6 +38,8 @@ public static class Consolex
         initalInput: null,
         inputColor: ConsoleColor.Green
     );
+
+    public static IConsolexConsole? ConsolexConsole { get; set; } = new ConsolexConsole();
 
     /// <exception cref="ArgumentNullException"/>
     public static JsonSerializerSettings JsonSerializerSettings
@@ -104,10 +115,10 @@ public static class Consolex
 
         if (name is not null)
         {
-            Console.WriteLine($"\"{name}\":");
+            ConsolexConsole?.WriteLine($"\"{name}\":");
         }
-        Console.Write(json);
-        Console.WriteLine();
+        ConsolexConsole?.Write(json);
+        ConsolexConsole?.WriteLine();
     }
 
     public static QuestionBuilder Question() => new QuestionBuilder();
@@ -146,7 +157,7 @@ public static class Consolex
         {
             if (isInvalid)
             {
-                Console.WriteLine("The input is required");
+                ConsolexConsole?.WriteLine("The input is required");
             }
 
             if (description is not null)
@@ -177,18 +188,18 @@ public static class Consolex
                     keysPart += ")";
                 }
 
-                Console.WriteLine($"{descriptionPart}{keysPart}");
+                ConsolexConsole?.WriteLine($"{descriptionPart}{keysPart}");
             }
 
             if (settings.InputColor.HasValue)
             {
-                Console.ForegroundColor = settings.InputColor.Value;
+                ConsolexConsole?.ForegroundColor = settings.InputColor.Value;
             }
 
             bool isCancelled = false;
             if (!isCancellable && !isDefaultable && !isInitalable)
             {
-                input = Console.ReadLine();
+                input = ConsolexConsole?.ReadLine();
             }
             else
             {
@@ -221,7 +232,7 @@ public static class Consolex
 
             if (settings.InputColor.HasValue)
             {
-                Console.ResetColor();
+                ConsolexConsole?.ResetColor();
             }
 
             if (isCancelled)
@@ -322,7 +333,7 @@ public static class Consolex
         {
             if (isInvalid)
             {
-                Console.WriteLine($"The input is required to be an {typeof(T).Name}");
+                ConsolexConsole?.WriteLine($"The input is required to be an {typeof(T).Name}");
             }
 
             string strInput = ReadLine(description, settings);
@@ -372,52 +383,142 @@ public static class Consolex
     public static DateTimeOffset ReadLineDateTimeOffset(string? description, DateTimeOffsetReadLineSettings settings) => ReadLineParse<DateTimeOffset, DateTimeOffsetReadLineSettings>(DateTimeOffsetTryParse, description, settings);
     private static bool DateTimeOffsetTryParse(string? input, DateTimeOffsetReadLineSettings settings, out DateTimeOffset result) => DateTimeOffset.TryParseExact(input, settings.Format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out result);
 
-    public static void WriteLine() => Console.WriteLine();
-    public static void WriteLine(bool value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
-    public static void WriteLine(char value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
-    public static void WriteLine(char[]? buffer, ConsoleColor? color = null) => WriteColoredLine(buffer, Console.WriteLine, color);
-    public static void WriteLine(decimal value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
-    public static void WriteLine(double value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
-    public static void WriteLine(float value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
-    public static void WriteLine(int value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
-    public static void WriteLine(long value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
-    public static void WriteLine(object? value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
-    public static void WriteLine(string? value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
-    public static void WriteLine(uint value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
-    public static void WriteLine(ulong value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
-    public static void WriteLine(ReadOnlySpan<char> value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
-    public static void WriteLine(char[] buffer, int index, int count, ConsoleColor? color = null) => WriteColoredLine(buffer, _ => Console.WriteLine(buffer, index, count), color);
+    public static void WriteLine() => ConsolexConsole?.WriteLine();
+    public static void WriteLine(bool value, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(value, ConsolexConsole.WriteLine, color);
+        }
+    }
+    public static void WriteLine(char value, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(value, ConsolexConsole.WriteLine, color);
+        }
+    }
+    public static void WriteLine(char[]? buffer, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(buffer, ConsolexConsole.WriteLine, color);
+        }
+    }
+    public static void WriteLine(decimal value, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(value, ConsolexConsole.WriteLine, color);
+        }
+    }
+    public static void WriteLine(double value, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(value, ConsolexConsole.WriteLine, color);
+        }
+    }
+    public static void WriteLine(float value, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(value, ConsolexConsole.WriteLine, color);
+        }
+    }
+    public static void WriteLine(int value, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(value, ConsolexConsole.WriteLine, color);
+        }
+    }
+    public static void WriteLine(long value, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(value, ConsolexConsole.WriteLine, color);
+        }
+    }
+    public static void WriteLine(object? value, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(value, ConsolexConsole.WriteLine, color);
+        }
+    }
+    public static void WriteLine(string? value, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(value, ConsolexConsole.WriteLine, color);
+        }
+    }
+    public static void WriteLine(uint value, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(value, ConsolexConsole.WriteLine, color);
+        }
+    }
+    public static void WriteLine(ulong value, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(value, ConsolexConsole.WriteLine, color);
+        }
+    }
+    public static void WriteLine(ReadOnlySpan<char> value, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(value, ConsolexConsole.WriteLine, color);
+        }
+    }
+    public static void WriteLine(char[] buffer, int index, int count, ConsoleColor? color = null)
+    {
+        if (ConsolexConsole is not null)
+        {
+            WriteColoredLine(buffer, _ => ConsolexConsole.WriteLine(buffer, index, count), color);
+        }
+    }
     public static void WriteLine(params IEnumerable<WriteLineSegment> segments)
     {
-        foreach (WriteLineSegment segment in segments)
+        if (ConsolexConsole is not null)
         {
-            if (segment.Color.HasValue)
+            foreach (WriteLineSegment segment in segments)
             {
-                Console.ForegroundColor = segment.Color.Value;
+                if (segment.Color.HasValue)
+                {
+                    ConsolexConsole.ForegroundColor = segment.Color.Value;
+                }
+
+                ConsolexConsole.Write(segment.Text);
+
+                if (segment.Color.HasValue)
+                {
+                    ConsolexConsole.ResetColor();
+                }
             }
 
-            Console.Write(segment.Text);
-
-            if (segment.Color.HasValue)
-            {
-                Console.ResetColor();
-            }
+            ConsolexConsole.WriteLine();
         }
-
-        Console.WriteLine();
     }
     private static void WriteColoredLine<T>(T value, Action<T> writeLineDelegate, ConsoleColor? color) where T : allows ref struct
     {
-        if (color.HasValue)
+        if (ConsolexConsole is not null)
         {
-            Console.ForegroundColor = color.Value;
-        }
+            if (color.HasValue)
+            {
+                ConsolexConsole.ForegroundColor = color.Value;
+            }
 
-        writeLineDelegate.Invoke(value);
+            writeLineDelegate.Invoke(value);
 
-        if (color.HasValue)
-        {
-            Console.ResetColor();
+            if (color.HasValue)
+            {
+                ConsolexConsole.ResetColor();
+            }
         }
     }
 

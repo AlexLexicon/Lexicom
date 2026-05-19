@@ -10,6 +10,8 @@ internal static class AdvancedReadLine
     {
         ArgumentNullException.ThrowIfNull(keysToInterrupt);
 
+        IConsolexConsole console = Consolex.GetConsolexConsole();
+
         AdvancedReadLineIntercept[] keys = keysToInterrupt
             .Where(k => k is not null)
             .Select(k => k!)
@@ -27,12 +29,12 @@ internal static class AdvancedReadLine
             {
                 foreach (char character in initalResult.Input)
                 {
-                    Insert(ref index, character, builder);
+                    Insert(console, ref index, character, builder);
                 }
             }
         }
 
-        ConsoleKeyInfo cki = Console.ReadKey(true);
+        ConsoleKeyInfo cki = console.ReadKey(true);
         (int left, int top) startPosition;
 
         while (cki.Key is not ConsoleKey.Enter)
@@ -52,7 +54,7 @@ internal static class AdvancedReadLine
                 {
                     foreach (char character in result.Input)
                     {
-                        Insert(ref index, character, builder);
+                        Insert(console, ref index, character, builder);
                     }
                 }
             }
@@ -61,78 +63,78 @@ internal static class AdvancedReadLine
             {
                 if (index < 1)
                 {
-                    cki = Console.ReadKey(true);
+                    cki = console.ReadKey(true);
                     continue;
                 }
 
-                LeftArrow(ref index, cki);
+                LeftArrow(console, ref index, cki);
             }
             else if (cki.Key is ConsoleKey.RightArrow)
             {
                 if (index >= builder.Length)
                 {
-                    cki = Console.ReadKey(true);
+                    cki = console.ReadKey(true);
                     continue;
                 }
 
-                RightArrow(ref index, cki, builder);
+                RightArrow(console, ref index, cki, builder);
             }
             else if (cki.Key is ConsoleKey.Backspace)
             {
                 if (index < 1)
                 {
-                    cki = Console.ReadKey(true);
+                    cki = console.ReadKey(true);
                     continue;
                 }
 
-                BackSpace(ref index, builder);
+                BackSpace(console, ref index, builder);
             }
             else if (cki.Key is ConsoleKey.Delete)
             {
                 if (index >= builder.Length)
                 {
-                    cki = Console.ReadKey(true);
+                    cki = console.ReadKey(true);
                     continue;
                 }
 
-                Delete(ref index, cki, builder);
+                Delete(console, ref index, cki, builder);
             }
             else if (cki.Key is ConsoleKey.Tab)
             {
-                cki = Console.ReadKey(true);
+                cki = console.ReadKey(true);
                 continue;
             }
             else
             {
                 if (cki.KeyChar is '\0')
                 {
-                    cki = Console.ReadKey(true);
+                    cki = console.ReadKey(true);
                     continue;
                 }
 
-                Insert(ref index, cki.KeyChar, builder);
+                Insert(console, ref index, cki.KeyChar, builder);
             }
 
-            cki = Console.ReadKey(true);
+            cki = console.ReadKey(true);
         }
 
-        startPosition = GetStartPosition(index);
-        var endPosition = GetEndPosition(startPosition.left, builder.Length);
+        startPosition = GetStartPosition(console, index);
+        var endPosition = GetEndPosition(console, startPosition.left, builder.Length);
         int left = 0;
         int top = startPosition.top + endPosition.top + 1;
 
-        if (top >= Console.BufferHeight)
+        if (top >= console.BufferHeight)
         {
-            Console.WriteLine();
-            top = Console.BufferHeight - 1;
+            console.WriteLine();
+            top = console.BufferHeight - 1;
         }
 
-        Console.SetCursorPosition(left, top);
+        console.SetCursorPosition(left, top);
 
         return builder.ToString();
     }
 
-    private static void LeftArrow(ref int index, ConsoleKeyInfo cki)
+    private static void LeftArrow(IConsolexConsole console, ref int index, ConsoleKeyInfo cki)
     {
         int previousIndex = index;
         index--;
@@ -141,24 +143,24 @@ internal static class AdvancedReadLine
         {
             index = 0;
 
-            var (left, top) = GetStartPosition(previousIndex);
-            Console.SetCursorPosition(left, top);
+            var (left, top) = GetStartPosition(console, previousIndex);
+            console.SetCursorPosition(left, top);
 
             return;
         }
 
-        if (Console.CursorLeft > 0)
+        if (console.CursorLeft > 0)
         {
-            Console.CursorLeft--;
+            console.CursorLeft--;
         }
         else
         {
-            Console.CursorTop--;
-            Console.CursorLeft = Console.BufferWidth - 1;
+            console.CursorTop--;
+            console.CursorLeft = console.BufferWidth - 1;
         }
     }
 
-    private static void RightArrow(ref int index, ConsoleKeyInfo cki, StringBuilder builder)
+    private static void RightArrow(IConsolexConsole console, ref int index, ConsoleKeyInfo cki, StringBuilder builder)
     {
         int previousIndex = index;
         index++;
@@ -167,125 +169,125 @@ internal static class AdvancedReadLine
         {
             index = builder.Length;
 
-            var startPosition = GetStartPosition(previousIndex);
-            var endPosition = GetEndPosition(startPosition.left, builder.Length);
+            var startPosition = GetStartPosition(console, previousIndex);
+            var endPosition = GetEndPosition(console, startPosition.left, builder.Length);
             int top = startPosition.top + endPosition.top;
             int left = endPosition.left;
 
-            Console.SetCursorPosition(left, top);
+            console.SetCursorPosition(left, top);
 
             return;
         }
 
-        if (Console.CursorLeft < Console.BufferWidth - 1)
+        if (console.CursorLeft < console.BufferWidth - 1)
         {
-            Console.CursorLeft++;
+            console.CursorLeft++;
         }
         else
         {
-            Console.CursorTop++;
-            Console.CursorLeft = 0;
+            console.CursorTop++;
+            console.CursorLeft = 0;
         }
     }
 
-    private static void Insert(ref int index, char keyChar, StringBuilder builder)
+    private static void Insert(IConsolexConsole console, ref int index, char keyChar, StringBuilder builder)
     {
         int previousIndex = index;
         index++;
 
         builder.Insert(previousIndex, keyChar);
 
-        var startPosition = GetStartPosition(previousIndex);
-        Console.SetCursorPosition(startPosition.left, startPosition.top);
-        Console.Write(builder.ToString());
+        var startPosition = GetStartPosition(console, previousIndex);
+        console.SetCursorPosition(startPosition.left, startPosition.top);
+        console.Write(builder.ToString());
 
-        GoBackToCurrentPosition(index, startPosition);
+        GoBackToCurrentPosition(console, index, startPosition);
     }
 
-    private static void BackSpace(ref int index, StringBuilder builder)
+    private static void BackSpace(IConsolexConsole console, ref int index, StringBuilder builder)
     {
         int previousIndex = index;
         index--;
 
-        var startPosition = GetStartPosition(previousIndex);
-        ErasePrint(builder, startPosition);
+        var startPosition = GetStartPosition(console, previousIndex);
+        ErasePrint(console, builder, startPosition);
 
         builder.Remove(index, 1);
-        Console.Write(builder.ToString());
+        console.Write(builder.ToString());
 
-        GoBackToCurrentPosition(index, startPosition);
+        GoBackToCurrentPosition(console, index, startPosition);
     }
 
-    private static void Delete(ref int index, ConsoleKeyInfo cki, StringBuilder builder)
+    private static void Delete(IConsolexConsole console, ref int index, ConsoleKeyInfo cki, StringBuilder builder)
     {
-        var startPosition = GetStartPosition(index);
-        ErasePrint(builder, startPosition);
+        var startPosition = GetStartPosition(console, index);
+        ErasePrint(console, builder, startPosition);
 
         if (cki.Modifiers is ConsoleModifiers.Control)
         {
             builder.Remove(index, builder.Length - index);
-            Console.Write(builder.ToString());
+            console.Write(builder.ToString());
 
-            GoBackToCurrentPosition(index, startPosition);
+            GoBackToCurrentPosition(console, index, startPosition);
             return;
         }
 
         builder.Remove(index, 1);
-        Console.Write(builder.ToString());
+        console.Write(builder.ToString());
 
-        GoBackToCurrentPosition(index, startPosition);
+        GoBackToCurrentPosition(console, index, startPosition);
     }
 
-    private static (int left, int top) GetStartPosition(int previousIndex)
+    private static (int left, int top) GetStartPosition(IConsolexConsole console, int previousIndex)
     {
         int top;
         int left;
 
-        if (previousIndex <= Console.CursorLeft)
+        if (previousIndex <= console.CursorLeft)
         {
-            top = Console.CursorTop;
-            left = Console.CursorLeft - previousIndex;
+            top = console.CursorTop;
+            left = console.CursorLeft - previousIndex;
         }
         else
         {
-            int decrementValue = previousIndex - Console.CursorLeft;
-            int rowsFromStart = decrementValue / Console.BufferWidth;
-            top = Console.CursorTop - rowsFromStart;
-            left = decrementValue - rowsFromStart * Console.BufferWidth;
+            int decrementValue = previousIndex - console.CursorLeft;
+            int rowsFromStart = decrementValue / console.BufferWidth;
+            top = console.CursorTop - rowsFromStart;
+            left = decrementValue - rowsFromStart * console.BufferWidth;
 
             if (left is not 0)
             {
                 top--;
-                left = Console.BufferWidth - left;
+                left = console.BufferWidth - left;
             }
         }
 
         return (left, top);
     }
 
-    private static void GoBackToCurrentPosition(int index, (int left, int top) startPosition)
+    private static void GoBackToCurrentPosition(IConsolexConsole console, int index, (int left, int top) startPosition)
     {
-        int rowsToGo = (index + startPosition.left) / Console.BufferWidth;
-        int rowIndex = index - rowsToGo * Console.BufferWidth;
+        int rowsToGo = (index + startPosition.left) / console.BufferWidth;
+        int rowIndex = index - rowsToGo * console.BufferWidth;
 
         int left = startPosition.left + rowIndex;
         int top = startPosition.top + rowsToGo;
 
-        Console.SetCursorPosition(left, top);
+        console.SetCursorPosition(left, top);
     }
 
-    private static (int left, int top) GetEndPosition(int startColumn, int builderLength)
+    private static (int left, int top) GetEndPosition(IConsolexConsole console, int startColumn, int builderLength)
     {
-        int cursorTop = (builderLength + startColumn) / Console.BufferWidth;
-        int cursorLeft = startColumn + (builderLength - cursorTop * Console.BufferWidth);
+        int cursorTop = (builderLength + startColumn) / console.BufferWidth;
+        int cursorLeft = startColumn + (builderLength - cursorTop * console.BufferWidth);
 
         return (cursorLeft, cursorTop);
     }
 
-    private static void ErasePrint(StringBuilder builder, (int left, int top) startPosition)
+    private static void ErasePrint(IConsolexConsole console, StringBuilder builder, (int left, int top) startPosition)
     {
-        Console.SetCursorPosition(startPosition.left, startPosition.top);
-        Console.Write(new string(Enumerable.Range(0, builder.Length).Select(o => ' ').ToArray()));
-        Console.SetCursorPosition(startPosition.left, startPosition.top);
+        console.SetCursorPosition(startPosition.left, startPosition.top);
+        console.Write(new string(Enumerable.Range(0, builder.Length).Select(o => ' ').ToArray()));
+        console.SetCursorPosition(startPosition.left, startPosition.top);
     }
 }

@@ -50,6 +50,9 @@
     <Project Path="Lexicom.ConsoleApp.DependencyInjection/Lexicom.ConsoleApp.DependencyInjection.csproj" />
     <Project Path="Lexicom.ConsoleApp.Tui/Lexicom.ConsoleApp.Tui.csproj" />
   </Folder>
+  <Folder Name="/ConsoleApp/UnitTests/">
+    <Project Path="Lexicom.ConsoleApp.Amenities.UnitTests/Lexicom.ConsoleApp.Amenities.UnitTests.csproj" Id="cfb263a4-6e6d-46f2-83e9-45434be2f117" />
+  </Folder>
   <Folder Name="/Cryptography/">
     <Project Path="Lexicom.Cryptography.For.AspNetCore.Controllers/Lexicom.Cryptography.For.AspNetCore.Controllers.csproj" />
     <Project Path="Lexicom.Cryptography.For.Blazor.WebAssembly/Lexicom.Cryptography.For.Blazor.WebAssembly.csproj" />

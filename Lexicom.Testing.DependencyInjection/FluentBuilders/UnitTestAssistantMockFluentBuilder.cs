@@ -2,16 +2,25 @@
 
 namespace Lexicom.Testing.DependencyInjection;
 
-public class UnitTestAssistantMockFluentBuilder
+public interface IUnitTestAssistantMockFluentBuilder
+{
+    object Pull();
+}
+public class UnitTestAssistantMockFluentBuilder : IUnitTestAssistantMockFluentBuilder
 {
     /// <exception cref="ArgumentNullException"></exception>
-    public UnitTestAssistantMockFluentBuilder(MockContainer container)
+    public UnitTestAssistantMockFluentBuilder(
+        MockManager manager,
+        MockContainer container)
     {
+        ArgumentNullException.ThrowIfNull(manager);
         ArgumentNullException.ThrowIfNull(container);
 
+        Manager = manager;
         Container = container;
     }
 
+    protected MockManager Manager { get; }
     protected MockContainer Container { get; }
 
     /// <exception cref="ArgumentNullException"></exception>
@@ -21,11 +30,30 @@ public class UnitTestAssistantMockFluentBuilder
 
         Container.Instantiater.Set(implementationType);
     }
+
+    public object Pull()
+    {
+        return Manager.Pull(Container.ServiceType);
+    }
+}
+public interface IUnitTestAssistantMockFluentBuilder<TService>
+{
+    TService Pull();
+}
+public interface IUnitTestAssistantMockSubstituteFluentBuilder<TService> : IUnitTestAssistantMockFluentBuilder<TService> where TService : class
+{
+    /// <exception cref="ArgumentNullException"></exception>
+    IUnitTestAssistantMockFluentBuilder<TService> So(Action<TService> substitutions);
 }
 public class UnitTestAssistantMockFluentBuilder<TService> : UnitTestAssistantMockFluentBuilder, IUnitTestAssistantMockSubstituteFluentBuilder<TService> where TService : class
 {
     /// <exception cref="ArgumentNullException"></exception>
-    public UnitTestAssistantMockFluentBuilder(MockContainer<TService> container) : base(container)
+    public UnitTestAssistantMockFluentBuilder(
+        MockManager manager, 
+        MockContainer<TService> container) 
+        : base(
+            manager, 
+            container)
     {
         ArgumentNullException.ThrowIfNull(container);
 
@@ -35,27 +63,38 @@ public class UnitTestAssistantMockFluentBuilder<TService> : UnitTestAssistantMoc
     protected MockContainer<TService> GenericContainer { get; }
 
     /// <exception cref="ArgumentNullException"></exception>
-    public void So(Action<TService> substitutions)
+    public IUnitTestAssistantMockFluentBuilder<TService> So(Action<TService> substitutions)
     {
         ArgumentNullException.ThrowIfNull(substitutions);
 
         GenericContainer.SetConfigureDelegate(substitutions);
+
+        return this;
     }
 
-    public IUnitTestAssistantMockSubstituteFluentBuilder<TImplementation> With<TImplementation>() where TImplementation : class, TService
+    public IUnitTestAssistantMockFluentBuilder<TImplementation> With<TImplementation>() where TImplementation : class, TService
     {
         Container.Instantiater.Set(typeof(TImplementation));
 
-        return new UnitTestAssistantMockSubstituteImplementationFluentBuilder<TService, TImplementation>(GenericContainer);
+        return new UnitTestAssistantMockSubstituteImplementationFluentBuilder<TService, TImplementation>(Manager, GenericContainer);
     }
 
-    public void With<TImplementation>(TImplementation instance) where TImplementation : class, TService
+    public IUnitTestAssistantMockFluentBuilder<TService> With<TImplementation>(TImplementation instance) where TImplementation : class, TService
     {
         Container.Instantiater.Set(instance);
+
+        return this;
     }
 
-    public void With<TImplementation>(Func<TImplementation> factory) where TImplementation : class, TService
+    public IUnitTestAssistantMockFluentBuilder<TService> With<TImplementation>(Func<TImplementation> factory) where TImplementation : class, TService
     {
         Container.Instantiater.Set(factory);
+
+        return this;
+    }
+
+    public new TService Pull()
+    {
+        return (TService)base.Pull();
     }
 }
