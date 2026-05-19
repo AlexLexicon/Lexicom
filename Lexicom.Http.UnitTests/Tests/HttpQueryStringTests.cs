@@ -73,4 +73,59 @@ public class HttpQueryStringTests
 
         Assert.Equal(url, newUrl);
     }
+
+    [Fact]
+    public void HttpQueryString_ToString_Format_With_Url()
+    {
+        //arrange
+        string baseUrl = "www.example.com/page";
+        string expectedStr = $"{baseUrl}?a=1&b=2&c=3";
+
+        //act
+        var queryString = new HttpQueryString
+        {
+            new HttpQueryParameter("a", 1),
+            new HttpQueryParameter("b", 2),
+            new HttpQueryParameter("c", 3),
+        };
+
+        string str = queryString.ToString(baseUrl);
+
+        Assert.Equal(expectedStr, str);
+    }
+
+    [Fact]
+    public void HttpQueryString_ToString_Format_With_Url_Without_Parameter()
+    {
+        //arrange
+        string expectedStr = $"www.example.com/page";
+
+        //act
+        var queryString = new HttpQueryString
+        {
+        };
+
+        string str = queryString.ToString(expectedStr);
+
+        Assert.Equal(expectedStr, str);
+    }
+
+    [Fact]
+    public void HttpQueryString_ToString_Format_Without_Url()
+    {
+        //arrange
+        string expectedString = $"a=1&b=2&c=3";
+
+        //act
+        var queryString = new HttpQueryString
+        {
+            new HttpQueryParameter("a", 1),
+            new HttpQueryParameter("b", 2),
+            new HttpQueryParameter("c", 3),
+        };
+
+        string str = queryString.ToString();
+
+        Assert.Equal(expectedString, str);
+    }
 }
