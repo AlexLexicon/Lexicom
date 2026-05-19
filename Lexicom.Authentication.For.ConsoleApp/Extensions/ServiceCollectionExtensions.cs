@@ -1,5 +1,4 @@
-﻿using Lexicom.Authentication.For.AspNetCore.Controllers;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Authentication.For.ConsoleApp.Extensions;
 
