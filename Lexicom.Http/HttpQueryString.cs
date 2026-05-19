@@ -7,7 +7,7 @@ public class HttpQueryString : IList<HttpQueryParameter>
 {
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="UriFormatException"/>
-    public static HttpQueryString Create(string url)
+    public static HttpQueryString Parse(string url)
     {
         ArgumentNullException.ThrowIfNull(url);
 
@@ -141,6 +141,10 @@ public class HttpQueryString : IList<HttpQueryParameter>
 
     public override string ToString()
     {
+        return ToString(url: null);
+    }
+    public string ToString(string? url)
+    {
         NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(string.Empty);
 
         foreach (HttpQueryParameter parameter in _parameters)
@@ -155,7 +159,12 @@ public class HttpQueryString : IList<HttpQueryParameter>
             return string.Empty;
         }
 
-        return $"?{parameters}";
+        if (!string.IsNullOrWhiteSpace(url))
+        {
+            return $"{url}?{parameters}";
+        }
+
+        return parameters;
     }
 
     public IEnumerator<HttpQueryParameter> GetEnumerator() => _parameters.GetEnumerator();
