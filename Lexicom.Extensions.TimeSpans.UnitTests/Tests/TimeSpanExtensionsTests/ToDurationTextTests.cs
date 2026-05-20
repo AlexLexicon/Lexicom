@@ -4,6 +4,33 @@ namespace Lexicom.Extensions.TimeSpans.UnitTests.Tests.TimeSpanExtensionsTests;
 
 public class ToDurationTextTests
 {
+    public static TheoryData<TimeSpan, TimeSpanDelineation, string> Multiple_Text_Is_Correct_Data { get; } =
+    [
+        //arrange
+        (new TimeSpan(0, 0, 0, 0, 0, 0), TimeSpanDelineation.Days | TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes | TimeSpanDelineation.Seconds | TimeSpanDelineation.Milliseconds | TimeSpanDelineation.Microseconds | TimeSpanDelineation.Nanoseconds, "0 Nanoseconds"),
+        (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Days | TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes | TimeSpanDelineation.Seconds | TimeSpanDelineation.Milliseconds | TimeSpanDelineation.Microseconds | TimeSpanDelineation.Nanoseconds, "5 Days 5 Hours 5 Minutes 5 Seconds 5 Milliseconds 5 Microseconds 500 Nanoseconds"),
+        (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Days | TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes | TimeSpanDelineation.Seconds | TimeSpanDelineation.Milliseconds | TimeSpanDelineation.Microseconds, "5 Days 5 Hours 5 Minutes 5 Seconds 5 Milliseconds 5 Microseconds"),
+        (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Days | TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes | TimeSpanDelineation.Seconds | TimeSpanDelineation.Milliseconds, "5 Days 5 Hours 5 Minutes 5 Seconds 5 Milliseconds"),
+        (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Days | TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes | TimeSpanDelineation.Seconds, "5 Days 5 Hours 5 Minutes 5 Seconds"),
+        (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Days | TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes, "5 Days 5 Hours 5 Minutes"),
+        (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Days | TimeSpanDelineation.Hours, "5 Days 5 Hours"),        
+        (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes | TimeSpanDelineation.Seconds | TimeSpanDelineation.Milliseconds | TimeSpanDelineation.Microseconds | TimeSpanDelineation.Nanoseconds, "5 Hours 5 Minutes 5 Seconds 5 Milliseconds 5 Microseconds 500 Nanoseconds"),
+        (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Minutes | TimeSpanDelineation.Seconds | TimeSpanDelineation.Milliseconds | TimeSpanDelineation.Microseconds | TimeSpanDelineation.Nanoseconds, "5 Minutes 5 Seconds 5 Milliseconds 5 Microseconds 500 Nanoseconds"),
+        (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Seconds | TimeSpanDelineation.Milliseconds | TimeSpanDelineation.Microseconds | TimeSpanDelineation.Nanoseconds, "5 Seconds 5 Milliseconds 5 Microseconds 500 Nanoseconds"),
+        (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Milliseconds | TimeSpanDelineation.Microseconds | TimeSpanDelineation.Nanoseconds, "5 Milliseconds 5 Microseconds 500 Nanoseconds"),
+        (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Microseconds | TimeSpanDelineation.Nanoseconds, "5 Microseconds 500 Nanoseconds"),
+    ];
+    [Theory]
+    [MemberData(nameof(Multiple_Text_Is_Correct_Data))]
+    public void Multiple_Text_Is_Correct(TimeSpan timeSpan, TimeSpanDelineation inlcude, string epxectedText)
+    {
+        //act
+        string text = timeSpan.ToDurationText(inlcude);
+
+        //assert
+        Assert.Equal(epxectedText, text);
+    }
+
     public static TheoryData<TimeSpan, TimeSpanDelineation, string> Individual_Text_Is_Correct_Data { get; } =
     [
         //arrange
