@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: [ master ]
     
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
 
@@ -33,4 +37,5 @@ jobs:
       run: dotnet test --no-build --configuration Release --verbosity normal
 
     - name: Push
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
       run: dotnet nuget push */**/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
