@@ -1,149 +1,155 @@
-﻿namespace Lexicom.Extensions.TimeSpans;
+﻿using Lexicom.Extensions.TimeSpans.Exceptions;
+using System.Diagnostics;
+
+namespace Lexicom.Extensions.TimeSpans;
 public static class TimeSpanExtensions
 {
-    public static string ToShortestString(this TimeSpan timeSpan) => ToShortestString(timeSpan, new TimeSpanShortestStringSettings());
-    /// <exception cref="ArgumentNullException"/>
-    public static string ToShortestString(this TimeSpan timeSpan, TimeSpanShortestStringSettings settings)
+    private static IReadOnlyList<TimeSpanDelineation> OrderedTimeSpanDelineations => field ??= Enum
+        .GetValues<TimeSpanDelineation>()
+        .Where(d => d is not TimeSpanDelineation.None)
+        .OrderByDescending(d => d)
+        .ToList();
+    private static IReadOnlyList<int> OrderedTimeSpanDelineationIndexs => field ??= Enum
+        .GetValues<TimeSpanDelineation>()
+        .Cast<int>()
+        .Where(i => i is not 0)
+        .OrderByDescending(i => i)
+        .ToList();
+
+    /// <exception cref="TimeSpanDelineationNoneException"/>
+    public static string ToDurationText(this TimeSpan timeSpan, TimeSpanDelineation inlcude = TimeSpanDelineation.Days | TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes)
     {
-        ArgumentNullException.ThrowIfNull(settings);
+        string text = string.Empty;
 
-        string nowString = settings.NowString ?? "just a moment";
-
-        if (settings.ShortestDurationDescription >= TimeSpanShortestStringDurationDescription.Days || 
-            settings.LongestDurationDescription >= TimeSpanShortestStringDurationDescription.Days && 
-            timeSpan.Days > 0)
+        if (inlcude is TimeSpanDelineation.None)
         {
-            double totalDays = timeSpan.TotalDays;
-
-            if (totalDays < 1)
-            {
-                return nowString;
-            }
-
-            if (totalDays is >= 1 and < 2)
-            {
-                return $"a day";
-            }
-
-            return $"{totalDays} days";
+            throw new TimeSpanDelineationNoneException();
         }
 
-        if (settings.ShortestDurationDescription >= TimeSpanShortestStringDurationDescription.Hours || 
-            settings.LongestDurationDescription >= TimeSpanShortestStringDurationDescription.Hours && 
-            timeSpan.Hours > 0)
+        TimeSpanDelineation? lastDelineation = null;
+        foreach (TimeSpanDelineation delineation in OrderedTimeSpanDelineations)
         {
-            double totalHours = timeSpan.TotalHours;
-
-            if (totalHours < 1)
+            if (delineation is not TimeSpanDelineation.None && inlcude.HasFlag(delineation))
             {
-                return nowString;
-            }
+                if (!string.IsNullOrEmpty(text))
+                {
+                    text += " ";
+                }
 
-            if (totalHours is >= 1 and < 2)
-            {
-                return $"an hour";
-            }
+                text += GetDelineationText(delineation, allowZeros: false);
 
-            return $"{totalHours} hours";
+                lastDelineation = delineation;
+            }
         }
 
-        if (settings.ShortestDurationDescription >= TimeSpanShortestStringDurationDescription.Minutes || 
-            settings.LongestDurationDescription >= TimeSpanShortestStringDurationDescription.Minutes && 
-            timeSpan.Minutes > 0)
+        if (string.IsNullOrWhiteSpace(text))
         {
-            double totalMinutes = timeSpan.TotalMinutes;
-
-            if (totalMinutes < 1)
+            if (lastDelineation is null)
             {
-                return nowString;
+                throw new UnreachableException($"There were included delineations provided but the loop did not capture a last used delineation.");
             }
 
-            if (totalMinutes is >= 1 and < 2)
-            {
-                return $"a minute";
-            }
-
-            return $"{totalMinutes} minutes";
+            text = GetDelineationText(lastDelineation.Value, allowZeros: true);
         }
 
-        
-        if (settings.ShortestDurationDescription >= TimeSpanShortestStringDurationDescription.Seconds || 
-            settings.LongestDurationDescription >= TimeSpanShortestStringDurationDescription.Seconds && 
-            timeSpan.Seconds > 0)
+        text = text.Trim();
+
+        return text;
+
+        string GetDelineationText(TimeSpanDelineation delineation, bool allowZeros)
         {
-            double totalSeconds = timeSpan.TotalSeconds;
-
-            if (totalSeconds < 1)
+            return delineation switch
             {
-                return nowString;
-            }
-
-            if (totalSeconds is >= 1 and < 2)
-            {
-                return $"a second";
-            }
-
-            return $"{totalSeconds} seconds";
+                TimeSpanDelineation.None => throw new NotSupportedException($"The delineation '{delineation}' is not supported."),
+                TimeSpanDelineation.Nanoseconds => GetTimeText(timeSpan.Nanoseconds, "Nanosecond", allowZeros),
+                TimeSpanDelineation.Microseconds => GetTimeText(timeSpan.Microseconds, "Microsecond", allowZeros),
+                TimeSpanDelineation.Milliseconds => GetTimeText(timeSpan.Milliseconds, "Millisecond", allowZeros),
+                TimeSpanDelineation.Seconds => GetTimeText(timeSpan.Seconds, "Second", allowZeros),
+                TimeSpanDelineation.Minutes => GetTimeText(timeSpan.Minutes, "Minute", allowZeros),
+                TimeSpanDelineation.Hours => GetTimeText(timeSpan.Hours, "Hour", allowZeros),
+                TimeSpanDelineation.Days => GetTimeText(timeSpan.Days, "Day", allowZeros),
+                _ => throw new UnreachableException($"The delineation '{delineation}' is not implemented."),
+            };
         }
 
-
-        if (settings.ShortestDurationDescription >= TimeSpanShortestStringDurationDescription.Milliseconds ||
-            settings.LongestDurationDescription >= TimeSpanShortestStringDurationDescription.Milliseconds &&
-            timeSpan.Milliseconds > 0)
+        string GetTimeText(double time, string singularWord, bool allowZero)
         {
-            double totalMilliseconds = timeSpan.TotalMilliseconds;
-
-            if (totalMilliseconds < 1)
+            if (!allowZero && time is < 1)
             {
-                return nowString;
+                return string.Empty;
             }
 
-            if (totalMilliseconds is >= 1 and < 2)
+            string text = $"{time} {singularWord}";
+
+            if (time is 1)
             {
-                return $"a millisecond";
+                return text;
             }
 
-            return $"{totalMilliseconds} milliseconds";
+            return $"{text}s";
+        }
+    }
+
+    public static string ToHowLongAgoText(this TimeSpan timeSpan) => ToHowLongAgoText(timeSpan, HowLongAgoTextConfigurations.Standard);
+    /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NoConfigurationsException"/>
+    public static string ToHowLongAgoText(this TimeSpan timeSpan, HowLongAgoTextConfigurations configurations)
+    {
+        ArgumentNullException.ThrowIfNull(configurations);
+
+        if (!configurations.Any())
+        {
+            throw new NoConfigurationsException();
         }
 
-        if (settings.ShortestDurationDescription >= TimeSpanShortestStringDurationDescription.Microseconds ||
-            settings.LongestDurationDescription >= TimeSpanShortestStringDurationDescription.Microseconds &&
-            timeSpan.Microseconds > 0)
+        int flooredTotal = 0;
+        HowLongAgoTextConfiguration? lastConfiguration = null;
+        foreach (int index in OrderedTimeSpanDelineationIndexs)
         {
-            double totalMicroseconds = timeSpan.TotalMicroseconds;
-
-            if (totalMicroseconds < 1)
+            foreach (HowLongAgoTextConfiguration configuration in configurations)
             {
-                return nowString;
-            }
+                int delineationIndex = (int)configuration.Delineation;
+                if (index == delineationIndex)
+                {
+                    double total = index switch
+                    {
+                        (int)TimeSpanDelineation.Nanoseconds => timeSpan.TotalNanoseconds,
+                        (int)TimeSpanDelineation.Microseconds => timeSpan.TotalMicroseconds,
+                        (int)TimeSpanDelineation.Milliseconds => timeSpan.TotalMilliseconds,
+                        (int)TimeSpanDelineation.Seconds => timeSpan.TotalSeconds,
+                        (int)TimeSpanDelineation.Minutes => timeSpan.TotalMinutes,
+                        (int)TimeSpanDelineation.Hours => timeSpan.TotalHours,
+                        (int)TimeSpanDelineation.Days => timeSpan.TotalDays,
+                        _ => throw new UnreachableException($"The delineation index '{index}' is not implemented."),
+                    };
 
-            if (totalMicroseconds is >= 1 and < 2)
-            {
-                return $"a microsecond";
-            }
+                    flooredTotal = (int)Math.Floor(total);
 
-            return $"{totalMicroseconds} microseconds";
+                    lastConfiguration = configuration;
+
+                    if (flooredTotal is > 0)
+                    {
+                        if (flooredTotal is >= 1 and < 2)
+                        {
+                            return lastConfiguration.OneText;
+                        }
+
+                        return $"{flooredTotal}{configuration.AfterTotalText}";
+                    }
+                }
+            }
         }
 
-        if (settings.ShortestDurationDescription >= TimeSpanShortestStringDurationDescription.Nanoseconds ||
-            settings.LongestDurationDescription >= TimeSpanShortestStringDurationDescription.Nanoseconds &&
-            timeSpan.Nanoseconds > 0)
+        if (lastConfiguration is null)
         {
-            double totalNanoseconds = timeSpan.TotalNanoseconds;
-
-            if (totalNanoseconds < 1)
-            {
-                return nowString;
-            }
-
-            if (totalNanoseconds is >= 1 and < 2)
-            {
-                return $"a nanosecond";
-            }
-
-            return $"{totalNanoseconds} nanoseconds";
+            throw new UnreachableException($"There were time span configurations provided but the loop did not capture a last used configuration.");
         }
 
-        return nowString;
+        if (lastConfiguration.NowText is not null)
+        {
+            return lastConfiguration.NowText;
+        }
+
+        return lastConfiguration.OneText;
     }
 }

@@ -1,5 +1,8 @@
 <Solution>
   <Folder Name="/.github/" />
+  <Folder Name="/.github/pages/">
+    <File Path=".github/pages/index.html" />
+  </Folder>
   <Folder Name="/.github/workflows/">
     <File Path=".github/workflows/dotnet10.yml" />
     <File Path=".github/workflows/dotnet6.yml" />
@@ -14,6 +17,7 @@
     <File Path=".gitattributes" />
     <File Path=".gitignore" />
     <File Path="LICENSE.txt" />
+    <File Path="README.md" />
   </Folder>
   <Folder Name="/AspNetCore.Controllers/">
     <Project Path="Lexicom.AspNetCore.Controllers.Amenities/Lexicom.AspNetCore.Controllers.Amenities.csproj" />
@@ -103,6 +107,9 @@
     <Project Path="Lexicom.Extensions.Reflection/Lexicom.Extensions.Reflection.csproj" />
     <Project Path="Lexicom.Extensions.Strings/Lexicom.Extensions.Strings.csproj" />
     <Project Path="Lexicom.Extensions.TimeSpans/Lexicom.Extensions.TimeSpans.csproj" />
+  </Folder>
+  <Folder Name="/Extensions/UnitTests/">
+    <Project Path="Lexicom.Extensions.TimeSpans.UnitTests/Lexicom.Extensions.TimeSpans.UnitTests.csproj" Id="4d48be9e-5aa6-4e89-8aea-01bd06d447a8" />
   </Folder>
   <Folder Name="/Http/">
     <Project Path="Lexicom.Http/Lexicom.Http.csproj" />

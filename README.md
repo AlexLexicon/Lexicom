@@ -1,3 +1,6 @@
 # Lexicom
 
-[![Build and Publish Nuget Packages](https://github.com/AlexLexicon/Lexicom/actions/workflows/pipeline.yml/badge.svg?branch=master)](https://github.com/AlexLexicon/Lexicom/actions/workflows/pipeline.yml)
+Work in progress...
+Todo fill in readme...
+
+[![Build and Publish Nuget Packages](https://github.com/AlexLexicon/Lexicom/actions/workflows/dotnet10.yml/badge.svg?branch=master)](https://github.com/AlexLexicon/Lexicom/actions/workflows/dotnet10.yml)

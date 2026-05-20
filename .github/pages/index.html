@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lexicom Packages Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!--
+  =========================================================================
+   LEXICOM PACKAGES MONITOR
+  =========================================================================
+   Edit the CONFIG block in the <script> at the bottom of this file.
+
+     CONFIG.packages = [
+       new Collection("collection name", [
+         new Section("section name", ['Package.One', 'Package.Two']),
+         new Section("another section", [ ... ]),
+       ]),
+       new Collection( ... ),
+     ]
+
+   Collections render side by side (wrapping as space allows). Sections
+   inside a collection are collapsible and show their oldest package
+   version in the header. Version coloring is per-collection: any version
+   that matches the collection's newest is green; older versions are red.
+
+   You can also pass a flat list via URL:
+     ?packages=Foo.Bar,Baz.Qux
+     ?refresh=10
+  =========================================================================
+  -->
+
+  <style>
+    :root {
+      --bg: #0d0f12;
+      --bg-elev: #15181d;
+      --bg-row: #11141a;
+      --border: #242a33;
+      --border-strong: #353d49;
+      --fg: #e8ecf2;
+      --fg-dim: #8a93a3;
+      --fg-faint: #5a6271;
+      --accent: #7dd3a0;
+      --warn: #e8b86a;
+      --danger: #e07a78;
+      --info: #6fa8dc;
+      --shadow: 0 1px 0 rgba(255, 255, 255, 0.02), 0 12px 32px rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-image:
+        radial-gradient(circle at 15% 0%, rgba(125, 211, 160, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 85% 100%, rgba(111, 168, 220, 0.04) 0%, transparent 40%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 48px 32px 80px;
+    }
+
+    /* --- Header ----------------------------------------------------------- */
+    header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 32px;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .title-block h1 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 500;
+      font-size: 22px;
+      margin: 0 0 6px 0;
+      letter-spacing: -0.01em;
+    }
+
+    .title-block h1 .status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    .title-block h1 .status[data-state="current"] {
+      color: var(--accent);
+    }
+
+    .title-block h1 .status[data-state="current"]::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(125, 211, 160, 0.4);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .title-block h1 .status[data-state="current"] {
+      position: relative;
+    }
+
+    .title-block h1 .status svg {
+      display: block;
+      width: 14px;
+      height: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .title-block h1 .status-spinner {
+      display: block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--border);
+      border-top-color: var(--warn);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      box-sizing: border-box;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(125, 211, 160, 0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(125, 211, 160, 0); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .title-block .subtitle {
+      color: var(--fg-dim);
+      font-size: 13px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--fg-dim);
+    }
+
+    .refresh-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .refresh-bar {
+      width: 60px;
+      height: 2px;
+      background: var(--border);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .refresh-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 1s linear;
+    }
+
+    button {
+      background: var(--bg-elev);
+      color: var(--fg);
+      border: 1px solid var(--border-strong);
+      padding: 7px 14px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.15s ease;
+    }
+
+    button:hover {
+      background: #1d2129;
+      border-color: var(--fg-dim);
+    }
+
+    button:active { transform: translateY(1px); }
+
+    /* --- Collections grid -------------------------------------------------- */
+    .collections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 20px;
+      align-items: start;
+    }
+
+    .collection {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .collection-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--fg-dim);
+      padding: 14px 18px;
+      background: var(--bg-row);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .collection-github,
+    .collection-actions {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      color: var(--fg-faint);
+      transition: color 0.15s ease;
+    }
+
+    .collection-github:hover,
+    .collection-actions:hover {
+      color: var(--fg);
+    }
+
+    .collection-github svg,
+    .collection-actions svg {
+      display: block;
+      width: 14px;
+      height: 14px;
+    }
+
+    .collection-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      object-fit: contain;
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .collection-title {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+      flex-shrink: 1;
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .collection-title:hover {
+      color: var(--fg);
+    }
+
+    .collection-spacer {
+      flex: 1;
+      min-width: 8px;
+    }
+
+    .collection-stale {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      background: rgba(224, 122, 120, 0.12);
+      border: 1px solid rgba(224, 122, 120, 0.3);
+      color: var(--danger);
+      font-size: 10px;
+      font-weight: 600;
+      flex-shrink: 0;
+      cursor: help;
+    }
+
+    .collection-stale.hidden {
+      display: none;
+    }
+
+    .collection-version {
+      font-size: 12px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .collection-expand {
+      background: transparent;
+      color: var(--fg-faint);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      border-radius: 3px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+
+    .collection-expand:hover {
+      border-color: var(--fg-dim);
+      color: var(--fg-dim);
+    }
+
+    /* --- Sections ---------------------------------------------------------- */
+    .section {
+      border-bottom: 1px solid var(--border);
+    }
+    .section:last-child { border-bottom: none; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 18px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s ease;
+    }
+
+    .section-header:hover {
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .section-toggle {
+      display: inline-block;
+      width: 10px;
+      flex-shrink: 0;
+      color: var(--fg-faint);
+      font-size: 9px;
+      line-height: 1;
+      text-align: center;
+      transform-origin: center center;
+      transition: transform 0.15s ease;
+    }
+
+    .section.expanded .section-toggle {
+      transform: rotate(90deg);
+    }
+
+    .section-name {
+      flex: 1;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--fg);
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .section-version {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .section-body {
+      display: none;
+      padding: 2px 18px 12px 38px;
+    }
+
+    .section.expanded .section-body {
+      display: block;
+    }
+
+    .package-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+    }
+
+    .package-name {
+      flex: 1;
+      color: var(--fg-dim);
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .package-name a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .package-name a:hover {
+      color: var(--fg);
+    }
+
+    .package-github {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      color: var(--fg-faint);
+      transition: color 0.15s ease;
+    }
+
+    .package-github:hover {
+      color: var(--fg);
+    }
+
+    .package-github svg {
+      display: block;
+      width: 14px;
+      height: 14px;
+    }
+
+    .package-version {
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    /* Version color states */
+    .version-newest { color: var(--accent); }
+    .version-older  { color: var(--danger); }
+    .version-unknown { color: var(--fg-faint); }
+    .version-loading { color: var(--fg-faint); opacity: 0.7; }
+
+    /* --- Config notice ---------------------------------------------------- */
+    .notice {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--warn);
+      padding: 16px 20px;
+      border-radius: 4px;
+      margin-bottom: 24px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--fg-dim);
+    }
+
+    .notice strong { color: var(--fg); }
+    .notice code {
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: var(--accent);
+      font-size: 12px;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--fg-faint);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    footer a { color: var(--fg-dim); text-decoration: none; }
+    footer a:hover { color: var(--fg); }
+
+    @media (max-width: 720px) {
+      .container { padding: 24px 16px 48px; }
+      header { flex-direction: column; gap: 16px; }
+      .collections { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="title-block">
+        <h1><span class="status" id="statusIndicator" data-state="loading" title="loading…"><span class="status-spinner"></span></span>lexicom packages monitor</h1>
+        <div class="subtitle" id="targetLine">— packages</div>
+      </div>
+      <div class="controls">
+        <div class="refresh-indicator">
+          <span id="refreshText">next in 15s</span>
+          <div class="refresh-bar"><div class="refresh-bar-fill" id="refreshBar"></div></div>
+        </div>
+        <button id="refreshBtn">refresh now</button>
+      </div>
+    </header>
+
+    <div id="configNotice" class="notice" style="display:none;">
+      <strong>No packages configured.</strong> Edit the <code>CONFIG.packages</code> array
+      at the bottom of <code>index.html</code>, or append <code>?packages=Your.Package,Another.One</code> to the URL.
+    </div>
+
+    <div id="collections" class="collections"></div>
+
+    <footer>
+      <div>data · <a href="https://azuresearch-usnc.nuget.org" target="_blank" rel="noopener">azuresearch-usnc.nuget.org</a></div>
+      <div id="lastUpdated">—</div>
+    </footer>
+  </div>
+
+  <script>
+    // ===================================================================
+    // CONFIG — edit me
+    // ===================================================================
+
+    class Section {
+      constructor(name, packages) {
+        this.name = name;
+        this.packages = packages;
+      }
+    }
+
+    class Collection {
+      constructor(name, sections) {
+        this.name = name;
+        this.sections = sections;
+      }
+    }
+
+    const CONFIG = {
+      packages: [
+        new Collection('Lexicom', [
+          new Section('AspNetCore.Controllers', [
+            'Lexicom.AspNetCore.Controllers.Amenities',
+            'Lexicom.AspNetCore.Controllers.Contracts',
+          ]),
+          new Section('Authentication', [
+            'Lexicom.Authentication',
+            'Lexicom.Authentication.For.AspNetCore.Controllers',
+            'Lexicom.Authentication.For.ConsoleApp',
+            'Lexicom.Authentication.Http',
+          ]),
+          new Section('Authority', [
+            'Lexicom.Authority',
+            'Lexicom.Authority.For.AspNetCore.Controllers',
+            'Lexicom.Authority.For.ConsoleApp',
+            'Lexicom.Authority.For.Wpf',
+          ]),
+          new Section('Authorization', [
+            'Lexicom.Authorization',
+            'Lexicom.Authorization.For.AspNetCore.Controllers',
+            'Lexicom.Authorization.Http',
+          ]),
+          new Section('Configuration.AzureKeyVault', [
+            'Lexicom.Configuration.AzureKeyVault',
+            'Lexicom.Configuration.AzureKeyVault.For.AspNetCore.Controllers',
+            'Lexicom.Configuration.AzureKeyVault.For.ConsoleApp',
+            'Lexicom.Configuration.AzureKeyVault.For.Wpf',
+          ]),
+          new Section('Configuration.Settings', [
+            'Lexicom.Configuration.Settings',
+            'Lexicom.Configuration.Settings.For.Wpf',
+          ]),
+          new Section('ConsoleApp', [
+            'Lexicom.ConsoleApp.Amenities',
+            'Lexicom.ConsoleApp.DependencyInjection',
+            'Lexicom.ConsoleApp.Tui',
+          ]),
+          new Section('Cryptography', [
+            'Lexicom.Cryptography',
+            'Lexicom.Cryptography.For.AspNetCore.Controllers',
+            'Lexicom.Cryptography.For.Blazor.WebAssembly',
+            'Lexicom.Cryptography.For.ConsoleApp',
+            'Lexicom.Cryptography.For.Maui.Blazor.Hybrid',
+            'Lexicom.Cryptography.For.Testing',
+            'Lexicom.Cryptography.For.Wpf',
+          ]),
+          new Section('DependencyInjection', [
+            'Lexicom.DependencyInjection.Amenities',
+            'Lexicom.DependencyInjection.Hosting',
+            'Lexicom.DependencyInjection.Hosting.Abstractions',
+          ]),
+          new Section('DependencyInjection.Primitives', [
+            'Lexicom.DependencyInjection.Primitives',
+            'Lexicom.DependencyInjection.Primitives.Abstractions',
+            'Lexicom.DependencyInjection.Primitives.For.AspNetCore.Controllers',
+            'Lexicom.DependencyInjection.Primitives.For.Blazor.WebAssembly',
+            'Lexicom.DependencyInjection.Primitives.For.ConsoleApp',
+            'Lexicom.DependencyInjection.Primitives.For.Maui.Blazor.Hybrid',
+            'Lexicom.DependencyInjection.Primitives.For.Testing',
+            'Lexicom.DependencyInjection.Primitives.For.Wpf',
+          ]),
+          new Section('EntityFramework', [
+            'Lexicom.EntityFramework.Amenities',
+          ]),
+          new Section('EntityFramework.Identity', [
+            'Lexicom.EntityFramework.Identity',
+            'Lexicom.EntityFramework.Identity.For.AspNetCore.Controllers',
+            'Lexicom.EntityFramework.Identity.For.ConsoleApp',
+            'Lexicom.EntityFramework.Identity.For.Testing',
+            'Lexicom.EntityFramework.Identity.For.Wpf',
+          ]),
+          new Section('Extensions', [
+            'Lexicom.Extensions.CompilerServices',
+            'Lexicom.Extensions.DateTimes',
+            'Lexicom.Extensions.Debugging',
+            'Lexicom.Extensions.Enums',
+            'Lexicom.Extensions.Exceptions',
+            'Lexicom.Extensions.Expressions',
+            'Lexicom.Extensions.IO',
+            'Lexicom.Extensions.Reflection',
+            'Lexicom.Extensions.Strings',
+            'Lexicom.Extensions.TimeSpans',
+          ]),
+          new Section('Http', [
+            'Lexicom.Http',
+          ]),
+          new Section('Logging', [
+            'Lexicom.Logging',
+            'Lexicom.Logging.For.AspNetCore.Controllers',
+            'Lexicom.Logging.For.ConsoleApp',
+            'Lexicom.Logging.For.Wpf',
+            'Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics',
+          ]),
+          new Section('Maths', [
+            'Lexicom.Maths',
+          ]),
+          new Section('Mvvm', [
+            'Lexicom.Mvvm',
+            'Lexicom.Mvvm.For.Blazor.WebAssembly',
+            'Lexicom.Mvvm.For.Maui.Blazor.Hybrid',
+            'Lexicom.Mvvm.For.Testing',
+            'Lexicom.Mvvm.For.Wpf',
+          ]),
+          new Section('Scalar', [
+            'Lexicom.Scalar',
+            'Lexicom.Scalar.For.AspNetCore.Controllers',
+          ]),
+          new Section('Smtp', [
+            'Lexicom.Smtp',
+            'Lexicom.Smtp.For.AspNetCore.Controllers',
+            'Lexicom.Smtp.For.ConsoleApp',
+            'Lexicom.Smtp.For.Wpf',
+          ]),
+          new Section('SourceGenerator', [
+            'Lexicom.SourceGenerator.MetaData',
+          ]),
+          new Section('Supports', [
+            'Lexicom.Supports.AspNetCore.Controllers',
+            'Lexicom.Supports.Blazor.WebAssembly',
+            'Lexicom.Supports.ConsoleApp',
+            'Lexicom.Supports.Maui.Blazor.Hybrid',
+            'Lexicom.Supports.Testing',
+            'Lexicom.Supports.Wpf',
+          ]),
+          new Section('Testing.DependencyInjection', [
+            'Lexicom.Testing.DependencyInjection',
+            'Lexicom.Testing.DependencyInjection.EntityFramework',
+          ]),
+          new Section('Validation', [
+            'Lexicom.Validation',
+            'Lexicom.Validation.Amenities',
+            'Lexicom.Validation.For.AspNetCore.Controllers',
+            'Lexicom.Validation.For.Blazor.WebAssembly',
+            'Lexicom.Validation.For.ConsoleApp',
+            'Lexicom.Validation.For.Maui.Blazor.Hybrid',
+            'Lexicom.Validation.For.Testing',
+            'Lexicom.Validation.For.Wpf',
+            'Lexicom.Validation.Options',
+          ]),
+          new Section('Wpf', [
+            'Lexicom.Wpf.Amenities',
+            'Lexicom.Wpf.Amenities.Abstractions',
+            'Lexicom.Wpf.AttachedProperties',
+            'Lexicom.Wpf.Controls',
+            'Lexicom.Wpf.DependencyInjection',
+            'Lexicom.Wpf.DependencyInjection.Abstractions',
+            'Lexicom.Wpf.Markup',
+            'Lexicom.Wpf.ValueConverters',
+          ]),
+        ]),
+
+        new Collection('Lexicom.Concentrate', [
+          new Section('Blazor.WebAssembly', [
+            'Lexicom.Concentrate.Blazor.WebAssembly.Amenities',
+            'Lexicom.Concentrate.Blazor.WebAssembly.Amenities.Abstractions',
+            'Lexicom.Concentrate.Blazor.WebAssembly.Components',
+            'Lexicom.Concentrate.Blazor.WebAssembly.Wiki',
+            'Lexicom.Concentrate.Blazor.WebAssembly.Wiki.Abstractions',
+          ]),
+          new Section('Client.Authentication', [
+            'Lexicom.Concentrate.Client.Authentication',
+            'Lexicom.Concentrate.Client.Authentication.For.Wpf',
+          ]),
+          new Section('Supports', [
+            'Lexicom.Concentrate.Supports.AspNetCore.Controllers',
+            'Lexicom.Concentrate.Supports.Blazor.WebAssembly',
+            'Lexicom.Concentrate.Supports.ConsoleApp',
+            'Lexicom.Concentrate.Supports.Wpf',
+          ]),
+          new Section('Wpf', [
+            'Lexicom.Concentrate.Wpf.Amenities',
+            'Lexicom.Concentrate.Wpf.Amenities.Abstractions',
+            'Lexicom.Concentrate.Wpf.Controls',
+            'Lexicom.Concentrate.Wpf.Themes',
+            'Lexicom.Concentrate.Wpf.Themes.Abstractions',
+          ]),
+        ]),
+      ],
+
+      // Auto-refresh interval. Override with ?refresh=10 (seconds).
+      refreshIntervalMs: 15000,
+
+      // Include prerelease versions when querying.
+      includePrerelease: true,
+
+      // Test-mode: when true, after each fetch a random subset of packages
+      // is fake-downgraded so you can see the stale badge / red versions
+      // light up without waiting for a real out-of-date scenario.
+      // Re-randomizes on every refresh.
+      testMode: false,
+      testStaleRatio: 0.3, // probability each package gets downgraded
+    };
+    // ===================================================================
+
+    // URL param overrides.
+    const params = new URLSearchParams(location.search);
+    if (params.get('packages')) {
+      const list = params.get('packages').split(',').map(s => s.trim()).filter(Boolean);
+      CONFIG.packages = [new Collection('Packages', [new Section('All', list)])];
+    }
+    if (params.get('refresh')) {
+      const n = parseInt(params.get('refresh'), 10);
+      if (!isNaN(n) && n >= 5) CONFIG.refreshIntervalMs = n * 1000;
+    }
+
+    const SEARCH_BASE = 'https://azuresearch-usnc.nuget.org/query';
+    // packageId -> { version: string | null, error?: string }
+    const versionStore = new Map();
+
+    // Compares two SemVer-like version strings. Returns negative if a < b,
+    // 0 if equal, positive if a > b. Missing/empty values sort smaller.
+    function compareVersions(a, b) {
+      if (a === b) return 0;
+      if (!a) return -1;
+      if (!b) return 1;
+
+      const aDash = a.indexOf('-');
+      const bDash = b.indexOf('-');
+      const aMain = aDash === -1 ? a : a.slice(0, aDash);
+      const bMain = bDash === -1 ? b : b.slice(0, bDash);
+      const aPre = aDash === -1 ? '' : a.slice(aDash + 1);
+      const bPre = bDash === -1 ? '' : b.slice(bDash + 1);
+
+      const aParts = aMain.split('.');
+      const bParts = bMain.split('.');
+      const len = Math.max(aParts.length, bParts.length);
+      for (let i = 0; i < len; i++) {
+        const av = parseInt(aParts[i] || '0', 10) || 0;
+        const bv = parseInt(bParts[i] || '0', 10) || 0;
+        if (av !== bv) return av - bv;
+      }
+
+      // Per SemVer: a version without prerelease > a version with prerelease.
+      if (!aPre && !bPre) return 0;
+      if (!aPre) return 1;
+      if (!bPre) return -1;
+
+      const aPreParts = aPre.split('.');
+      const bPreParts = bPre.split('.');
+      const preLen = Math.max(aPreParts.length, bPreParts.length);
+      for (let i = 0; i < preLen; i++) {
+        const ap = aPreParts[i];
+        const bp = bPreParts[i];
+        if (ap === undefined) return -1;
+        if (bp === undefined) return 1;
+        const aIsNum = /^[0-9]+$/.test(ap);
+        const bIsNum = /^[0-9]+$/.test(bp);
+        if (aIsNum && bIsNum) {
+          const an = parseInt(ap, 10);
+          const bn = parseInt(bp, 10);
+          if (an !== bn) return an - bn;
+        } else if (aIsNum) {
+          return -1;
+        } else if (bIsNum) {
+          return 1;
+        } else if (ap !== bp) {
+          return ap < bp ? -1 : 1;
+        }
+      }
+      return 0;
+    }
+
+    async function querySearchIndex(packageId) {
+      const url = `${SEARCH_BASE}?q=packageid:${encodeURIComponent(packageId)}` +
+        `&prerelease=${CONFIG.includePrerelease}&semVerLevel=2.0.0&take=1`;
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`search ${res.status}`);
+      const data = await res.json();
+      if (!data.data || data.data.length === 0) return null;
+      const hit = data.data[0];
+      return { latest: hit.version, iconUrl: hit.iconUrl || null };
+    }
+
+    function totalPackages() {
+      let n = 0;
+      for (const collection of CONFIG.packages) {
+        for (const section of collection.sections) {
+          n += section.packages.length;
+        }
+      }
+      return n;
+    }
+
+    function buildSkeleton() {
+      const root = document.getElementById('collections');
+      root.innerHTML = '';
+      if (totalPackages() === 0) return;
+
+      for (let ci = 0; ci < CONFIG.packages.length; ci++) {
+        const collection = CONFIG.packages[ci];
+        const collectionEl = document.createElement('div');
+        collectionEl.className = 'collection';
+        collectionEl.dataset.collectionIndex = String(ci);
+
+        const nameEl = document.createElement('div');
+        nameEl.className = 'collection-name';
+
+        const collGh = document.createElement('a');
+        collGh.className = 'collection-github';
+        collGh.href = `https://github.com/AlexLexicon/${encodeURIComponent(collection.name)}/tree/master`;
+        collGh.target = '_blank';
+        collGh.rel = 'noopener';
+        collGh.title = `View ${collection.name} on GitHub`;
+        collGh.innerHTML = GITHUB_ICON_HTML;
+        nameEl.appendChild(collGh);
+
+        const collIcon = document.createElement('img');
+        collIcon.className = 'collection-icon';
+        collIcon.alt = '';
+        collIcon.hidden = true;
+        nameEl.appendChild(collIcon);
+
+        const titleEl = document.createElement('a');
+        titleEl.className = 'collection-title';
+        titleEl.href = `https://www.nuget.org/packages?q=${encodeURIComponent(collection.name)}` +
+          `&frameworks=net&includeComputedFrameworks=true&frameworkFilterMode=all` +
+          `&prerel=false&sortby=relevance`;
+        titleEl.target = '_blank';
+        titleEl.rel = 'noopener';
+        titleEl.title = `Search nuget.org for ${collection.name}`;
+        titleEl.textContent = collection.name;
+        nameEl.appendChild(titleEl);
+
+        const expandBtn = document.createElement('button');
+        expandBtn.className = 'collection-expand';
+        expandBtn.textContent = 'expand';
+        expandBtn.addEventListener('click', () => {
+          const sectionsInCollection = collectionEl.querySelectorAll('.section');
+          let anyCollapsed = false;
+          for (const sEl of sectionsInCollection) {
+            if (!sEl.classList.contains('expanded')) {
+              anyCollapsed = true;
+              break;
+            }
+          }
+          for (const sEl of sectionsInCollection) {
+            sEl.classList.toggle('expanded', anyCollapsed);
+          }
+          updateCollectionExpandButton(collectionEl);
+        });
+        nameEl.appendChild(expandBtn);
+
+        const spacerEl = document.createElement('span');
+        spacerEl.className = 'collection-spacer';
+        nameEl.appendChild(spacerEl);
+
+        const collStaleEl = document.createElement('span');
+        collStaleEl.className = 'collection-stale hidden';
+        nameEl.appendChild(collStaleEl);
+
+        const collActions = document.createElement('a');
+        collActions.className = 'collection-actions';
+        collActions.href = `https://github.com/AlexLexicon/${encodeURIComponent(collection.name)}/actions`;
+        collActions.target = '_blank';
+        collActions.rel = 'noopener';
+        collActions.title = `View ${collection.name} Actions on GitHub`;
+        collActions.innerHTML = GITHUB_ACTIONS_ICON_HTML;
+        nameEl.appendChild(collActions);
+
+        const collVerEl = document.createElement('span');
+        collVerEl.className = 'collection-version version-loading';
+        collVerEl.textContent = '…';
+        nameEl.appendChild(collVerEl);
+
+        collectionEl.appendChild(nameEl);
+
+        for (let si = 0; si < collection.sections.length; si++) {
+          const section = collection.sections[si];
+          const sectionEl = document.createElement('div');
+          sectionEl.className = 'section';
+          sectionEl.dataset.sectionIndex = String(si);
+
+          const header = document.createElement('div');
+          header.className = 'section-header';
+
+          const toggle = document.createElement('span');
+          toggle.className = 'section-toggle';
+          toggle.textContent = '▸'; // ▸
+          header.appendChild(toggle);
+
+          const nm = document.createElement('span');
+          nm.className = 'section-name';
+          nm.textContent = section.name;
+          header.appendChild(nm);
+
+          const ver = document.createElement('span');
+          ver.className = 'section-version version-loading';
+          ver.textContent = '…';
+          header.appendChild(ver);
+
+          header.addEventListener('click', () => {
+            sectionEl.classList.toggle('expanded');
+            updateCollectionExpandButton(collectionEl);
+          });
+
+          sectionEl.appendChild(header);
+
+          const body = document.createElement('div');
+          body.className = 'section-body';
+          for (const pkg of section.packages) {
+            const row = document.createElement('div');
+            row.className = 'package-row';
+            row.dataset.pkg = pkg;
+
+            const gh = document.createElement('a');
+            gh.className = 'package-github';
+            gh.href = `https://github.com/AlexLexicon/${encodeURIComponent(collection.name)}/blob/master/${encodeURIComponent(pkg)}/README.md`;
+            gh.target = '_blank';
+            gh.rel = 'noopener';
+            gh.title = `View ${pkg} README on GitHub`;
+            gh.innerHTML = GITHUB_ICON_HTML;
+            row.appendChild(gh);
+
+            const pname = document.createElement('span');
+            pname.className = 'package-name';
+            pname.title = pkg;
+            const a = document.createElement('a');
+            a.href = `https://www.nuget.org/packages/${encodeURIComponent(pkg)}`;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            a.textContent = pkg;
+            pname.appendChild(a);
+            row.appendChild(pname);
+
+            const pver = document.createElement('span');
+            pver.className = 'package-version version-loading';
+            pver.textContent = '…';
+            row.appendChild(pver);
+
+            body.appendChild(row);
+          }
+          sectionEl.appendChild(body);
+          collectionEl.appendChild(sectionEl);
+        }
+        root.appendChild(collectionEl);
+      }
+    }
+
+    // Decrement the last non-zero numeric segment of a version, dropping any
+    // prerelease tag. "1.2.5" -> "1.2.4", "2.0.0" -> "1.0.0", "1.2.3-beta" -> "1.2.2".
+    // Returns the original string if every segment is already 0.
+    function downgradeVersion(version) {
+      const dashIdx = version.indexOf('-');
+      const main = dashIdx === -1 ? version : version.slice(0, dashIdx);
+      const parts = main.split('.').map(p => parseInt(p, 10) || 0);
+      for (let i = parts.length - 1; i >= 0; i--) {
+        if (parts[i] > 0) {
+          parts[i]--;
+          return parts.join('.');
+        }
+      }
+      return version;
+    }
+
+    // Randomly downgrade a subset of fetched versions for visual testing.
+    function applyTestMutations() {
+      for (const info of versionStore.values()) {
+        if (info.version && Math.random() < CONFIG.testStaleRatio) {
+          const downgraded = downgradeVersion(info.version);
+          if (downgraded !== info.version) {
+            info.version = downgraded;
+          }
+        }
+      }
+    }
+
+    async function fetchAllVersions() {
+      const pkgs = [];
+      for (const collection of CONFIG.packages) {
+        for (const section of collection.sections) {
+          for (const pkg of section.packages) {
+            pkgs.push(pkg);
+          }
+        }
+      }
+      await Promise.all(pkgs.map(async pkg => {
+        try {
+          const result = await querySearchIndex(pkg);
+          versionStore.set(pkg, {
+            version: result ? result.latest : null,
+            iconUrl: result ? result.iconUrl : null,
+          });
+        } catch (e) {
+          versionStore.set(pkg, { version: null, iconUrl: null, error: e.message });
+        }
+      }));
+    }
+
+    function setVersionClass(el, kind) {
+      el.classList.remove('version-loading', 'version-unknown', 'version-newest', 'version-older');
+      el.classList.add(kind);
+    }
+
+    const STATUS_SPINNER_HTML = '<span class="status-spinner"></span>';
+    const STATUS_CHECK_HTML =
+      '<svg viewBox="0 0 16 16" aria-hidden="true">' +
+      '<path d="M3 8.5 L6.5 12 L13 4.5" fill="none" stroke="currentColor" ' +
+      'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    // GitHub Actions icon (Octicons play-in-circle).
+    const GITHUB_ACTIONS_ICON_HTML =
+      '<svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor">' +
+      '<path fill-rule="evenodd" d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0zm4.879-2.773 ' +
+      '4.264 2.559a.25.25 0 010 .428l-4.264 2.559A.25.25 0 016 10.559V5.442a.25.25 0 01.379-.215z"/></svg>';
+
+    // GitHub mark (octocat silhouette).
+    const GITHUB_ICON_HTML =
+      '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">' +
+      '<path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 ' +
+      '0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 ' +
+      '1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 ' +
+      '0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 ' +
+      '1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 ' +
+      '0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 ' +
+      '24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>';
+
+    function setStatus(state) {
+      const el = document.getElementById('statusIndicator');
+      if (!el || el.dataset.state === state) return;
+      el.dataset.state = state;
+      el.innerHTML = state === 'current' ? STATUS_CHECK_HTML : STATUS_SPINNER_HTML;
+      el.title = state === 'current'
+        ? 'all packages up to date'
+        : state === 'stale'
+          ? 'packages out of date'
+          : 'loading…';
+    }
+
+    function updateUi() {
+      const root = document.getElementById('collections');
+      const collectionEls = root.querySelectorAll('.collection');
+
+      let overallStale = 0;
+      let overallHasVersion = false;
+
+      for (const collectionEl of collectionEls) {
+        const ci = Number(collectionEl.dataset.collectionIndex);
+        const collection = CONFIG.packages[ci];
+
+        // Max version across all known packages in this collection.
+        let collectionMax = null;
+        for (const section of collection.sections) {
+          for (const pkg of section.packages) {
+            const info = versionStore.get(pkg);
+            const v = info && info.version;
+            if (v) {
+              overallHasVersion = true;
+              if (!collectionMax || compareVersions(v, collectionMax) > 0) {
+                collectionMax = v;
+              }
+            }
+          }
+        }
+
+        // Count packages behind the collection's newest version.
+        let collectionStale = 0;
+        for (const section of collection.sections) {
+          for (const pkg of section.packages) {
+            const info = versionStore.get(pkg);
+            const v = info && info.version;
+            if (v && collectionMax && compareVersions(v, collectionMax) < 0) {
+              collectionStale++;
+            }
+          }
+        }
+        overallStale += collectionStale;
+
+        const collVerEl = collectionEl.querySelector('.collection-version');
+        if (!collectionMax) {
+          collVerEl.textContent = '—';
+          setVersionClass(collVerEl, 'version-unknown');
+        } else {
+          collVerEl.textContent = collectionMax;
+          setVersionClass(collVerEl, 'version-newest');
+        }
+
+        const collStaleEl = collectionEl.querySelector('.collection-stale');
+        if (collectionStale > 0) {
+          collStaleEl.classList.remove('hidden');
+          collStaleEl.textContent = `▲ ${collectionStale}`;
+          collStaleEl.title = `${collectionStale} package${collectionStale === 1 ? '' : 's'} behind ${collectionMax}`;
+        } else {
+          collStaleEl.classList.add('hidden');
+          collStaleEl.textContent = '';
+          collStaleEl.title = '';
+        }
+
+        // Pull the icon URL from the first package in the collection.
+        const firstSection = collection.sections[0];
+        const firstPkgId = firstSection && firstSection.packages[0];
+        const firstPkgInfo = firstPkgId ? versionStore.get(firstPkgId) : null;
+        const iconUrl = firstPkgInfo && firstPkgInfo.iconUrl;
+        const collIconEl = collectionEl.querySelector('.collection-icon');
+        if (iconUrl) {
+          if (collIconEl.dataset.url !== iconUrl) {
+            collIconEl.dataset.url = iconUrl;
+            collIconEl.hidden = true;
+            collIconEl.onload = () => { collIconEl.hidden = false; };
+            collIconEl.onerror = () => { collIconEl.hidden = true; };
+            collIconEl.src = iconUrl;
+          }
+        } else {
+          collIconEl.hidden = true;
+          collIconEl.removeAttribute('src');
+          delete collIconEl.dataset.url;
+        }
+
+        const sectionEls = collectionEl.querySelectorAll('.section');
+        for (const sectionEl of sectionEls) {
+          const si = Number(sectionEl.dataset.sectionIndex);
+          const section = collection.sections[si];
+
+          // Oldest known version in this section.
+          let sectionOldest = null;
+          for (const pkg of section.packages) {
+            const info = versionStore.get(pkg);
+            const v = info && info.version;
+            if (v && (!sectionOldest || compareVersions(v, sectionOldest) < 0)) {
+              sectionOldest = v;
+            }
+          }
+
+          const verEl = sectionEl.querySelector('.section-version');
+          if (!sectionOldest) {
+            verEl.textContent = '—';
+            setVersionClass(verEl, 'version-unknown');
+          } else {
+            verEl.textContent = sectionOldest;
+            setVersionClass(
+              verEl,
+              compareVersions(sectionOldest, collectionMax) >= 0 ? 'version-newest' : 'version-older',
+            );
+          }
+
+          // Package rows.
+          const rowEls = sectionEl.querySelectorAll('.package-row');
+          for (const rowEl of rowEls) {
+            const pkg = rowEl.dataset.pkg;
+            const info = versionStore.get(pkg);
+            const pverEl = rowEl.querySelector('.package-version');
+            if (!info) {
+              pverEl.textContent = '…';
+              pverEl.title = '';
+              setVersionClass(pverEl, 'version-loading');
+            } else if (info.error) {
+              pverEl.textContent = 'error';
+              pverEl.title = info.error;
+              setVersionClass(pverEl, 'version-unknown');
+            } else if (!info.version) {
+              pverEl.textContent = 'not found';
+              pverEl.title = '';
+              setVersionClass(pverEl, 'version-unknown');
+            } else {
+              pverEl.textContent = info.version;
+              pverEl.title = '';
+              setVersionClass(
+                pverEl,
+                compareVersions(info.version, collectionMax) >= 0 ? 'version-newest' : 'version-older',
+              );
+            }
+          }
+        }
+      }
+
+      if (!overallHasVersion) {
+        setStatus('loading');
+      } else if (overallStale > 0) {
+        setStatus('stale');
+      } else {
+        setStatus('current');
+      }
+    }
+
+    async function refresh() {
+      const total = totalPackages();
+      if (total === 0) {
+        document.getElementById('configNotice').style.display = 'block';
+        document.getElementById('collections').innerHTML = '';
+        return;
+      }
+
+      const collectionCount = CONFIG.packages.length;
+      document.getElementById('targetLine').textContent =
+        `${total} package${total === 1 ? '' : 's'} · ${collectionCount} collection${collectionCount === 1 ? '' : 's'}`;
+
+      await fetchAllVersions();
+      if (CONFIG.testMode) {
+        applyTestMutations();
+      }
+      updateUi();
+      document.getElementById('lastUpdated').textContent =
+        `last checked · ${new Date().toLocaleTimeString()}`;
+    }
+
+    // Refresh-countdown UI.
+    let refreshTimer = null;
+    let countdownTimer = null;
+
+    function scheduleNext() {
+      if (refreshTimer) clearTimeout(refreshTimer);
+      if (countdownTimer) clearInterval(countdownTimer);
+
+      const totalMs = CONFIG.refreshIntervalMs;
+      const start = Date.now();
+      const bar = document.getElementById('refreshBar');
+      const text = document.getElementById('refreshText');
+
+      // Snap the bar to 0 instantly (no transition), then resume animating.
+      bar.style.transition = 'none';
+      bar.style.width = '0%';
+      void bar.offsetWidth; // force reflow so the snap commits before the transition is restored
+      bar.style.transition = '';
+      text.textContent = `next in ${Math.ceil(totalMs / 1000)}s`;
+
+      countdownTimer = setInterval(() => {
+        const elapsed = Date.now() - start;
+        const pct = Math.min(100, (elapsed / totalMs) * 100);
+        bar.style.width = pct + '%';
+        const remaining = Math.max(0, Math.ceil((totalMs - elapsed) / 1000));
+        text.textContent = `next in ${remaining}s`;
+      }, 250);
+
+      refreshTimer = setTimeout(async () => {
+        await refresh();
+        scheduleNext();
+      }, totalMs);
+    }
+
+    document.getElementById('refreshBtn').addEventListener('click', async () => {
+      // Reset the progress bar and timer first so the user sees immediate feedback,
+      // then run the actual refresh in parallel with the new countdown.
+      scheduleNext();
+      await refresh();
+    });
+
+    // Update one collection's expand button label to reflect the action
+    // its next click will perform.
+    function updateCollectionExpandButton(collectionEl) {
+      const btn = collectionEl.querySelector('.collection-expand');
+      if (!btn) return;
+      const sections = collectionEl.querySelectorAll('.section');
+      if (sections.length === 0) {
+        btn.textContent = 'expand';
+        return;
+      }
+      let allExpanded = true;
+      for (const sectionEl of sections) {
+        if (!sectionEl.classList.contains('expanded')) {
+          allExpanded = false;
+          break;
+        }
+      }
+      btn.textContent = allExpanded ? 'collapse' : 'expand';
+    }
+
+    // Boot.
+    buildSkeleton();
+    refresh().then(scheduleNext);
+  </script>
+</body>
+</html>
