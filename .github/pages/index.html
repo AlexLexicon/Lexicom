@@ -523,6 +523,107 @@
              display: none;
          }
 
+         /* Clickable when in the error state so it can open the modal. */
+         .workflow-step.clickable {
+             cursor: pointer;
+         }
+
+             .workflow-step.clickable:hover .workflow-step-status {
+                 filter: brightness(1.2);
+             }
+
+         /* --- Error modal ----------------------------------------------------- */
+         .error-modal {
+             position: fixed;
+             inset: 0;
+             z-index: 100;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+         }
+
+             .error-modal[hidden] {
+                 display: none;
+             }
+
+         .error-modal-backdrop {
+             position: absolute;
+             inset: 0;
+             background: rgba(0, 0, 0, 0.65);
+         }
+
+         .error-modal-card {
+             position: relative;
+             background: var(--bg-elev);
+             border: 1px solid var(--border-strong);
+             border-radius: 6px;
+             box-shadow: var(--shadow);
+             width: min(800px, 92vw);
+             max-height: 80vh;
+             display: flex;
+             flex-direction: column;
+         }
+
+         .error-modal-header {
+             display: flex;
+             align-items: center;
+             justify-content: space-between;
+             padding: 12px 18px;
+             border-bottom: 1px solid var(--border);
+             gap: 12px;
+         }
+
+         .error-modal-title {
+             margin: 0;
+             font-family: 'IBM Plex Mono', monospace;
+             font-size: 13px;
+             font-weight: 500;
+             color: var(--danger);
+             overflow: hidden;
+             text-overflow: ellipsis;
+             white-space: nowrap;
+         }
+
+         .error-modal-close {
+             background: transparent;
+             color: var(--fg-dim);
+             border: 1px solid var(--border-strong);
+             width: 28px;
+             height: 28px;
+             padding: 0;
+             font-size: 18px;
+             line-height: 1;
+             cursor: pointer;
+             flex-shrink: 0;
+         }
+
+             .error-modal-close:hover {
+                 color: var(--fg);
+                 border-color: var(--fg-dim);
+             }
+
+         .error-modal-summary {
+             padding: 14px 18px;
+             font-family: 'IBM Plex Mono', monospace;
+             font-size: 12px;
+             color: var(--fg);
+             border-bottom: 1px solid var(--border);
+             word-break: break-word;
+         }
+
+         .error-modal-body {
+             margin: 0;
+             padding: 14px 18px;
+             overflow: auto;
+             font-family: 'IBM Plex Mono', monospace;
+             font-size: 11px;
+             line-height: 1.5;
+             color: var(--fg-dim);
+             white-space: pre-wrap;
+             word-break: break-all;
+             background: var(--bg);
+         }
+
          .workflow-run-id {
              font-family: 'IBM Plex Mono', monospace;
              font-size: 11px;
@@ -923,6 +1024,19 @@
         <div id="collections" class="collections"></div>
     </div>
 
+    <!-- Error details modal — opened by clicking the network-error step pill. -->
+    <div id="errorModal" class="error-modal" hidden>
+        <div class="error-modal-backdrop" data-close="1"></div>
+        <div class="error-modal-card" role="dialog" aria-modal="true" aria-labelledby="errorModalTitle">
+            <div class="error-modal-header">
+                <h3 id="errorModalTitle" class="error-modal-title">Error</h3>
+                <button class="error-modal-close" type="button" aria-label="Close" data-close="1">×</button>
+            </div>
+            <div id="errorModalSummary" class="error-modal-summary"></div>
+            <pre id="errorModalBody" class="error-modal-body"></pre>
+        </div>
+    </div>
+
     <script>
         // ===================================================================
         // CONFIG — edit me
@@ -1255,6 +1369,29 @@
             }
             return n;
         }
+
+        // -------------------------------------------------------------------
+        // Error details modal
+        // -------------------------------------------------------------------
+        function showErrorModal(title, summary, body) {
+            const modal = document.getElementById('errorModal');
+            document.getElementById('errorModalTitle').textContent = title || 'Error';
+            document.getElementById('errorModalSummary').textContent = summary || '';
+            document.getElementById('errorModalBody').textContent =
+                body || '(no response body captured)';
+            modal.hidden = false;
+        }
+
+        function hideErrorModal() {
+            document.getElementById('errorModal').hidden = true;
+        }
+
+        document.getElementById('errorModal').addEventListener('click', (e) => {
+            if (e.target.dataset && e.target.dataset.close) hideErrorModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') hideErrorModal();
+        });
 
         // Two-tone stale pill: one element with .stale-pill-up + .stale-pill-down.
         function createStalePill() {
@@ -2054,7 +2191,12 @@
                 res = await fetch(url, { headers: githubHeaders(stored.etag) });
             } catch (e) {
                 console.log(`[actions] ${collection.name}/runs → network error: ${e.message}`);
-                actionsStore.set(collection.name, { ...stored, status: 'error', errorDetail: `network: ${e.message}` });
+                actionsStore.set(collection.name, {
+                    ...stored,
+                    status: 'error',
+                    errorDetail: `network: ${e.message}`,
+                    errorBody: `Fetch failed for ${url}\n\n${e.stack || e.message || String(e)}`,
+                });
                 return;
             }
 
@@ -2077,10 +2219,17 @@
             }
 
             if (!res.ok) {
+                let body = '';
+                try { body = await res.text(); } catch (e) { body = `(failed to read response body: ${e.message})`; }
                 const detail = res.status === 404
                     ? `404 — repo AlexLexicon/${collection.name} or workflow ${collection.workflowFile} not found`
-                    : `HTTP ${res.status}`;
-                actionsStore.set(collection.name, { ...stored, status: 'error', errorDetail: detail });
+                    : `HTTP ${res.status} ${res.statusText || ''}`.trim();
+                actionsStore.set(collection.name, {
+                    ...stored,
+                    status: 'error',
+                    errorDetail: detail,
+                    errorBody: `${url}\nHTTP ${res.status} ${res.statusText || ''}\n\n${body}`,
+                });
                 return;
             }
 
@@ -2237,7 +2386,8 @@
                     metaEl.textContent = '';
                     metaEl.title = '';
                     stepEl.hidden = true;
-                    stepEl.classList.remove('completed', 'failed', 'unknown', 'solo');
+                    stepEl.classList.remove('completed', 'failed', 'unknown', 'solo', 'clickable');
+                    stepEl.onclick = null;
                     const stepStatusEl = stepEl.querySelector('.workflow-step-status');
                     if (stepStatusEl) stepStatusEl.textContent = '';
                     stepEl.title = '';
@@ -2256,16 +2406,25 @@
                 if (state.status === 'error') {
                     // Network/API error — blank top-row title, red status icon,
                     // "network error" in a solo red step pill (rate-limited uses
-                    // yellow; an actual error should read as more severe).
+                    // yellow; an actual error should read as more severe). The
+                    // pill is clickable and opens a modal with the full response
+                    // body / network error trace.
                     renderBarMessage('failure', '',
                         state.errorDetail || 'fetch error');
                     const stepEl = barEl.querySelector('.workflow-step');
                     const stepStatusEl = stepEl.querySelector('.workflow-step-status');
                     stepEl.classList.remove('completed', 'unknown');
-                    stepEl.classList.add('solo', 'failed');
+                    stepEl.classList.add('solo', 'failed', 'clickable');
                     stepEl.hidden = false;
                     stepStatusEl.textContent = 'network error';
-                    stepEl.title = state.errorDetail || 'fetch error';
+                    stepEl.title = 'click for details';
+                    stepEl.onclick = () => {
+                        showErrorModal(
+                            `${collection.name} — GitHub API error`,
+                            state.errorDetail || 'fetch error',
+                            state.errorBody || '',
+                        );
+                    };
                     continue;
                 }
                 if (state.status === 'none') {
@@ -2280,11 +2439,12 @@
                         'unauthenticated rate limit is 60 requests/hour — polling will retry in an hour');
                     const stepEl = barEl.querySelector('.workflow-step');
                     const stepStatusEl = stepEl.querySelector('.workflow-step-status');
-                    stepEl.classList.remove('completed', 'failed', 'unknown');
+                    stepEl.classList.remove('completed', 'failed', 'unknown', 'clickable');
                     stepEl.classList.add('solo');
                     stepEl.hidden = false;
                     stepStatusEl.textContent = 'rate limited';
                     stepEl.title = 'GitHub API rate-limited — workflow status unavailable';
+                    stepEl.onclick = null;
                     continue;
                 }
 
@@ -2356,7 +2516,8 @@
 
                 titleLink.classList.remove('warn');
                 const stepStatusEl = stepEl.querySelector('.workflow-step-status');
-                stepEl.classList.remove('completed', 'failed', 'unknown', 'solo');
+                stepEl.classList.remove('completed', 'failed', 'unknown', 'solo', 'clickable');
+                stepEl.onclick = null;
                 if (iconState === 'running' && state.currentStep) {
                     stepEl.hidden = false;
                     stepStatusEl.textContent = state.currentStep;
