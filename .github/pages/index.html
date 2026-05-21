@@ -2254,15 +2254,15 @@
                     continue;
                 }
                 if (state.status === 'error') {
-                    // Network/API error — same treatment as rate-limited: blank
-                    // top-row title, yellow status icon, "network error" in a solo
-                    // yellow step pill.
-                    renderBarMessage('warn', '',
+                    // Network/API error — blank top-row title, red status icon,
+                    // "network error" in a solo red step pill (rate-limited uses
+                    // yellow; an actual error should read as more severe).
+                    renderBarMessage('failure', '',
                         state.errorDetail || 'fetch error');
                     const stepEl = barEl.querySelector('.workflow-step');
                     const stepStatusEl = stepEl.querySelector('.workflow-step-status');
-                    stepEl.classList.remove('completed', 'failed', 'unknown');
-                    stepEl.classList.add('solo');
+                    stepEl.classList.remove('completed', 'unknown');
+                    stepEl.classList.add('solo', 'failed');
                     stepEl.hidden = false;
                     stepStatusEl.textContent = 'network error';
                     stepEl.title = state.errorDetail || 'fetch error';
