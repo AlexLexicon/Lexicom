@@ -136,7 +136,11 @@ public static class MvvmServiceBuilderExtensions
 
         //7. register a weak view model reference collection of this view model IMPLEMENTATION type.
         //this weak reference
-        builder.Services.AddSingleton<WeakViewModelReferenceCollection<TViewModelImplementation>>();
+        builder.Services.TryAddSingleton<WeakViewModelReferenceCollection<TViewModelImplementation>>();
+        builder.Services.TryAddSingleton<IWeakViewModelReferenceCollection<TViewModelImplementation>>(sp =>
+        {
+            return sp.GetRequiredService<WeakViewModelReferenceCollection<TViewModelImplementation>>();
+        });
 
         builder.Services.AddSingleton(new ViewModelRegistration
         {

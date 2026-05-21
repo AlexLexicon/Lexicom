@@ -1,4 +1,5 @@
 ﻿using Lexicom.Mvvm.Exceptions;
+using System.Collections;
 
 namespace Lexicom.Mvvm;
 public interface IWeakViewModelReferenceCollection
@@ -7,7 +8,13 @@ public interface IWeakViewModelReferenceCollection
     /// <exception cref="ViewModelNotOfViewModelImplementationTypeException{TViewModelImplementation}"></exception>
     void Add(object viewModel);
 }
-public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakViewModelReferenceCollection where TViewModelImplementation : class
+public interface IWeakViewModelReferenceCollection<TViewModelImplementation> : IWeakViewModelReferenceCollection, IEnumerable<TViewModelImplementation> where TViewModelImplementation : class
+{
+    /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="ViewModelNotOfViewModelImplementationTypeException{TViewModelImplementation}"></exception>
+    void Add(TViewModelImplementation viewModel);
+}
+public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakViewModelReferenceCollection<TViewModelImplementation> where TViewModelImplementation : class
 {
     public WeakViewModelReferenceCollection()
     {
@@ -21,6 +28,7 @@ public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakV
     private Lock MutateLock { get; }
     private int PruneThreshold { get; set; }
 
+    /// <exception cref="ArgumentNullException"/>
     public void Add(object viewModel)
     {
         ArgumentNullException.ThrowIfNull(viewModel);
@@ -72,9 +80,13 @@ public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakV
 
             if (weakViewModelRefrence.TryGetTarget(out TViewModelImplementation? viewModel))
             {
-                viewModels.Add(viewModel);
-                WeakViewModelReferences[writeIndex] = weakViewModelRefrence;
-                writeIndex++;
+                //if the view model is disposed we should not include it
+                if (viewModel is not DisposableObservableObject disposableViewModel || !disposableViewModel.IsDisposed)
+                {
+                    viewModels.Add(viewModel);
+                    WeakViewModelReferences[writeIndex] = weakViewModelRefrence;
+                    writeIndex++;
+                }
             }
         }
 
@@ -84,4 +96,7 @@ public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakV
 
         return viewModels;
     }
+
+    public IEnumerator<TViewModelImplementation> GetEnumerator() => GetRemainingViewModels().GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
