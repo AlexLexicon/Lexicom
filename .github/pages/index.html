@@ -892,11 +892,11 @@
             <div class="controls">
                 <div class="refresh-stack">
                     <div class="refresh-indicator">
-                        <span id="refreshText">next packages refresh in 15s</span>
+                        <span id="refreshText">refresh packages in 15s</span>
                         <div class="refresh-bar"><div class="refresh-bar-fill" id="refreshBar"></div></div>
                     </div>
                     <div class="refresh-indicator">
-                        <span id="actionsRefreshText">next github refresh in 180s</span>
+                        <span id="actionsRefreshText">refresh github in 180s</span>
                         <div class="refresh-bar"><div class="refresh-bar-fill" id="actionsRefreshBar"></div></div>
                     </div>
                 </div>
@@ -957,7 +957,7 @@
             // catch back up to its real version. Once a package is "updated"
             // it stays updated. Lets you watch the dashboard transition from
             // fully-stale to fully-current without a real release.
-            testMode: true,
+            testMode: false,
 
             // GitHub Actions polling intervals (milliseconds). Each collection
             // name is assumed to be the repo name under AlexLexicon. Polled
@@ -1915,14 +1915,14 @@
             bar.style.width = '0%';
             void bar.offsetWidth; // force reflow so the snap commits before the transition is restored
             bar.style.transition = '';
-            text.textContent = `next packages refresh in ${Math.ceil(totalMs / 1000)}s`;
+            text.textContent = `refresh packages in ${Math.ceil(totalMs / 1000)}s`;
 
             countdownTimer = setInterval(() => {
                 const elapsed = Date.now() - start;
                 const pct = Math.min(100, (elapsed / totalMs) * 100);
                 bar.style.width = pct + '%';
                 const remaining = Math.max(0, Math.ceil((totalMs - elapsed) / 1000));
-                text.textContent = `next packages refresh in ${remaining}s`;
+                text.textContent = `refresh packages in ${remaining}s`;
             }, 250);
 
             refreshTimer = setTimeout(async () => {
@@ -2409,14 +2409,14 @@
                 void bar.offsetWidth;
                 bar.style.transition = '';
             }
-            if (text) text.textContent = `next github refresh in ${Math.ceil(next / 1000)}s`;
+            if (text) text.textContent = `refresh github in ${Math.ceil(next / 1000)}s`;
 
             actionsCountdownTimer = setInterval(() => {
                 const elapsed = Date.now() - start;
                 const pct = Math.min(100, (elapsed / next) * 100);
                 if (bar) bar.style.width = pct + '%';
                 const remaining = Math.max(0, Math.ceil((next - elapsed) / 1000));
-                if (text) text.textContent = `next github refresh in ${remaining}s`;
+                if (text) text.textContent = `refresh github in ${remaining}s`;
             }, 250);
 
             actionsPollTimer = setTimeout(async () => {
