@@ -90,7 +90,7 @@
          .container {
              max-width: 1500px;
              margin: 0 auto;
-             padding: 48px 32px 80px;
+             padding: 24px 32px 0px;
          }
 
          /* --- Header ----------------------------------------------------------- */
@@ -358,14 +358,20 @@
          }
 
          .workflow-deploy-label {
-             color: var(--fg-faint);
-             font-family: 'IBM Plex Mono', monospace;
-             font-size: 10px;
-             text-transform: uppercase;
-             letter-spacing: 0.06em;
              flex-shrink: 0;
+             color: var(--fg-dim);
+             font-family: 'IBM Plex Mono', monospace;
+             font-size: 11px;
+             text-transform: uppercase;
+             letter-spacing: 0.08em;
              white-space: nowrap;
+             text-decoration: none;
+             transition: color 0.15s ease;
          }
+
+             .workflow-deploy-label:hover {
+                 color: var(--fg);
+             }
 
          .workflow-status {
              display: inline-flex;
@@ -434,6 +440,10 @@
                  color: var(--accent);
              }
 
+             .workflow-title.warn {
+                 color: var(--warn);
+             }
+
 
          .workflow-meta {
              color: var(--fg-faint);
@@ -442,27 +452,65 @@
              flex-shrink: 0;
          }
 
+         /* Step pill — two-tone like the stale pill. Left half is a static
+        grey "step" label; right half holds the dynamic status text and
+        picks up the state color (yellow running / green completed /
+        red failed). */
          .workflow-step {
              display: inline-flex;
-             align-items: center;
-             padding: 2px 8px;
-             border-radius: 3px;
+             align-items: stretch;
              border: 1px solid var(--border-strong);
-             background: rgba(138, 147, 163, 0.06);
-             color: var(--fg-dim);
+             border-radius: 3px;
+             overflow: hidden;
              font-family: 'IBM Plex Mono', monospace;
              font-size: 11px;
              flex-shrink: 1;
              min-width: 0;
-             max-width: 45%;
-             overflow: hidden;
-             text-overflow: ellipsis;
-             white-space: nowrap;
+             max-width: 60%;
+             line-height: 1.5;
          }
 
              .workflow-step[hidden] {
                  display: none;
              }
+
+         .workflow-step-label,
+         .workflow-step-status {
+             padding: 2px 8px;
+             display: inline-flex;
+             align-items: center;
+         }
+
+         .workflow-step-label {
+             background: rgba(138, 147, 163, 0.06);
+             color: var(--fg-dim);
+             border-right: 1px solid var(--border-strong);
+             flex-shrink: 0;
+         }
+
+         .workflow-step-status {
+             background: rgba(232, 184, 106, 0.08);
+             color: var(--warn);
+             min-width: 0;
+             overflow: hidden;
+             text-overflow: ellipsis;
+             white-space: nowrap;
+         }
+
+         .workflow-step.completed .workflow-step-status {
+             background: rgba(125, 211, 160, 0.08);
+             color: var(--accent);
+         }
+
+         .workflow-step.failed .workflow-step-status {
+             background: rgba(224, 122, 120, 0.08);
+             color: var(--danger);
+         }
+
+         .workflow-step.unknown .workflow-step-status {
+             background: rgba(138, 147, 163, 0.06);
+             color: var(--fg-dim);
+         }
 
          .workflow-run-id {
              font-family: 'IBM Plex Mono', monospace;
@@ -818,28 +866,6 @@
                  font-size: 12px;
              }
 
-         footer {
-             margin-top: 40px;
-             padding-top: 24px;
-             border-top: 1px solid var(--border);
-             font-family: 'IBM Plex Mono', monospace;
-             font-size: 11px;
-             color: var(--fg-faint);
-             display: flex;
-             justify-content: space-between;
-             gap: 16px;
-             flex-wrap: wrap;
-         }
-
-             footer a {
-                 color: var(--fg-dim);
-                 text-decoration: none;
-             }
-
-                 footer a:hover {
-                     color: var(--fg);
-                 }
-
          @media (max-width: 720px) {
              .container {
                  padding: 24px 16px 48px;
@@ -884,11 +910,6 @@
         </div>
 
         <div id="collections" class="collections"></div>
-
-        <footer>
-            <div>data · <a href="https://azuresearch-usnc.nuget.org" target="_blank" rel="noopener">azuresearch-usnc.nuget.org</a></div>
-            <div id="lastUpdated">—</div>
-        </footer>
     </div>
 
     <script>
@@ -936,7 +957,7 @@
             // catch back up to its real version. Once a package is "updated"
             // it stays updated. Lets you watch the dashboard transition from
             // fully-stale to fully-current without a real release.
-            testMode: false,
+            testMode: true,
 
             // GitHub Actions polling intervals (milliseconds). Each collection
             // name is assumed to be the repo name under AlexLexicon. Polled
@@ -1310,8 +1331,8 @@
                 collectionEl.appendChild(nameEl);
 
                 // Workflow status bar — two rows.
-                //   Top:    [status icon] [title] [expected version]
-                //   Bottom: [step pill]  ........  [time ago] [#run]
+                //   Top:    [status icon] [deploy label] [expected version]
+                //   Bottom: [commit title] [step pill] ........ [time ago] [#run]
                 const barEl = document.createElement('div');
                 barEl.className = 'workflow-bar';
                 barEl.hidden = true;
@@ -1325,6 +1346,15 @@
                 wfStatusLink.target = '_blank';
                 wfStatusLink.rel = 'noopener';
                 wfTopRow.appendChild(wfStatusLink);
+
+                const wfDeployLabel = document.createElement('a');
+                wfDeployLabel.className = 'workflow-deploy-label';
+                wfDeployLabel.href = `https://github.com/AlexLexicon/${encodeURIComponent(collection.name)}/actions`;
+                wfDeployLabel.target = '_blank';
+                wfDeployLabel.rel = 'noopener';
+                wfDeployLabel.textContent = 'Github Action';
+                wfDeployLabel.title = `View ${collection.name} Actions on GitHub`;
+                wfTopRow.appendChild(wfDeployLabel);
 
                 const wfTitleLink = document.createElement('a');
                 wfTitleLink.className = 'workflow-title';
@@ -1340,14 +1370,16 @@
                 wfBottomRow.className = 'workflow-row-bottom';
                 barEl.appendChild(wfBottomRow);
 
-                const wfDeployLabel = document.createElement('span');
-                wfDeployLabel.className = 'workflow-deploy-label';
-                wfDeployLabel.textContent = 'Github Action';
-                wfBottomRow.appendChild(wfDeployLabel);
-
                 const wfStepEl = document.createElement('span');
                 wfStepEl.className = 'workflow-step';
                 wfStepEl.hidden = true;
+                const wfStepLabel = document.createElement('span');
+                wfStepLabel.className = 'workflow-step-label';
+                wfStepLabel.textContent = 'step';
+                wfStepEl.appendChild(wfStepLabel);
+                const wfStepStatus = document.createElement('span');
+                wfStepStatus.className = 'workflow-step-status';
+                wfStepEl.appendChild(wfStepStatus);
                 wfBottomRow.appendChild(wfStepEl);
 
                 const wfRowSpacer = document.createElement('span');
@@ -1863,8 +1895,6 @@
                 applyTestMutations();
             }
             updateUi();
-            document.getElementById('lastUpdated').textContent =
-                `last checked · ${new Date().toLocaleTimeString()}`;
         }
 
         // Refresh-countdown UI.
@@ -2196,8 +2226,11 @@
                     metaEl.textContent = '';
                     metaEl.title = '';
                     stepEl.hidden = true;
-                    stepEl.textContent = '';
+                    stepEl.classList.remove('completed', 'failed', 'unknown');
+                    const stepStatusEl = stepEl.querySelector('.workflow-step-status');
+                    if (stepStatusEl) stepStatusEl.textContent = '';
                     stepEl.title = '';
+                    titleLink.classList.remove('warn');
                     const eff = getEffectiveRunNumber(collection);
                     populateRunNumber('#?', null, eff
                         ? `run number unknown — comparing against #${eff.number} (deduced from published versions)`
@@ -2220,8 +2253,17 @@
                     continue;
                 }
                 if (state.status === 'ratelimited') {
-                    renderBarMessage('neutral', 'GitHub API rate-limited',
+                    // Show a blank top-row title (no rate-limited banner text) and
+                    // surface the state in the step pill instead: "rate limited" in
+                    // yellow.
+                    renderBarMessage('neutral', '',
                         'unauthenticated rate limit is 60 requests/hour — polling will retry in an hour');
+                    const stepEl = barEl.querySelector('.workflow-step');
+                    const stepStatusEl = stepEl.querySelector('.workflow-step-status');
+                    stepEl.classList.remove('completed', 'failed', 'unknown');
+                    stepEl.hidden = false;
+                    stepStatusEl.textContent = 'rate limited';
+                    stepEl.title = 'GitHub API rate-limited — workflow status unavailable';
                     continue;
                 }
 
@@ -2291,17 +2333,26 @@
                     populateRunNumber('#?', null, tooltip);
                 }
 
+                titleLink.classList.remove('warn');
+                const stepStatusEl = stepEl.querySelector('.workflow-step-status');
+                stepEl.classList.remove('completed', 'failed', 'unknown');
                 if (iconState === 'running' && state.currentStep) {
                     stepEl.hidden = false;
-                    stepEl.textContent = `step: ${state.currentStep}`;
+                    stepStatusEl.textContent = state.currentStep;
                     stepEl.title = `current step: ${state.currentStep}`;
                 } else if (iconState === 'success') {
                     stepEl.hidden = false;
-                    stepEl.textContent = 'step: completed';
+                    stepEl.classList.add('completed');
+                    stepStatusEl.textContent = 'completed';
                     stepEl.title = 'workflow run completed';
+                } else if (iconState === 'failure') {
+                    stepEl.hidden = false;
+                    stepEl.classList.add('failed');
+                    stepStatusEl.textContent = 'failed';
+                    stepEl.title = 'workflow run failed';
                 } else {
                     stepEl.hidden = true;
-                    stepEl.textContent = '';
+                    stepStatusEl.textContent = '';
                     stepEl.title = '';
                 }
             }

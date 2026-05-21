@@ -19,23 +19,22 @@ jobs:
     steps:          
     - uses: actions/checkout@v6
     
-    - name: Install .NET 10
+    - name: install .net10
       uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 10.x
-        
-    - name: Restore Workload
-      run: dotnet workload restore
 
-    - name: Restore
-      run: dotnet restore
+    - name: dotnet restore
+      run: |
+        dotnet workload restore
+        dotnet restore
 
-    - name: Build
+    - name: dotnet build
       run: dotnet build --configuration Release --no-restore /p:VersionPrefix=10.0.$env:GITHUB_RUN_NUMBER
 
-    - name: Test
+    - name: dotnet test
       run: dotnet test --no-build --configuration Release --verbosity normal
 
-    - name: Push
+    - name: dotnet push
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
       run: dotnet nuget push */**/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
