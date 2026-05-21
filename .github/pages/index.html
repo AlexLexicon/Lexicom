@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lexicom Packages Monitor</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -405,6 +406,10 @@
                  color: var(--fg-faint);
              }
 
+             .workflow-status[data-state="warn"] {
+                 color: var(--warn);
+             }
+
              .workflow-status[data-state="running"] {
                  color: var(--warn);
              }
@@ -510,6 +515,12 @@
          .workflow-step.unknown .workflow-step-status {
              background: rgba(138, 147, 163, 0.06);
              color: var(--fg-dim);
+         }
+
+         /* Solo pill — no "step" label, single solid status pill. Used for
+        completed / rate-limited / network-error states. */
+         .workflow-step.solo .workflow-step-label {
+             display: none;
          }
 
          .workflow-run-id {
@@ -2226,7 +2237,7 @@
                     metaEl.textContent = '';
                     metaEl.title = '';
                     stepEl.hidden = true;
-                    stepEl.classList.remove('completed', 'failed', 'unknown');
+                    stepEl.classList.remove('completed', 'failed', 'unknown', 'solo');
                     const stepStatusEl = stepEl.querySelector('.workflow-step-status');
                     if (stepStatusEl) stepStatusEl.textContent = '';
                     stepEl.title = '';
@@ -2243,8 +2254,18 @@
                     continue;
                 }
                 if (state.status === 'error') {
-                    renderBarMessage('failure', state.errorDetail || 'could not load workflow runs',
+                    // Network/API error — same treatment as rate-limited: blank
+                    // top-row title, yellow status icon, "network error" in a solo
+                    // yellow step pill.
+                    renderBarMessage('warn', '',
                         state.errorDetail || 'fetch error');
+                    const stepEl = barEl.querySelector('.workflow-step');
+                    const stepStatusEl = stepEl.querySelector('.workflow-step-status');
+                    stepEl.classList.remove('completed', 'failed', 'unknown');
+                    stepEl.classList.add('solo');
+                    stepEl.hidden = false;
+                    stepStatusEl.textContent = 'network error';
+                    stepEl.title = state.errorDetail || 'fetch error';
                     continue;
                 }
                 if (state.status === 'none') {
@@ -2253,14 +2274,14 @@
                     continue;
                 }
                 if (state.status === 'ratelimited') {
-                    // Show a blank top-row title (no rate-limited banner text) and
-                    // surface the state in the step pill instead: "rate limited" in
-                    // yellow.
-                    renderBarMessage('neutral', '',
+                    // Blank top-row title; surface the state in a solo yellow step
+                    // pill with a yellow status icon to the left of the label.
+                    renderBarMessage('warn', '',
                         'unauthenticated rate limit is 60 requests/hour — polling will retry in an hour');
                     const stepEl = barEl.querySelector('.workflow-step');
                     const stepStatusEl = stepEl.querySelector('.workflow-step-status');
                     stepEl.classList.remove('completed', 'failed', 'unknown');
+                    stepEl.classList.add('solo');
                     stepEl.hidden = false;
                     stepStatusEl.textContent = 'rate limited';
                     stepEl.title = 'GitHub API rate-limited — workflow status unavailable';
@@ -2335,14 +2356,14 @@
 
                 titleLink.classList.remove('warn');
                 const stepStatusEl = stepEl.querySelector('.workflow-step-status');
-                stepEl.classList.remove('completed', 'failed', 'unknown');
+                stepEl.classList.remove('completed', 'failed', 'unknown', 'solo');
                 if (iconState === 'running' && state.currentStep) {
                     stepEl.hidden = false;
                     stepStatusEl.textContent = state.currentStep;
                     stepEl.title = `current step: ${state.currentStep}`;
                 } else if (iconState === 'success') {
                     stepEl.hidden = false;
-                    stepEl.classList.add('completed');
+                    stepEl.classList.add('completed', 'solo');
                     stepStatusEl.textContent = 'completed';
                     stepEl.title = 'workflow run completed';
                 } else if (iconState === 'failure') {

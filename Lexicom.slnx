@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/.github/" />
   <Folder Name="/.github/pages/">
+    <File Path=".github/pages/favicon.ico" />
     <File Path=".github/pages/index.html" />
   </Folder>
   <Folder Name="/.github/workflows/">
