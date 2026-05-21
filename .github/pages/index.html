@@ -15,12 +15,28 @@
      Edit the CONFIG block in the <script> at the bottom of this file.
 
        CONFIG.packages = [
-         new Collection("collection name", [
+         new Collection("collection name", "workflow.yml", 1, 0, [
            new Section("section name", ['Package.One', 'Package.Two']),
            new Section("another section", [ ... ]),
          ]),
-         new Collection( ... ),
+         new Collection("untracked collection", null, null, null, [ ... ]),
        ]
+
+     Collection args: name, workflowFile, major, minor, sections.
+
+     The workflowFile is the filename of a GitHub Actions workflow YAML
+     under the matching AlexLexicon repo (e.g. 'release.yml'). When set,
+     the dashboard polls that workflow's latest run every 60s and shows
+     its status (success / failure / running with current step), display
+     title, relative time, and run number beneath the collection header.
+     Pass null to skip Actions tracking for a collection.
+
+     major and minor are the version prefix the workflow publishes
+     packages under. They're combined with the latest successful run's
+     GITHUB_RUN_NUMBER to compute the expected version (e.g. major=1
+     minor=0 + run #31 ⇒ expected 1.0.31). Packages whose patch is
+     behind that number are flagged stale even when they're all on the
+     same prior version.
 
      Collections render side by side (wrapping as space allows). Sections
      inside a collection are collapsible and show their oldest package
@@ -245,6 +261,43 @@
             border-bottom: 1px solid var(--border);
         }
 
+        .collection-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+            .collection-status[data-state="current"] {
+                color: var(--accent);
+            }
+
+            .collection-status svg {
+                display: block;
+                width: 14px;
+                height: 14px;
+            }
+
+            .collection-status[data-state="stale"] svg,
+            .collection-status[data-state="loading"] svg {
+                display: none;
+            }
+
+            .collection-status[data-state="stale"]::before,
+            .collection-status[data-state="loading"]::before {
+                content: '';
+                display: block;
+                width: 14px;
+                height: 14px;
+                border: 2px solid var(--border);
+                border-top-color: var(--warn);
+                border-radius: 50%;
+                box-sizing: border-box;
+                animation: spin 0.9s linear infinite;
+            }
+
         .collection-github,
         .collection-actions {
             display: inline-flex;
@@ -269,16 +322,64 @@
                 height: 14px;
             }
 
-            /* Actions icon visual states driven by GitHub workflow run status. */
-            .collection-actions[data-state="running"] {
+        /* --- Workflow status bar --------------------------------------------- */
+        .workflow-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 18px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.015);
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 12px;
+            min-width: 0;
+        }
+
+            .workflow-bar[hidden] {
+                display: none;
+            }
+
+        .workflow-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+            color: var(--fg-faint);
+        }
+
+            .workflow-status svg {
+                display: block;
+                width: 14px;
+                height: 14px;
+            }
+
+            .workflow-status[data-state="success"] {
+                color: var(--accent);
+            }
+
+            .workflow-status[data-state="failure"] {
+                color: var(--danger);
+            }
+
+            .workflow-status[data-state="cancelled"] {
+                color: var(--fg-faint);
+            }
+
+            .workflow-status[data-state="neutral"] {
+                color: var(--fg-faint);
+            }
+
+            .workflow-status[data-state="running"] {
                 color: var(--warn);
             }
 
-                .collection-actions[data-state="running"] svg {
+                .workflow-status[data-state="running"] svg {
                     display: none;
                 }
 
-                .collection-actions[data-state="running"]::before {
+                .workflow-status[data-state="running"]::before {
                     content: '';
                     display: block;
                     width: 14px;
@@ -290,18 +391,112 @@
                     animation: spin 0.9s linear infinite;
                 }
 
-            .collection-actions[data-state="failure"] {
+        .workflow-title {
+            flex: 1;
+            min-width: 0;
+            color: var(--fg);
+            text-decoration: none;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            transition: color 0.15s ease;
+        }
+
+            .workflow-title:hover {
+                color: var(--accent);
+            }
+
+        .workflow-step {
+            color: var(--warn);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            flex-shrink: 1;
+            min-width: 0;
+            max-width: 40%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+            .workflow-step[hidden] {
+                display: none;
+            }
+
+        .workflow-meta {
+            color: var(--fg-faint);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        .workflow-run-number {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 6px;
+            color: var(--fg-dim);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+            .workflow-run-number[hidden] {
+                display: none;
+            }
+
+        .workflow-run-id {
+            color: var(--fg-faint);
+        }
+
+        .workflow-expected-version {
+            font-weight: 500;
+        }
+
+        .collection-run-number {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--fg-faint);
+            flex-shrink: 0;
+        }
+
+            .collection-run-number[hidden] {
+                display: none;
+            }
+
+        /* Actions icon visual states driven by GitHub workflow run status. */
+        .collection-actions[data-state="running"] {
+            color: var(--warn);
+        }
+
+            .collection-actions[data-state="running"] svg {
+                display: none;
+            }
+
+            .collection-actions[data-state="running"]::before {
+                content: '';
+                display: block;
+                width: 14px;
+                height: 14px;
+                border: 2px solid var(--border);
+                border-top-color: var(--warn);
+                border-radius: 50%;
+                box-sizing: border-box;
+                animation: spin 0.9s linear infinite;
+            }
+
+        .collection-actions[data-state="failure"] {
+            color: var(--danger);
+        }
+
+            .collection-actions[data-state="failure"]:hover {
                 color: var(--danger);
             }
 
-                .collection-actions[data-state="failure"]:hover {
-                    color: var(--danger);
-                }
-
-            .collection-actions[data-state="ratelimited"] {
-                color: var(--fg-faint);
-                opacity: 0.4;
-            }
+        .collection-actions[data-state="ratelimited"] {
+            color: var(--fg-faint);
+            opacity: 0.4;
+        }
 
         .collection-icon {
             width: 16px;
@@ -313,13 +508,13 @@
         }
 
         .collection-title {
+            flex: 1;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             min-width: 0;
-            flex-shrink: 1;
             color: inherit;
             text-decoration: none;
             transition: color 0.15s ease;
@@ -405,10 +600,10 @@
 
         .section-toggle {
             display: inline-block;
-            width: 10px;
+            width: 14px;
             flex-shrink: 0;
-            color: var(--fg-faint);
-            font-size: 9px;
+            color: var(--fg-dim);
+            font-size: 14px;
             line-height: 1;
             text-align: center;
             transform-origin: center center;
@@ -430,6 +625,25 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+        .section-stale {
+            display: inline-flex;
+            align-items: center;
+            padding: 1px 6px;
+            border-radius: 9px;
+            background: rgba(224, 122, 120, 0.12);
+            border: 1px solid rgba(224, 122, 120, 0.3);
+            color: var(--danger);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            flex-shrink: 0;
+            cursor: help;
+        }
+
+            .section-stale.hidden {
+                display: none;
+            }
 
         .section-version {
             font-family: 'IBM Plex Mono', monospace;
@@ -509,6 +723,10 @@
             color: var(--danger);
         }
 
+        .version-equal {
+            color: var(--fg-dim);
+        }
+
         .version-unknown {
             color: var(--fg-faint);
         }
@@ -585,12 +803,12 @@
     <div class="container">
         <header>
             <div class="title-block">
-                <h1><span class="status" id="statusIndicator" data-state="loading" title="loading…"><span class="status-spinner"></span></span>lexicom packages monitor</h1>
+                <h1>lexicom packages monitor</h1>
                 <div class="subtitle" id="targetLine">— packages</div>
             </div>
             <div class="controls">
                 <div class="refresh-indicator">
-                    <span id="refreshText">next in 15s</span>
+                    <span id="refreshText">next refresh in 15s</span>
                     <div class="refresh-bar"><div class="refresh-bar-fill" id="refreshBar"></div></div>
                 </div>
                 <button id="refreshBtn">refresh now</button>
@@ -623,15 +841,29 @@
         }
 
         class Collection {
-            constructor(name, sections) {
+            // `workflowFile` is optional — the filename of the GitHub Actions
+            // workflow YAML (e.g. 'release.yml' or 'ci.yml') to track for this
+            // collection. When set, the latest run for that workflow is shown
+            // beneath the collection header. Pass null (or undefined) to skip.
+            //
+            // `major` and `minor` are the version prefix this collection's
+            // workflow publishes packages under. They're combined with the
+            // latest successful run's GITHUB_RUN_NUMBER to synthesize the
+            // expected version ({major}.{minor}.{run_number}) — packages
+            // whose patch is below that show as stale even when they're all
+            // on the same prior version. Required only if workflowFile is set.
+            constructor(name, workflowFile, major, minor, sections) {
                 this.name = name;
+                this.workflowFile = workflowFile || null;
+                this.major = (major != null) ? Number(major) : null;
+                this.minor = (minor != null) ? Number(minor) : null;
                 this.sections = sections;
             }
         }
 
         const CONFIG = {
             packages: [
-                new Collection('Lexicom', [
+                new Collection('Lexicom', "dotnet10.yml", 10, 0, [
                     new Section('AspNetCore.Controllers', [
                         'Lexicom.AspNetCore.Controllers.Amenities',
                         'Lexicom.AspNetCore.Controllers.Contracts',
@@ -782,7 +1014,7 @@
                     ]),
                 ]),
 
-                new Collection('Lexicom.Concentrate', [
+                new Collection('Lexicom.Concentrate', "dotnet10.yml", 10, 0, [
                     new Section('Blazor.WebAssembly', [
                         'Lexicom.Concentrate.Blazor.WebAssembly.Amenities',
                         'Lexicom.Concentrate.Blazor.WebAssembly.Amenities.Abstractions',
@@ -821,7 +1053,11 @@
             // light up without waiting for a real out-of-date scenario.
             // Re-randomizes on every refresh.
             testMode: false,
-            testStaleRatio: 0.3, // probability each package gets downgraded
+            // Per-refresh chance (0..1) that a still-stale package "catches up"
+            // to its real version. Once updated, a package stays updated for
+            // the rest of the session. The very first refresh always starts
+            // every package stale so you can watch them slowly catch up.
+            testUpdateChance: 0.3,
 
             // GitHub Actions polling. Each collection name is assumed to be the repo
             // name under AlexLexicon. Polled on its own slower interval; uses
@@ -831,7 +1067,7 @@
             // Personal access tokens → Fine-grained, with public-repo read access)
             // for the 5000/hour authenticated rate limit. Only safe when this page
             // is served locally — the token is plaintext in the HTML source.
-            actionsPollIntervalMs: 60000,
+            actionsPollIntervalMs: 180000,
             githubToken: null,
         };
         // ===================================================================
@@ -840,7 +1076,7 @@
         const params = new URLSearchParams(location.search);
         if (params.get('packages')) {
             const list = params.get('packages').split(',').map(s => s.trim()).filter(Boolean);
-            CONFIG.packages = [new Collection('Packages', [new Section('All', list)])];
+            CONFIG.packages = [new Collection('Packages', null, null, null, [new Section('All', list)])];
         }
         if (params.get('refresh')) {
             const n = parseInt(params.get('refresh'), 10);
@@ -939,14 +1175,11 @@
                 const nameEl = document.createElement('div');
                 nameEl.className = 'collection-name';
 
-                const collGh = document.createElement('a');
-                collGh.className = 'collection-github';
-                collGh.href = `https://github.com/AlexLexicon/${encodeURIComponent(collection.name)}/tree/master`;
-                collGh.target = '_blank';
-                collGh.rel = 'noopener';
-                collGh.title = `View ${collection.name} on GitHub`;
-                collGh.innerHTML = GITHUB_ICON_HTML;
-                nameEl.appendChild(collGh);
+                const collStatus = document.createElement('span');
+                collStatus.className = 'collection-status';
+                collStatus.dataset.state = 'loading';
+                collStatus.innerHTML = STATUS_SPINNER_HTML;
+                nameEl.appendChild(collStatus);
 
                 const collIcon = document.createElement('img');
                 collIcon.className = 'collection-icon';
@@ -964,6 +1197,19 @@
                 titleEl.title = `Search nuget.org for ${collection.name}`;
                 titleEl.textContent = collection.name;
                 nameEl.appendChild(titleEl);
+
+                const collGh = document.createElement('a');
+                collGh.className = 'collection-github';
+                collGh.href = `https://github.com/AlexLexicon/${encodeURIComponent(collection.name)}/tree/master`;
+                collGh.target = '_blank';
+                collGh.rel = 'noopener';
+                collGh.title = `View ${collection.name} on GitHub`;
+                collGh.innerHTML = GITHUB_ICON_HTML;
+                nameEl.appendChild(collGh);
+
+                const collStaleEl = document.createElement('span');
+                collStaleEl.className = 'collection-stale hidden';
+                nameEl.appendChild(collStaleEl);
 
                 const expandBtn = document.createElement('button');
                 expandBtn.className = 'collection-expand';
@@ -984,29 +1230,47 @@
                 });
                 nameEl.appendChild(expandBtn);
 
-                const spacerEl = document.createElement('span');
-                spacerEl.className = 'collection-spacer';
-                nameEl.appendChild(spacerEl);
-
-                const collStaleEl = document.createElement('span');
-                collStaleEl.className = 'collection-stale hidden';
-                nameEl.appendChild(collStaleEl);
-
-                const collActions = document.createElement('a');
-                collActions.className = 'collection-actions';
-                collActions.href = `https://github.com/AlexLexicon/${encodeURIComponent(collection.name)}/actions`;
-                collActions.target = '_blank';
-                collActions.rel = 'noopener';
-                collActions.title = `View ${collection.name} Actions on GitHub`;
-                collActions.innerHTML = GITHUB_ACTIONS_ICON_HTML;
-                nameEl.appendChild(collActions);
-
-                const collVerEl = document.createElement('span');
-                collVerEl.className = 'collection-version version-loading';
-                collVerEl.textContent = '…';
-                nameEl.appendChild(collVerEl);
-
                 collectionEl.appendChild(nameEl);
+
+                // Workflow status bar (populated only when this collection has a
+                // workflowFile configured and the GitHub API responds with a run).
+                const barEl = document.createElement('div');
+                barEl.className = 'workflow-bar';
+                barEl.hidden = true;
+
+                const wfStatusLink = document.createElement('a');
+                wfStatusLink.className = 'workflow-status';
+                wfStatusLink.target = '_blank';
+                wfStatusLink.rel = 'noopener';
+                barEl.appendChild(wfStatusLink);
+
+                const wfTitleLink = document.createElement('a');
+                wfTitleLink.className = 'workflow-title';
+                wfTitleLink.target = '_blank';
+                wfTitleLink.rel = 'noopener';
+                barEl.appendChild(wfTitleLink);
+
+                const wfStepEl = document.createElement('span');
+                wfStepEl.className = 'workflow-step';
+                wfStepEl.hidden = true;
+                barEl.appendChild(wfStepEl);
+
+                const wfMetaEl = document.createElement('span');
+                wfMetaEl.className = 'workflow-meta';
+                barEl.appendChild(wfMetaEl);
+
+                const wfRunNumberEl = document.createElement('span');
+                wfRunNumberEl.className = 'workflow-run-number';
+                wfRunNumberEl.hidden = true;
+                const wfRunIdEl = document.createElement('span');
+                wfRunIdEl.className = 'workflow-run-id';
+                wfRunNumberEl.appendChild(wfRunIdEl);
+                const wfExpectedVerEl = document.createElement('span');
+                wfExpectedVerEl.className = 'workflow-expected-version';
+                wfRunNumberEl.appendChild(wfExpectedVerEl);
+                barEl.appendChild(wfRunNumberEl);
+
+                collectionEl.appendChild(barEl);
 
                 for (let si = 0; si < collection.sections.length; si++) {
                     const section = collection.sections[si];
@@ -1026,6 +1290,10 @@
                     nm.className = 'section-name';
                     nm.textContent = section.name;
                     header.appendChild(nm);
+
+                    const sectionStaleEl = document.createElement('span');
+                    sectionStaleEl.className = 'section-stale hidden';
+                    header.appendChild(sectionStaleEl);
 
                     const ver = document.createElement('span');
                     ver.className = 'section-version version-loading';
@@ -1096,16 +1364,31 @@
             return version;
         }
 
-        // Randomly downgrade a subset of fetched versions for visual testing.
+        // Test mode: simulate a slow rolling release. First refresh marks
+        // every package stale (downgraded). On each subsequent refresh, every
+        // still-stale package rolls a chance (CONFIG.testUpdateChance) to
+        // "catch up" — once it does, the set remembers it and it stays on
+        // its real version for the rest of the session.
+        const testUpdatedSet = new Set();
+        let testInitialSweepDone = false;
+
         function applyTestMutations() {
-            for (const info of versionStore.values()) {
-                if (info.version && Math.random() < CONFIG.testStaleRatio) {
-                    const downgraded = downgradeVersion(info.version);
-                    if (downgraded !== info.version) {
-                        info.version = downgraded;
-                    }
+            for (const [pkg, info] of versionStore) {
+                if (!info.version) continue;
+                if (testUpdatedSet.has(pkg)) continue;
+
+                if (testInitialSweepDone && Math.random() < CONFIG.testUpdateChance) {
+                    // Package catches up this refresh — leave the real version in place.
+                    testUpdatedSet.add(pkg);
+                    continue;
+                }
+
+                const downgraded = downgradeVersion(info.version);
+                if (downgraded !== info.version) {
+                    info.version = downgraded;
                 }
             }
+            testInitialSweepDone = true;
         }
 
         async function fetchAllVersions() {
@@ -1131,8 +1414,70 @@
         }
 
         function setVersionClass(el, kind) {
-            el.classList.remove('version-loading', 'version-unknown', 'version-newest', 'version-older');
+            el.classList.remove('version-loading', 'version-unknown', 'version-newest', 'version-older', 'version-equal');
             el.classList.add(kind);
+        }
+
+        // ---- Run-number helpers -------------------------------------------
+        // Extract the trailing numeric segment of a version, ignoring any
+        // prerelease tag. "1.0.31" → 31, "1.0.31-beta" → 31.
+        function extractPatch(version) {
+            if (!version) return null;
+            const dashIdx = version.indexOf('-');
+            const main = dashIdx === -1 ? version : version.slice(0, dashIdx);
+            const parts = main.split('.');
+            if (parts.length === 0) return null;
+            const n = parseInt(parts[parts.length - 1], 10);
+            return isNaN(n) ? null : n;
+        }
+
+        // Highest patch across all known packages in a collection — used as
+        // a fallback "run number" when GitHub Actions data is unavailable.
+        function maxPackagePatch(collection) {
+            let max = null;
+            for (const section of collection.sections) {
+                for (const pkg of section.packages) {
+                    const info = versionStore.get(pkg);
+                    if (info && info.version) {
+                        const patch = extractPatch(info.version);
+                        if (patch != null && (max == null || patch > max)) max = patch;
+                    }
+                }
+            }
+            return max;
+        }
+
+        // Resolve the run number to use for comparison against package versions.
+        // Returns { number, source } or null. source ∈ 'actions' | 'lastsuccess' | 'fallback'.
+        function getEffectiveRunNumber(collection) {
+            const state = actionsStore.get(collection.name);
+            if (state && state.runNumber != null) {
+                // Use the latest run unless it definitively failed/cancelled.
+                const usable = state.status !== 'completed'
+                    || state.conclusion === 'success'
+                    || state.conclusion == null;
+                if (usable) return { number: state.runNumber, source: 'actions' };
+            }
+            if (state && state.lastSuccessRunNumber != null) {
+                return { number: state.lastSuccessRunNumber, source: 'lastsuccess' };
+            }
+            // Last resort: deduce from the highest published patch we can see.
+            const max = maxPackagePatch(collection);
+            if (max != null) return { number: max, source: 'fallback' };
+            return null;
+        }
+
+        // Synthesize the expected version for a collection from major.minor +
+        // the effective run number. Returns { version, runNumber, source } or null.
+        function getExpectedVersion(collection) {
+            if (collection.major == null || collection.minor == null) return null;
+            const info = getEffectiveRunNumber(collection);
+            if (!info) return null;
+            return {
+                version: `${collection.major}.${collection.minor}.${info.number}`,
+                runNumber: info.number,
+                source: info.source,
+            };
         }
 
         const STATUS_SPINNER_HTML = '<span class="status-spinner"></span>';
@@ -1140,6 +1485,34 @@
             '<svg viewBox="0 0 16 16" aria-hidden="true">' +
             '<path d="M3 8.5 L6.5 12 L13 4.5" fill="none" stroke="currentColor" ' +
             'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+        // Workflow status icons — circle with check / X / dash inside, all
+        // drawn with currentColor so they pick up the CSS state color.
+        const WORKFLOW_SUCCESS_HTML =
+            '<svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" ' +
+            'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
+            '<circle cx="8" cy="8" r="6.5"/><path d="M5 8 L7 10 L11 6"/></svg>';
+        const WORKFLOW_FAILURE_HTML =
+            '<svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" ' +
+            'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
+            '<circle cx="8" cy="8" r="6.5"/><path d="M5.5 5.5 L10.5 10.5 M10.5 5.5 L5.5 10.5"/></svg>';
+        const WORKFLOW_NEUTRAL_HTML =
+            '<svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" ' +
+            'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
+            '<circle cx="8" cy="8" r="6.5"/><path d="M5 8 L11 8"/></svg>';
+
+        function formatRelativeTime(iso) {
+            if (!iso) return '';
+            const d = new Date(iso);
+            if (isNaN(d.getTime())) return '';
+            const diff = (Date.now() - d.getTime()) / 1000;
+            if (diff < 60) return `${Math.max(0, Math.floor(diff))}s ago`;
+            if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+            if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+            const days = Math.floor(diff / 86400);
+            if (days < 30) return `${days}d ago`;
+            return d.toISOString().slice(0, 10);
+        }
 
         // GitHub Actions icon (Octicons play-in-circle).
         const GITHUB_ACTIONS_ICON_HTML =
@@ -1158,24 +1531,22 @@
             '0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 ' +
             '24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>';
 
-        function setStatus(state) {
-            const el = document.getElementById('statusIndicator');
-            if (!el || el.dataset.state === state) return;
-            el.dataset.state = state;
-            el.innerHTML = state === 'current' ? STATUS_CHECK_HTML : STATUS_SPINNER_HTML;
-            el.title = state === 'current'
-                ? 'all packages up to date'
-                : state === 'stale'
-                    ? 'packages out of date'
-                    : 'loading…';
+        function setStatus(el, state) {
+            if (!el) return;
+            if (el.dataset.state !== state) {
+                el.dataset.state = state;
+                el.innerHTML = state === 'current' ? STATUS_CHECK_HTML : STATUS_SPINNER_HTML;
+                el.title = state === 'current'
+                    ? 'all packages up to date'
+                    : state === 'stale'
+                        ? 'packages out of date'
+                        : 'loading…';
+            }
         }
 
         function updateUi() {
             const root = document.getElementById('collections');
             const collectionEls = root.querySelectorAll('.collection');
-
-            let overallStale = 0;
-            let overallHasVersion = false;
 
             for (const collectionEl of collectionEls) {
                 const ci = Number(collectionEl.dataset.collectionIndex);
@@ -1187,13 +1558,20 @@
                     for (const pkg of section.packages) {
                         const info = versionStore.get(pkg);
                         const v = info && info.version;
-                        if (v) {
-                            overallHasVersion = true;
-                            if (!collectionMax || compareVersions(v, collectionMax) > 0) {
-                                collectionMax = v;
-                            }
+                        if (v && (!collectionMax || compareVersions(v, collectionMax) > 0)) {
+                            collectionMax = v;
                         }
                     }
+                }
+
+                // Fold the expected version ({major}.{minor}.{runNumber}) into
+                // the max so packages still on the prior run are flagged stale.
+                // Falls back to deducing the run number from the highest patch
+                // already published when GitHub Actions data isn't available.
+                const expected = getExpectedVersion(collection);
+                if (expected
+                    && (!collectionMax || compareVersions(expected.version, collectionMax) > 0)) {
+                    collectionMax = expected.version;
                 }
 
                 // Count packages behind the collection's newest version.
@@ -1207,26 +1585,44 @@
                         }
                     }
                 }
-                overallStale += collectionStale;
+                // When every package matches the expected version, paint the
+                // up-to-date colors grey (everything is equal) instead of green —
+                // green is reserved for "current vs. stale" comparisons.
+                const allEqual = collectionMax != null && collectionStale === 0;
+                const upToDateState = allEqual ? 'version-equal' : 'version-newest';
 
-                const collVerEl = collectionEl.querySelector('.collection-version');
-                if (!collectionMax) {
-                    collVerEl.textContent = '—';
-                    setVersionClass(collVerEl, 'version-unknown');
-                } else {
-                    collVerEl.textContent = collectionMax;
-                    setVersionClass(collVerEl, 'version-newest');
+                // The workflow bar's expected-version label uses the same color
+                // logic so it turns green when something is behind, grey when
+                // everything matches.
+                const wfExpectedVerEl = collectionEl.querySelector('.workflow-expected-version');
+                if (wfExpectedVerEl) {
+                    setVersionClass(wfExpectedVerEl, collectionMax != null ? upToDateState : 'version-unknown');
                 }
 
+                // Per-collection status indicator on the far left.
+                const collStatusEl = collectionEl.querySelector('.collection-status');
+                if (collStatusEl) {
+                    if (collectionMax == null) {
+                        setStatus(collStatusEl, 'loading');
+                    } else if (collectionStale > 0) {
+                        setStatus(collStatusEl, 'stale');
+                    } else {
+                        setStatus(collStatusEl, 'current');
+                    }
+                }
+
+                // Collection-level stale badge to the left of the expand button.
                 const collStaleEl = collectionEl.querySelector('.collection-stale');
-                if (collectionStale > 0) {
-                    collStaleEl.classList.remove('hidden');
-                    collStaleEl.textContent = `▲ ${collectionStale}`;
-                    collStaleEl.title = `${collectionStale} package${collectionStale === 1 ? '' : 's'} behind ${collectionMax}`;
-                } else {
-                    collStaleEl.classList.add('hidden');
-                    collStaleEl.textContent = '';
-                    collStaleEl.title = '';
+                if (collStaleEl) {
+                    if (collectionStale > 0) {
+                        collStaleEl.classList.remove('hidden');
+                        collStaleEl.textContent = `▲ ${collectionStale}`;
+                        collStaleEl.title = `${collectionStale} package${collectionStale === 1 ? '' : 's'} behind ${collectionMax}`;
+                    } else {
+                        collStaleEl.classList.add('hidden');
+                        collStaleEl.textContent = '';
+                        collStaleEl.title = '';
+                    }
                 }
 
                 // Pull the icon URL from the first package in the collection.
@@ -1254,13 +1650,19 @@
                     const si = Number(sectionEl.dataset.sectionIndex);
                     const section = collection.sections[si];
 
-                    // Oldest known version in this section.
+                    // Oldest known version in this section + stale count within it.
                     let sectionOldest = null;
+                    let sectionStale = 0;
                     for (const pkg of section.packages) {
                         const info = versionStore.get(pkg);
                         const v = info && info.version;
-                        if (v && (!sectionOldest || compareVersions(v, sectionOldest) < 0)) {
-                            sectionOldest = v;
+                        if (v) {
+                            if (!sectionOldest || compareVersions(v, sectionOldest) < 0) {
+                                sectionOldest = v;
+                            }
+                            if (collectionMax && compareVersions(v, collectionMax) < 0) {
+                                sectionStale++;
+                            }
                         }
                     }
 
@@ -1272,8 +1674,21 @@
                         verEl.textContent = sectionOldest;
                         setVersionClass(
                             verEl,
-                            compareVersions(sectionOldest, collectionMax) >= 0 ? 'version-newest' : 'version-older',
+                            compareVersions(sectionOldest, collectionMax) >= 0 ? upToDateState : 'version-older',
                         );
+                    }
+
+                    const sectionStaleEl = sectionEl.querySelector('.section-stale');
+                    if (sectionStaleEl) {
+                        if (sectionStale > 0) {
+                            sectionStaleEl.classList.remove('hidden');
+                            sectionStaleEl.textContent = `▲ ${sectionStale}`;
+                            sectionStaleEl.title = `${sectionStale} package${sectionStale === 1 ? '' : 's'} behind ${collectionMax}`;
+                        } else {
+                            sectionStaleEl.classList.add('hidden');
+                            sectionStaleEl.textContent = '';
+                            sectionStaleEl.title = '';
+                        }
                     }
 
                     // Package rows.
@@ -1299,20 +1714,13 @@
                             pverEl.title = '';
                             setVersionClass(
                                 pverEl,
-                                compareVersions(info.version, collectionMax) >= 0 ? 'version-newest' : 'version-older',
+                                compareVersions(info.version, collectionMax) >= 0 ? upToDateState : 'version-older',
                             );
                         }
                     }
                 }
             }
 
-            if (!overallHasVersion) {
-                setStatus('loading');
-            } else if (overallStale > 0) {
-                setStatus('stale');
-            } else {
-                setStatus('current');
-            }
         }
 
         async function refresh() {
@@ -1323,9 +1731,8 @@
                 return;
             }
 
-            const collectionCount = CONFIG.packages.length;
             document.getElementById('targetLine').textContent =
-                `${total} package${total === 1 ? '' : 's'} · ${collectionCount} collection${collectionCount === 1 ? '' : 's'}`;
+                `${total} package${total === 1 ? '' : 's'}`;
 
             await fetchAllVersions();
             if (CONFIG.testMode) {
@@ -1354,14 +1761,14 @@
             bar.style.width = '0%';
             void bar.offsetWidth; // force reflow so the snap commits before the transition is restored
             bar.style.transition = '';
-            text.textContent = `next in ${Math.ceil(totalMs / 1000)}s`;
+            text.textContent = `next refresh in ${Math.ceil(totalMs / 1000)}s`;
 
             countdownTimer = setInterval(() => {
                 const elapsed = Date.now() - start;
                 const pct = Math.min(100, (elapsed / totalMs) * 100);
                 bar.style.width = pct + '%';
                 const remaining = Math.max(0, Math.ceil((totalMs - elapsed) / 1000));
-                text.textContent = `next in ${remaining}s`;
+                text.textContent = `next refresh in ${remaining}s`;
             }, 250);
 
             refreshTimer = setTimeout(async () => {
@@ -1372,9 +1779,11 @@
 
         document.getElementById('refreshBtn').addEventListener('click', async () => {
             // Reset the progress bar and timer first so the user sees immediate feedback,
-            // then run the actual refresh in parallel with the new countdown.
+            // then re-fetch versions and Actions status in parallel with the new
+            // countdown. pollActionsStatuses self-skips if currently rate-limited,
+            // and ETag caching makes the GitHub round-trips cheap.
             scheduleNext();
-            await refresh();
+            await Promise.all([refresh(), pollActionsStatuses()]);
         });
 
         // Update one collection's expand button label to reflect the action
@@ -1401,11 +1810,49 @@
         // GitHub Actions status polling
         // -------------------------------------------------------------------
         // collectionName -> {
-        //   status, conclusion, currentStep, runId, runUrl, etag, jobsEtag
+        //   status:        queued | in_progress | completed | none | error | ratelimited
+        //   conclusion:    success | failure | cancelled | skipped | ... | null
+        //   currentStep:   name of the in-progress step, when status=in_progress
+        //   runId:         numeric workflow-run id
+        //   runUrl:        html_url for the run
+        //   runName:       run.name (e.g. workflow display name)
+        //   displayTitle:  run.display_title (often the commit message)
+        //   runStartedAt:  ISO timestamp the run began
+        //   etag/jobsEtag: cached ETags for conditional requests
         // }
         const actionsStore = new Map();
         let actionsPollTimer = null;
         let actionsRateLimitedUntil = 0;
+
+        // Persist actionsStore + rate-limit backoff to localStorage so page
+        // refreshes reuse cached ETags (304 = free) instead of burning fresh
+        // requests against the 60/hour unauth limit.
+        const ACTIONS_STORE_KEY = 'lexicom.actionsStore.v1';
+        const ACTIONS_RL_KEY = 'lexicom.actionsRateLimitedUntil.v1';
+
+        function loadActionsCache() {
+            try {
+                const raw = localStorage.getItem(ACTIONS_STORE_KEY);
+                if (raw) {
+                    const obj = JSON.parse(raw);
+                    for (const [k, v] of Object.entries(obj)) actionsStore.set(k, v);
+                }
+                const rl = localStorage.getItem(ACTIONS_RL_KEY);
+                if (rl) {
+                    const n = parseInt(rl, 10);
+                    if (!isNaN(n) && n > Date.now()) actionsRateLimitedUntil = n;
+                }
+            } catch (e) { /* ignore */ }
+        }
+
+        function saveActionsCache() {
+            try {
+                const obj = {};
+                for (const [k, v] of actionsStore) obj[k] = v;
+                localStorage.setItem(ACTIONS_STORE_KEY, JSON.stringify(obj));
+                localStorage.setItem(ACTIONS_RL_KEY, String(actionsRateLimitedUntil));
+            } catch (e) { /* ignore */ }
+        }
 
         function githubHeaders(etag) {
             const headers = { 'Accept': 'application/vnd.github+json' };
@@ -1414,63 +1861,102 @@
             return headers;
         }
 
-        async function fetchLatestRun(collectionName) {
-            const stored = actionsStore.get(collectionName) || {};
-            const url = `https://api.github.com/repos/AlexLexicon/${encodeURIComponent(collectionName)}` +
-                `/actions/runs?per_page=1`;
+        function logRateLimit(label, res) {
+            const remaining = res.headers.get('X-RateLimit-Remaining');
+            const limit = res.headers.get('X-RateLimit-Limit');
+            const reset = res.headers.get('X-RateLimit-Reset');
+            const etag = res.headers.get('ETag');
+            const resetIn = reset ? Math.max(0, Math.round(parseInt(reset, 10) - Date.now() / 1000)) : '?';
+            console.log(
+                `[actions] ${label} → HTTP ${res.status}, ` +
+                `rate ${remaining ?? '?'}/${limit ?? '?'} ` +
+                `(resets in ${resetIn}s), ETag ${etag ? 'present' : 'MISSING'}`,
+            );
+        }
+
+        async function fetchLatestRun(collection) {
+            if (!collection.workflowFile) return;
+            const stored = actionsStore.get(collection.name) || {};
+            // per_page=10 so we have enough runs in one request to find both the
+            // very latest (for the status bar) and the latest *successful* run
+            // (for the run-number comparison against package versions).
+            const url = `https://api.github.com/repos/AlexLexicon/${encodeURIComponent(collection.name)}` +
+                `/actions/workflows/${encodeURIComponent(collection.workflowFile)}/runs?per_page=10`;
             let res;
             try {
                 res = await fetch(url, { headers: githubHeaders(stored.etag) });
             } catch (e) {
+                console.log(`[actions] ${collection.name}/runs → network error: ${e.message}`);
+                actionsStore.set(collection.name, { ...stored, status: 'error', errorDetail: `network: ${e.message}` });
                 return;
             }
 
-            // 304 = unchanged. Run-list state is identical to last fetch, so keep
-            // whatever we knew. If it was in-progress, refresh just the jobs so the
-            // step can advance.
+            logRateLimit(`${collection.name}/runs`, res);
+
+            // 304 = unchanged. Keep prior state; if it was in-progress, still poll
+            // jobs so the current step can advance even when the run list itself
+            // looks identical.
             if (res.status === 304) {
                 if (stored.status === 'in_progress' || stored.status === 'queued') {
-                    await fetchRunJobs(collectionName, stored.runId);
+                    await fetchRunJobs(collection.name, stored.runId);
                 }
                 return;
             }
 
             if (res.status === 403 || res.status === 429) {
-                // Rate-limited. Back off polling for an hour.
                 actionsRateLimitedUntil = Date.now() + 60 * 60 * 1000;
-                actionsStore.set(collectionName, { ...stored, status: 'ratelimited' });
+                actionsStore.set(collection.name, { ...stored, status: 'ratelimited' });
                 return;
             }
 
             if (!res.ok) {
-                actionsStore.set(collectionName, { ...stored, status: 'error' });
+                const detail = res.status === 404
+                    ? `404 — repo AlexLexicon/${collection.name} or workflow ${collection.workflowFile} not found`
+                    : `HTTP ${res.status}`;
+                actionsStore.set(collection.name, { ...stored, status: 'error', errorDetail: detail });
                 return;
             }
 
             const etag = res.headers.get('ETag');
             const data = await res.json();
-            const run = data.workflow_runs && data.workflow_runs[0];
+            const allRuns = (data.workflow_runs || []);
+            const run = allRuns[0];
             if (!run) {
-                actionsStore.set(collectionName, { etag, status: 'none' });
+                actionsStore.set(collection.name, { etag, status: 'none' });
                 return;
             }
 
+            // Latest successful run number — used to synthesize the expected
+            // package version. If the latest run is currently in_progress, the
+            // most-recently-published packages still reflect the prior success.
+            const lastSuccess = allRuns.find(r => r.status === 'completed' && r.conclusion === 'success');
+            const lastSuccessRunNumber = lastSuccess ? lastSuccess.run_number : null;
+
             const newState = {
                 etag,
-                status: run.status,             // queued | in_progress | completed
-                conclusion: run.conclusion,     // success | failure | cancelled | ...
+                status: run.status,
+                conclusion: run.conclusion,
                 runId: run.id,
                 runUrl: run.html_url,
                 runName: run.name,
+                runNumber: run.run_number,
+                lastSuccessRunNumber,
+                displayTitle: run.display_title
+                    || (run.head_commit && run.head_commit.message
+                        ? run.head_commit.message.split('\n')[0]
+                        : null)
+                    || run.name
+                    || 'Workflow run',
+                runStartedAt: run.run_started_at || run.created_at,
                 jobsEtag: stored.jobsEtag,
                 currentStep: null,
             };
 
             if (run.status === 'in_progress' || run.status === 'queued') {
-                await fetchRunJobs(collectionName, run.id, newState);
+                await fetchRunJobs(collection.name, run.id, newState);
             }
 
-            actionsStore.set(collectionName, newState);
+            actionsStore.set(collection.name, newState);
         }
 
         async function fetchRunJobs(collectionName, runId, state) {
@@ -1481,8 +1967,11 @@
             try {
                 res = await fetch(url, { headers: githubHeaders(stored.jobsEtag) });
             } catch (e) {
+                console.log(`[actions] ${collectionName}/jobs → network error: ${e.message}`);
                 return;
             }
+
+            logRateLimit(`${collectionName}/jobs`, res);
 
             if (res.status === 304) return;
             if (!res.ok) return;
@@ -1522,52 +2011,195 @@
             for (const collectionEl of collectionEls) {
                 const ci = Number(collectionEl.dataset.collectionIndex);
                 const collection = CONFIG.packages[ci];
-                const actionsEl = collectionEl.querySelector('.collection-actions');
-                if (!actionsEl) continue;
+                const barEl = collectionEl.querySelector('.workflow-bar');
+                if (!barEl) continue;
+
+                // Untracked collections never show the bar at all.
+                if (!collection.workflowFile) {
+                    barEl.hidden = true;
+                    continue;
+                }
 
                 const state = actionsStore.get(collection.name);
-                const baseTitle = `View ${collection.name} Actions on GitHub`;
+                const actionsHomeUrl = `https://github.com/AlexLexicon/${encodeURIComponent(collection.name)}/actions`;
+                const runNumEl = barEl.querySelector('.workflow-run-number');
+                const runIdEl = barEl.querySelector('.workflow-run-id');
+                const expVerEl = barEl.querySelector('.workflow-expected-version');
 
-                if (!state || state.status === 'none' || state.status === 'error') {
-                    actionsEl.dataset.state = 'idle';
-                    actionsEl.title = baseTitle;
-                    continue;
+                // Populate the split run-id / expected-version pair. `numberForVersion`
+                // is the run number whose expected version we should show; pass null
+                // to fall back to the deduced number from package patches. A `#?`
+                // runIdText hides the id span entirely (we only show the # when the
+                // real run number is known).
+                function populateRunNumber(runIdText, numberForVersion, tooltip) {
+                    const showRunId = !!runIdText && runIdText !== '#?';
+                    let expectedNumber = numberForVersion;
+                    if (expectedNumber == null) {
+                        const eff = getEffectiveRunNumber(collection);
+                        if (eff) expectedNumber = eff.number;
+                    }
+                    const expectedText =
+                        (expectedNumber != null && collection.major != null && collection.minor != null)
+                            ? `${collection.major}.${collection.minor}.${expectedNumber}`
+                            : '';
+
+                    runIdEl.hidden = !showRunId;
+                    runIdEl.textContent = showRunId ? runIdText : '';
+                    expVerEl.textContent = expectedText;
+                    runNumEl.hidden = !showRunId && !expectedText;
+                    runNumEl.title = tooltip || '';
                 }
 
+                // Helper to render a non-success state in the bar (loading, error,
+                // none, ratelimited) so the user always sees what's going on.
+                function renderBarMessage(iconState, label, tooltip) {
+                    barEl.hidden = false;
+                    const statusLink = barEl.querySelector('.workflow-status');
+                    const titleLink = barEl.querySelector('.workflow-title');
+                    const stepEl = barEl.querySelector('.workflow-step');
+                    const metaEl = barEl.querySelector('.workflow-meta');
+                    statusLink.dataset.state = iconState;
+                    statusLink.href = actionsHomeUrl;
+                    statusLink.title = tooltip || label;
+                    statusLink.innerHTML = iconState === 'running' ? '' : WORKFLOW_NEUTRAL_HTML;
+                    titleLink.href = actionsHomeUrl;
+                    titleLink.textContent = label;
+                    titleLink.title = tooltip || label;
+                    metaEl.textContent = '';
+                    metaEl.title = '';
+                    stepEl.hidden = true;
+                    stepEl.textContent = '';
+                    stepEl.title = '';
+                    const eff = getEffectiveRunNumber(collection);
+                    populateRunNumber('#?', null, eff
+                        ? `run number unknown — comparing against #${eff.number} (deduced from published versions)`
+                        : 'run number unknown');
+                }
+
+                if (!state) {
+                    renderBarMessage('running', `loading ${collection.workflowFile}…`,
+                        `Polling AlexLexicon/${collection.name} for ${collection.workflowFile}`);
+                    continue;
+                }
+                if (state.status === 'error') {
+                    renderBarMessage('failure', state.errorDetail || 'could not load workflow runs',
+                        state.errorDetail || 'fetch error');
+                    continue;
+                }
+                if (state.status === 'none') {
+                    renderBarMessage('neutral', `no runs for ${collection.workflowFile} yet`,
+                        `${collection.workflowFile} exists but has no runs`);
+                    continue;
+                }
                 if (state.status === 'ratelimited') {
-                    actionsEl.dataset.state = 'ratelimited';
-                    actionsEl.title = `${baseTitle} (rate-limited; set CONFIG.githubToken)`;
+                    renderBarMessage('neutral', 'GitHub API rate-limited',
+                        'set CONFIG.githubToken to lift the 60/hour unauth cap');
                     continue;
                 }
 
+                // Resolve a single visual state for the bar.
+                let iconState;
                 if (state.status === 'in_progress' || state.status === 'queued') {
-                    actionsEl.dataset.state = 'running';
-                    const stepText = state.currentStep
-                        ? `running: ${state.currentStep}`
-                        : (state.status === 'queued' ? 'queued…' : 'running…');
-                    actionsEl.title = `${collection.name} — ${stepText}`;
-                    continue;
+                    iconState = 'running';
+                } else if (state.status === 'completed') {
+                    if (state.conclusion === 'success') iconState = 'success';
+                    else if (state.conclusion === 'failure') iconState = 'failure';
+                    else if (state.conclusion === 'cancelled') iconState = 'cancelled';
+                    else iconState = 'neutral';
+                } else {
+                    iconState = 'neutral';
                 }
 
-                if (state.status === 'completed' && state.conclusion === 'failure') {
-                    actionsEl.dataset.state = 'failure';
-                    actionsEl.title = `${collection.name} — last run failed`;
-                    continue;
+                barEl.hidden = false;
+                const statusLink = barEl.querySelector('.workflow-status');
+                const titleLink = barEl.querySelector('.workflow-title');
+                const stepEl = barEl.querySelector('.workflow-step');
+                const metaEl = barEl.querySelector('.workflow-meta');
+
+                statusLink.dataset.state = iconState;
+                statusLink.href = state.runUrl || '#';
+                statusLink.title =
+                    iconState === 'success' ? 'last run succeeded' :
+                        iconState === 'failure' ? 'last run failed' :
+                            iconState === 'running' ? (state.status === 'queued' ? 'queued' : 'running') :
+                                iconState === 'cancelled' ? 'last run cancelled' : 'last run';
+                if (iconState === 'success') statusLink.innerHTML = WORKFLOW_SUCCESS_HTML;
+                else if (iconState === 'failure') statusLink.innerHTML = WORKFLOW_FAILURE_HTML;
+                else if (iconState === 'running') statusLink.innerHTML = ''; // spinner via ::before
+                else statusLink.innerHTML = WORKFLOW_NEUTRAL_HTML;
+
+                const title = state.displayTitle || state.runName || 'Workflow run';
+                titleLink.textContent = title;
+                titleLink.title = title;
+                titleLink.href = state.runUrl || '#';
+
+                metaEl.textContent = formatRelativeTime(state.runStartedAt);
+                metaEl.title = state.runStartedAt
+                    ? new Date(state.runStartedAt).toLocaleString()
+                    : '';
+
+                // Display rules:
+                //   success / running / queued → show the actual run number, paired
+                //     with the expected version M.m.runNumber
+                //   failure / cancelled / neutral → #? + the deduced expected version
+                const runIsUsable = iconState === 'success' || iconState === 'running';
+                if (runIsUsable && state.runNumber != null) {
+                    const tooltipNote = (collection.major != null
+                        && collection.minor != null
+                        && state.lastSuccessRunNumber != null
+                        && state.lastSuccessRunNumber !== state.runNumber)
+                        ? ` — last successful #${state.lastSuccessRunNumber} (${collection.major}.${collection.minor}.${state.lastSuccessRunNumber})`
+                        : '';
+                    populateRunNumber(`#${state.runNumber}`, state.runNumber,
+                        `run #${state.runNumber}${tooltipNote}`);
+                } else {
+                    const eff = getEffectiveRunNumber(collection);
+                    const failedRunNote = state.runNumber != null
+                        ? `latest run #${state.runNumber} ${iconState}`
+                        : iconState;
+                    const tooltip = eff
+                        ? `${failedRunNote} — comparing against #${eff.number} (${eff.source === 'fallback' ? 'deduced from published versions' : eff.source === 'lastsuccess' ? 'last successful run' : 'actions'})`
+                        : failedRunNote;
+                    populateRunNumber('#?', null, tooltip);
                 }
 
-                actionsEl.dataset.state = 'idle';
-                actionsEl.title = baseTitle;
+                if (iconState === 'running' && state.currentStep) {
+                    stepEl.hidden = false;
+                    stepEl.textContent = state.currentStep;
+                    stepEl.title = `current step: ${state.currentStep}`;
+                } else {
+                    stepEl.hidden = true;
+                    stepEl.textContent = '';
+                    stepEl.title = '';
+                }
             }
+
+            // The expected version (major.minor.lastSuccessRunNumber) feeds into
+            // the per-collection max calculation in updateUi, so refresh the
+            // package coloring whenever actions data updates.
+            updateUi();
         }
 
         async function pollActionsStatuses() {
-            if (Date.now() < actionsRateLimitedUntil) return;
-            await Promise.all(CONFIG.packages.map(c => fetchLatestRun(c.name)));
+            if (Date.now() < actionsRateLimitedUntil) {
+                const minsLeft = Math.ceil((actionsRateLimitedUntil - Date.now()) / 60000);
+                console.log(`[actions] skipping poll — rate-limited for ~${minsLeft} more min`);
+                applyActionsStatusToUi();
+                return;
+            }
+            const trackable = CONFIG.packages.filter(c => c.workflowFile);
+            if (trackable.length === 0) return;
+            await Promise.all(trackable.map(c => fetchLatestRun(c)));
             applyActionsStatusToUi();
+            saveActionsCache();
         }
 
         function startActionsPolling() {
             if (actionsPollTimer) clearInterval(actionsPollTimer);
+            loadActionsCache();
+            // Render whatever we already cached so the bar isn't blank during the
+            // first network round-trip.
+            applyActionsStatusToUi();
             pollActionsStatuses();
             actionsPollTimer = setInterval(pollActionsStatuses, CONFIG.actionsPollIntervalMs);
         }
