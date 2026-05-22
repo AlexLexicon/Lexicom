@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Lexicom.Testing.DependencyInjection;
 
-public interface IIntegrationTestAssistant : ITestAssistant, IServiceCollection
+public interface IIntegrationTestAssistant : ITestAssistant, IServiceCollection, IServiceProvider
 {
     ConfigurationManager Configuration { get; }
     bool IsMakingInstance { get; }
@@ -31,7 +31,8 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
     public bool IsReadOnly => _services.IsReadOnly;
     public bool IsMakingInstance { get; private set; }
     public ConfigurationManager Configuration { get; }
-    private IServiceProvider? Provider { get; set; }
+    private bool BuildNewProvider { get; set; }
+    private CascadingServiceProvider? InternalProvider { get; set; }
 
     public ServiceDescriptor this[int index]
     {
@@ -41,14 +42,7 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
 
     protected override Type GetMakeType(Type serviceType)
     {
-        ServiceDescriptor? serviceDescriptor = _services.FirstOrDefault(sd => sd.ServiceType == serviceType);
-
-        if (serviceDescriptor is null && serviceType.IsConstructedGenericType)
-        {
-            var openGeneric = serviceType.GetGenericTypeDefinition();
-
-            serviceDescriptor = _services.FirstOrDefault(sd => sd.ServiceType == openGeneric);
-        }
+        IsTypeRegistered(serviceType, out ServiceDescriptor? serviceDescriptor);
 
         Type makeType;
         if (serviceType.IsInterface)
@@ -71,7 +65,7 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
 
             if (serviceDescriptor is null)
             {
-                Provider = null;
+                BuildNewProvider = true;
                 _services.Add(new ServiceDescriptor(serviceType, serviceType, ServiceLifetime.Singleton));
             }
         }
@@ -81,35 +75,50 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
 
     protected override void ResolveParameter(int parameterIndex, object[] resolvedParameters, Type parameterType)
     {
-        ServiceDescriptor? existingServiceDescriptor = _services.FirstOrDefault(sd => sd.ServiceType == parameterType);
-        if (existingServiceDescriptor is null)
+        RegisterServiceTypeWhenNotRegistered(parameterType);
+    }
+
+    protected bool IsTypeRegistered(Type serviceType, out ServiceDescriptor? serviceDescriptor)
+    {
+        serviceDescriptor = _services.FirstOrDefault(sd => sd.ServiceType == serviceType);
+
+        if (serviceDescriptor is not null)
         {
-            Provider = null;
-            _services.Add(new ServiceDescriptor(parameterType, sp =>
+            return true;
+        }
+
+        if (serviceType.IsConstructedGenericType)
+        {
+            var openGeneric = serviceType.GetGenericTypeDefinition();
+
+            if (openGeneric == typeof(IEnumerable<>))
             {
-                return PullAndEnhanceInstance(parameterType);
+                return true;
+            }
+
+            serviceDescriptor = _services.FirstOrDefault(sd => sd.ServiceType == openGeneric);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    protected void RegisterServiceTypeWhenNotRegistered(Type serviceType)
+    {
+        bool isRegisterd = IsTypeRegistered(serviceType, out ServiceDescriptor? existingServiceDescriptor);
+        if (!isRegisterd && existingServiceDescriptor is null)
+        {
+            BuildNewProvider = true;
+            _services.Add(new ServiceDescriptor(serviceType, sp =>
+            {
+                return PullAndEnhanceInstance(serviceType);
             }, ServiceLifetime.Singleton));
         }
     }
 
     protected override object MakeInstance(Type type, Type makeType, ConstructorInfo constructor, object[] resolvedParameters)
     {
-        if (Provider is null)
-        {
-            _services.TryAddSingleton<IntegrationTestAssistant>(this);
-            _services.TryAddSingleton<IIntegrationTestAssistant>(sp =>
-            {
-                return sp.GetRequiredService<IntegrationTestAssistant>();
-            });
-            _services.TryAddSingleton<ITestAssistant>(sp =>
-            {
-                return sp.GetRequiredService<IIntegrationTestAssistant>();
-            });
-            _services.TryAddSingleton<IConfiguration>(Configuration);
-
-            Provider = _services.BuildServiceProvider();
-        }
-
         //for integration tests the resolved parameters are only used for manually provided parameters
         object[] manualParameters = resolvedParameters
             .Where(rp => rp is not null)
@@ -119,10 +128,10 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
 
         if (manualParameters.Length > 0)
         {
-            return ActivatorUtilities.CreateInstance(Provider, makeType, manualParameters);
+            return ActivatorUtilities.CreateInstance(this, makeType, manualParameters);
         }
 
-        object instance = Provider.GetRequiredService(type);
+        object instance = ServiceProviderServiceExtensions.GetRequiredService(this, type);
 
         IsMakingInstance = false;
 
@@ -157,4 +166,43 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
 
     public IEnumerator<ServiceDescriptor> GetEnumerator() => _services.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    public object? GetService(Type serviceType)
+    {
+        RegisterServiceTypeWhenNotRegistered(serviceType);
+
+        if (BuildNewProvider || InternalProvider is null)
+        {
+            _services.TryAddSingleton<IntegrationTestAssistant>(this);
+            _services.TryAddSingleton<IIntegrationTestAssistant>(sp =>
+            {
+                return sp.GetRequiredService<IntegrationTestAssistant>();
+            });
+            _services.TryAddSingleton<ITestAssistant>(sp =>
+            {
+                return sp.GetRequiredService<IIntegrationTestAssistant>();
+            });
+            _services.TryAddSingleton<IConfiguration>(Configuration);
+            _services.TryAddSingleton<IServiceProviderIsService>(sp =>
+            {
+                return sp.GetRequiredService<IServiceProviderIsService>();
+            });
+
+            InternalProvider = new CascadingServiceProvider(_services, InternalProvider);
+        }
+
+        try
+        {
+            return InternalProvider.GetService(serviceType);
+        }
+        catch (ArgumentException e)
+        {
+            if (e.Message.StartsWith("Can not create proxy for type "))
+            {
+                return null;
+            }
+
+            return null;
+        }
+    }
 }

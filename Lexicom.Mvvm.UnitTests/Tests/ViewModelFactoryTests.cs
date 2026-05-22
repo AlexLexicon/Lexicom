@@ -4,6 +4,7 @@ using Lexicom.Mvvm.For.Testing.Extensions;
 using Lexicom.Mvvm.UnitTests.Constructs.ViewModels;
 using Lexicom.Supports.Testing.Extensions;
 using Lexicom.Testing.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Mvvm.UnitTests.Tests;
 
@@ -20,11 +21,11 @@ public class ViewModelFactoryTests
             l.AddMvvm();
         });
 
+        var viewModelFactory = ita.GetRequiredService<IViewModelFactory>();
+
         //assert
         Assert.Throws<ViewModelNotRegisteredException>(() =>
         {
-            var viewModelFactory = ita.Make<IViewModelFactory>();
-
             //act
             viewModelFactory.Create<HeaderViewModel>();
         });
@@ -43,11 +44,11 @@ public class ViewModelFactoryTests
             });
         });
 
+        var viewModelFactory = ita.GetRequiredService<IViewModelFactory>();
+
         //assert
         Assert.Throws<ViewModelNotRegisteredException>(() =>
         {
-            var viewModelFactory = ita.Make<IViewModelFactory>();
-
             //act
             viewModelFactory.Create<NotificationTrayViewModel>();
         }, e =>

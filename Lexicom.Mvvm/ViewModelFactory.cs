@@ -24,7 +24,7 @@ public class ViewModelFactory : IViewModelFactory
     {
         try
         {
-            return serviceProvider.GetRequiredService<WeakViewModelReferenceCollection<TViewModelImplementation>>();
+            return serviceProvider.GetRequiredService<IWeakViewModelReferenceCollection<TViewModelImplementation>>();
         }
         catch (InvalidOperationException e)
         {
@@ -120,7 +120,8 @@ public class ViewModelFactory : IViewModelFactory
 
     protected virtual Type GetViewModelImplementationType<TViewModel>() where TViewModel : notnull
     {
-        var viewModelImplementationTypeAccessor = _serviceProvider.GetService<ViewModelImplementationTypeAccessor<TViewModel>>();
+        var viewModelImplementationTypeAccessors = _serviceProvider.GetService<IEnumerable<ViewModelImplementationTypeAccessor<TViewModel>>>();
+        ViewModelImplementationTypeAccessor<TViewModel>? viewModelImplementationTypeAccessor = viewModelImplementationTypeAccessors?.FirstOrDefault();
 
         Type viewModelImplementationType;
         if (viewModelImplementationTypeAccessor is not null)

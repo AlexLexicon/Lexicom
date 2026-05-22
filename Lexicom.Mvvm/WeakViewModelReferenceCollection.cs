@@ -18,15 +18,20 @@ public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakV
 {
     public WeakViewModelReferenceCollection()
     {
-        WeakViewModelReferences = [];
+        WeakViewModelReferenceContainers = [];
         MutateLock = new Lock();
 
         PruneThreshold = 8;
     }
 
-    private List<WeakReference<TViewModelImplementation>> WeakViewModelReferences { get; }
+    //debug to figure out singleton issue
+    public Guid Id { get; } = Guid.NewGuid();
+    public string? Type { get; } = typeof(TViewModelImplementation).FullName;
+
+    private List<WeakViewModelRefrenenceContainer<TViewModelImplementation>> WeakViewModelReferenceContainers { get; }
     private Lock MutateLock { get; }
     private int PruneThreshold { get; set; }
+    private int CurrentAddedOrder { get; set; }
 
     /// <exception cref="ArgumentNullException"/>
     public void Add(object viewModel)
@@ -50,53 +55,54 @@ public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakV
 
         lock (MutateLock)
         {
-            WeakViewModelReferences.Add(new WeakReference<TViewModelImplementation>(viewModel));
-
-            if (WeakViewModelReferences.Count >= PruneThreshold)
+            var container = new WeakViewModelRefrenenceContainer<TViewModelImplementation>
             {
-                PruneDeadReferences();
-            }
-        }
-    }
+                AddedOrder = CurrentAddedOrder,
+                WeakReference = new WeakReference<TViewModelImplementation>(viewModel),
+            };
 
-    public IReadOnlyList<TViewModelImplementation> GetRemainingViewModels()
-    {
-        lock (MutateLock)
-        {
-            return PruneDeadReferences();
+            CurrentAddedOrder++;
+            WeakViewModelReferenceContainers.Add(container);
+
+            if (WeakViewModelReferenceContainers.Count >= PruneThreshold)
+            {
+                GetViewModelsAndPruneDeadReferences();
+            }
         }
     }
 
     //removes dead weak references in place and returns the still-live view
     //models in insertion order. callers must hold MutateLock.
-    private List<TViewModelImplementation> PruneDeadReferences()
+    private IEnumerable<TViewModelImplementation> GetViewModelsAndPruneDeadReferences()
     {
-        var viewModels = new List<TViewModelImplementation>();
+        var sortedViewModels = new SortedList<int, TViewModelImplementation>();
 
         int writeIndex = 0;
-        for (int readIndex = 0; readIndex < WeakViewModelReferences.Count; readIndex++)
+        for (int readIndex = 0; readIndex < WeakViewModelReferenceContainers.Count; readIndex++)
         {
-            WeakReference<TViewModelImplementation> weakViewModelRefrence = WeakViewModelReferences[readIndex];
+            WeakViewModelRefrenenceContainer<TViewModelImplementation> container = WeakViewModelReferenceContainers[readIndex];
 
-            if (weakViewModelRefrence.TryGetTarget(out TViewModelImplementation? viewModel))
+            if (container.WeakReference.TryGetTarget(out TViewModelImplementation? viewModel))
             {
-                //if the view model is disposed we should not include it
-                if (viewModel is not DisposableObservableObject disposableViewModel || !disposableViewModel.IsDisposed)
-                {
-                    viewModels.Add(viewModel);
-                    WeakViewModelReferences[writeIndex] = weakViewModelRefrence;
-                    writeIndex++;
-                }
+                sortedViewModels.Add(container.AddedOrder, viewModel);
+                WeakViewModelReferenceContainers[writeIndex] = container;
+                writeIndex++;
             }
         }
 
-        WeakViewModelReferences.RemoveRange(writeIndex, WeakViewModelReferences.Count - writeIndex);
+        WeakViewModelReferenceContainers.RemoveRange(writeIndex, WeakViewModelReferenceContainers.Count - writeIndex);
 
-        PruneThreshold = Math.Max(PruneThreshold, viewModels.Count * 2);
+        PruneThreshold = Math.Max(PruneThreshold, sortedViewModels.Count * 2);
 
-        return viewModels;
+        return sortedViewModels.Values;
     }
 
-    public IEnumerator<TViewModelImplementation> GetEnumerator() => GetRemainingViewModels().GetEnumerator();
+    public IEnumerator<TViewModelImplementation> GetEnumerator()
+    {
+        lock (MutateLock)
+        {
+            return GetViewModelsAndPruneDeadReferences().GetEnumerator();
+        }
+    }
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

@@ -37,8 +37,8 @@ public class MessengerTests
         ita.AddSingleton<INotificationService>(notificationService);
 
         //act
-        var vm = ita.Make<MainViewModel>();
-        var messenger = ita.Make<IMessenger>();
+        var vm = ita.GetRequiredService<MainViewModel>();
+        var messenger = ita.GetRequiredService<IMessenger>();
 
         await vm.LoadAsync();
 
@@ -89,8 +89,8 @@ public class MessengerTests
         ita.AddSingleton<INotificationService>(notificationService);
 
         //act
-        var vm = ita.Make<MainViewModel>();
-        var messenger = ita.Make<IMessenger>();
+        var vm = ita.GetRequiredService<MainViewModel>();
+        var messenger = ita.GetRequiredService<IMessenger>();
 
         await vm.LoadAsync();
 
@@ -143,8 +143,8 @@ public class MessengerTests
         ita.AddSingleton<INotificationService>(notificationService);
 
         //act
-        var vm = ita.Make<MainViewModel>();
-        var messenger = ita.Make<IMessenger>();
+        var vm = ita.GetRequiredService<MainViewModel>();
+        var messenger = ita.GetRequiredService<IMessenger>();
 
         await vm.LoadAsync();
 
@@ -162,6 +162,50 @@ public class MessengerTests
 
         Assert.Equal(0, firstReceivedNotificationTrayCount);
         Assert.Equal(1, firstReceivedNotificationDialogCount);
+    }
+
+    [Fact]
+    public async Task Sending_Sync_Is_Only_Recived_By_Sync_Recipient_ViewModels()
+    {
+        //arrange
+        var ita = new IntegrationTestAssistant();
+
+        ita.TestLexicom(l =>
+        {
+            l.AddMvvm(mvvm =>
+            {
+                mvvm.AddViewModel<StatusBarViewModel>();
+            });
+        });
+
+        //act
+        var vm = ita.Make<StatusBarViewModel>();
+        var messenger = ita.GetRequiredService<IMessenger>();
+
+        await vm.LoadAsync();
+
+        int initalAsyncCount = vm.AsyncRecievedCount;
+        int ititalSyncCount = vm.SyncRecievedCount;
+
+        await messenger.SendAsync(new StatusMessage(), TestContext.Current.CancellationToken);
+
+        int AsyncAsyncCount = vm.AsyncRecievedCount;
+        int AsyncSyncCount = vm.SyncRecievedCount;
+
+        messenger.Send(new StatusMessage());
+
+        int SyncAsyncCount = vm.AsyncRecievedCount;
+        int SyncSyncCount = vm.SyncRecievedCount;
+
+        //assert
+        Assert.Equal(0, initalAsyncCount);
+        Assert.Equal(0, ititalSyncCount);
+
+        Assert.Equal(1, AsyncAsyncCount);
+        Assert.Equal(1, AsyncSyncCount);
+
+        Assert.Equal(1, SyncAsyncCount);
+        Assert.Equal(2, SyncSyncCount);
     }
 
     [Fact]
@@ -183,7 +227,7 @@ public class MessengerTests
 
         //act
         var vm = ita.Make<NotificationTrayViewModel>();
-        var messenger = ita.Make<IMessenger>();
+        var messenger = ita.GetRequiredService<IMessenger>();
 
         await vm.LoadAsync();
 
@@ -211,49 +255,5 @@ public class MessengerTests
 
         Assert.Equal(1, secondReceivedNotificationTrayCount);
         Assert.Equal(1, secondReceivedNotificationDialogCount);
-    }
-
-    [Fact]
-    public async Task Temp()
-    {
-        //arrange
-        var ita = new IntegrationTestAssistant();
-
-        ita.TestLexicom(l =>
-        {
-            l.AddMvvm(mvvm =>
-            {
-                mvvm.AddViewModel<StatusBarViewModel>();
-            });
-        });
-
-        //act
-        var vm = ita.Make<StatusBarViewModel>();
-        var messenger = ita.Make<IMessenger>();
-
-        await vm.LoadAsync();
-
-        int initalAsyncCount = vm.AsyncRecievedCount;
-        int ititalSyncCount = vm.SyncRecievedCount;
-
-        await messenger.SendAsync(new StatusMessage(), TestContext.Current.CancellationToken);
-
-        int AsyncAsyncCount = vm.AsyncRecievedCount;
-        int AsyncSyncCount = vm.SyncRecievedCount;
-
-        messenger.Send(new StatusMessage());
-
-        int SyncAsyncCount = vm.AsyncRecievedCount;
-        int SyncSyncCount = vm.SyncRecievedCount;
-
-        //assert
-        Assert.Equal(0, initalAsyncCount);
-        Assert.Equal(0, ititalSyncCount);
-
-        Assert.Equal(1, AsyncAsyncCount);
-        Assert.Equal(1, AsyncSyncCount);
-
-        Assert.Equal(1, SyncAsyncCount);
-        Assert.Equal(2, SyncSyncCount);
     }
 }
