@@ -2,6 +2,7 @@
 using Lexicom.Validation.Extensions;
 
 namespace Lexicom.Validation.For.Maui.Blazor.Hybrid.Extensions;
+
 public static class MauiBlazorHybridServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

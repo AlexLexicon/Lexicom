@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.DependencyInjection.Amenities;
+
 public class AssemblyScanOptions
 {
     public static readonly AssemblyScanOptions Default = new AssemblyScanOptions();

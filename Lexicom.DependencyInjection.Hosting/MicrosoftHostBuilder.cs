@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting.Internal;
 using System.Reflection;
 
 namespace Lexicom.DependencyInjection.Hosting;
+
 public static class MicrosoftHostBuilder
 {
     //Microsoft.Extensions.Hosting.HostBuilder.cs

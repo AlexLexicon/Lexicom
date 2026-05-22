@@ -2,6 +2,7 @@
 using FluentValidation.Validators;
 
 namespace Lexicom.Validation.Extensions;
+
 public static class LanguageManagerExtensions
 {
     /// <exception cref="ArgumentNullException"/>

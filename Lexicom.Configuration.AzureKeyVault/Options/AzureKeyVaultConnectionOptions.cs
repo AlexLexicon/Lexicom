@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Configuration.AzureKeyVault.Configurations;
+
 public class AzureKeyVaultConnectionOptions
 {
     public string? KeyVaultUrl { get; set; }

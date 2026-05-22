@@ -3,6 +3,7 @@ using Serilog.Events;
 using System.Collections.Concurrent;
 
 namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics;
+
 internal abstract class AzureLogAnalyticsBatchProvider : IDisposable
 {
     private const int BUFFER_SIZE_MAXIMUM = 100_000;

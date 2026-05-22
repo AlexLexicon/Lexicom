@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Windows;
 
 namespace Lexicom.Mvvm.For.Wpf;
+
 /// <exception cref="ArgumentNullException"/>
 public class WpfViewModelFactory(IServiceProvider serviceProvider, IEnumerable<IMessenger> messengers) : ViewModelFactory(serviceProvider, messengers)
 {

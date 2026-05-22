@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.DependencyInjection.Primitives.For.Testing;
+
 public class TestTimer : ITimer
 {
     private bool ChangeValue { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 
 namespace Lexicom.Configuration.Settings.For.Wpf;
+
 public class WpfApplicationSettingsProvider : IApplicationSettingsProvider
 {
     public event IApplicationSettingsProvider.SettingsSavingEventHandler? SettingsSaving;

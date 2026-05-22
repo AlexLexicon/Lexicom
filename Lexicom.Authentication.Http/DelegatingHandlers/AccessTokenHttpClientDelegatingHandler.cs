@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 
 namespace Lexicom.Authentication.Http.DelegatingHandlers;
+
 public class AccessTokenHttpClientDelegatingHandler : DelegatingHandler
 {
     private readonly IHttpClientAccessTokenProvider _httpClientAccessTokenProvider;

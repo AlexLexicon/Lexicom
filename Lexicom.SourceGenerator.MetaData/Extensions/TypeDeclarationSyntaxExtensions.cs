@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis;
 using System.Text;
 
 namespace Lexicom.SourceGenerator.MetaData.Extensions;
+
 public static class TypeDeclarationSyntaxExtensions
 {
     /// <exception cref="ArgumentNullException"/>

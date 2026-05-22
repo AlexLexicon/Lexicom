@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 
 namespace Lexicom.Wpf.ValueConverters.Abstractions;
+
 public class ValueConverterArgs
 {
     public required object? RawParameter { get; init; }

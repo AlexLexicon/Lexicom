@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities;
+
 public class ForbidObjectResult : ObjectResult
 {
     private const int STATUS_CODE = StatusCodes.Status403Forbidden;

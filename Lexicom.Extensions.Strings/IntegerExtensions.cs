@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Extensions.Strings;
+
 public static class IntegerExtensions
 {
     public static string GetNumberSuffix(this int number)

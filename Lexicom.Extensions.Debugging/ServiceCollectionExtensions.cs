@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
 namespace Lexicom.Extensions.Debugging;
+
 public static class ServiceCollectionExtensions
 {
     /// <exception cref="ArgumentNullException"/>

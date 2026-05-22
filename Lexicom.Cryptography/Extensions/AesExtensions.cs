@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 
 namespace Lexicom.Cryptography.Extensions;
+
 public static class AesExtensions
 {
     /// <exception cref="ArgumentNullException"/>

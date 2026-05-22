@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
 namespace Lexicom.Cryptography;
+
 public interface ICryptographyService
 {
     //static creation of the ICryptographyService

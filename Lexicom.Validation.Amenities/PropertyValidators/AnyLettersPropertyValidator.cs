@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+
 public static class AnyLettersValidator
 {
     public static bool IsValid(string? value)

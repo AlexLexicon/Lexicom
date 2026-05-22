@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Security.Claims;
 
 namespace Lexicom.EntityFramework.Identity.Stores;
+
 //this is a copy of the regular 'RoleStore' from Microsoft: https://source.dot.net/#Microsoft.AspNetCore.Identity.EntityFrameworkCore/RoleStore.cs
 //but uses the IDbContextFactory in order to allow the async methods to be used in parallel
 //this does break with the original design philosophy microsoft intended this type of implementation to use

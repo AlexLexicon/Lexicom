@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Authority.Options;
+
 public class AuthorityOptions
 {
     public TimeSpan? AccessTokenValidTimeSpan { get; set; }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.DependencyInjection.Amenities.Extensions;
+
 public static class AssemblyScanBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

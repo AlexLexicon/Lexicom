@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Wpf.Amenities.Threading;
+
 public enum OperationStatus
 {
     Pending = 0,

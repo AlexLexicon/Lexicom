@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 
 namespace Lexicom.Extensions.Exceptions;
+
 public static class ExceptionExtensions
 {
     /// <exception cref="ArgumentNullException"/>

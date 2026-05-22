@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities;
+
 public static class InvalidModelStateResponse
 {
     private const string MODELSTATE_JSON_KEY_PROPERTY = "$.";

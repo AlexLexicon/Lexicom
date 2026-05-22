@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Smtp.Options;
+
 public class SmtpEmailMailClientOptions
 {
     public string? FromEmailAddress { get; set; }

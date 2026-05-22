@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 
 namespace Lexicom.Wpf.ValueConverters.Abstractions;
+
 public class ResultForPatternMatchCollection<T> : IEnumerable<ResultForPatternMatch<T>>
 {
     private readonly List<ResultForPatternMatch<T>> _resultForPatternMatches;

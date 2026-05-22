@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Threading;
 
 namespace Lexicom.Wpf.DependencyInjection;
+
 public sealed class WpfApplication
 {
     /// <exception cref="ArgumentNullException"/>

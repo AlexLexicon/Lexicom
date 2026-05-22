@@ -3,6 +3,7 @@ using Lexicom.Cryptography.Validators;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.Cryptography;
+
 public class CryptographyByteSecretProvider : ICryptographySecretProvider
 {
     private readonly IOptions<CryptographyByteSecretOptions> _cryptographyByteSecretOptions;

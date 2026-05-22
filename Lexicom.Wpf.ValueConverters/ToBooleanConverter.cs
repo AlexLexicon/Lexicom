@@ -1,6 +1,7 @@
 ﻿using Lexicom.Wpf.ValueConverters.Abstractions;
 
 namespace Lexicom.Wpf.ValueConverters;
+
 public sealed class ToBooleanConverter : ValueConverterBase<bool>
 {
     private const string TRUE_SHORT = "t";

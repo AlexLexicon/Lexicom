@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.ConsoleApp.Amenities.ReadLines;
+
 internal class AdvancedReadLineResult(bool isContinue, string? input)
 {
     public bool IsContinue { get; } = isContinue;

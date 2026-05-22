@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Threading.Channels;
 
 namespace Lexicom.Smtp.For.AspNetCore.Controllers.Extensions;
+
 public static class ServiceCollectionExtensions
 {
     /// <exception cref="ArgumentNullException"/>

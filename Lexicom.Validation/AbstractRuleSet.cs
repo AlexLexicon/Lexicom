@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation;
+
 public abstract class AbstractRuleSet<TProperty> : IRuleSet<TProperty>
 {
     /// <exception cref="ArgumentNullException"/>

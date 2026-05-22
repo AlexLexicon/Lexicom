@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.DependencyInjection.Primitives.For.Testing.Extensions;
+
 public static class TestDependencyInjectionPrimitivesServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

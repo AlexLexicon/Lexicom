@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Lexicom.EntityFramework.Identity.Extensions;
+
 //based on Microsoft source code: https://source.dot.net/#Microsoft.AspNetCore.Identity.EntityFrameworkCore/IdentityEntityFrameworkBuilderExtensions.cs,75eafbaa1f0ec288
 public static class IdentityBuilderExtensions
 {

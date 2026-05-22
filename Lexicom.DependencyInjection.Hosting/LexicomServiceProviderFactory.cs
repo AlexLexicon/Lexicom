@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 
 namespace Lexicom.DependencyInjection.Hosting;
+
 /*
  * we sometimes want to be able to have some processing happen before or just after the service provider is created.
  * to do this you can register either a 'IBeforeServiceProviderBuildService' or a 'IAfterServiceProviderBuildService' service

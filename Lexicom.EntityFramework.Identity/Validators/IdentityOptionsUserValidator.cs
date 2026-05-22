@@ -4,6 +4,7 @@ using Lexicom.Validation.Extensions;
 using Microsoft.AspNetCore.Identity;
 
 namespace Lexicom.EntityFramework.Identity.Validators;
+
 public class IdentityOptionsUserValidator : AbstractValidator<UserOptions>
 {
     /// <exception cref="ArgumentNullException"/>

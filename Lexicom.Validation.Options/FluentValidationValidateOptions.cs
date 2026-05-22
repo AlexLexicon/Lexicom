@@ -4,6 +4,7 @@ using Lexicom.Validation.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.Validation.Options;
+
 public class FluentValidationValidateOptions<TOptions> : IValidateOptions<TOptions> where TOptions : class
 {
     private readonly string _name;

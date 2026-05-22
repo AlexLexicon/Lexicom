@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 
 namespace Lexicom.EntityFramework.Identity.Validators;
+
 public class IdentityOptionsPasswordValidator : AbstractValidator<PasswordOptions>
 {
     public IdentityOptionsPasswordValidator()

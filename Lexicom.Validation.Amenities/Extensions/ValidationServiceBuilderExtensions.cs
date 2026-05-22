@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Validation.Amenities.Extensions;
+
 public static class ValidationServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

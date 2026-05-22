@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis;
 
 namespace Lexicom.SourceGenerator.MetaData.Extensions;
+
 public static class IncrementalGeneratorTransformBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

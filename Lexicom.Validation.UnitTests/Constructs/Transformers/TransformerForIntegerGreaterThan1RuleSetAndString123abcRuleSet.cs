@@ -1,6 +1,7 @@
 ﻿using Lexicom.Validation.UnitTests.Constructs.RuleSets;
 
 namespace Lexicom.Validation.UnitTests.Constructs.Transformers;
+
 public class TransformerForIntegerGreaterThan1RuleSetAndString123abcRuleSet : AbstractRuleSetTransformer<string?, int, IRuleSetValidator<IntegerGreaterThan1RuleSet, int>>
 {
     public TransformerForIntegerGreaterThan1RuleSetAndString123abcRuleSet(IRuleSetValidator<IntegerGreaterThan1RuleSet, int> ruleSetValidator) : base(ruleSetValidator)

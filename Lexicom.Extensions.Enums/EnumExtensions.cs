@@ -2,6 +2,7 @@
 using System.Reflection;
 
 namespace Lexicom.Extensions.Enums;
+
 public static class EnumExtensions
 {
     public static string? GetDescription(this Enum? value)

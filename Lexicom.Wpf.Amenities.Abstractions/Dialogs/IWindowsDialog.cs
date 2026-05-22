@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Wpf.Amenities.Dialogs;
+
 public interface IWindowsDialog
 {
     string? SaveFile();

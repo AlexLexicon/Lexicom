@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.DependencyInjection.Amenities;
+
 public interface IAssemblyScanBuilder
 {
     Type AssemblyScanMarker { get; }

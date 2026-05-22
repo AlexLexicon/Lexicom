@@ -3,6 +3,7 @@ using FluentValidation.Resources;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Validation.Extensions;
+
 public static class ValidationServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

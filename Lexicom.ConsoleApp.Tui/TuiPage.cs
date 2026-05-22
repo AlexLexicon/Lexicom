@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.ConsoleApp.Tui;
+
 internal class TuiPage
 {
     public TuiPage() : this(Guid.NewGuid().ToString(), null)

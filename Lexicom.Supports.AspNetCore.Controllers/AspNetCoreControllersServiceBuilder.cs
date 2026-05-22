@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Supports.AspNetCore.Controllers;
+
 public interface IAspNetCoreControllersServiceBuilder
 {
     IServiceCollection Services { get; }

@@ -2,6 +2,7 @@
 using System.Windows;
 
 namespace Lexicom.Wpf.Amenities.Extensions;
+
 public static class ApplicationExtensions
 {
     /// <exception cref="ArgumentNullException"/>

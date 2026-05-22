@@ -1,6 +1,7 @@
 ﻿using Lexicom.AspNetCore.Controllers.Contracts;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities;
+
 public class ControllerErrorResponse : ErrorResponse
 {
     public static ControllerErrorResponse UnexpectedError

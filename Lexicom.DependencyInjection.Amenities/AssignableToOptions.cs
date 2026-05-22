@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.DependencyInjection.Amenities;
+
 public class AssignableToOptions
 {
     public static readonly AssignableToOptions Default = new AssignableToOptions();

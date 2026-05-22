@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 namespace Lexicom.Authentication.Configurations;
+
 public class JwtBearerOptionsConfiguration : IConfigureNamedOptions<JwtBearerOptions>
 {
     private readonly IOptionsMonitor<JwtOptions> _jwtOptions;

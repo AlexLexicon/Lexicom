@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows;
 
 namespace Lexicom.Mvvm.For.Wpf.Extensions;
+
 public static class ViewModelServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

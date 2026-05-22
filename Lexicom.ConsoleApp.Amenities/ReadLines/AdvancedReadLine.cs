@@ -2,6 +2,7 @@
 using System.Text;
 
 namespace Lexicom.ConsoleApp.Amenities.ReadLines;
+
 internal static class AdvancedReadLine
 {
     //from https://stackoverflow.com/questions/31996519/listen-on-esc-while-reading-console-line

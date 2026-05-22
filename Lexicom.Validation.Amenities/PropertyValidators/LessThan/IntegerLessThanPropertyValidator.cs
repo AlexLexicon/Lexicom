@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Validators;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+
 public static class IntegerLessThanValidator
 {
     public static bool IsValid(int value, int valueToCompare)

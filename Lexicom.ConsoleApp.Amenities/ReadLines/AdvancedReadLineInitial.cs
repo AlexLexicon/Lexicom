@@ -1,6 +1,7 @@
 ﻿using Lexicom.ConsoleApp.Amenities.ReadLines.Abstractions;
 
 namespace Lexicom.ConsoleApp.Amenities.ReadLines;
+
 internal class AdvancedReadLineInitial(string? initialInput) : AdvancedReadLineIntercept(null)
 {
     public string? InitialInput { get; } = initialInput;

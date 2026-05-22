@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities;
+
 [Controller]
 public abstract class LexicomController
 {

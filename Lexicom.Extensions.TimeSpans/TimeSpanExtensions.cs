@@ -2,6 +2,7 @@
 using System.Diagnostics;
 
 namespace Lexicom.Extensions.TimeSpans;
+
 public static class TimeSpanExtensions
 {
     private static IReadOnlyList<TimeSpanDelineation> OrderedTimeSpanDelineations => field ??= Enum

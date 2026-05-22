@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Supports.Blazor.WebAssembly;
+
 public interface IBlazorWebAssemblyServiceBuilder
 {
     IServiceCollection Services { get; }

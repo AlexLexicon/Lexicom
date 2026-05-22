@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Authentication.For.AspNetCore.Controllers.Extensions;
+
 public static class AuthenticationServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

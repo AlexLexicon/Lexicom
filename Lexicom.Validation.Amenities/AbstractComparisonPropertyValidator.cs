@@ -2,6 +2,7 @@
 using System.Reflection;
 
 namespace Lexicom.Validation.Amenities;
+
 public abstract class AbstractComparisonPropertyValidator<T, TProperty> : AbstractComparisonValidator<T, TProperty> where TProperty : IComparable<TProperty>, IComparable
 {
     public AbstractComparisonPropertyValidator(TProperty valueToCompare) : base(valueToCompare)

@@ -7,6 +7,7 @@ using System.Net;
 using System.Text.Json;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities.Middlewares;
+
 public class ExceptionHandlingMiddleware : IMiddleware
 {
     private readonly ILogger<ExceptionHandlingMiddleware> _logger;

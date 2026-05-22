@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using System.Windows.Input;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
+
 internal class CommandHandleEvent : IHandleEvent
 {
     private readonly ICommand _command;

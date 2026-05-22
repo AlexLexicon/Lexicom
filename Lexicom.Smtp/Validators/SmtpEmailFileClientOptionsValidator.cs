@@ -4,6 +4,7 @@ using Lexicom.Validation.Extensions;
 using Lexicom.Validation.Options;
 
 namespace Lexicom.Smtp.Validators;
+
 public class SmtpEmailFileClientOptionsValidator : AbstractOptionsValidator<SmtpEmailFileClientOptions>
 {
     /// <exception cref="ArgumentNullException"/>

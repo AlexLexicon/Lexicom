@@ -2,6 +2,7 @@
 using System.Collections;
 
 namespace Lexicom.EntityFramework.Identity;
+
 public class IdentityResultErrorsCollection : IEnumerable<IdentityError>
 {
     private readonly IReadOnlyList<IdentityError> _identityErrors;

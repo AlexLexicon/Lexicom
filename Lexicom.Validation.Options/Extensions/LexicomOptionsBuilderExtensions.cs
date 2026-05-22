@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Validation.Options.Extensions;
+
 public static class LexicomOptionsBuilderExtensions
 {
     public static LexicomOptionsBuilder<TOptions> ValidateOnStart<TOptions>(this LexicomOptionsBuilder<TOptions> optionsBuilder) where TOptions : class

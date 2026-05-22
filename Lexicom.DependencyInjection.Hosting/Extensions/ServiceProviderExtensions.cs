@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.DependencyInjection.Hosting.Extensions;
+
 public static class ServiceProviderExtensions
 {
     public static IReadOnlyList<IAfterServiceProviderBuildService> ResolveAfterServiceProviderBuildServices(this IServiceProvider provider)

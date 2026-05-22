@@ -3,6 +3,7 @@ using Lexicom.Wpf.Amenities.Threading.Extensions;
 using System.Windows.Threading;
 
 namespace Lexicom.Wpf.Amenities;
+
 public class WpfDispatcher : IDispatcher
 {
     private readonly Dispatcher _dispatcher;

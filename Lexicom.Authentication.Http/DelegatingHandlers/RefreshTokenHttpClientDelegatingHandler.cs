@@ -2,6 +2,7 @@
 using System.Net;
 
 namespace Lexicom.Authentication.Http.DelegatingHandlers;
+
 public class RefreshTokenHttpClientDelegatingHandler : DelegatingHandler
 {
     private readonly IRefreshTokenService _refreshTokenService;

@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 
 namespace Lexicom.Extensions.Expressions;
+
 public static class ExpressionExtensions
 {
     public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>>? leftExpression, Expression<Func<T, bool>>? rightExpression)

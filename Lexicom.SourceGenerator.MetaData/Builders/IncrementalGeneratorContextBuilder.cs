@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 
 namespace Lexicom.SourceGenerator.MetaData.Builders;
+
 public interface IIncrementalGeneratorContextBuilder
 {
     /// <exception cref="ArgumentNullException"/>

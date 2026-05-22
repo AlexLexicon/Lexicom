@@ -8,6 +8,7 @@ using System.Net.Mail;
 using System.Net.Sockets;
 
 namespace Lexicom.Smtp;
+
 public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
 {
     private readonly ILogger<SmtpEmailMailClient> _logger;

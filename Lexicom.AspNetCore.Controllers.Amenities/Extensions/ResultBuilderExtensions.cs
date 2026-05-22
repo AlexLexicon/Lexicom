@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities.Extensions;
+
 public static class ResultBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

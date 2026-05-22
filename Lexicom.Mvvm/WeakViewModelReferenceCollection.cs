@@ -2,6 +2,7 @@
 using System.Collections;
 
 namespace Lexicom.Mvvm;
+
 public interface IWeakViewModelReferenceCollection
 {
     /// <exception cref="ArgumentNullException"/>

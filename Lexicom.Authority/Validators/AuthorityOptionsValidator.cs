@@ -3,6 +3,7 @@ using Lexicom.Authority.Options;
 using Lexicom.Validation.Options;
 
 namespace Lexicom.Authority.Validators;
+
 public class AuthorityOptionsValidator : AbstractOptionsValidator<AuthorityOptions>
 {
     public AuthorityOptionsValidator()

@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.ConsoleApp.Tui;
+
 public interface ITuiOperationsProvider
 {
     IReadOnlyList<Type> OperationTypes { get; }

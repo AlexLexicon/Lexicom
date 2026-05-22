@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Extensions.DateTimes;
+
 public static class DateTimeExtensions
 {
     private const int SECONDS_IN_MINUTE = 60;

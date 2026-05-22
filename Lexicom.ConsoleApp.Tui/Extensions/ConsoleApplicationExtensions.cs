@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.ConsoleApp.Tui.Extensions;
+
 public static class ConsoleApplicationExtensions
 {    
     /// <exception cref="ArgumentNullException"/>

@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.ConsoleApp.Amenities.Questions;
+
 public class QuestionBuilder
 {
     private readonly List<QuestionBuilderAnswer> _answers;

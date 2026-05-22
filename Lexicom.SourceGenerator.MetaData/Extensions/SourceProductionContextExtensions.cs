@@ -6,6 +6,7 @@ using System.Collections.Immutable;
 using System.Text;
 
 namespace Lexicom.SourceGenerator.MetaData.Extensions;
+
 public static class SourceProductionContextExtensions
 {
     /// <exception cref="ArgumentNullException"/>

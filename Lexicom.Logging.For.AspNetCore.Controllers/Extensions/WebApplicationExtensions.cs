@@ -2,6 +2,7 @@
 using Serilog;
 
 namespace Lexicom.Logging.For.AspNetCore.Controllers.Extensions;
+
 public static class WebApplicationExtensions
 {
     /// <exception cref="ArgumentNullException"/>

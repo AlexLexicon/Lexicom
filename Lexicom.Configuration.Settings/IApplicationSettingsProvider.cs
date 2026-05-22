@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 
 namespace Lexicom.Configuration.Settings;
+
 public interface IApplicationSettingsProvider
 {
     delegate void SettingsSavingEventHandler(object sender, CancelEventArgs e);

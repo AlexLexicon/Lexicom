@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Validation.For.AspNetCore.Controllers.Extensions;
+
 public static class ValidationServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

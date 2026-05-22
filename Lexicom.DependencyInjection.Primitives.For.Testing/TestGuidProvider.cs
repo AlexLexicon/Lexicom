@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.DependencyInjection.Primitives.For.Testing;
+
 public class TestGuidProvider : IGuidProvider
 {
     protected readonly Queue<Guid> _guids;

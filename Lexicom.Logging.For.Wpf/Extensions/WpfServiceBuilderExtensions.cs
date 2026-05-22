@@ -3,6 +3,7 @@ using Lexicom.Supports.Wpf;
 using Microsoft.Extensions.Configuration;
 
 namespace Lexicom.Logging.For.Wpf.Extensions;
+
 public static class WpfServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

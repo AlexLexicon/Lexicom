@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 
 namespace Lexicom.Authentication.For.AspNetCore.Controllers.Extensions;
+
 public static class ClaimsPrincipalExtensions
 {
     /// <exception cref="ArgumentNullException"/>

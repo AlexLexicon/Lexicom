@@ -1,6 +1,7 @@
 ﻿using Lexicom.DependencyInjection.Primitives.For.Testing.Exceptions;
 
 namespace Lexicom.DependencyInjection.Primitives.For.Testing.Extensions;
+
 public static class GuidProviderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

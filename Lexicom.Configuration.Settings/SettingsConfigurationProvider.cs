@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 
 namespace Lexicom.Configuration.Settings;
+
 public class SettingsConfigurationProvider : ConfigurationProvider
 {
     private readonly IApplicationSettingsProvider? _settings;

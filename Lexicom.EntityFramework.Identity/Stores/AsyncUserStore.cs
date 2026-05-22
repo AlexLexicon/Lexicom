@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Security.Claims;
 
 namespace Lexicom.EntityFramework.Identity.Stores;
+
 //this is a copy of the regular 'UserStore' from Microsoft: https://source.dot.net/#Microsoft.AspNetCore.Identity.EntityFrameworkCore/UserStore.cs
 //but uses the IDbContextFactory in order to allow the async methods to be used in parallel
 //this does break with the original design philosophy microsoft intended this type of implementation to use

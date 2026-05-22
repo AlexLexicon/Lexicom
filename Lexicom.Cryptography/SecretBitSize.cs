@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Cryptography;
+
 public class SecretBitSize
 {
     public required int Value { get; init; }

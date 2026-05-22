@@ -3,6 +3,7 @@ using Lexicom.Wpf.Amenities.Extensions;
 using System.Windows;
 
 namespace Lexicom.Wpf.Amenities.Themes;
+
 public class WpfThemeApplicator : IThemeApplicator
 {
     private readonly Application _application;

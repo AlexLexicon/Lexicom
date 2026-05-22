@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Validation;
+
 public interface IValidationServiceBuilder
 {
     IServiceCollection Services { get; }

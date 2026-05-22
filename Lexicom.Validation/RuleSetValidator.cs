@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Lexicom.Validation;
+
 public interface IRuleSetValidator
 {
     bool HasStandardizedErrorMessages { get; set; }

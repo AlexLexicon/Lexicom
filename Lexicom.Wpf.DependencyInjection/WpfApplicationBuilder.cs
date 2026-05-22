@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using System.Windows;
 
 namespace Lexicom.Wpf.DependencyInjection;
+
 public sealed class WpfApplicationBuilder
 {
     private readonly HostBuilder _hostBuilder;

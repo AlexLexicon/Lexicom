@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.DependencyInjection.Amenities.Extensions;
+
 public static class AssemblyScanExtensions
 {
     /// <exception cref="ArgumentNullException"/>

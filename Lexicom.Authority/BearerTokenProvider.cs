@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 
 namespace Lexicom.Authority;
+
 public abstract class BearerTokenProvider
 {
     /// <exception cref="ArgumentNullException"/>

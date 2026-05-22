@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Reflection;
 
 namespace Lexicom.Mvvm.Extensions;
+
 public static class MvvmServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

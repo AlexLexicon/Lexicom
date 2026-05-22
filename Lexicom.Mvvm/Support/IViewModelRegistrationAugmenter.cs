@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Mvvm.Support;
+
 public interface IViewModelRegistrationAugmenter
 {
     /// <exception cref="ArgumentNullException"/>

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.Extensions;
+
 public static class EqualRuleBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

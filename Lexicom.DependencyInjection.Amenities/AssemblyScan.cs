@@ -1,6 +1,7 @@
 ﻿using Lexicom.DependencyInjection.Amenities.Extensions;
 
 namespace Lexicom.DependencyInjection.Amenities;
+
 public interface IAssemblyScanInitial : IAssemblyScan
 {
     IAssemblyScanPartial GetPartial();

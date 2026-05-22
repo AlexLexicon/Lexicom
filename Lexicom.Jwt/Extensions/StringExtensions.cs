@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Lexicom.Jwt.Extensions;
+
 public static class StringExtensions
 {
     /// <exception cref="ArgumentNullException"/>

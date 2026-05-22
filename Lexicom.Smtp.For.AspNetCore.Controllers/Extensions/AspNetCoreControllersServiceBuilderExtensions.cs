@@ -1,6 +1,7 @@
 ﻿using Lexicom.Supports.AspNetCore.Controllers;
 
 namespace Lexicom.Smtp.For.AspNetCore.Controllers.Extensions;
+
 public static class AspNetCoreControllersServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

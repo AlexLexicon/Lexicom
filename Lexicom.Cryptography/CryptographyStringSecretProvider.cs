@@ -3,6 +3,7 @@ using Lexicom.Cryptography.Validators;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.Cryptography;
+
 public class CryptographyStringSecretProvider : ICryptographySecretProvider
 {
     public static byte[] ConvertBase64SecretToBytes(string base64SecretKey)

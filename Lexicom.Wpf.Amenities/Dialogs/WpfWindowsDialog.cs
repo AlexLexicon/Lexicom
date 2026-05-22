@@ -2,6 +2,7 @@
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Lexicom.Wpf.Amenities.Dialogs;
+
 public class WpfWindowsDialog : IWindowsDialog
 {
     /// <exception cref="ArgumentNullException"/>

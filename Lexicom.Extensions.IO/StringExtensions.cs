@@ -1,6 +1,7 @@
 ﻿using Lexicom.Extensions.IO.Exceptions;
 
 namespace Lexicom.Extensions.IO;
+
 public static class StringExtensions
 {
     /// <exception cref="ArgumentNullException"/>

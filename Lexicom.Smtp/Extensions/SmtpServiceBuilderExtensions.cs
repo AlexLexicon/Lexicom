@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Lexicom.Smtp.Extensions;
+
 public static class SmtpServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

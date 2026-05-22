@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities.Filters;
+
 public class ObjectResultToErrorResponseActionFilter : IAsyncActionFilter
 {
     private readonly ILogger<ObjectResultToErrorResponseActionFilter> _logger;

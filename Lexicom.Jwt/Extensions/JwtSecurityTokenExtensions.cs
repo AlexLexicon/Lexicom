@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 
 namespace Lexicom.Jwt.Extensions;
+
 public static class JwtSecurityTokenExtensions
 {
     private static string CachedLowerClaimTypesRole { get; } = ClaimTypes.Role.ToLowerInvariant();

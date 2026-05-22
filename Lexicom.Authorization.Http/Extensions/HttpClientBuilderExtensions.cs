@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Lexicom.Authorization.Http.Extensions;
+
 public static class HttpClientBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

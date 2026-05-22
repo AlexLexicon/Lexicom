@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Maths;
+
 public static class Mathx
 {
     /// <exception cref="ArgumentOutOfRangeException"/>

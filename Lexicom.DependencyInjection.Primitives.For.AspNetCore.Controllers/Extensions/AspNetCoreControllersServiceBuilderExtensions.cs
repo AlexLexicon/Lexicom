@@ -2,6 +2,7 @@
 using Lexicom.DependencyInjection.Primitives.Extensions;
 
 namespace Lexicom.DependencyInjection.Primitives.For.AspNetCore.Controllers.Extensions;
+
 public static class AspNetCoreControllersServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

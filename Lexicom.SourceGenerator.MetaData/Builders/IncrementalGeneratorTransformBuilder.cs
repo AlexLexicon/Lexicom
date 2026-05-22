@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 
 namespace Lexicom.SourceGenerator.MetaData.Builders;
+
 public interface IIncrementalGeneratorTransformBuilder<TSyntaxNodePredicate, TSyntaxNode> : IIncrementalGeneratorBuilder where TSyntaxNodePredicate : SyntaxNode where TSyntaxNode : SyntaxNode?
 {
     /// <exception cref="ArgumentNullException"/>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities;
+
 public interface IAspNetCoreControllersAmenitiesServiceBuilder
 {
     WebApplicationBuilder WebApplicationBuilder { get; }

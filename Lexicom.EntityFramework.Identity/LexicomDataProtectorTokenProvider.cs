@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using System.Text;
 
 namespace Lexicom.EntityFramework.Identity;
+
 /*
  * Due to a bug: https://stackoverflow.com/questions/58973703/system-missingmethodexception-method-not-found-void-microsoft-aspnetcore-iden
  * I have to copy the source code of the 'DataProtectorTokenProvider' class: https://source.dot.net/#Microsoft.AspNetCore.Identity/DataProtectorTokenProvider.cs,b35de4ff6fb1c726

@@ -2,6 +2,7 @@
 using System.Reflection;
 
 namespace Lexicom.Configuration.Settings;
+
 public interface ISettingsWriter
 {
     /// <exception cref="ArgumentNullException"/>

@@ -2,6 +2,7 @@
 using System.Collections;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+
 public static class NotSimplyEmptyValidator<T>
 {
     public static bool IsValid(T value)

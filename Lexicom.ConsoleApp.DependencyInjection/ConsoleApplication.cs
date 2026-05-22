@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace Lexicom.ConsoleApp.DependencyInjection;
+
 public sealed class ConsoleApplication : IDisposable
 {
     public static ConsoleApplicationBuilder CreateBuilder()

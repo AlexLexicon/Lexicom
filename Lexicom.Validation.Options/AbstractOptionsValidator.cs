@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Lexicom.Validation.Options;
+
 public abstract class AbstractOptionsValidator<T> : AbstractValidator<T>
 {
     /// <exception cref="NotValidatedOnStartupException{T}"/>

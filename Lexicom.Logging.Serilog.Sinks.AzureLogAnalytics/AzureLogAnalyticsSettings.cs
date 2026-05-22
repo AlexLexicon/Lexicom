@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics;
+
 public sealed class AzureLogAnalyticsSettings
 {
     public bool StoreTimestampInUtc { get; set; }

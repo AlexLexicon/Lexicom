@@ -3,6 +3,7 @@ using System.Collections;
 using System.Windows;
 
 namespace Lexicom.Wpf.ValueConverters;
+
 public sealed class ToVisibilityConverter : ValueConverterBase<Visibility>
 {
     private const string VISIBLE_SHORT = "v";

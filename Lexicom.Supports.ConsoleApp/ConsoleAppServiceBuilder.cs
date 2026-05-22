@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Supports.ConsoleApp;
+
 public interface IConsoleAppServiceBuilder
 {
     IServiceCollection Services { get; }

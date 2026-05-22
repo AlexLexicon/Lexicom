@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Validators;
 
 namespace Lexicom.Validation.Amenities;
+
 public abstract class AbstractPropertyValidator<T, TProperty> : PropertyValidator<T, TProperty>
 {
     public abstract string DefaultMessageTemplate { get; }

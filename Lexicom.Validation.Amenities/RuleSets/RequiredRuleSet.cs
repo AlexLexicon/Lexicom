@@ -2,6 +2,7 @@
 using Lexicom.Validation.Amenities.Extensions;
 
 namespace Lexicom.Validation.Amenities.RuleSets;
+
 public class RequiredRuleSet : RequiredRuleSet<string?>
 {
     /// <exception cref="ArgumentNullException"/>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.DependencyInjection.Primitives.For.Testing;
+
 public interface ITestDependencyInjectionPrimitivesServiceBuilder
 {
     IServiceCollection Services { get; }

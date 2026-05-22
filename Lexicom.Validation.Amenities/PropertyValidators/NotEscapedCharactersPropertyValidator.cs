@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+
 public static class NotEscapedCharactersValidator
 {
     public static bool IsValid(string? value)

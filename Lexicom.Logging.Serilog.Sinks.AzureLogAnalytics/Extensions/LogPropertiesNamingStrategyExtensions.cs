@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Serialization;
 
 namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics.Extensions;
+
 public static class LogPropertiesNamingStrategyExtensions
 {
     public static IContractResolver GetContractResolver(this JsonNamingStrategy namingStrategy)

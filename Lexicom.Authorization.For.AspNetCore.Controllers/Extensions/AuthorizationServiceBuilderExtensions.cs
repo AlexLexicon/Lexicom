@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Authorization.For.AspNetCore.Controllers.Extensions;
+
 public static class AuthorizationServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

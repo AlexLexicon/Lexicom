@@ -1,4 +1,5 @@
 namespace Lexicom.Maths.UnitTests.Tests;
+
 public class MathxTests
 {
     [Theory]

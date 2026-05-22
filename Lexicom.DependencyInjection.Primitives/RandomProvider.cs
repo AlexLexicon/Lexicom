@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.DependencyInjection.Primitives;
+
 public class RandomProvider : IRandomProvider
 {
     private readonly Random _random;

@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.DependencyInjection.Primitives.For.Testing;
+
 public class TestRandomProvider : IRandomProvider
 {
     protected readonly Queue<int> _nexts;

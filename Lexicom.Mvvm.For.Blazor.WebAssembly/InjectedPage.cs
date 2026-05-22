@@ -2,6 +2,7 @@
 using System.ComponentModel;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
+
 public abstract class InjectedPage<TViewModel> : ComponentBase, IMvvmComponent<TViewModel>, IDisposable where TViewModel : INotifyPropertyChanged
 {
     private readonly ComponentBehavior<TViewModel> _componentBehavior;

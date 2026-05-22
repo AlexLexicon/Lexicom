@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Lexicom.Authentication.Http;
+
 /// <exception cref="ArgumentNullException"/>
 public class AuthenticationHttpClientBuilder(IHttpClientBuilder httpClientBuilder)
 {

@@ -4,6 +4,7 @@ using Lexicom.Validation.Amenities.Options;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.Validation.Amenities.RuleSets;
+
 public class EmailRuleSet : AbstractRuleSet<string?>
 {
     private const int DEFAULT_LENGTH_MINIMUM = 3;

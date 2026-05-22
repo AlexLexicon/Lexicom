@@ -2,6 +2,7 @@
 using System.Windows.Input;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly.Extensions;
+
 public static class CommandExtensions
 {
     /// <exception cref="ArgumentNullException"/>

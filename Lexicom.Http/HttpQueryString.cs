@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Web;
 
 namespace Lexicom.Http;
+
 public class HttpQueryString : IList<HttpQueryParameter>
 {
     /// <exception cref="ArgumentNullException"/>

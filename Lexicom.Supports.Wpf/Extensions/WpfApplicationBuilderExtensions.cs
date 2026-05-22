@@ -2,6 +2,7 @@
 using Lexicom.Wpf.DependencyInjection;
 
 namespace Lexicom.Supports.Wpf.Extensions;
+
 public static class WpfApplicationBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

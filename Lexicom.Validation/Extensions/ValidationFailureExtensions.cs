@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 
 namespace Lexicom.Validation.Extensions;
+
 public static class ValidationFailureExtensions
 {
     private static string[] WhiteSpaceSeparator { get; } = [" "];

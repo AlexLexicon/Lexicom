@@ -5,6 +5,7 @@ using Lexicom.Smtp.Validators;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.Smtp;
+
 public class SmtpEmailFileClient : ISmtpEmailClient, ISmtpEmailHandler
 {
     private readonly IOptions<SmtpEmailFileClientOptions> _smtpFileClientOptions;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 
 namespace Lexicom.EntityFramework.Identity.UnitTesting;
+
 public class TestHttpContextAccessor : IHttpContextAccessor
 {
     /// <exception cref="ArgumentNullException"/>

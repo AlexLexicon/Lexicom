@@ -3,6 +3,7 @@ using Lexicom.Validation.Amenities.PropertyValidators;
 using Lexicom.Validation.Extensions;
 
 namespace Lexicom.Validation.Amenities.Extensions;
+
 public static class LanguageManagerExtensions
 {
     /// <exception cref="ArgumentNullException"/>

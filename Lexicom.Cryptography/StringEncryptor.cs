@@ -3,6 +3,7 @@ using Lexicom.Cryptography.Extensions;
 using System.Security.Cryptography;
 
 namespace Lexicom.Cryptography;
+
 public static class StringEncryptor
 {
     /// <exception cref="ArgumentNullException"/>

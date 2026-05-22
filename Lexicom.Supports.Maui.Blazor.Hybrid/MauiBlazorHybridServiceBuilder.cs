@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Supports.Maui.Blazor.Hybrid;
+
 public interface IMauiBlazorHybridServiceBuilder
 {
     IServiceCollection Services { get; }

@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Jwt.Exceptions;
+
 public class ClaimDoesNotExistException(string? claimSourceName, string? claim) 
     : Exception($"The bearer token does not have the '{(string.IsNullOrWhiteSpace(claimSourceName) ? "" : $"{claimSourceName ?? "null"}.")}{claim ?? "null"}' claim.")
 {

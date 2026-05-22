@@ -2,6 +2,7 @@
 using System.Net;
 
 namespace Lexicom.Authentication.Http.DelegatingHandlers;
+
 public class UnauthorizedHttpClientDelegatingHandler : DelegatingHandler
 {
     private readonly IHttpClientUnauthorizedListener _httpClientUnauthorizedListener;

@@ -2,6 +2,7 @@
 using System.Text.Json.Nodes;
 
 namespace Lexicom.Extensions.Debugging;
+
 public static class ConfigurationExtensions
 {
     /// <exception cref="ArgumentNullException"/>

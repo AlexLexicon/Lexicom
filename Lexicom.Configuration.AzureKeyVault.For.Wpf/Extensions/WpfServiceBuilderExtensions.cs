@@ -2,6 +2,7 @@
 using Lexicom.Supports.Wpf;
 
 namespace Lexicom.Configuration.AzureKeyVault.For.Wpf.Extensions;
+
 public static class WpfServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

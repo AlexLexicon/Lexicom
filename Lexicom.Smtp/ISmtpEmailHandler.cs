@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Smtp;
+
 public interface ISmtpEmailHandler
 {
     /// <exception cref="ArgumentNullException"/>

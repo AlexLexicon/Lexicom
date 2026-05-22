@@ -2,6 +2,7 @@
 using Lexicom.Validation.Amenities.PropertyValidators;
 
 namespace Lexicom.Validation.Amenities.Extensions;
+
 public static class LessThanOrEqualToRuleBuilderExtensions
 {
     /*

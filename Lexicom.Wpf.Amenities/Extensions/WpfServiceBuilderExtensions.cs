@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Threading;
 
 namespace Lexicom.Wpf.Amenities.Extensions;
+
 public static class WpfServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

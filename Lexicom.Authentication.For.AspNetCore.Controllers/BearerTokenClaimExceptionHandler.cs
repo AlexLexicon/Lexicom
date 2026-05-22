@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 
 namespace Lexicom.Authentication.For.AspNetCore.Controllers;
+
 public class BearerTokenClaimExceptionHandler : IExceptionHandler
 {
     private readonly ILogger<BearerTokenClaimExceptionHandler> _logger;

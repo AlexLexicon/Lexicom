@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 
 namespace Lexicom.AspNetCore.Controllers.Contracts.Extensions;
+
 public static class HttpResponseMessageExtensions
 {
     /// <exception cref="ArgumentNullException"/>

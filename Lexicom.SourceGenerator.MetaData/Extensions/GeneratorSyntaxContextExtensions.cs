@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 
 namespace Lexicom.SourceGenerator.MetaData.Extensions;
+
 public static class GeneratorSyntaxContextExtensions
 {
     internal static ClassDeclarationSyntax? HasAttributeTransform<TAttribute>(this GeneratorSyntaxContext generatorSyntaxContext, ClassDeclarationSyntax? classDeclarationSyntax) where TAttribute : Attribute

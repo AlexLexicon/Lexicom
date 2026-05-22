@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 
 namespace Lexicom.Validation;
+
 public interface IRuleSetTransfromer<TProperty, TNextProperty>
 {
     string ErrorMessageTypeName { get; }

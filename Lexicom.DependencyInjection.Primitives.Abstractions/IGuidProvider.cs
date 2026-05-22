@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.DependencyInjection.Primitives;
+
 public interface IGuidProvider
 {
     /// <summary>

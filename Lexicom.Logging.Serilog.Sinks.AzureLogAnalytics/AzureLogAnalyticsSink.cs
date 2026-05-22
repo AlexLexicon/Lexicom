@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 
 namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics;
+
 internal sealed class AzureLogAnalyticsSink : AzureLogAnalyticsBatchProvider, ILogEventSink
 {
     private static string BuildSignature(int contentLength, string dateString, string key)

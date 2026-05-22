@@ -2,6 +2,7 @@
 using Lexicom.Supports.Maui.Blazor.Hybrid;
 
 namespace Lexicom.DependencyInjection.Primitives.For.Maui.Blazor.Hybrid.Extensions;
+
 public static class MauiBlazorHybridServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

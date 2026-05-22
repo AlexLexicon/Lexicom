@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics;
+
 internal static class Constants
 {
     public const int BUFFER_SIZE_MINIMUM = 5_000;

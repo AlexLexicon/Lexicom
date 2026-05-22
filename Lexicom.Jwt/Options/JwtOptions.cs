@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Jwt.Options;
+
 public class JwtOptions
 {
     public const string ACCESS_TOKEN_SECTION = "AccessTokenOptions";

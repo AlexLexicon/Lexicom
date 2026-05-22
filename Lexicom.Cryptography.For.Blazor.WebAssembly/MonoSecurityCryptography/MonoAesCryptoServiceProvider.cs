@@ -34,6 +34,7 @@
 using System.Security.Cryptography;
 
 namespace Lexicom.Cryptography.For.Blazor.WebAssembly.MonoSecurityCryptography;
+
 public sealed class MonoAesCryptoServiceProvider : Aes
 {
     public MonoAesCryptoServiceProvider()

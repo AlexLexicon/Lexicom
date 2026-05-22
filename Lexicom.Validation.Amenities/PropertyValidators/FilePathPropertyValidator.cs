@@ -2,6 +2,7 @@
 using System.Security;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+
 public class FilePathValidator
 {
     public static bool IsValid(string? value)

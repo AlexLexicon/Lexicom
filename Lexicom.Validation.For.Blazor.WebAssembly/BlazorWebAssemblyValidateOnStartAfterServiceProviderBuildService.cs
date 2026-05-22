@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Reflection;
 
 namespace Lexicom.Validation.For.Blazor.WebAssembly;
+
 /*
  * the blazor host does not support ValidateOnStart() for options validator
  * so in order to implement that we have to find a round about way of attaching

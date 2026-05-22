@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 
 namespace Lexicom.Wpf.AttachedProperties;
+
 public static class Window
 {
     /*

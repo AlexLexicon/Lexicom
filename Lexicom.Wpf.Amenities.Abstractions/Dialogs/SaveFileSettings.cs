@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Wpf.Amenities.Dialogs;
+
 public class SaveFileSettings
 {
     public string? Title { get; set; } = "Save File";

@@ -30,6 +30,7 @@
 using System.Security.Cryptography;
 
 namespace Lexicom.Cryptography.For.Blazor.WebAssembly.MonoSecurityCryptography;
+
 public class MonoAesTransform : MonoSymmetricTransform
 {
     private readonly uint[] _expandedKey;

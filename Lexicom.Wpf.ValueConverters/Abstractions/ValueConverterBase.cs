@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 
 namespace Lexicom.Wpf.ValueConverters.Abstractions;
+
 public abstract class ValueConverterBase<T> : ValueConverterBase
 {
     protected override object? Convert(object? value, ValueConverterArgs args)

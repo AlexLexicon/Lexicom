@@ -2,6 +2,7 @@
 using FluentValidation.Results;
 
 namespace Lexicom.Validation;
+
 public abstract class AbstractValueValidator<TProperty> : AbstractValidator<ValidationValue<TProperty>>, IValueValidator<TProperty>
 {
     public virtual ValidationResult Validate(TProperty instance)

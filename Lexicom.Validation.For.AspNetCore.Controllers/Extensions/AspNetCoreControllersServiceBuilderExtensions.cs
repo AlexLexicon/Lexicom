@@ -2,6 +2,7 @@
 using Lexicom.Validation.Extensions;
 
 namespace Lexicom.Validation.For.AspNetCore.Controllers.Extensions;
+
 public static class AspNetCoreControllersServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

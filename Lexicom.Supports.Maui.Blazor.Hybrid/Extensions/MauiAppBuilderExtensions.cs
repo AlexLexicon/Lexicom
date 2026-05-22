@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Supports.Maui.Blazor.Hybrid.Extensions;
+
 //dot net 10 not yet supported
 /*public static class MauiAppBuilderExtensions
 {

@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.DependencyInjection.Primitives.Abstractions;
+
 public interface IRandomProviderFactory
 {
     IRandomProvider Create();

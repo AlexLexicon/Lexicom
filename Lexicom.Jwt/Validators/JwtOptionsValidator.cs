@@ -6,6 +6,7 @@ using Lexicom.Validation.Options;
 using System.Text;
 
 namespace Lexicom.Jwt.Validators;
+
 public class JwtOptionsValidator : AbstractOptionsValidator<JwtOptions>
 {
     //HS256 (HMAC-SHA256) requires a key of at least 256 bits, which is 32 bytes

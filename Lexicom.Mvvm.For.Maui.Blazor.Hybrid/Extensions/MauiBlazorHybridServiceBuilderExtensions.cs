@@ -3,6 +3,7 @@ using Lexicom.Supports.Maui.Blazor.Hybrid;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Mvvm.For.Maui.Blazor.Hybrid.Extensions;
+
 public static class MauiBlazorHybridServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

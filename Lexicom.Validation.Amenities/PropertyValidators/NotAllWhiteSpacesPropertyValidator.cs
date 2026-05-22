@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+
 public static class NotAllWhiteSpacesValidator
 {
     public static bool IsValid(string? value)

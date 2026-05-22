@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Wpf.Amenities.Threading;
+
 /*
  * the purpose of this wrapping/abstraction
  * is to allow the view models of a wpf application

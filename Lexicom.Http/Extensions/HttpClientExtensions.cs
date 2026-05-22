@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
 namespace Lexicom.Http.Extensions;
+
 public static class HttpClientExtensions
 {
     /// <exception cref="ArgumentNullException"/>

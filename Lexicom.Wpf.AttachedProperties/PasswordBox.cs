@@ -2,6 +2,7 @@
 using System.Windows.Input;
 
 namespace Lexicom.Wpf.AttachedProperties;
+
 public static class PasswordBox
 {
     /*

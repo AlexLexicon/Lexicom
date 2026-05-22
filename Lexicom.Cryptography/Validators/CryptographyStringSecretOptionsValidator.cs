@@ -6,6 +6,7 @@ using Lexicom.Validation.Amenities.Extensions;
 using Lexicom.Validation.Options;
 
 namespace Lexicom.Cryptography.Validators;
+
 public class CryptographyStringSecretOptionsValidator : AbstractOptionsValidator<CryptographyStringSecretOptions>
 {
     public CryptographyStringSecretOptionsValidator(IAesProvider aesProvider)

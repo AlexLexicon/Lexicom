@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics.Extensions;
+
 internal static class AzureOfferingTypeExtensions
 {
     /// <exception cref="ArgumentNullException"/>

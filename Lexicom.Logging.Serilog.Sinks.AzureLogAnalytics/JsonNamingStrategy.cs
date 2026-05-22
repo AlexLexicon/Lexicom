@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics;
+
 public enum JsonNamingStrategy
 {
     Default,

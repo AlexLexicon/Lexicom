@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.ConsoleApp.Tui;
+
 public interface ITuiConsoleApp
 {
     bool IsClosing { get; }

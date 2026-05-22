@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
 namespace Lexicom.Wpf.Amenities.Threading;
+
 public interface IDispatcherOperation
 {
     event EventHandler? Aborted;

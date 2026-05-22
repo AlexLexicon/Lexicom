@@ -2,6 +2,7 @@
 using Lexicom.DependencyInjection.Hosting;
 
 namespace Lexicom.Supports.Blazor.WebAssembly.Extensions;
+
 public static class WebAssemblyHostBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

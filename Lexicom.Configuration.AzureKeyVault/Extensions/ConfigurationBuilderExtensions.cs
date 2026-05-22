@@ -7,6 +7,7 @@ using Lexicom.Validation.Amenities.RuleSets;
 using Microsoft.Extensions.Configuration;
 
 namespace Lexicom.Configuration.AzureKeyVault.Extensions;
+
 public static class ConfigurationBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

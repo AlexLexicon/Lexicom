@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 
 namespace Lexicom.Authorization.Http;
+
 public class HttpClientAuthenticationHandler : DelegatingHandler
 {
     private readonly IBearerTokenStorage _bearerTokenStorage;

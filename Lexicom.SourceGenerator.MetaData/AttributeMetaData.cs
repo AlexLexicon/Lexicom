@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Lexicom.SourceGenerator.MetaData;
+
 public record struct AttributeMetaData
 {
     private readonly Compilation _compilation;

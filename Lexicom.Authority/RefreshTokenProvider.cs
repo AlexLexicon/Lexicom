@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using System.Security.Claims;
 
 namespace Lexicom.Authority;
+
 public interface IRefreshTokenProvider
 {
     /// <exception cref="ArgumentNullException"/>

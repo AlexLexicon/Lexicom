@@ -1,5 +1,6 @@
 ﻿
 namespace Lexicom.DependencyInjection.Primitives.For.Testing;
+
 public class TestTimeProvider : ITimeProvider
 {
     protected readonly Queue<DateTimeOffset> _dateTimeOffsets;
