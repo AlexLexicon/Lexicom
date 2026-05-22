@@ -1,4 +1,4 @@
-﻿namespace Lexicom.Smtp.AspNetCore.Controllers;
+﻿namespace Lexicom.Smtp.For.AspNetCore.Controllers;
 public class SmtpEmailChannelMessage
 {
     /// <exception cref="ArgumentNullException"/>

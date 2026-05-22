@@ -1,6 +1,7 @@
 ﻿using System.Threading.Channels;
 
 namespace Lexicom.Smtp.For.AspNetCore.Controllers;
+
 public class ChannelSmtpEmailHandler : ISmtpEmailHandler
 {
     private readonly Channel<SmtpEmailChannelMessage> _channel;
@@ -22,6 +23,6 @@ public class ChannelSmtpEmailHandler : ISmtpEmailHandler
 
         var message = new SmtpEmailChannelMessage(toEmailAddress, subject, body);
 
-        await _channel.Writer.WriteAsync(message);   
+        await _channel.Writer.WriteAsync(message);
     }
 }
