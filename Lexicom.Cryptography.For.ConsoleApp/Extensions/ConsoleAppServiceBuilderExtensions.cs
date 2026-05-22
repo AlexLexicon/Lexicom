@@ -1,7 +1,7 @@
 ﻿using Lexicom.Cryptography.Extensions;
 using Lexicom.Supports.ConsoleApp;
 
-namespace Lexicom.Cryptography.ConsoleApp.Extensions;
+namespace Lexicom.Cryptography.For.ConsoleApp.Extensions;
 public static class ConsoleAppServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

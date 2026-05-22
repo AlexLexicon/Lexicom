@@ -8,7 +8,7 @@ public interface IUnitTestAssistantMockFluentBuilder
 }
 public class UnitTestAssistantMockFluentBuilder : IUnitTestAssistantMockFluentBuilder
 {
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public UnitTestAssistantMockFluentBuilder(
         MockManager manager,
         MockContainer container)
@@ -23,7 +23,7 @@ public class UnitTestAssistantMockFluentBuilder : IUnitTestAssistantMockFluentBu
     protected MockManager Manager { get; }
     protected MockContainer Container { get; }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public void With(Type implementationType)
     {
         ArgumentNullException.ThrowIfNull(implementationType);
@@ -42,12 +42,12 @@ public interface IUnitTestAssistantMockFluentBuilder<TService>
 }
 public interface IUnitTestAssistantMockSubstituteFluentBuilder<TService> : IUnitTestAssistantMockFluentBuilder<TService> where TService : class
 {
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     IUnitTestAssistantMockFluentBuilder<TService> So(Action<TService> substitutions);
 }
 public class UnitTestAssistantMockFluentBuilder<TService> : UnitTestAssistantMockFluentBuilder, IUnitTestAssistantMockSubstituteFluentBuilder<TService> where TService : class
 {
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public UnitTestAssistantMockFluentBuilder(
         MockManager manager, 
         MockContainer<TService> container) 
@@ -62,7 +62,7 @@ public class UnitTestAssistantMockFluentBuilder<TService> : UnitTestAssistantMoc
 
     protected MockContainer<TService> GenericContainer { get; }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public IUnitTestAssistantMockFluentBuilder<TService> So(Action<TService> substitutions)
     {
         ArgumentNullException.ThrowIfNull(substitutions);

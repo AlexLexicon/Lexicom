@@ -2,7 +2,7 @@
 public static class AssemblyScanExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IAssemblyScanFinal Register(this IAssemblyScanInital assemblyScan, Action<Type> registerDelegate)
+    public static IAssemblyScanFinal Register(this IAssemblyScanInitial assemblyScan, Action<Type> registerDelegate)
     {
         ArgumentNullException.ThrowIfNull(assemblyScan);
         ArgumentNullException.ThrowIfNull(registerDelegate);
@@ -15,7 +15,7 @@ public static class AssemblyScanExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static IAssemblyScanPartial TryToRegister(this IAssemblyScanInital assemblyScan, Func<Type, bool> isRegisteredDelegate)
+    public static IAssemblyScanPartial TryToRegister(this IAssemblyScanInitial assemblyScan, Func<Type, bool> isRegisteredDelegate)
     {
         ArgumentNullException.ThrowIfNull(assemblyScan);
         ArgumentNullException.ThrowIfNull(isRegisteredDelegate);
@@ -26,7 +26,7 @@ public static class AssemblyScanExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static IAssemblyScanPartial TryToRegister<TWhen>(this IAssemblyScanInital assemblyScan, Action<Type> registerDelegate)
+    public static IAssemblyScanPartial TryToRegister<TWhen>(this IAssemblyScanInitial assemblyScan, Action<Type> registerDelegate)
     {
         ArgumentNullException.ThrowIfNull(assemblyScan);
         ArgumentNullException.ThrowIfNull(registerDelegate);

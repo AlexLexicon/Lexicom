@@ -11,7 +11,7 @@ namespace Lexicom.Cryptography;
 public interface ICiphertextAuthenticator
 {
     /// <exception cref="ArgumentNullException"/>
-    /// <exception cref="EncryptedTextNotValidException"></exception>
+    /// <exception cref="EncryptedTextNotValidException"/>
     (int initializationVectorByteCount, int authenticationTagByteCount) GetByteCountsAndValidateComposite(byte[] composite);
 
     /// <exception cref="ArgumentNullException"/>

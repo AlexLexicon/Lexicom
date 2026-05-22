@@ -3,7 +3,7 @@ using Lexicom.Supports.ConsoleApp;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Lexicom.EntityFramework.Identity.ConsoleApp.Extensions;
+namespace Lexicom.EntityFramework.Identity.For.ConsoleApp.Extensions;
 public static class ConsoleAppServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

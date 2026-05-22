@@ -2,7 +2,7 @@
 
 //public interface IUnitTestAssistantMockSubstituteFluentBuilder<TService> where TService : class
 //{
-//    /// <exception cref="ArgumentNullException"></exception>
+//    /// <exception cref="ArgumentNullException"/>
 //    void So(Action<TService> substitutions);
 //    TService Pull();
 //}

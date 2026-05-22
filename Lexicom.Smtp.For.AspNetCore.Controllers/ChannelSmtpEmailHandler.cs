@@ -1,6 +1,6 @@
 ﻿using System.Threading.Channels;
 
-namespace Lexicom.Smtp.AspNetCore.Controllers;
+namespace Lexicom.Smtp.For.AspNetCore.Controllers;
 public class ChannelSmtpEmailHandler : ISmtpEmailHandler
 {
     private readonly Channel<SmtpEmailChannelMessage> _channel;

@@ -9,7 +9,7 @@ public interface IViewModelProvider<TViewModelService, TViewModelImplementation>
 }
 public class ViewModelProvider<TViewModel> : ViewModelProvider<TViewModel, TViewModel> where TViewModel : class
 {
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public ViewModelProvider(IWeakViewModelReferenceCollection<TViewModel> weakViewModelReferenceCollection) : base(weakViewModelReferenceCollection)
     {
     }
@@ -18,7 +18,7 @@ public class ViewModelProvider<TViewModelService, TViewModelImplementation> : IV
 {
     private readonly IWeakViewModelReferenceCollection<TViewModelImplementation> _weakViewModelReferenceCollection;
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public ViewModelProvider(IWeakViewModelReferenceCollection<TViewModelImplementation> weakViewModelReferenceCollection)
     {
         ArgumentNullException.ThrowIfNull(weakViewModelReferenceCollection);

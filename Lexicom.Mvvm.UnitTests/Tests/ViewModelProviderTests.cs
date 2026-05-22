@@ -30,7 +30,7 @@ public class ViewModelProviderTests
         var provider = ita.GetRequiredService<IViewModelProvider<HeaderViewModel>>();
 
         //act
-        var initalViewModels = provider.GetViewModels();
+        var initialViewModels = provider.GetViewModels();
 
         var expectedVm1 = viewModelFactory.Create<HeaderViewModel>();
         var expectedVm2 = viewModelFactory.Create<HeaderViewModel>();
@@ -50,8 +50,8 @@ public class ViewModelProviderTests
         var finalVm3 = finalViewModels[1];
 
         //assert
-        Assert.NotNull(initalViewModels);
-        Assert.Empty(initalViewModels);
+        Assert.NotNull(initialViewModels);
+        Assert.Empty(initialViewModels);
 
         Assert.NotNull(laterViewModels);
         Assert.NotEmpty(laterViewModels);

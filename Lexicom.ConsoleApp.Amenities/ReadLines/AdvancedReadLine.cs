@@ -19,15 +19,15 @@ internal static class AdvancedReadLine
 
         var builder = new StringBuilder();
         int index = 0;
-        var initalResults = keys
+        var initialResults = keys
             .Select(i => i.Initial())
-            .Where(r => r.IsInital);
+            .Where(r => r.IsInitial);
 
-        foreach (AdvancedReadLineInitalResult? initalResult in initalResults)
+        foreach (AdvancedReadLineInitialResult? initialResult in initialResults)
         {
-            if (initalResult.Input is not null)
+            if (initialResult.Input is not null)
             {
-                foreach (char character in initalResult.Input)
+                foreach (char character in initialResult.Input)
                 {
                     Insert(console, ref index, character, builder);
                 }

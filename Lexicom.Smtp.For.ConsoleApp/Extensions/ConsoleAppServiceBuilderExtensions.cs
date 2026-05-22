@@ -1,7 +1,7 @@
 ﻿using Lexicom.Smtp.Extensions;
 using Lexicom.Supports.ConsoleApp;
 
-namespace Lexicom.Smtp.ConsoleApp.Extensions;
+namespace Lexicom.Smtp.For.ConsoleApp.Extensions;
 public static class ConsoleAppServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

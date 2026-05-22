@@ -42,8 +42,8 @@ public class MessengerTests
 
         await vm.LoadAsync();
 
-        int? initalNotificationProfileCount = vm.HeaderViewModel?.ProfileViewModel?.NotificationsCount;
-        int? initalNotificationTrayCount = vm.NotificationTrayViewModel?.NotificationsCount;
+        int? initialNotificationProfileCount = vm.HeaderViewModel?.ProfileViewModel?.NotificationsCount;
+        int? initialNotificationTrayCount = vm.NotificationTrayViewModel?.NotificationsCount;
 
         notificationService.Count += 3;
 
@@ -53,13 +53,13 @@ public class MessengerTests
         int? laterNotificationTrayCount = vm.NotificationTrayViewModel?.NotificationsCount;
 
         //assert
-        Assert.NotNull(initalNotificationProfileCount);
-        Assert.NotNull(initalNotificationTrayCount);
+        Assert.NotNull(initialNotificationProfileCount);
+        Assert.NotNull(initialNotificationTrayCount);
         Assert.NotNull(laterNotificationProfileCount);
         Assert.NotNull(laterNotificationTrayCount);
 
-        Assert.Equal(5, initalNotificationProfileCount.Value);
-        Assert.Equal(5, initalNotificationTrayCount.Value);
+        Assert.Equal(5, initialNotificationProfileCount.Value);
+        Assert.Equal(5, initialNotificationTrayCount.Value);
         Assert.Equal(8, laterNotificationProfileCount.Value);
         Assert.Equal(8, laterNotificationTrayCount.Value);
     }
@@ -94,8 +94,8 @@ public class MessengerTests
 
         await vm.LoadAsync();
 
-        int initalReceivedNotificationTrayCount = vm.NotificationTrayViewModel.ReceivedNotificationCount;
-        int initalReceivedNotificationDialogCount = vm.NotificationTrayViewModel.NotificationDialogViewModel.ReceivedNotificationCount;
+        int initialReceivedNotificationTrayCount = vm.NotificationTrayViewModel.ReceivedNotificationCount;
+        int initialReceivedNotificationDialogCount = vm.NotificationTrayViewModel.NotificationDialogViewModel.ReceivedNotificationCount;
 
         await messenger.SendAsync(new NewNotificationMessage(), TestContext.Current.CancellationToken);
 
@@ -108,8 +108,8 @@ public class MessengerTests
         int secondReceivedNotificationDialogCount = vm.NotificationTrayViewModel.NotificationDialogViewModel.ReceivedNotificationCount;
 
         //assert
-        Assert.Equal(0, initalReceivedNotificationTrayCount);
-        Assert.Equal(0, initalReceivedNotificationDialogCount);
+        Assert.Equal(0, initialReceivedNotificationTrayCount);
+        Assert.Equal(0, initialReceivedNotificationDialogCount);
 
         Assert.Equal(1, firstReceivedNotificationTrayCount);
         Assert.Equal(1, firstReceivedNotificationDialogCount);
@@ -148,8 +148,8 @@ public class MessengerTests
 
         await vm.LoadAsync();
 
-        int initalReceivedNotificationTrayCount = vm.NotificationTrayViewModel.ReceivedNotificationCount;
-        int initalReceivedNotificationDialogCount = vm.NotificationTrayViewModel.NotificationDialogViewModel.ReceivedNotificationCount;
+        int initialReceivedNotificationTrayCount = vm.NotificationTrayViewModel.ReceivedNotificationCount;
+        int initialReceivedNotificationDialogCount = vm.NotificationTrayViewModel.NotificationDialogViewModel.ReceivedNotificationCount;
 
         messenger.Send(new NewNotificationMessage());
 
@@ -157,8 +157,8 @@ public class MessengerTests
         int firstReceivedNotificationDialogCount = vm.NotificationTrayViewModel.NotificationDialogViewModel.ReceivedNotificationCount;
 
         //assert
-        Assert.Equal(0, initalReceivedNotificationTrayCount);
-        Assert.Equal(0, initalReceivedNotificationDialogCount);
+        Assert.Equal(0, initialReceivedNotificationTrayCount);
+        Assert.Equal(0, initialReceivedNotificationDialogCount);
 
         Assert.Equal(0, firstReceivedNotificationTrayCount);
         Assert.Equal(1, firstReceivedNotificationDialogCount);
@@ -184,32 +184,32 @@ public class MessengerTests
 
         await vm.LoadAsync();
 
-        int initalAsyncCount = vm.AsyncRecievedCount;
-        int ititalSyncCount = vm.SyncRecievedCount;
+        int initialAsyncCount = vm.AsyncReceivedCount;
+        int ititialSyncCount = vm.SyncReceivedCount;
 
         await messenger.SendAsync(new StatusMessage(), TestContext.Current.CancellationToken);
 
-        int AsyncAsyncCount = vm.AsyncRecievedCount;
-        int AsyncSyncCount = vm.SyncRecievedCount;
+        int asyncAsyncCount = vm.AsyncReceivedCount;
+        int asyncSyncCount = vm.SyncReceivedCount;
 
         messenger.Send(new StatusMessage());
 
-        int SyncAsyncCount = vm.AsyncRecievedCount;
-        int SyncSyncCount = vm.SyncRecievedCount;
+        int syncAsyncCount = vm.AsyncReceivedCount;
+        int syncSyncCount = vm.SyncReceivedCount;
 
         //assert
-        Assert.Equal(0, initalAsyncCount);
-        Assert.Equal(0, ititalSyncCount);
+        Assert.Equal(0, initialAsyncCount);
+        Assert.Equal(0, ititialSyncCount);
 
-        Assert.Equal(1, AsyncAsyncCount);
-        Assert.Equal(1, AsyncSyncCount);
+        Assert.Equal(1, asyncAsyncCount);
+        Assert.Equal(1, asyncSyncCount);
 
-        Assert.Equal(1, SyncAsyncCount);
-        Assert.Equal(2, SyncSyncCount);
+        Assert.Equal(1, syncAsyncCount);
+        Assert.Equal(2, syncSyncCount);
     }
 
     [Fact]
-    public async Task Disposed_Recipients_Do_Not_Recieve_Messaeges()
+    public async Task Disposed_Recipients_Do_Not_Receive_Messaeges()
     {
         //arrange
         var ita = new IntegrationTestAssistant();
@@ -231,8 +231,8 @@ public class MessengerTests
 
         await vm.LoadAsync();
 
-        int initalReceivedNotificationTrayCount = vm.ReceivedNotificationCount;
-        int initalReceivedNotificationDialogCount = vm.NotificationDialogViewModel.ReceivedNotificationCount;
+        int initialReceivedNotificationTrayCount = vm.ReceivedNotificationCount;
+        int initialReceivedNotificationDialogCount = vm.NotificationDialogViewModel.ReceivedNotificationCount;
 
         await messenger.SendAsync(new NewNotificationMessage(), TestContext.Current.CancellationToken);
 
@@ -247,8 +247,8 @@ public class MessengerTests
         int secondReceivedNotificationDialogCount = vm.NotificationDialogViewModel.ReceivedNotificationCount;
 
         //assert
-        Assert.Equal(0, initalReceivedNotificationTrayCount);
-        Assert.Equal(0, initalReceivedNotificationDialogCount);
+        Assert.Equal(0, initialReceivedNotificationTrayCount);
+        Assert.Equal(0, initialReceivedNotificationDialogCount);
 
         Assert.Equal(1, firstReceivedNotificationTrayCount);
         Assert.Equal(1, firstReceivedNotificationDialogCount);

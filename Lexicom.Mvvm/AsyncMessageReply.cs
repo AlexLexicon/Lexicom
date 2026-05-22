@@ -6,7 +6,7 @@ public interface IAsyncMessageReply
 }
 public class AsyncMessageReply<TMessage> : IAsyncMessageReply where TMessage : class
 {
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public AsyncMessageReply(
         TMessage message,
         IAsyncRecipient<TMessage> recipient)

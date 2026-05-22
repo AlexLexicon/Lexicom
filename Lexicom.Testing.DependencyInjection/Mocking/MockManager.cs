@@ -54,8 +54,8 @@ public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
         return new UnitTestAssistantMockFluentBuilder(this, container);
     }
 
-    /// <exception cref="PullValueTypeException"></exception>
-    /// <exception cref="PullNotMockedException"></exception>
+    /// <exception cref="PullValueTypeException"/>
+    /// <exception cref="PullNotMockedException"/>
     public object Pull(Type type)
     {
         if (TestAssistant.AssistantConfiguration.IsAutomaticallyMocking)

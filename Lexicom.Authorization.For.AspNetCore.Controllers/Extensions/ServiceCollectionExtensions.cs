@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Lexicom.Authorization.AspNetCore.Controllers.Extensions;
+namespace Lexicom.Authorization.For.AspNetCore.Controllers.Extensions;
 public static class ServiceCollectionExtensions
 {
     /// <exception cref="ArgumentNullException"/>

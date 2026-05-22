@@ -20,7 +20,7 @@ public class DefaultParameterOperationTransformer : IOpenApiOperationTransformer
     }
 
     /// <exception cref="ArgumentNullException"/>
-    /// <exception cref="DuplicateScalarDefaultParametersException"></exception>
+    /// <exception cref="DuplicateScalarDefaultParametersException"/>
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(operation);

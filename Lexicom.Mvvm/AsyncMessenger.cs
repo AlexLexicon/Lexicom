@@ -7,7 +7,7 @@ public class AsyncMessenger : IMessenger
     private readonly WeakReferenceMessenger _messenger;
     private readonly IMessengerScheduler _messengerScheduler;
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public AsyncMessenger(
         WeakReferenceMessenger messenger, 
         IMessengerScheduler messengerScheduler)
@@ -29,7 +29,7 @@ public class AsyncMessenger : IMessenger
         _messenger.Reset();
     }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public bool IsRegistered<TMessage, TToken>(object recipient, TToken token) where TMessage : class where TToken : IEquatable<TToken>
     {
         ArgumentNullException.ThrowIfNull(recipient);
@@ -38,7 +38,7 @@ public class AsyncMessenger : IMessenger
         return _messenger.IsRegistered<TMessage, TToken>(recipient, token);
     }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public void Register<TRecipient, TMessage, TToken>(TRecipient recipient, TToken token, MessageHandler<TRecipient, TMessage> handler) where TRecipient : class where TMessage : class where TToken : IEquatable<TToken>
     {
         ArgumentNullException.ThrowIfNull(recipient);
@@ -80,7 +80,7 @@ public class AsyncMessenger : IMessenger
         });
     }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public TMessage Send<TMessage, TToken>(TMessage message, TToken token) where TMessage : class where TToken : IEquatable<TToken>
     {
         ArgumentNullException.ThrowIfNull(message);
@@ -89,7 +89,7 @@ public class AsyncMessenger : IMessenger
         return _messenger.Send(message, token);
     }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public async Task SendAsync<TMessage>(TMessage message, AsyncMessageAwaitStrategy asyncMessageAwaitStrategy, CancellationToken cancellationToken = default) where TMessage : class
     {
         ArgumentNullException.ThrowIfNull(message);
@@ -133,7 +133,7 @@ public class AsyncMessenger : IMessenger
         });
     }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public void Unregister<TMessage, TToken>(object recipient, TToken token) where TMessage : class where TToken : IEquatable<TToken>
     {
         ArgumentNullException.ThrowIfNull(recipient);
@@ -142,7 +142,7 @@ public class AsyncMessenger : IMessenger
         _messenger.Unregister<TMessage, TToken>(recipient, token);
     }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public void UnregisterAll(object recipient)
     {
         ArgumentNullException.ThrowIfNull(recipient);
@@ -150,7 +150,7 @@ public class AsyncMessenger : IMessenger
         _messenger.UnregisterAll(recipient);
     }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public void UnregisterAll<TToken>(object recipient, TToken token) where TToken : IEquatable<TToken>
     {
         ArgumentNullException.ThrowIfNull(recipient);

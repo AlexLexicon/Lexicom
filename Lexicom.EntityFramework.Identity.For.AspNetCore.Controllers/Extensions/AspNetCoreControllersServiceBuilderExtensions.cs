@@ -3,7 +3,7 @@ using Lexicom.Supports.AspNetCore.Controllers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Lexicom.EntityFramework.Identity.AspNetCore.Controllers.Extensions;
+namespace Lexicom.EntityFramework.Identity.For.AspNetCore.Controllers.Extensions;
 public static class AspNetCoreControllersServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

@@ -5,13 +5,13 @@ namespace Lexicom.Mvvm;
 public interface IWeakViewModelReferenceCollection
 {
     /// <exception cref="ArgumentNullException"/>
-    /// <exception cref="ViewModelNotOfViewModelImplementationTypeException{TViewModelImplementation}"></exception>
+    /// <exception cref="ViewModelNotOfViewModelImplementationTypeException{TViewModelImplementation}"/>
     void Add(object viewModel);
 }
 public interface IWeakViewModelReferenceCollection<TViewModelImplementation> : IWeakViewModelReferenceCollection, IEnumerable<TViewModelImplementation> where TViewModelImplementation : class
 {
     /// <exception cref="ArgumentNullException"/>
-    /// <exception cref="ViewModelNotOfViewModelImplementationTypeException{TViewModelImplementation}"></exception>
+    /// <exception cref="ViewModelNotOfViewModelImplementationTypeException{TViewModelImplementation}"/>
     void Add(TViewModelImplementation viewModel);
 }
 public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakViewModelReferenceCollection<TViewModelImplementation> where TViewModelImplementation : class

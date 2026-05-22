@@ -15,9 +15,12 @@ public class WpfThemeApplicator : IThemeApplicator
         _application = application;
     }
 
+    /// <exception cref="ArgumentNullException"/>
     /// <exception cref="ThemeDoesNotExistException"/>
     public Task ApplyAsync(string theme)
     {
+        ArgumentNullException.ThrowIfNull(theme);
+
         IReadOnlyList<ThemeResourceDictionary> themeResourceDictionaries = _application.GetThemeResourceDictionaries();
 
         ThemeResourceDictionary? themeResourceDictionary = themeResourceDictionaries.FirstOrDefault(trd => string.Equals(trd.Theme, theme, StringComparison.OrdinalIgnoreCase));

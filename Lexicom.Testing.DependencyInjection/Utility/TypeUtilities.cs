@@ -4,7 +4,7 @@ namespace Lexicom.Testing.DependencyInjection.Utility;
 
 internal static class TypeUtilities
 {
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     internal static bool IsValueType(Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
@@ -31,7 +31,7 @@ internal static class TypeUtilities
         return false;
     }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     internal static bool IsNullableType(Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
@@ -39,7 +39,7 @@ internal static class TypeUtilities
         return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
     }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     internal static bool IsAssignableTo(object candidate, Type typeToAssignTo)
     {
         ArgumentNullException.ThrowIfNull(candidate);

@@ -7,10 +7,10 @@ namespace Lexicom.Mvvm.UnitTests.Constructs.ViewModels;
 public partial class StatusBarViewModel : DisposableObservableObject, IAsyncRecipient<StatusMessage>, IRecipient<StatusMessage>
 {
     [ObservableProperty]
-    public partial int AsyncRecievedCount { get; set; }
+    public partial int AsyncReceivedCount { get; set; }
 
     [ObservableProperty]
-    public partial int SyncRecievedCount { get; set; }
+    public partial int SyncReceivedCount { get; set; }
 
     public Task LoadAsync()
     {
@@ -19,13 +19,13 @@ public partial class StatusBarViewModel : DisposableObservableObject, IAsyncReci
 
     public Task ReceiveAsync(StatusMessage message, CancellationToken cancellationToken)
     {
-        AsyncRecievedCount++;
+        AsyncReceivedCount++;
 
         return Task.CompletedTask;
     }
 
     public void Receive(StatusMessage message)
     {
-        SyncRecievedCount++;
+        SyncReceivedCount++;
     }
 }

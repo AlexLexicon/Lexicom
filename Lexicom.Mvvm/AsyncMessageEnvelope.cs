@@ -4,7 +4,7 @@ namespace Lexicom.Mvvm;
 
 public class AsyncMessageEnvelope<TMessage> : CollectionRequestMessage<IAsyncMessageReply> where TMessage : class
 {
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public AsyncMessageEnvelope(TMessage message)
     {
         ArgumentNullException.ThrowIfNull(message);

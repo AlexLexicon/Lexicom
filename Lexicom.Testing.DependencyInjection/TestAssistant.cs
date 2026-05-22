@@ -39,12 +39,12 @@ public abstract class TestAssistant : ITestAssistant
     public virtual UnitTestAssistantMockFluentBuilder<TService> Mock<TService>() where TService : class => MockManager.Mock<TService>();
     public virtual UnitTestAssistantMockFluentBuilder<TService> Mock<TService>(MockLifetime lifetime) where TService : class => MockManager.Mock<TService>(lifetime);
 
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="MakeZeroConstructorsException"></exception>
-    /// <exception cref="MakeTooManyConstructorsException"></exception>
-    /// <exception cref="PullValueTypeException"></exception>
-    /// <exception cref="PullNotMockedException"></exception>
-    /// <exception cref="MakeUnusedManualParametersException"></exception>
+    /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="MakeZeroConstructorsException"/>
+    /// <exception cref="MakeTooManyConstructorsException"/>
+    /// <exception cref="PullValueTypeException"/>
+    /// <exception cref="PullNotMockedException"/>
+    /// <exception cref="MakeUnusedManualParametersException"/>
     public virtual T Make<T>(params object[] manualParameters) where T : class
     {
         return (T)Make(typeof(T), manualParameters);

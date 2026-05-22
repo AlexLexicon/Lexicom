@@ -35,7 +35,7 @@ public static class Consolex
         cancelKey: ConsoleKey.Escape,
         defaultKey: ConsoleKey.F1,
         defaultInput: null,
-        initalInput: null,
+        initialInput: null,
         inputColor: ConsoleColor.Green
     );
 
@@ -133,11 +133,11 @@ public static class Consolex
 
         return ReadLine(null, settings);
     }
-    public static string ReadLine(string? description, string? initalInput)
+    public static string ReadLine(string? description, string? initialInput)
     {
         ReadLineSettings settings = CopyDefaultReadLineSettings();
 
-        settings.InitalInput = initalInput;
+        settings.InitialInput = initialInput;
 
         return ReadLine(description, settings);
     }
@@ -148,7 +148,7 @@ public static class Consolex
 
         bool isDefaultable = settings.DefaultKey is not null && settings.DefaultInput is not null;
         bool isCancellable = settings.CancelKey is not null;
-        bool isInitalable = settings.InitalInput is not null;
+        bool isInitialable = settings.InitialInput is not null;
 
         bool isInvalid = false;
         string? input = null;
@@ -197,7 +197,7 @@ public static class Consolex
             }
 
             bool isCancelled = false;
-            if (!isCancellable && !isDefaultable && !isInitalable)
+            if (!isCancellable && !isDefaultable && !isInitialable)
             {
                 input = ConsolexConsole?.ReadLine();
             }
@@ -205,7 +205,7 @@ public static class Consolex
             {
                 AdvancedReadLineInterrupt? readLineCancel = null;
                 AdvancedReadLineDefault? readLineDefault = null;
-                AdvancedReadLineInital? readLineInital = null;
+                AdvancedReadLineInitial? readLineInitial = null;
 
                 if (isCancellable)
                 {
@@ -217,12 +217,12 @@ public static class Consolex
                     readLineDefault = new AdvancedReadLineDefault(settings.DefaultKey, settings.DefaultInput);
                 }
 
-                if (isInitalable)
+                if (isInitialable)
                 {
-                    readLineInital = new AdvancedReadLineInital(settings.InitalInput);
+                    readLineInitial = new AdvancedReadLineInitial(settings.InitialInput);
                 }
 
-                input = ReadLine(readLineCancel, readLineDefault, readLineInital);
+                input = ReadLine(readLineCancel, readLineDefault, readLineInitial);
 
                 if (isCancellable && readLineCancel is not null)
                 {
@@ -261,18 +261,18 @@ public static class Consolex
         return ReadLineParse(tryParseDelegate, description, DefaultReadLineSettings);
     }
     /// <exception cref="ArgumentNullException"/>
-    public static T ReadLineParse<T>(TryParseDelegate<T> tryParseDelegate, T inialInput)
+    public static T ReadLineParse<T>(TryParseDelegate<T> tryParseDelegate, T initialInput)
     {
         ArgumentNullException.ThrowIfNull(tryParseDelegate);
 
-        return ReadLineParse(tryParseDelegate, description: null, inialInput);
+        return ReadLineParse(tryParseDelegate, description: null, initialInput);
     }
     /// <exception cref="ArgumentNullException"/>
-    public static T ReadLineParse<T, TSettings>(TryParseWithSettingsDelegate<T, TSettings> tryParseWithSettingsDelegate, T inialInput, TSettings settings) where TSettings : ReadLineSettings
+    public static T ReadLineParse<T, TSettings>(TryParseWithSettingsDelegate<T, TSettings> tryParseWithSettingsDelegate, T initialInput, TSettings settings) where TSettings : ReadLineSettings
     {
         ArgumentNullException.ThrowIfNull(tryParseWithSettingsDelegate);
 
-        return ReadLineParse(tryParseWithSettingsDelegate, description: null, inialInput, settings);
+        return ReadLineParse(tryParseWithSettingsDelegate, description: null, initialInput, settings);
     }
     /// <exception cref="ArgumentNullException"/>
     public static T ReadLineParse<T>(TryParseDelegate<T> tryParseDelegate, ReadLineSettings settings)
@@ -291,22 +291,22 @@ public static class Consolex
         return ReadLineParse(tryParseWithSettingsDelegate, description: null, settings);
     }
     /// <exception cref="ArgumentNullException"/>
-    public static T ReadLineParse<T>(TryParseDelegate<T> tryParseDelegate, string? description, T initalInput)
+    public static T ReadLineParse<T>(TryParseDelegate<T> tryParseDelegate, string? description, T initialInput)
     {
         ArgumentNullException.ThrowIfNull(tryParseDelegate);
 
         ReadLineSettings settings = CopyDefaultReadLineSettings();
 
-        settings.InitalInput = initalInput?.ToString();
+        settings.InitialInput = initialInput?.ToString();
 
         return ReadLineParse(tryParseDelegate, description, settings);
     }
     /// <exception cref="ArgumentNullException"/>
-    public static T ReadLineParse<T, TSettings>(TryParseWithSettingsDelegate<T, TSettings> tryParseWithSettingsDelegate, string? description, T initalInput, TSettings settings) where TSettings : ReadLineSettings
+    public static T ReadLineParse<T, TSettings>(TryParseWithSettingsDelegate<T, TSettings> tryParseWithSettingsDelegate, string? description, T initialInput, TSettings settings) where TSettings : ReadLineSettings
     {
         ArgumentNullException.ThrowIfNull(tryParseWithSettingsDelegate);
 
-        settings.InitalInput = initalInput?.ToString();
+        settings.InitialInput = initialInput?.ToString();
 
         return ReadLineParse(tryParseWithSettingsDelegate, description, settings);
     }
@@ -349,37 +349,37 @@ public static class Consolex
 
     public static bool ReadLineBoolean() => ReadLineParse<bool>(bool.TryParse);
     public static bool ReadLineBoolean(string? description) => ReadLineParse<bool>(bool.TryParse, description);
-    public static bool ReadLineBoolean(bool initalInput) => ReadLineParse(bool.TryParse, initalInput);
+    public static bool ReadLineBoolean(bool initialInput) => ReadLineParse(bool.TryParse, initialInput);
     public static bool ReadLineBoolean(ReadLineSettings settings) => ReadLineParse<bool>(bool.TryParse, settings);
-    public static bool ReadLineBoolean(string? description, bool initalInput) => ReadLineParse(bool.TryParse, description, initalInput);
+    public static bool ReadLineBoolean(string? description, bool initialInput) => ReadLineParse(bool.TryParse, description, initialInput);
     public static bool ReadLineBoolean(string? description, ReadLineSettings settings) => ReadLineParse<bool>(bool.TryParse, description, settings);
 
     public static int ReadLineInteger() => ReadLineParse<int>(int.TryParse);
     public static int ReadLineInteger(string? description) => ReadLineParse<int>(int.TryParse, description);
-    public static int ReadLineInteger(int initalInput) => ReadLineParse(int.TryParse, initalInput);
+    public static int ReadLineInteger(int initialInput) => ReadLineParse(int.TryParse, initialInput);
     public static int ReadLineInteger(ReadLineSettings settings) => ReadLineParse<int>(int.TryParse, settings);
-    public static int ReadLineInteger(string? description, int initalInput) => ReadLineParse(int.TryParse, description, initalInput);
+    public static int ReadLineInteger(string? description, int initialInput) => ReadLineParse(int.TryParse, description, initialInput);
     public static int ReadLineInteger(string? description, ReadLineSettings settings) => ReadLineParse<int>(int.TryParse, description, settings);
 
     public static double ReadLineDouble() => ReadLineParse<double>(double.TryParse);
     public static double ReadLineDouble(string? description) => ReadLineParse<double>(double.TryParse, description);
-    public static double ReadLineDouble(double initalInput) => ReadLineParse(double.TryParse, initalInput);
+    public static double ReadLineDouble(double initialInput) => ReadLineParse(double.TryParse, initialInput);
     public static double ReadLineDouble(ReadLineSettings settings) => ReadLineParse<double>(double.TryParse, settings);
-    public static double ReadLineDouble(string? description, double initalInput) => ReadLineParse(double.TryParse, description, initalInput);
+    public static double ReadLineDouble(string? description, double initialInput) => ReadLineParse(double.TryParse, description, initialInput);
     public static double ReadLineDouble(string? description, ReadLineSettings settings) => ReadLineParse<double>(double.TryParse, description, settings);
 
     public static Guid ReadLineGuid() => ReadLineParse<Guid>(Guid.TryParse);
     public static Guid ReadLineGuid(string? description) => ReadLineParse<Guid>(Guid.TryParse, description);
-    public static Guid ReadLineGuid(Guid initalInput) => ReadLineParse(Guid.TryParse, initalInput);
+    public static Guid ReadLineGuid(Guid initialInput) => ReadLineParse(Guid.TryParse, initialInput);
     public static Guid ReadLineGuid(ReadLineSettings settings) => ReadLineParse<Guid>(Guid.TryParse, settings);
-    public static Guid ReadLineGuid(string? description, Guid initalInput) => ReadLineParse(Guid.TryParse, description, initalInput);
+    public static Guid ReadLineGuid(string? description, Guid initialInput) => ReadLineParse(Guid.TryParse, description, initialInput);
     public static Guid ReadLineGuid(string? description, ReadLineSettings settings) => ReadLineParse<Guid>(Guid.TryParse, description, settings);
 
     public static DateTimeOffset ReadLineDateTimeOffset() => ReadLineParse<DateTimeOffset, DateTimeOffsetReadLineSettings>(DateTimeOffsetTryParse, new DateTimeOffsetReadLineSettings());
     public static DateTimeOffset ReadLineDateTimeOffset(string? description) => ReadLineParse<DateTimeOffset, DateTimeOffsetReadLineSettings>(DateTimeOffsetTryParse, description, new DateTimeOffsetReadLineSettings());
-    public static DateTimeOffset ReadLineDateTimeOffset(DateTimeOffset initalInput) => ReadLineParse(DateTimeOffsetTryParse, initalInput, new DateTimeOffsetReadLineSettings());
+    public static DateTimeOffset ReadLineDateTimeOffset(DateTimeOffset initialInput) => ReadLineParse(DateTimeOffsetTryParse, initialInput, new DateTimeOffsetReadLineSettings());
     public static DateTimeOffset ReadLineDateTimeOffset(DateTimeOffsetReadLineSettings settings) => ReadLineParse<DateTimeOffset, DateTimeOffsetReadLineSettings>(DateTimeOffsetTryParse, settings);
-    public static DateTimeOffset ReadLineDateTimeOffset(string? description, DateTimeOffset initalInput) => ReadLineParse(DateTimeOffsetTryParse, description, initalInput, new DateTimeOffsetReadLineSettings());
+    public static DateTimeOffset ReadLineDateTimeOffset(string? description, DateTimeOffset initialInput) => ReadLineParse(DateTimeOffsetTryParse, description, initialInput, new DateTimeOffsetReadLineSettings());
     public static DateTimeOffset ReadLineDateTimeOffset(string? description, DateTimeOffsetReadLineSettings settings) => ReadLineParse<DateTimeOffset, DateTimeOffsetReadLineSettings>(DateTimeOffsetTryParse, description, settings);
     private static bool DateTimeOffsetTryParse(string? input, DateTimeOffsetReadLineSettings settings, out DateTimeOffset result) => DateTimeOffset.TryParseExact(input, settings.Format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out result);
 
@@ -528,7 +528,7 @@ public static class Consolex
             cancelKey: DefaultReadLineSettings.CancelKey,
             defaultKey: DefaultReadLineSettings.DefaultKey,
             defaultInput: DefaultReadLineSettings.DefaultInput,
-            initalInput: DefaultReadLineSettings.InitalInput,
+            initialInput: DefaultReadLineSettings.InitialInput,
             inputColor: DefaultReadLineSettings.InputColor
         );
     }

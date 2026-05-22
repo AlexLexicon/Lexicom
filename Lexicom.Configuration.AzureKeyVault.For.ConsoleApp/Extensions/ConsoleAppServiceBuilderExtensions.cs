@@ -1,7 +1,7 @@
 ﻿using Lexicom.Configuration.AzureKeyVault.Extensions;
 using Lexicom.Supports.ConsoleApp;
 
-namespace Lexicom.Configuration.AzureKeyVault.ConsoleApp.Extensions;
+namespace Lexicom.Configuration.AzureKeyVault.For.ConsoleApp.Extensions;
 public static class ConsoleAppServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

@@ -10,8 +10,8 @@ internal class AdvancedReadLineDefault(ConsoleKey? interceptKey, string? default
         return new AdvancedReadLineResult(isContinue: true, DefaultInput);
     }
 
-    public override AdvancedReadLineInitalResult Initial()
+    public override AdvancedReadLineInitialResult Initial()
     {
-        return new AdvancedReadLineInitalResult(IsInital: false, input: null);
+        return new AdvancedReadLineInitialResult(IsInitial: false, input: null);
     }
 }

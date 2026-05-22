@@ -12,8 +12,8 @@ internal class AdvancedReadLineInterrupt(ConsoleKey? interceptKey) : AdvancedRea
         return new AdvancedReadLineResult(isContinue: false, currentInput);
     }
 
-    public override AdvancedReadLineInitalResult Initial()
+    public override AdvancedReadLineInitialResult Initial()
     {
-        return new AdvancedReadLineInitalResult(IsInital: false, input: null);
+        return new AdvancedReadLineInitialResult(IsInitial: false, input: null);
     }
 }

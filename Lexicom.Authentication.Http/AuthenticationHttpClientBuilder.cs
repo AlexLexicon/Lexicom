@@ -22,7 +22,7 @@ public class AuthenticationHttpClientBuilder(IHttpClientBuilder httpClientBuilde
         Builder.Services.TryAddSingleton<IHttpClientAccessTokenProvider, TAccessTokenProvider>();
     }
 
-    /// <exception cref="AuthorizedWithAccessTokenNotIncludedException"></exception>
+    /// <exception cref="AuthorizedWithAccessTokenNotIncludedException"/>
     public void AutomaticallyRefreshAccessToken<TRefreshTokenProvider, TAccessTokenRefresher>() where TRefreshTokenProvider : class, IHttpClientRefreshTokenProvider where TAccessTokenRefresher : class, IHttpClientAccessTokenRefresher
     {
         IncludeRefreshTokenHttpClientDelegatingHandler = true;

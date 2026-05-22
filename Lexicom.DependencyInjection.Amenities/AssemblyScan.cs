@@ -1,7 +1,7 @@
 ﻿using Lexicom.DependencyInjection.Amenities.Extensions;
 
 namespace Lexicom.DependencyInjection.Amenities;
-public interface IAssemblyScanInital : IAssemblyScan
+public interface IAssemblyScanInitial : IAssemblyScan
 {
     IAssemblyScanPartial GetPartial();
 }
@@ -32,7 +32,7 @@ public abstract class AssemblyScan : IAssemblyScan
 
     public abstract IReadOnlyList<Type> GetTypes();
 }
-public class AssemblyScan<TAssignableTo> : AssemblyScan, IAssemblyScanInital, IAssemblyScanPartial, IAssemblyScanFinal
+public class AssemblyScan<TAssignableTo> : AssemblyScan, IAssemblyScanInitial, IAssemblyScanPartial, IAssemblyScanFinal
 {
     private readonly Type _assemblyScanMarkerType;
     private readonly AssemblyScanOptions _assemblyScanOptions;

@@ -3,7 +3,7 @@ using Lexicom.Supports.Wpf;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Lexicom.EntityFramework.Identity.Wpf.Extensions;
+namespace Lexicom.EntityFramework.Identity.For.Wpf.Extensions;
 public static class WpfServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

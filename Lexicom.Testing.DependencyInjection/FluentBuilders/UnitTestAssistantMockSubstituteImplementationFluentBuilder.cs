@@ -4,7 +4,7 @@ namespace Lexicom.Testing.DependencyInjection;
 
 public class UnitTestAssistantMockSubstituteImplementationFluentBuilder<TService, TImplementation> : IUnitTestAssistantMockSubstituteFluentBuilder<TImplementation> where TService : class where TImplementation : class, TService
 {
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public UnitTestAssistantMockSubstituteImplementationFluentBuilder(
         MockManager manager,
         MockContainer<TService> container)
@@ -19,7 +19,7 @@ public class UnitTestAssistantMockSubstituteImplementationFluentBuilder<TService
     protected MockManager Manager { get; }
     protected MockContainer<TService> Container { get; }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public virtual IUnitTestAssistantMockFluentBuilder<TImplementation> So(Action<TImplementation> substitutions)
     {
         ArgumentNullException.ThrowIfNull(substitutions);

@@ -33,8 +33,8 @@ public static class ObjectExtensions
     /// <param name="value"></param>
     /// <param name="returnThese">return these values in order</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="ReturnsTheseEmptyException"></exception>
+    /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="ReturnsTheseEmptyException"/>
     public static ConfiguredCall ReturnsThese<T>(this T value, IEnumerable<T> returnThese)
     {
         ArgumentNullException.ThrowIfNull(returnThese);

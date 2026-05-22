@@ -12,7 +12,7 @@ namespace Lexicom.Scalar.OperationTransformers;
 public class DefaultRequestBodyOperationTransformer : IOpenApiOperationTransformer
 {
     /// <exception cref="ArgumentNullException"/>
-    /// <exception cref="DefaultRequestBodyJsonException"></exception>
+    /// <exception cref="DefaultRequestBodyJsonException"/>
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(operation);

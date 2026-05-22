@@ -1,7 +1,7 @@
 ﻿using Lexicom.Authority.Extensions;
 using Lexicom.Supports.Wpf;
 
-namespace Lexicom.Authority.Wpf.Extensions;
+namespace Lexicom.Authority.For.Wpf.Extensions;
 public static class WpfServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

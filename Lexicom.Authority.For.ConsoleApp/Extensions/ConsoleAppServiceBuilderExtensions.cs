@@ -1,7 +1,7 @@
 ﻿using Lexicom.Authority.Extensions;
 using Lexicom.Supports.ConsoleApp;
 
-namespace Lexicom.Authority.ConsoleApp.Extensions;
+namespace Lexicom.Authority.For.ConsoleApp.Extensions;
 public static class ConsoleAppServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

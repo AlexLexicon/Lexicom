@@ -2,7 +2,7 @@
 
 public class MockContainer : IDisposable
 {
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public MockContainer(
         MockManager manager,
         Type serviceType,
@@ -76,7 +76,7 @@ public class MockContainer<TService> : MockContainer where TService : class
     {
     }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public void SetConfigureDelegate<TImplementation>(Action<TImplementation> substitutions) where TImplementation : class, TService
     {
         ArgumentNullException.ThrowIfNull(substitutions);

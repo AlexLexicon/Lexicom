@@ -1,7 +1,7 @@
 ﻿using Lexicom.Configuration.AzureKeyVault.Extensions;
 using Lexicom.Supports.AspNetCore.Controllers;
 
-namespace Lexicom.Configuration.AzureKeyVault.AspNetCore.Controllers.Extensions;
+namespace Lexicom.Configuration.AzureKeyVault.For.AspNetCore.Controllers.Extensions;
 public static class AspNetCoreControllersServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

@@ -2,7 +2,7 @@
 //dot net 10 not yet supported
 /*public static class MauiAppBuilderExtensions
 {
-    /// <exception cref = "ArgumentNullException" />
+    /// <exception cref="ArgumentNullException" />
     public static MauiAppBuilder Lexicom(this MauiAppBuilder builder, Action<IDependantMauiBlazorHybridServiceBuilder>? configure, bool configureContainerForLexicomHostingFeatures = true)
     {
         ArgumentNullException.ThrowIfNull(builder);

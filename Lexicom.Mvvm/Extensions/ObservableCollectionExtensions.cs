@@ -4,7 +4,7 @@ namespace Lexicom.Mvvm.Extensions;
 
 public static class ObservableCollectionExtensions
 {
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public static void DisposeChildren<T>(this ObservableCollection<T> collection) where T : IDisposable
     {
         ArgumentNullException.ThrowIfNull(collection);
@@ -15,7 +15,7 @@ public static class ObservableCollectionExtensions
         }
     }
 
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException"/>
     public static void DisposeAndClearChildren<T>(this ObservableCollection<T> collection) where T : IDisposable
     {
         ArgumentNullException.ThrowIfNull(collection);
