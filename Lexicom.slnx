@@ -39,7 +39,6 @@
   </Folder>
   <Folder Name="/Authorization/">
     <Project Path="Lexicom.Authorization.For.AspNetCore.Controllers/Lexicom.Authorization.For.AspNetCore.Controllers.csproj" />
-    <Project Path="Lexicom.Authorization.Http/Lexicom.Authorization.Http.csproj" />
     <Project Path="Lexicom.Authorization/Lexicom.Authorization.csproj" />
   </Folder>
   <Folder Name="/Configuration.AzureKeyVault/">
