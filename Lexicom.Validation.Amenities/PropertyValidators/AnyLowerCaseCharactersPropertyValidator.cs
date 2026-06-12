@@ -16,10 +16,10 @@ public static class AnyLowerCaseCharactersValidator
 }
 public class AnyLowerCaseCharactersPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(AnyLowerCaseCharactersPropertyValidator<T>);
+    public const string NAME = nameof(AnyLowerCaseCharactersPropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must contain any lower case character.";
 
-    public override string Name => NAME;
+    public override string Name { get; } = NAME;
     public override string DefaultMessageTemplate => DEFAULT_MESSAGE_TEMPLATE;
 
     /// <exception cref="ArgumentNullException"/>

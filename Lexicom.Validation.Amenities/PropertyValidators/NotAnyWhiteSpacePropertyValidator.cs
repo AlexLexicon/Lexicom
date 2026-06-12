@@ -2,7 +2,7 @@
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
 
-public static class NotAnyWhiteSpacePropertyValidator
+public static class NotAnyWhiteSpaceValidator
 {
     public static bool IsValid(string? value)
     {
@@ -16,7 +16,7 @@ public static class NotAnyWhiteSpacePropertyValidator
 }
 public class NotAnyWhiteSpacePropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(NotAnyWhiteSpacePropertyValidator<T>);
+    public const string NAME = nameof(NotAnyWhiteSpacePropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must not contain any white space characters.";
 
     public override string Name { get; } = NAME;
@@ -27,6 +27,6 @@ public class NotAnyWhiteSpacePropertyValidator<T> : AbstractPropertyValidator<T,
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        return NotAnyWhiteSpacePropertyValidator.IsValid(value);
+        return NotAnyWhiteSpaceValidator.IsValid(value);
     }
 }

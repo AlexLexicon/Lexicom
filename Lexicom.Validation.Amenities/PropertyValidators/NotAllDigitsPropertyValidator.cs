@@ -2,7 +2,7 @@
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
 
-public static class NotAllDigitsPropertyValidator
+public static class NotAllDigitsValidator
 {
     public static bool IsValid(string? value)
     {
@@ -16,7 +16,7 @@ public static class NotAllDigitsPropertyValidator
 }
 public class NotAllDigitsPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(NotAllDigitsPropertyValidator<T>);
+    public const string NAME = nameof(NotAllDigitsPropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must not contain only digits.";
 
     public override string Name { get; } = NAME;
@@ -27,6 +27,6 @@ public class NotAllDigitsPropertyValidator<T> : AbstractPropertyValidator<T, str
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        return NotAllDigitsPropertyValidator.IsValid(value);
+        return NotAllDigitsValidator.IsValid(value);
     }
 }

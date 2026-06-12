@@ -16,10 +16,10 @@ public static class AnyDigitsValidator
 }
 public class AnyDigitsPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(AnyDigitsPropertyValidator<T>);
+    public const string NAME = nameof(AnyDigitsPropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must contain any digit character.";
 
-    public override string Name => NAME;
+    public override string Name { get; } = NAME;
     public override string DefaultMessageTemplate => DEFAULT_MESSAGE_TEMPLATE;
 
     /// <exception cref="ArgumentNullException"/>

@@ -2,7 +2,7 @@
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
 
-public static class LettersPropertyValidator
+public static class LettersValidator
 {
     public static bool IsValid(string? value)
     {
@@ -16,7 +16,7 @@ public static class LettersPropertyValidator
 }
 public class LettersPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(LettersPropertyValidator<T>);
+    public const string NAME = nameof(LettersPropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must contain only letters.";
 
     public override string Name { get; } = NAME;
@@ -27,6 +27,6 @@ public class LettersPropertyValidator<T> : AbstractPropertyValidator<T, string?>
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        return LettersPropertyValidator.IsValid(value);
+        return LettersValidator.IsValid(value);
     }
 }

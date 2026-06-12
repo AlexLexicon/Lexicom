@@ -16,7 +16,7 @@ public static class NotEscapedCharactersValidator
 }
 public class NotEscapedCharactersPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(NotEscapedCharactersPropertyValidator<T>);
+    public const string NAME = nameof(NotEscapedCharactersPropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must not contain any escaped characters.";
 
     public override string Name { get; } = NAME;

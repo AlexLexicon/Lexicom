@@ -2,7 +2,7 @@
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
 
-public class AlphanumericValidator
+public static class AlphanumericValidator
 {
     public static bool IsValid(string? value)
     {
@@ -16,7 +16,7 @@ public class AlphanumericValidator
 }
 public class AlphanumericPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(AlphanumericPropertyValidator<T>);
+    public const string NAME = nameof(AlphanumericPropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must contain only letters or digits.";
 
     public override string Name { get; } = NAME;

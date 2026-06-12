@@ -16,10 +16,10 @@ public static class AnyNonAlphanumericValidator
 }
 public class AnyNonAlphanumericPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(AnyNonAlphanumericPropertyValidator<T>);
+    public const string NAME = nameof(AnyNonAlphanumericPropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must contain any non-alphanumeric character.";
 
-    public override string Name => NAME;
+    public override string Name { get; } = NAME;
     public override string DefaultMessageTemplate => DEFAULT_MESSAGE_TEMPLATE;
 
     /// <exception cref="ArgumentNullException"/>

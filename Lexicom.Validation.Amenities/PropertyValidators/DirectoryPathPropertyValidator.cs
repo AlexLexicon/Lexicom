@@ -3,7 +3,7 @@ using System.Security;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
 
-public class DirectoryPathValidator
+public static class DirectoryPathValidator
 {
     public static bool IsValid(string? value)
     {
@@ -35,7 +35,7 @@ public class DirectoryPathValidator
 }
 public class DirectoryPathPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(DirectoryPathPropertyValidator<T>);
+    public const string NAME = nameof(DirectoryPathPropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must be a valid directory path.";
 
     public override string Name { get; } = NAME;

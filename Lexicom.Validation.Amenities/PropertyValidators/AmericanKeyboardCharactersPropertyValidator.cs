@@ -16,7 +16,7 @@ public static class AmericanKeyboardCharactersValidator
 }
 public class AmericanKeyboardCharactersPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(AmericanKeyboardCharactersPropertyValidator<T>);
+    public const string NAME = nameof(AmericanKeyboardCharactersPropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must contain only characters that exist on an american keyboard.";
 
     public override string Name { get; } = NAME;
