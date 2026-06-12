@@ -130,7 +130,7 @@ public class CryptographyService : ICryptographyService
 
         if (encryptedString is null)
         {
-            throw new UnreachableException($"'{nameof(EncryptOrNull)}' should only return null when the '{plainText}' parameter is null which is never true.");
+            throw new UnreachableException($"'{nameof(EncryptOrNull)}' should only return null when the '{nameof(plainText)}' parameter is null which is never true.");
         }
 
         return encryptedString;
@@ -152,7 +152,7 @@ public class CryptographyService : ICryptographyService
 
         if (encryptedString is null)
         {
-            throw new UnreachableException($"'{nameof(EncryptOrNullAsync)}' should only return null when the '{plainText}' parameter is null which is never true.");
+            throw new UnreachableException($"'{nameof(EncryptOrNullAsync)}' should only return null when the '{nameof(plainText)}' parameter is null which is never true.");
         }
 
         return encryptedString;
@@ -174,7 +174,7 @@ public class CryptographyService : ICryptographyService
 
         if (decryptedString is null)
         {
-            throw new UnreachableException($"'{nameof(DecryptOrNull)}' should only return null when the '{encryptedBase64}' parameter is null which is never true.");
+            throw new UnreachableException($"'{nameof(DecryptOrNull)}' should only return null when the '{nameof(encryptedBase64)}' parameter is null which is never true.");
         }
 
         return decryptedString;
@@ -196,7 +196,7 @@ public class CryptographyService : ICryptographyService
 
         if (decryptedString is null)
         {
-            throw new UnreachableException($"'{nameof(DecryptOrNullAsync)}' should only return null when the '{encryptedBase64}' parameter is null which is never true.");
+            throw new UnreachableException($"'{nameof(DecryptOrNullAsync)}' should only return null when the '{nameof(encryptedBase64)}' parameter is null which is never true.");
         }
 
         return decryptedString;
