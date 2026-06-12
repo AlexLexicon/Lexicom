@@ -25,10 +25,6 @@ public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakV
         PruneThreshold = 8;
     }
 
-    //debug to figure out singleton issue
-    public Guid Id { get; } = Guid.NewGuid();
-    public string? Type { get; } = typeof(TViewModelImplementation).FullName;
-
     private List<WeakViewModelRefrenenceContainer<TViewModelImplementation>> WeakViewModelReferenceContainers { get; }
     private Lock MutateLock { get; }
     private int PruneThreshold { get; set; }

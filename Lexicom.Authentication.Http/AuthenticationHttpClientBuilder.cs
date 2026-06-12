@@ -6,14 +6,21 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Lexicom.Authentication.Http;
 
-/// <exception cref="ArgumentNullException"/>
-public class AuthenticationHttpClientBuilder(IHttpClientBuilder httpClientBuilder)
+public class AuthenticationHttpClientBuilder
 {
-    public IHttpClientBuilder Builder { get; } = httpClientBuilder;
+    public IHttpClientBuilder Builder { get; }
 
     private bool IncludeAccessTokenHttpClientDelegatingHandler { get; set; }
     private bool IncludeRefreshTokenHttpClientDelegatingHandler { get; set; }
     private bool IncludeUnauthorizedHttpClientDelegatingHandler { get; set; }
+
+    /// <exception cref="ArgumentNullException"/>
+    public AuthenticationHttpClientBuilder(IHttpClientBuilder httpClientBuilder)
+    {
+        ArgumentNullException.ThrowIfNull(httpClientBuilder);
+
+        Builder = httpClientBuilder;
+    }
 
     public void AuthorizeWithAccessToken<TAccessTokenProvider>() where TAccessTokenProvider : class, IHttpClientAccessTokenProvider
     {
@@ -26,12 +33,12 @@ public class AuthenticationHttpClientBuilder(IHttpClientBuilder httpClientBuilde
     /// <exception cref="AuthorizedWithAccessTokenNotIncludedException"/>
     public void AutomaticallyRefreshAccessToken<TRefreshTokenProvider, TAccessTokenRefresher>() where TRefreshTokenProvider : class, IHttpClientRefreshTokenProvider where TAccessTokenRefresher : class, IHttpClientAccessTokenRefresher
     {
-        IncludeRefreshTokenHttpClientDelegatingHandler = true;
-
         if (!IncludeAccessTokenHttpClientDelegatingHandler)
         {
             throw new AuthorizedWithAccessTokenNotIncludedException();
         }
+
+        IncludeRefreshTokenHttpClientDelegatingHandler = true;
 
         Builder.Services.TryAddTransient<RefreshTokenHttpClientDelegatingHandler>();
         Builder.Services.TryAddSingleton<IRefreshTokenService, RefreshTokenService>();

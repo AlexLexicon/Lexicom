@@ -75,7 +75,7 @@ public abstract class BearerTokenProvider
         }
         catch
         {
-            //the token is invalid and 'validatedToken' will remain null 
+            //the token is malformed and 'result' will remain null 
         }
 
         return result is not null && result.IsValid;
