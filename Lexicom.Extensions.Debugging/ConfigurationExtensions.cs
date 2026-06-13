@@ -35,9 +35,9 @@ public static class ConfigurationExtensions
             if (childSection.Path.EndsWith(":0"))
             {
                 var array = new JsonArray();
-                foreach (IConfigurationSection arrayChildScetion in configuration.GetChildren())
+                foreach (IConfigurationSection arrayChildSection in configuration.GetChildren())
                 {
-                    JsonNode? subNode = CreateJsonNode(arrayChildScetion);
+                    JsonNode? subNode = CreateJsonNode(arrayChildSection);
 
                     array.Add(subNode);
                 }
@@ -59,15 +59,15 @@ public static class ConfigurationExtensions
             {
                 return JsonValue.Create(boolValue);
             }
+            //integer numbers are checked before decimals since 'decimal.TryParse' also parses integers
+            else if (long.TryParse(section.Value, out long longValue))
+            {
+                return JsonValue.Create(longValue);
+            }
             //decimal numbers
             else if (decimal.TryParse(section.Value, out decimal decimalValue))
             {
                 return JsonValue.Create(decimalValue);
-            }
-            //integer numbers
-            else if (long.TryParse(section.Value, out long longValue))
-            {
-                return JsonValue.Create(longValue);
             }
 
             return JsonValue.Create(section.Value);
