@@ -9,11 +9,11 @@ public interface IAspNetCoreControllersServiceBuilder
     IServiceCollection Services { get; }
     ConfigurationManager Configuration { get; }
 }
-public interface IDependantAspNetCoreControllersServiceBuilder : IAspNetCoreControllersServiceBuilder
+public interface IDependentAspNetCoreControllersServiceBuilder : IAspNetCoreControllersServiceBuilder
 {
     WebApplicationBuilder WebApplicationBuilder { get; }
 }
-public class AspNetCoreControllersServiceBuilder : IDependantAspNetCoreControllersServiceBuilder
+public class AspNetCoreControllersServiceBuilder : IDependentAspNetCoreControllersServiceBuilder
 {
     /// <exception cref="ArgumentNullException"/>
     public AspNetCoreControllersServiceBuilder(WebApplicationBuilder builder)

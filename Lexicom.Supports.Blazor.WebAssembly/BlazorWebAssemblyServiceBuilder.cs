@@ -7,11 +7,11 @@ public interface IBlazorWebAssemblyServiceBuilder
 {
     IServiceCollection Services { get; }
 }
-public interface IDependantBlazorWebAssemblyServiceBuilder : IBlazorWebAssemblyServiceBuilder
+public interface IDependentBlazorWebAssemblyServiceBuilder : IBlazorWebAssemblyServiceBuilder
 {
     WebAssemblyHostBuilder WebAssemblyHostBuilder { get; }
 }
-public class BlazorWebAssemblyServiceBuilder : IDependantBlazorWebAssemblyServiceBuilder
+public class BlazorWebAssemblyServiceBuilder : IDependentBlazorWebAssemblyServiceBuilder
 {
     /// <exception cref="ArgumentNullException"/>
     public BlazorWebAssemblyServiceBuilder(WebAssemblyHostBuilder webAssemblyHostBuilder)

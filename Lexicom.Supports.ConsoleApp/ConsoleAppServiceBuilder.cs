@@ -9,11 +9,11 @@ public interface IConsoleAppServiceBuilder
     IServiceCollection Services { get; }
     ConfigurationManager Configuration { get; }
 }
-public interface IDependantConsoleAppServiceBuilder : IConsoleAppServiceBuilder
+public interface IDependentConsoleAppServiceBuilder : IConsoleAppServiceBuilder
 {
     ConsoleApplicationBuilder ConsoleApplicationBuilder { get; }
 }
-public class ConsoleAppServiceBuilder : IDependantConsoleAppServiceBuilder
+public class ConsoleAppServiceBuilder : IDependentConsoleAppServiceBuilder
 {
     /// <exception cref="ArgumentNullException"/>
     public ConsoleAppServiceBuilder(ConsoleApplicationBuilder builder)
