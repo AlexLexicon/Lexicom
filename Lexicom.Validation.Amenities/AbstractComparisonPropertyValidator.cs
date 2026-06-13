@@ -1,5 +1,4 @@
 ﻿using FluentValidation.Validators;
-using Lexicom.Validation.Amenities.Extensions;
 using System.Reflection;
 
 namespace Lexicom.Validation.Amenities;
@@ -29,6 +28,8 @@ public abstract class AbstractComparisonPropertyValidator<T, TProperty> : Abstra
 
     protected override string GetDefaultMessageTemplate(string? errorCode)
     {
-        return DefaultMessagePropertyValidatorExtensions.GetLocalizedOrDefaultMessageTemplate(this, errorCode);
+        string localizedMessageTemplate = Localized(errorCode, Name);
+
+        return AbstractPropertyValidator.GetLocalizedOrDefaultMessageTemplate(this, localizedMessageTemplate);
     }
 }
