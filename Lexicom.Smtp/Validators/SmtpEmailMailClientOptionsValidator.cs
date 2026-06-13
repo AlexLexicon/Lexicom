@@ -23,11 +23,6 @@ public class SmtpEmailMailClientOptionsValidator : AbstractOptionsValidator<Smtp
         RuleFor(o => o.Host)
             .UseRuleSet(requiredRuleSet);
 
-        //RuleFor(o => o.Port);
-
-        RuleFor(o => o.IsSslEnabled)
-            .NotNull();
-
         RuleFor(o => o.NetworkCredentialsUsername)
             .UseRuleSet(requiredRuleSet);
 
