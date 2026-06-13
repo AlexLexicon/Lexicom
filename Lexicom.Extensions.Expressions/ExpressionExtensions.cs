@@ -28,7 +28,7 @@ public static class ExpressionExtensions
         }
 
         ParameterExpression parameterExpression = Expression.Parameter(typeof(T));
-        BinaryExpression bodyExpression = Expression.And(leftExpression.Body, rightExpression.Body);
+        BinaryExpression bodyExpression = Expression.AndAlso(leftExpression.Body, rightExpression.Body);
 
         bodyExpression = (BinaryExpression)new ParameterReplacer(parameterExpression).Visit(bodyExpression);
 
@@ -58,7 +58,7 @@ public static class ExpressionExtensions
         }
 
         ParameterExpression parameterExpression = Expression.Parameter(typeof(T));
-        BinaryExpression bodyExpression = Expression.Or(leftExpression.Body, rightExpression.Body);
+        BinaryExpression bodyExpression = Expression.OrElse(leftExpression.Body, rightExpression.Body);
 
         bodyExpression = (BinaryExpression)new ParameterReplacer(parameterExpression).Visit(bodyExpression);
 
