@@ -12,7 +12,7 @@ public static class LogPropertiesNamingStrategyExtensions
             JsonNamingStrategy.LowerCase => new LowerCasePropertyNamesContractResolver(),
             JsonNamingStrategy.UpperCase => new UpperCasePropertyNamesContractResolver(),
             JsonNamingStrategy.CamelCase => new CamelCasePropertyNamesContractResolver(),
-            JsonNamingStrategy.PascelCase => new PascelCasePropertyNamesContractResolver(),
+            JsonNamingStrategy.PascalCase => new PascalCasePropertyNamesContractResolver(),
             _ => new DefaultContractResolver(),
         };
     }

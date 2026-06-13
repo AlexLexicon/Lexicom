@@ -6,7 +6,7 @@ namespace Lexicom.Logging.For.AspNetCore.Controllers.Extensions;
 public static class AspNetCoreControllersServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IDependantAspNetCoreControllersServiceBuilder AddLogging(this IDependantAspNetCoreControllersServiceBuilder builder)
+    public static IDependentAspNetCoreControllersServiceBuilder AddLogging(this IDependentAspNetCoreControllersServiceBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 

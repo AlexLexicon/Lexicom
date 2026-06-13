@@ -6,5 +6,5 @@ public enum JsonNamingStrategy
     LowerCase,
     UpperCase,
     CamelCase,
-    PascelCase
+    PascalCase
 }
