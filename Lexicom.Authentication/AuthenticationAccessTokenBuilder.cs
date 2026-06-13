@@ -11,9 +11,9 @@ public interface IAuthenticationAccessTokenBuilder
 {
     IServiceCollection Services { get; }
     /// <exception cref="ArgumentNullException"/>
-    IAuthenticationAccessTokenBuilder ConfigureAuthentication(Action<AuthenticationOptions>? configure);
+    IAuthenticationAccessTokenBuilder ConfigureAuthentication(Action<AuthenticationOptions> configure);
     /// <exception cref="ArgumentNullException"/>
-    IAuthenticationAccessTokenBuilder ConfigureJwtBearer(Action<JwtBearerOptions>? configure);
+    IAuthenticationAccessTokenBuilder ConfigureJwtBearer(Action<JwtBearerOptions> configure);
 }
 public class AuthenticationAccessTokenBuilder : IAuthenticationAccessTokenBuilder
 {
@@ -30,7 +30,7 @@ public class AuthenticationAccessTokenBuilder : IAuthenticationAccessTokenBuilde
     private Action<JwtBearerOptions>? ConfigureJwtBearerDelegate { get; set; }
 
     /// <exception cref="ArgumentNullException"/>
-    public IAuthenticationAccessTokenBuilder ConfigureAuthentication(Action<AuthenticationOptions>? configure)
+    public IAuthenticationAccessTokenBuilder ConfigureAuthentication(Action<AuthenticationOptions> configure)
     {
         ArgumentNullException.ThrowIfNull(configure);
 
@@ -40,7 +40,7 @@ public class AuthenticationAccessTokenBuilder : IAuthenticationAccessTokenBuilde
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public IAuthenticationAccessTokenBuilder ConfigureJwtBearer(Action<JwtBearerOptions>? configure)
+    public IAuthenticationAccessTokenBuilder ConfigureJwtBearer(Action<JwtBearerOptions> configure)
     {
         ArgumentNullException.ThrowIfNull(configure);
 

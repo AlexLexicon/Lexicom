@@ -36,6 +36,7 @@ public abstract class BearerTokenProvider
             Subject = subject,
             Expires = expiresDateTimeOffset.UtcDateTime,
             SigningCredentials = signingCredentials,
+            Issuer = jwtOptions.ValidIssuer,
         };
 
         var tokenHandler = new JsonWebTokenHandler();
@@ -61,7 +62,8 @@ public abstract class BearerTokenProvider
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = symmetricSecurityKey,
-            ValidateIssuer = false,
+            ValidateIssuer = jwtOptions.ValidIssuer is not null,
+            ValidIssuer = jwtOptions.ValidIssuer,
             ValidateAudience = false,
             RequireExpirationTime = true,
             ValidateLifetime = validateLifetime,

@@ -24,7 +24,7 @@ public class JwtBearerOptionsConfiguration : IConfigureNamedOptions<JwtBearerOpt
     {
         ArgumentNullException.ThrowIfNull(options);
 
-        if (name is "Bearer")
+        if (name is JwtBearerDefaults.AuthenticationScheme)
         {
             Configure(options);
         }
@@ -49,7 +49,8 @@ public class JwtBearerOptionsConfiguration : IConfigureNamedOptions<JwtBearerOpt
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = symmetricSecurityKey,
-            ValidateIssuer = false,
+            ValidateIssuer = accessTokenOptions.ValidIssuer is not null,
+            ValidIssuer = accessTokenOptions.ValidIssuer,
             ValidateAudience = false,
             RequireExpirationTime = true,
             ValidateLifetime = true,
