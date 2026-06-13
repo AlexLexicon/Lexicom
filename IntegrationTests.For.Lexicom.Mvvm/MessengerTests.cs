@@ -13,7 +13,7 @@ namespace IntegrationTests.For.Lexicom.Mvvm;
 public class MessengerTests
 {
     [Fact]
-    public async Task Sending_Async_Message_Is_Recived_By_ViewModels()
+    public async Task Sending_Async_Message_Is_Received_By_ViewModels()
     {
         //arrange
         var ita = new IntegrationTestAssistant();
@@ -65,7 +65,7 @@ public class MessengerTests
     }
 
     [Fact]
-    public async Task Async_Message_Is_Recived_By_Async_Recipients_And_Sync_Recipents()
+    public async Task Async_Message_Is_Received_By_Async_Recipients_And_Sync_Recipients()
     {
         //arrange
         var ita = new IntegrationTestAssistant();
@@ -165,7 +165,7 @@ public class MessengerTests
     }
 
     [Fact]
-    public async Task Sending_Sync_Is_Only_Recived_By_Sync_Recipient_ViewModels()
+    public async Task Sending_Sync_Is_Only_Received_By_Sync_Recipient_ViewModels()
     {
         //arrange
         var ita = new IntegrationTestAssistant();
@@ -209,7 +209,7 @@ public class MessengerTests
     }
 
     [Fact]
-    public async Task Disposed_Recipients_Do_Not_Receive_Messaeges()
+    public async Task Disposed_Recipients_Do_Not_Receive_Messages()
     {
         //arrange
         var ita = new IntegrationTestAssistant();

@@ -6,7 +6,7 @@ namespace Lexicom.Cryptography;
  * encryption uses AES-CBC for confidentiality combined with an HMAC-SHA256 authentication
  * tag (encrypt-then-MAC) so that any tampering with the encrypted text is detected before
  * it is decrypted. AES-GCM is intentionally not used because it is not supported on the
- * Blazor WebAssembly platform, which unfortunatly for now I want to support.
+ * Blazor WebAssembly platform, which unfortunately for now I want to support.
  */
 public interface ICiphertextAuthenticator
 {
