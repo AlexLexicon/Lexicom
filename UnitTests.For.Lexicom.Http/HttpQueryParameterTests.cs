@@ -16,6 +16,10 @@ public class HttpQueryParameterTests
         {
             expectedValueString = dateTimeOffset.ToString("o", CultureInfo.InvariantCulture);
         }
+        else if (expectedValue is DateTime dateTime)
+        {
+            expectedValueString = dateTime.ToString("o", CultureInfo.InvariantCulture);
+        }
         else
         {
             expectedValueString = expectedValue!.ToString()!;

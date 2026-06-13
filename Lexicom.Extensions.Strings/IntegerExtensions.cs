@@ -2,31 +2,39 @@
 
 public static class IntegerExtensions
 {
-    public static string GetNumberSuffix(this int number)
+    public static string GetNumberWithSuffixText(this int number)
     {
-        double below100 = number % 10;
-        double above100 = number % 100;
+        int lastDigit = number % 10;
+        int lastTwoDigits = number % 100;
 
-        if (below100 is 1 && above100 is not 11)
+        if (number is 0)
         {
-            return "st";
+            return number.ToString();
         }
 
-        if (below100 is 2 && above100 is not 12)
+        if (lastDigit is 1 or -1 && lastTwoDigits is not 11 and not -11)
         {
-            return "nd";
+            return $"{number}st";
         }
 
-        if (below100 is 3 && above100 is not 13)
+        if (lastDigit is 2 or -2 && lastTwoDigits is not 12 and not -12)
         {
-            return "rd";
+            return $"{number}nd";
         }
 
-        return "th";
+        if (lastDigit is 3 or -3 && lastTwoDigits is not 13 and not -13)
+        {
+            return $"{number}rd";
+        }
+
+        return $"{number}th";
     }
 
-    public static string GetCountWord(this int number, string def = "many")
+    public static string GetSimpleNumberText(this int number, string moreText = "many", string lessText = "less than zero")
     {
+        ArgumentNullException.ThrowIfNull(moreText);
+        ArgumentNullException.ThrowIfNull(lessText);
+
         return number switch
         {
             0 => "zero",
@@ -40,7 +48,7 @@ public static class IntegerExtensions
             8 => "eight",
             9 => "nine",
             10 => "ten",
-            _ => def,
+            _ => number is < 0 ? lessText : moreText,
         };
     }
 }
