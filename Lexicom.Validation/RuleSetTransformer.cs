@@ -2,28 +2,28 @@
 
 namespace Lexicom.Validation;
 
-public interface IRuleSetTransfromer<TProperty, TNextProperty>
+public interface IRuleSetTransformer<TProperty, TNextProperty>
 {
     string ErrorMessageTypeName { get; }
 
     bool TryTransform(TProperty property, out TNextProperty nextProperty);
 }
-public abstract class AbstractRuleSetTransformer<TProperty, TNextProperty> : IRuleSetTransfromer<TProperty, TNextProperty>
+public abstract class AbstractRuleSetTransformer<TProperty, TNextProperty> : IRuleSetTransformer<TProperty, TNextProperty>
 {
     public abstract string ErrorMessageTypeName { get; }
 
     public abstract bool TryTransform(TProperty property, out TNextProperty nextProperty);
 }
-public interface IRuleSetTransfromerValidator<TNextProperty>
+public interface IRuleSetTransformerValidator<TNextProperty>
 {
     ValidationResult Validate(TNextProperty instance);
     Task<ValidationResult> ValidateAsync(TNextProperty instance);
 }
-public interface IRuleSetTransfromer<TProperty, TNextProperty, TRuleSetValidator> : IRuleSetTransfromer<TProperty, TNextProperty> where TRuleSetValidator : IRuleSetValidator<TNextProperty>
+public interface IRuleSetTransformer<TProperty, TNextProperty, TRuleSetValidator> : IRuleSetTransformer<TProperty, TNextProperty> where TRuleSetValidator : IRuleSetValidator<TNextProperty>
 {
     public TRuleSetValidator RuleSetValidator { get; }
 }
-public abstract class AbstractRuleSetTransformer<TProperty, TNextProperty, TRuleSetValidator> : AbstractRuleSetTransformer<TProperty, TNextProperty>, IRuleSetTransfromer<TProperty, TNextProperty, TRuleSetValidator>, IRuleSetTransfromerValidator<TNextProperty> where TRuleSetValidator : IRuleSetValidator<TNextProperty>
+public abstract class AbstractRuleSetTransformer<TProperty, TNextProperty, TRuleSetValidator> : AbstractRuleSetTransformer<TProperty, TNextProperty>, IRuleSetTransformer<TProperty, TNextProperty, TRuleSetValidator>, IRuleSetTransformerValidator<TNextProperty> where TRuleSetValidator : IRuleSetValidator<TNextProperty>
 {
     protected AbstractRuleSetTransformer(TRuleSetValidator ruleSetValidator)
     {

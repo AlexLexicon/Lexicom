@@ -190,8 +190,8 @@ public static class ValidationServiceBuilderExtensions
 
             if (type.IsGenericType)
             {
-                Type typeDifinition = type.GetGenericTypeDefinition();
-                if (typeDifinition == typeof(AbstractRuleSetTransformer<,,>))
+                Type typeDefinition = type.GetGenericTypeDefinition();
+                if (typeDefinition == typeof(AbstractRuleSetTransformer<,,>))
                 {
                     abstractTransformerGenericArgumentPropertyType = type.GetGenericArguments()[0];
                     abstractTransformerGenericArgumentInPropertyType = type.GetGenericArguments()[1];
@@ -199,7 +199,7 @@ public static class ValidationServiceBuilderExtensions
 
                     return true;
                 }
-                else if (typeDifinition == typeof(AbstractRuleSetTransformer<,>))
+                else if (typeDefinition == typeof(AbstractRuleSetTransformer<,>))
                 {
                     abstractTransformerGenericArgumentPropertyType = type.GetGenericArguments()[0];
                     abstractTransformerGenericArgumentInPropertyType = type.GetGenericArguments()[1];
@@ -226,11 +226,11 @@ public static class ValidationServiceBuilderExtensions
                 Type transformerInterfaceType;
                 if (abstractTransformerGenericArgumentValidatorType is not null)
                 {
-                    transformerInterfaceType = typeof(IRuleSetTransfromer<,,>).MakeGenericType(abstractTransformerGenericArgumentPropertyType, abstractTransformerGenericArgumentInPropertyType, abstractTransformerGenericArgumentValidatorType);
+                    transformerInterfaceType = typeof(IRuleSetTransformer<,,>).MakeGenericType(abstractTransformerGenericArgumentPropertyType, abstractTransformerGenericArgumentInPropertyType, abstractTransformerGenericArgumentValidatorType);
                 }
                 else
                 {
-                    transformerInterfaceType = typeof(IRuleSetTransfromer<,>).MakeGenericType(abstractTransformerGenericArgumentPropertyType, abstractTransformerGenericArgumentInPropertyType);
+                    transformerInterfaceType = typeof(IRuleSetTransformer<,>).MakeGenericType(abstractTransformerGenericArgumentPropertyType, abstractTransformerGenericArgumentInPropertyType);
                 }
 
                 if (interfaceType == transformerInterfaceType)

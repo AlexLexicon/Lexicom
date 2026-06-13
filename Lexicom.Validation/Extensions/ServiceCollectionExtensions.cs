@@ -19,14 +19,14 @@ public static class ServiceCollectionExtensions
             throw new LanguageManagerNotDerivedFromLanguageManagerException();
         }
 
-        var ValidationBuilder = new ValidationServiceBuilder(services, languageManager);
+        var validationBuilder = new ValidationServiceBuilder(services, languageManager);
 
-        ValidationBuilder.Services.TryAddTransient(typeof(IRuleSetValidator<,>), typeof(RuleSetValidator<,>));
-        ValidationBuilder.Services.TryAddTransient(typeof(IRuleSetValidator<,,,>), typeof(RuleSetValidator<,,,>));
+        validationBuilder.Services.TryAddTransient(typeof(IRuleSetValidator<,>), typeof(RuleSetValidator<,>));
+        validationBuilder.Services.TryAddTransient(typeof(IRuleSetValidator<,,,>), typeof(RuleSetValidator<,,,>));
 
-        configure?.Invoke(ValidationBuilder);
+        configure?.Invoke(validationBuilder);
 
-        ValidationBuilder.LanguageManager.AddLexicomTranslations();
+        validationBuilder.LanguageManager.AddLexicomTranslations();
 
         return services;
     }

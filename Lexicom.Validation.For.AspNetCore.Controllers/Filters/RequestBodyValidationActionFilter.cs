@@ -48,14 +48,14 @@ public class RequestBodyValidationActionFilter : IAsyncActionFilter
         ArgumentNullException.ThrowIfNull(next);
 
         //get the request body parameter from this invoked controller action
-        ControllerParameterDescriptor? requestBodyParamter = context.ActionDescriptor.Parameters
+        ControllerParameterDescriptor? requestBodyParameter = context.ActionDescriptor.Parameters
             .Where(p => p is ControllerParameterDescriptor)
             .Cast<ControllerParameterDescriptor>()
             .FirstOrDefault(d => d.ParameterInfo.GetCustomAttribute<FromBodyAttribute>() is not null);
 
-        if (requestBodyParamter is not null)
+        if (requestBodyParameter is not null)
         {
-            object? requestBody = context.ActionArguments[requestBodyParamter.Name];
+            object? requestBody = context.ActionArguments[requestBodyParameter.Name];
 
             if (requestBody is not null)
             {

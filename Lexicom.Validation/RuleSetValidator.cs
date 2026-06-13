@@ -26,12 +26,12 @@ public interface IRuleSetValidator<TRuleSet, TProperty> : IRuleSetValidator<TPro
 public class RuleSetValidator<TRuleSet, TProperty>(TRuleSet ruleSet) : BaseRuleSetValidator<TRuleSet, TProperty, TProperty>(ruleSet), IRuleSetValidator<TRuleSet, TProperty> where TRuleSet : IRuleSet<TProperty>
 {
 }
-public interface IRuleSetValidator<TRuleSet, TProperty, TTransformer, TNextProperty> : IRuleSetValidator<TProperty>, IValueValidator<TProperty> where TRuleSet : IRuleSet<TProperty> where TTransformer : IRuleSetTransfromer<TProperty, TNextProperty>
+public interface IRuleSetValidator<TRuleSet, TProperty, TTransformer, TNextProperty> : IRuleSetValidator<TProperty>, IValueValidator<TProperty> where TRuleSet : IRuleSet<TProperty> where TTransformer : IRuleSetTransformer<TProperty, TNextProperty>
 {
     TTransformer Transformer { get; }
 }
 /// <exception cref="ArgumentNullException"/>
-public class RuleSetValidator<TRuleSet, TProperty, TTransformer, TNextProperty> : BaseRuleSetValidator<TRuleSet, TProperty, TNextProperty>, IRuleSetValidator<TRuleSet, TProperty, TTransformer, TNextProperty> where TRuleSet : IRuleSet<TProperty> where TTransformer : IRuleSetTransfromer<TProperty, TNextProperty>
+public class RuleSetValidator<TRuleSet, TProperty, TTransformer, TNextProperty> : BaseRuleSetValidator<TRuleSet, TProperty, TNextProperty>, IRuleSetValidator<TRuleSet, TProperty, TTransformer, TNextProperty> where TRuleSet : IRuleSet<TProperty> where TTransformer : IRuleSetTransformer<TProperty, TNextProperty>
 {
     /// <exception cref="ArgumentNullException"/>
     public RuleSetValidator(
@@ -54,7 +54,7 @@ public class RuleSetValidator<TRuleSet, TProperty, TTransformer, TNextProperty> 
                 return tryResult;
             }
 
-            if (Transformer is IRuleSetTransfromerValidator<TNextProperty> transformerValidator)
+            if (Transformer is IRuleSetTransformerValidator<TNextProperty> transformerValidator)
             {
                 return transformerValidator.Validate(nextInstance);
             }
@@ -72,7 +72,7 @@ public class RuleSetValidator<TRuleSet, TProperty, TTransformer, TNextProperty> 
                 return tryResult;
             }
 
-            if (Transformer is IRuleSetTransfromerValidator<TNextProperty> transformerValidator)
+            if (Transformer is IRuleSetTransformerValidator<TNextProperty> transformerValidator)
             {
                 return await transformerValidator.ValidateAsync(nextInstance);
             }
