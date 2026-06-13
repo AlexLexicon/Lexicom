@@ -6,11 +6,11 @@ public interface IMauiBlazorHybridServiceBuilder
 {
     IServiceCollection Services { get; }
 }
-public interface IDependantMauiBlazorHybridServiceBuilder : IMauiBlazorHybridServiceBuilder
+public interface IDependentMauiBlazorHybridServiceBuilder : IMauiBlazorHybridServiceBuilder
 {
     //MauiAppBuilder MauiAppBuilder { get; }
 }
-public class MauiBlazorHybridServiceBuilder : IDependantMauiBlazorHybridServiceBuilder
+public class MauiBlazorHybridServiceBuilder : IDependentMauiBlazorHybridServiceBuilder
 {
     /// <exception cref="ArgumentNullException"/>
     //public MauiBlazorHybridServiceBuilder(MauiAppBuilder mauiAppBuilder)
