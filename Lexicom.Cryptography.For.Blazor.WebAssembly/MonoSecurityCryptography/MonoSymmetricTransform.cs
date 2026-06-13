@@ -95,7 +95,7 @@ public abstract class MonoSymmetricTransform : ICryptoTransform
         GC.SuppressFinalize(this);  // Finalization is now unnecessary
     }
 
-    // MUST be overriden by classes using unmanaged ressources
+    // MUST be overridden by classes using unmanaged resources
     // the override method must call the base class
     protected virtual void Dispose(bool disposing)
     {
@@ -155,7 +155,7 @@ public abstract class MonoSymmetricTransform : ICryptoTransform
                 CTS(input, output);
                 break;
             default:
-                throw new NotImplementedException("Unkown CipherMode" + algo.Mode.ToString());
+                throw new NotImplementedException("Unknown CipherMode" + algo.Mode.ToString());
         }
     }
 
