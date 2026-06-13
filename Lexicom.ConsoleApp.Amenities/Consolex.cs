@@ -9,11 +9,12 @@ namespace Lexicom.ConsoleApp.Amenities;
 
 public static class Consolex
 {
+    /// <exception cref="InvalidOperationException"/>
     internal static IConsolexConsole GetConsolexConsole()
     {
         if (Consolex.ConsolexConsole is null)
         {
-            throw new NullReferenceException($"{nameof(Consolex)}.{nameof(ConsolexConsole)} is null.");
+            throw new InvalidOperationException($"{nameof(Consolex)}.{nameof(ConsolexConsole)} is null.");
         }
 
         return Consolex.ConsolexConsole;
