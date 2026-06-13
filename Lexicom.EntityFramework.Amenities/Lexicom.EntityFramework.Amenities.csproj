@@ -1,27 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
 
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>lexicom.nuget.icon.png</PackageIcon>
-
-    <Authors>Alex Stroot</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Adds convenient but optional features for any project utilizing entity framework.</Description>
-    <Copyright>2026</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.EntityFramework.Amenities</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
     <PackageTags>dependencyinjection;entityframework</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\"/>
-    <None Include="..\lexicom.nuget.icon.png" Pack="true" PackagePath="\" />
-  </ItemGroup>
 
 </Project> 

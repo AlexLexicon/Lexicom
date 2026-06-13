@@ -1,28 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
 
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>lexicom.nuget.icon.png</PackageIcon>
-
-    <Authors>Alex Stroot</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Simplifies the setup necessary to test dependency injection based classes with implemented dependencies.</Description>
-    <Copyright>2026</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Testing.DependencyInjection.EntityFramework</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
     <PackageTags>dependencyinjection;entityframework</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
-    <None Include="..\lexicom.nuget.icon.png" Pack="true" PackagePath="\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.8" />

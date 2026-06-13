@@ -1,28 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
 
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>lexicom.nuget.icon.png</PackageIcon>
-
-    <Authors>Alex Stroot</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Wraps the Azure.Extensions.AspNetCore.Configuration.Secrets package standardizing its use and implementation with other Lexicom packages. This primarily consists of enforcing consistent styles and patterns while also generally reducing the required configuration.</Description>
-    <Copyright>2026</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Configuration.AzureKeyVault</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
     <PackageTags>azure;dependencyinjection</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
-    <None Include="..\lexicom.nuget.icon.png" Pack="true" PackagePath="\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.5.1" />

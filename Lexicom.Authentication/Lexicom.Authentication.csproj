@@ -1,28 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
 
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>lexicom.nuget.icon.png</PackageIcon>
-
-    <Authors>Alex Stroot</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>A basis for any authentication features and or functionality to be further implemented manually or by a derivative package.</Description>
-    <Copyright>2026</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Authentication</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
     <PackageTags>authentication;dependencyinjection</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
-    <None Include="..\lexicom.nuget.icon.png" Pack="true" PackagePath="\" />
-  </ItemGroup>
 
   <ItemGroup>
     <!--We need to be able to call AddAuthentication which is only possible by using this framework reference.-->
