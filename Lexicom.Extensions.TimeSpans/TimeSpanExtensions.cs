@@ -10,7 +10,7 @@ public static class TimeSpanExtensions
         .Where(d => d is not TimeSpanDelineation.None)
         .OrderByDescending(d => d)
         .ToList();
-    private static IReadOnlyList<int> OrderedTimeSpanDelineationIndexs => field ??= Enum
+    private static IReadOnlyList<int> OrderedTimeSpanDelineationIndexes => field ??= Enum
         .GetValues<TimeSpanDelineation>()
         .Cast<int>()
         .Where(i => i is not 0)
@@ -18,11 +18,11 @@ public static class TimeSpanExtensions
         .ToList();
 
     /// <exception cref="TimeSpanDelineationNoneException"/>
-    public static string ToDurationText(this TimeSpan timeSpan, TimeSpanDelineation inlcude = TimeSpanDelineation.Days | TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes)
+    public static string ToDurationText(this TimeSpan timeSpan, TimeSpanDelineation include = TimeSpanDelineation.Days | TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes)
     {
         string text = string.Empty;
 
-        if (inlcude is TimeSpanDelineation.None)
+        if (include is TimeSpanDelineation.None)
         {
             throw new TimeSpanDelineationNoneException();
         }
@@ -30,7 +30,7 @@ public static class TimeSpanExtensions
         TimeSpanDelineation? lastDelineation = null;
         foreach (TimeSpanDelineation delineation in OrderedTimeSpanDelineations)
         {
-            if (delineation is not TimeSpanDelineation.None && inlcude.HasFlag(delineation))
+            if (delineation is not TimeSpanDelineation.None && include.HasFlag(delineation))
             {
                 if (!string.IsNullOrEmpty(text))
                 {
@@ -105,7 +105,7 @@ public static class TimeSpanExtensions
 
         int flooredTotal = 0;
         HowLongAgoTextConfiguration? lastConfiguration = null;
-        foreach (int index in OrderedTimeSpanDelineationIndexs)
+        foreach (int index in OrderedTimeSpanDelineationIndexes)
         {
             foreach (HowLongAgoTextConfiguration configuration in configurations)
             {
