@@ -25,7 +25,7 @@ public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakV
         PruneThreshold = 8;
     }
 
-    private List<WeakViewModelRefrenenceContainer<TViewModelImplementation>> WeakViewModelReferenceContainers { get; }
+    private List<WeakViewModelReferenceContainer<TViewModelImplementation>> WeakViewModelReferenceContainers { get; }
     private Lock MutateLock { get; }
     private int PruneThreshold { get; set; }
     private int CurrentAddedOrder { get; set; }
@@ -52,7 +52,7 @@ public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakV
 
         lock (MutateLock)
         {
-            var container = new WeakViewModelRefrenenceContainer<TViewModelImplementation>
+            var container = new WeakViewModelReferenceContainer<TViewModelImplementation>
             {
                 AddedOrder = CurrentAddedOrder,
                 WeakReference = new WeakReference<TViewModelImplementation>(viewModel),
@@ -77,7 +77,7 @@ public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakV
         int writeIndex = 0;
         for (int readIndex = 0; readIndex < WeakViewModelReferenceContainers.Count; readIndex++)
         {
-            WeakViewModelRefrenenceContainer<TViewModelImplementation> container = WeakViewModelReferenceContainers[readIndex];
+            WeakViewModelReferenceContainer<TViewModelImplementation> container = WeakViewModelReferenceContainers[readIndex];
 
             if (container.WeakReference.TryGetTarget(out TViewModelImplementation? viewModel))
             {
