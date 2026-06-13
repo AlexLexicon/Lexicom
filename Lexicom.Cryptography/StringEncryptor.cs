@@ -12,6 +12,7 @@ public static class StringEncryptor
     public static string? Encrypt(IAesProvider aesProvider, ICiphertextAuthenticator ciphertextAuthenticator, byte[] secretKey, string? plainText)
     {
         ArgumentNullException.ThrowIfNull(aesProvider);
+        ArgumentNullException.ThrowIfNull(ciphertextAuthenticator);
         ArgumentNullException.ThrowIfNull(secretKey);
 
         if (secretKey.Length is 0)
@@ -68,6 +69,7 @@ public static class StringEncryptor
     public static async Task<string?> EncryptAsync(IAesProvider aesProvider, ICiphertextAuthenticator ciphertextAuthenticator, byte[] secretKey, string? plainText)
     {
         ArgumentNullException.ThrowIfNull(aesProvider);
+        ArgumentNullException.ThrowIfNull(ciphertextAuthenticator);
         ArgumentNullException.ThrowIfNull(secretKey);
 
         if (secretKey.Length is 0)

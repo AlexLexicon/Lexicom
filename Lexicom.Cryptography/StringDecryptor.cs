@@ -13,6 +13,7 @@ public static class StringDecryptor
     public static string? Decrypt(IAesProvider aesProvider, ICiphertextAuthenticator ciphertextAuthenticator, string? encryptedBase64, byte[] secretKey)
     {
         ArgumentNullException.ThrowIfNull(aesProvider);
+        ArgumentNullException.ThrowIfNull(ciphertextAuthenticator);
         ArgumentNullException.ThrowIfNull(secretKey);
 
         if (secretKey.Length is 0)
@@ -67,9 +68,9 @@ public static class StringDecryptor
         {
             using var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
 
-            using var streamWriter = new StreamReader(cryptoStream);
+            using var streamReader = new StreamReader(cryptoStream);
 
-            plainText = streamWriter.ReadToEnd();
+            plainText = streamReader.ReadToEnd();
         }
 
         return plainText;
@@ -82,6 +83,7 @@ public static class StringDecryptor
     public static async Task<string?> DecryptAsync(IAesProvider aesProvider, ICiphertextAuthenticator ciphertextAuthenticator, string? encryptedBase64, byte[] secretKey)
     {
         ArgumentNullException.ThrowIfNull(aesProvider);
+        ArgumentNullException.ThrowIfNull(ciphertextAuthenticator);
         ArgumentNullException.ThrowIfNull(secretKey);
 
         if (secretKey.Length is 0)
@@ -136,9 +138,9 @@ public static class StringDecryptor
         {
             await using var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
 
-            using var streamWriter = new StreamReader(cryptoStream);
+            using var streamReader = new StreamReader(cryptoStream);
 
-            plainText = await streamWriter.ReadToEndAsync();
+            plainText = await streamReader.ReadToEndAsync();
         }
 
         return plainText;
