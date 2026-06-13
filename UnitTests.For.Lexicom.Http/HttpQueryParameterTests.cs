@@ -1,6 +1,7 @@
 ﻿using Lexicom.Http;
 using Lexicom.Http.Exceptions;
 using Lexicom.Http.UnitTests.Constructs;
+using System.Globalization;
 using System.Text.Json;
 
 namespace UnitTests.For.Lexicom.Http;
@@ -10,7 +11,15 @@ public class HttpQueryParameterTests
     private (string expectedName, string expectedValueString, string expectedToString) ArrangeExpectedValues<T>(string name, T expectedValue)
     {
         string expectedName = name;
-        string expectedValueString = expectedValue!.ToString()!;
+        string expectedValueString;
+        if (expectedValue is DateTimeOffset dateTimeOffset)
+        {
+            expectedValueString = dateTimeOffset.ToString("o", CultureInfo.InvariantCulture);
+        }
+        else
+        {
+            expectedValueString = expectedValue!.ToString()!;
+        }
         string expectedToString = $"{expectedName}={Uri.EscapeDataString(expectedValueString)}";
 
         return (expectedName, expectedValueString, expectedToString);
@@ -365,7 +374,7 @@ public class HttpQueryParameterTests
         Assert.Equal(expectedValueString, parameter.Value);
         Assert.Equal(expectedToString, parameter.ToString());
 
-        DateTime value = DateTime.Parse(parameter.Value);
+        DateTime value = DateTime.Parse(parameter.Value, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
         Assert.Equal(expectedValue, value);
     }
 
@@ -385,7 +394,7 @@ public class HttpQueryParameterTests
         Assert.Equal(expectedValueString, parameter.Value);
         Assert.Equal(expectedToString, parameter.ToString());
 
-        DateTimeOffset value = DateTimeOffset.Parse(parameter.Value);
+        DateTimeOffset value = DateTimeOffset.Parse(parameter.Value, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
         Assert.Equal(expectedValue, value);
     }
 

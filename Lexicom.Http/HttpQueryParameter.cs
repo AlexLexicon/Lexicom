@@ -1,4 +1,5 @@
 ﻿using Lexicom.Http.Exceptions;
+using System.Globalization;
 
 namespace Lexicom.Http;
 
@@ -9,7 +10,7 @@ public class HttpQueryParameter
     public HttpQueryParameter(
         string name,
         short value)
-        : this(name, value.ToString()!)
+        : this(name, value.ToString(CultureInfo.InvariantCulture))
     {
     }
     /// <exception cref="ArgumentNullException"/>
@@ -17,7 +18,7 @@ public class HttpQueryParameter
     public HttpQueryParameter(
         string name,
         int value)
-        : this(name, value.ToString()!)
+        : this(name, value.ToString(CultureInfo.InvariantCulture))
     {
     }
     /// <exception cref="ArgumentNullException"/>
@@ -25,7 +26,7 @@ public class HttpQueryParameter
     public HttpQueryParameter(
         string name,
         long value)
-        : this(name, value.ToString()!)
+        : this(name, value.ToString(CultureInfo.InvariantCulture))
     {
     }
     /// <exception cref="ArgumentNullException"/>
@@ -33,7 +34,7 @@ public class HttpQueryParameter
     public HttpQueryParameter(
         string name,
         float value)
-        : this(name, value.ToString()!)
+        : this(name, value.ToString(CultureInfo.InvariantCulture))
     {
     }
     /// <exception cref="ArgumentNullException"/>
@@ -41,7 +42,7 @@ public class HttpQueryParameter
     public HttpQueryParameter(
         string name,
         double value)
-        : this(name, value.ToString()!)
+        : this(name, value.ToString(CultureInfo.InvariantCulture))
     {
     }
     /// <exception cref="ArgumentNullException"/>
@@ -49,7 +50,7 @@ public class HttpQueryParameter
     public HttpQueryParameter(
         string name,
         decimal value)
-        : this(name, value.ToString()!)
+        : this(name, value.ToString(CultureInfo.InvariantCulture))
     {
     }
     /// <exception cref="ArgumentNullException"/>
@@ -57,7 +58,7 @@ public class HttpQueryParameter
     public HttpQueryParameter(
         string name,
         uint value)
-        : this(name, value.ToString()!)
+        : this(name, value.ToString(CultureInfo.InvariantCulture))
     {
     }
     /// <exception cref="ArgumentNullException"/>
@@ -65,7 +66,7 @@ public class HttpQueryParameter
     public HttpQueryParameter(
         string name,
         ulong value)
-        : this(name, value.ToString()!)
+        : this(name, value.ToString(CultureInfo.InvariantCulture))
     {
     }
     /// <exception cref="ArgumentNullException"/>
@@ -73,7 +74,7 @@ public class HttpQueryParameter
     public HttpQueryParameter(
         string name,
         Guid value)
-        : this(name, value.ToString()!)
+        : this(name, value.ToString())
     {
     }
     /// <exception cref="ArgumentNullException"/>
@@ -81,7 +82,7 @@ public class HttpQueryParameter
     public HttpQueryParameter(
         string name,
         DateTime value)
-        : this(name, value.ToString()!)
+        : this(name, value.ToString("o", CultureInfo.InvariantCulture))
     {
     }
     /// <exception cref="ArgumentNullException"/>
@@ -89,7 +90,7 @@ public class HttpQueryParameter
     public HttpQueryParameter(
         string name,
         DateTimeOffset value)
-        : this(name, value.ToString()!)
+        : this(name, value.ToString("o", CultureInfo.InvariantCulture))
     {
     }
     /// <exception cref="ArgumentNullException"/>
@@ -97,7 +98,7 @@ public class HttpQueryParameter
     public HttpQueryParameter(
         string name,
         object value)
-        : this(name, value.ToString()!)
+        : this(name, ConvertValueToInvariantString(value))
     {
     }
     /// <exception cref="ArgumentNullException"/>
@@ -109,7 +110,7 @@ public class HttpQueryParameter
         ArgumentNullException.ThrowIfNull(name);
         ArgumentNullException.ThrowIfNull(value);
 
-        //the name is invalud if the name is empty or if the
+        //the name is invalid if the name is empty or if the
         //name contains characters that would need to be escaped
         if (string.IsNullOrWhiteSpace(name) || name != Uri.EscapeDataString(name))
         {
@@ -128,5 +129,13 @@ public class HttpQueryParameter
     public override string ToString()
     {
         return $"{Name}={EscapedValue}";
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    private static string ConvertValueToInvariantString(object value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        return Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty;
     }
 }
