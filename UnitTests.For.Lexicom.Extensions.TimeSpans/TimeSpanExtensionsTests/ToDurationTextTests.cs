@@ -23,13 +23,13 @@ public class ToDurationTextTests
     ];
     [Theory]
     [MemberData(nameof(Multiple_Text_Is_Correct_Data))]
-    public void Multiple_Text_Is_Correct(TimeSpan timeSpan, TimeSpanDelineation inlcude, string epxectedText)
+    public void Multiple_Text_Is_Correct(TimeSpan timeSpan, TimeSpanDelineation include, string expectedText)
     {
         //act
-        string text = timeSpan.ToDurationText(inlcude);
+        string text = timeSpan.ToDurationText(include);
 
         //assert
-        Assert.Equal(epxectedText, text);
+        Assert.Equal(expectedText, text);
     }
 
     public static TheoryData<TimeSpan, TimeSpanDelineation, string> Individual_Text_Is_Correct_Data { get; } =
@@ -76,13 +76,13 @@ public class ToDurationTextTests
     ];
     [Theory]
     [MemberData(nameof(Individual_Text_Is_Correct_Data))]
-    public void Individual_Text_Is_Correct(TimeSpan timeSpan, TimeSpanDelineation inlcude, string epxectedText)
+    public void Individual_Text_Is_Correct(TimeSpan timeSpan, TimeSpanDelineation include, string expectedText)
     {
         //act
-        string text = timeSpan.ToDurationText(inlcude);
+        string text = timeSpan.ToDurationText(include);
 
         //assert
-        Assert.Equal(epxectedText, text);
+        Assert.Equal(expectedText, text);
     }
 
     [Fact]
