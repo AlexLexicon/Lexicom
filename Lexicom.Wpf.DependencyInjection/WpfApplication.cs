@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -77,28 +78,58 @@ public sealed class WpfApplication
 
     private async void StartupAsync(object sender, StartupEventArgs e)
     {
-        await _host.StartAsync();
-
-        if (StartupWindowType is not null)
+        //async void exceptions cannot be observed by the caller so we
+        //log them before they continue on to crash the application
+        try
         {
-            var dispatcher = Services.GetRequiredService<Dispatcher>();
-            var window = (Window)Services.GetRequiredService(StartupWindowType);
+            await _host.StartAsync();
 
-            await dispatcher.BeginInvoke(window.Show, DispatcherPriority.ApplicationIdle);
+            if (StartupWindowType is not null)
+            {
+                var dispatcher = Services.GetRequiredService<Dispatcher>();
+                var window = (Window)Services.GetRequiredService(StartupWindowType);
+
+                await dispatcher.BeginInvoke(window.Show, DispatcherPriority.ApplicationIdle);
+            }
+            else if (StartupType is not null)
+            {
+                var startup = (IStartup)Services.GetRequiredService(StartupType);
+
+                await startup.StartupAsync();
+            }
         }
-        else if (StartupType is not null)
+        catch (Exception exception)
         {
-            var startup = (IStartup)Services.GetRequiredService(StartupType);
+            ILogger<WpfApplication>? logger = Services.GetService<ILogger<WpfApplication>>();
 
-            await startup.StartupAsync();
+            if (logger is not null && logger.IsEnabled(LogLevel.Critical))
+            {
+                logger.LogCritical(exception, "An unexpected exception occurred during the application startup.");
+            }
+
+            throw;
         }
     }
 
     private async void ExitAsync(object sender, ExitEventArgs e)
     {
-        using (_host)
+        try
         {
-            await _host.StopAsync();
+            using (_host)
+            {
+                await _host.StopAsync();
+            }
+        }
+        catch (Exception exception)
+        {
+            //the application is already exiting so there is nothing
+            //left to crash and we only attempt to log the exception
+            ILogger<WpfApplication>? logger = Services.GetService<ILogger<WpfApplication>>();
+
+            if (logger is not null && logger.IsEnabled(LogLevel.Critical))
+            {
+                logger.LogCritical(exception, "An unexpected exception occurred during the application exit.");
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Lexicom.Supports.Wpf.Extensions;
 public static class WpfApplicationBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static WpfApplicationBuilder Lexicom(this WpfApplicationBuilder builder, Action<IDependantWpfServiceBuilder>? configure, bool configureContainerForLexicomHostingFeatures = true)
+    public static WpfApplicationBuilder Lexicom(this WpfApplicationBuilder builder, Action<IDependentWpfServiceBuilder>? configure, bool configureContainerForLexicomHostingFeatures = true)
     {
         ArgumentNullException.ThrowIfNull(builder);
 

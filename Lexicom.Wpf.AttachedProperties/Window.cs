@@ -93,10 +93,10 @@ public static class Window
     /*
      * ShowDialogAction
      */
-    public static readonly DependencyProperty ShowDialogActionProperty = DependencyProperty.RegisterAttached("ShowDialogAction", typeof(Action), typeof(Window), new PropertyMetadata(OnShowDialogAction_Window_ProeprtyChanged));
+    public static readonly DependencyProperty ShowDialogActionProperty = DependencyProperty.RegisterAttached("ShowDialogAction", typeof(Action), typeof(Window), new PropertyMetadata(OnShowDialogAction_Window_PropertyChanged));
     public static Action GetShowDialogAction(DependencyObject obj) => (Action)obj.GetValue(ShowDialogActionProperty);
     public static void SetShowDialogAction(DependencyObject obj, Action value) => obj.SetValue(ShowDialogActionProperty, value);
-    private static void OnShowDialogAction_Window_ProeprtyChanged(object sender, DependencyPropertyChangedEventArgs args)
+    private static void OnShowDialogAction_Window_PropertyChanged(object sender, DependencyPropertyChangedEventArgs args)
     {
         if (sender is System.Windows.Window window && args.NewValue is Action)
         {

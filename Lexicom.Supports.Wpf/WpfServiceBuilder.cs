@@ -9,11 +9,11 @@ public interface IWpfServiceBuilder
     IServiceCollection Services { get; }
     ConfigurationManager Configuration { get; }
 }
-public interface IDependantWpfServiceBuilder : IWpfServiceBuilder
+public interface IDependentWpfServiceBuilder : IWpfServiceBuilder
 {
     WpfApplicationBuilder WpfApplicationBuilder { get; }
 }
-public class WpfServiceBuilder : IDependantWpfServiceBuilder
+public class WpfServiceBuilder : IDependentWpfServiceBuilder
 {
     /// <exception cref="ArgumentNullException"/>
     public WpfServiceBuilder(WpfApplicationBuilder builder)
