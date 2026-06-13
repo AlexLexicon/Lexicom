@@ -148,14 +148,9 @@ public class HttpQueryString : IList<HttpQueryParameter>
     }
     public string ToString(string? url)
     {
-        NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(string.Empty);
-
-        foreach (HttpQueryParameter parameter in _parameters)
-        {
-            nameValueCollection.Add(parameter.Name, parameter.EscapedValue);
-        }
-
-        string? parameters = nameValueCollection.ToString();
+        //the names never need escaping since they are validated when constructed
+        //and the values are escaped exactly once by 'HttpQueryParameter.EscapedValue'
+        string parameters = string.Join('&', _parameters.Select(p => p.ToString()));
 
         if (!string.IsNullOrWhiteSpace(url))
         {
