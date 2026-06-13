@@ -25,6 +25,7 @@ public interface ICryptographyService
     {
         ArgumentNullException.ThrowIfNull(byteArraySecretKey);
         ArgumentNullException.ThrowIfNull(aesProvider);
+        ArgumentNullException.ThrowIfNull(ciphertextAuthenticator);
 
         return Create(new CryptographyByteSecretOptions
         {
@@ -46,6 +47,7 @@ public interface ICryptographyService
     {
         ArgumentNullException.ThrowIfNull(base64StringSecretKey);
         ArgumentNullException.ThrowIfNull(aesProvider);
+        ArgumentNullException.ThrowIfNull(ciphertextAuthenticator);
 
         return Create(new CryptographyStringSecretOptions
         {
@@ -64,6 +66,7 @@ public interface ICryptographyService
     {
         ArgumentNullException.ThrowIfNull(cryptographyByteSecretOptions);
         ArgumentNullException.ThrowIfNull(aesProvider);
+        ArgumentNullException.ThrowIfNull(ciphertextAuthenticator);
 
         IOptions<CryptographyByteSecretOptions> options = Microsoft.Extensions.Options.Options.Create(cryptographyByteSecretOptions);
 
@@ -81,6 +84,7 @@ public interface ICryptographyService
     {
         ArgumentNullException.ThrowIfNull(cryptographyStringSecretOptions);
         ArgumentNullException.ThrowIfNull(aesProvider);
+        ArgumentNullException.ThrowIfNull(ciphertextAuthenticator);
 
         IOptions<CryptographyStringSecretOptions> options = Microsoft.Extensions.Options.Options.Create(cryptographyStringSecretOptions);
 
