@@ -4,8 +4,8 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
 
-    <Description>Derives the Lexicom.Cryptography package to provide an implementation specific for a Wpf application project.</Description>
-    <PackageTags>dependencyinjection;wpf</PackageTags>
+    <Description>Adds WPF support to the Lexicom.Cryptography package.</Description>
+    <PackageTags>cryptography;dependencyinjection;wpf</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

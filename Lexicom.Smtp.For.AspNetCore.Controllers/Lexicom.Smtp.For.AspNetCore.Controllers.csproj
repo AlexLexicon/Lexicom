@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Derives the Lexicom.Smtp package to provide an implementation specific for an AspNetCore controller application project.</Description>
-    <PackageTags>aspnetcore;dependencyinjection;smtp</PackageTags>
+    <Description>Adds ASP.NET Core controller support to the Lexicom.Smtp package.</Description>
+    <PackageTags>smtp;dependencyinjection;aspnetcore</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

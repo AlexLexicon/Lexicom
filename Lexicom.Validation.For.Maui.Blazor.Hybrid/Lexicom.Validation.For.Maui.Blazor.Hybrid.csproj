@@ -7,8 +7,8 @@
 
     <SingleProject>true</SingleProject>
 
-    <Description>Derives the Lexicom.Validation package to provide an implementation specific for a MAUI Blazor application project.</Description>
-    <PackageTags>maui;blazor;dependencyinjection;validation</PackageTags>
+    <Description>Adds MAUI Blazor Hybrid support to the Lexicom.Validation package.</Description>
+    <PackageTags>validation;fluentvalidation;dependencyinjection;blazor;maui</PackageTags>
 
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>

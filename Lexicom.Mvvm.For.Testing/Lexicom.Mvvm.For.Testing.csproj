@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Derives the Lexicom.Mvvm package to provide an implementation specific for a testing application project.</Description>
-    <PackageTags>dependencyinjection;mvvm</PackageTags>
+    <Description>Adds testing support to the Lexicom.Mvvm package.</Description>
+    <PackageTags>mvvm;communitytoolkit;dependencyinjection;testing</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Adds convenient extensions when working with IO operations.</Description>
+    <Description>Adds convenient extensions for IO operations.</Description>
     <PackageTags>extensions</PackageTags>
   </PropertyGroup>
 

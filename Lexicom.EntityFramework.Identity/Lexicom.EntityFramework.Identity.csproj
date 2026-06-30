@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Wraps the Microsoft.AspNetCore.Identity package standardizing its use and implementation with other Lexicom packages. This primarily consists of enforcing consistent styles and patterns while also generally reducing the required configuration.</Description>
-    <PackageTags>dependencyinjection;entityframework;identity</PackageTags>
+    <Description>Wraps Microsoft.AspNetCore.Identity to standardize its use and integration with other Lexicom packages.</Description>
+    <PackageTags>identity;entityframework;dependencyinjection</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.9" />
   </ItemGroup>
 
   <ItemGroup>

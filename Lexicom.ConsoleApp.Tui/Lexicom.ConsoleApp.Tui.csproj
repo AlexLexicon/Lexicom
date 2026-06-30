@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>A rigid text user interface for a Console application specifically designed to execute different operations from the command line. Specifically implemented to be fast and easy to setup. Ideal for utility style tools.</Description>
-    <PackageTags>console;dependencyinjection</PackageTags>
+    <Description>Provides a simple text user interface for running command line operations in a console application.</Description>
+    <PackageTags>tui;dependencyinjection;console</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

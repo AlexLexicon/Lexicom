@@ -4,8 +4,8 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
 
-    <Description>Derives the Lexicom.Authority package to provide an implementation specific for a Wpf application project.</Description>
-    <PackageTags>wpf;authority;dependencyinjection;jwt</PackageTags>
+    <Description>Adds WPF support to the Lexicom.Authority package.</Description>
+    <PackageTags>authority;jwt;dependencyinjection;wpf</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

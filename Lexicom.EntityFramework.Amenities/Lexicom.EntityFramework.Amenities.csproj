@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Adds convenient but optional features for any project utilizing entity framework.</Description>
-    <PackageTags>dependencyinjection;entityframework</PackageTags>
+    <Description>Adds convenient but optional features for any project using Entity Framework.</Description>
+    <PackageTags>entityframework;dependencyinjection</PackageTags>
   </PropertyGroup>
 
 </Project> 

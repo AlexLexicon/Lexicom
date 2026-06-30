@@ -4,7 +4,7 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
 
-    <Description>Adds convenient but optional features for any Wpf application project. Although not necessary these features are specifically designed to integrate with other Lexicom Wpf application packages.</Description>
+    <Description>Adds convenient but optional features for any WPF application project.</Description>
     <PackageTags>wpf</PackageTags>
   </PropertyGroup>
 

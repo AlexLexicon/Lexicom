@@ -4,8 +4,8 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
 
-    <Description>Supplies useful controls for any Wpf application project.</Description>
-    <PackageTags>wpf</PackageTags>
+    <Description>Provides useful controls for WPF application projects.</Description>
+    <PackageTags>controls;wpf</PackageTags>
   </PropertyGroup>
 
 </Project>

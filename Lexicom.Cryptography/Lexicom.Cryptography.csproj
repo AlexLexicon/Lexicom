@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Supplies simple cryptography encryption and decryption systems for use in applications needing minimal security where such a simple implementation is valid. </Description>
-    <PackageTags>dependencyinjection</PackageTags>
+    <Description>Provides simple string encryption and decryption for applications with minimal security needs.</Description>
+    <PackageTags>cryptography;dependencyinjection</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

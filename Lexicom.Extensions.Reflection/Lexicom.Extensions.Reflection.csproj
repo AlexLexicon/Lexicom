@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Adds convenient extensions when working with reflection.</Description>
+    <Description>Adds convenient extensions for reflection.</Description>
     <PackageTags>extensions</PackageTags>
   </PropertyGroup>
 

@@ -4,8 +4,8 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
 
-    <Description>Derives the Lexicom.Validation package to provide an implementation specific for a Wpf application project.</Description>
-    <PackageTags>dependencyinjection;validation;wpf</PackageTags>
+    <Description>Adds WPF support to the Lexicom.Validation package.</Description>
+    <PackageTags>validation;fluentvalidation;dependencyinjection;wpf</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

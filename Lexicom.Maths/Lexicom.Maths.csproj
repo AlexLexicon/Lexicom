@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Adds convenient mathmatical operations or implementations not provided by the built in Math static class.</Description>
+    <Description>Provides mathematical operations not included in the built-in Math class.</Description>
     <PackageTags>math</PackageTags>
   </PropertyGroup>
 

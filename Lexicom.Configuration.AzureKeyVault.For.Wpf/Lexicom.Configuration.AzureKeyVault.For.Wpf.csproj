@@ -4,8 +4,8 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
 
-    <Description>Derives the Lexicom.Configuration.AzureKeyVault package to provide an implementation specific for a Wpf application project.</Description>
-    <PackageTags>azure;dependencyinjection;wpf</PackageTags>
+    <Description>Adds WPF support to the Lexicom.Configuration.AzureKeyVault package.</Description>
+    <PackageTags>configuration;azure;wpf</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

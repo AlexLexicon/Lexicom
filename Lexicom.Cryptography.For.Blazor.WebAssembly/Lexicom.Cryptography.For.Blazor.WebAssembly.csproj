@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Derives the Lexicom.Cryptography package to provide an implementation specific for a Blazor web assembly application project.</Description>
-    <PackageTags>blazor;dependencyinjection;webassembly</PackageTags>
+    <Description>Adds Blazor WebAssembly support to the Lexicom.Cryptography package.</Description>
+    <PackageTags>cryptography;dependencyinjection;blazor;webassembly</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

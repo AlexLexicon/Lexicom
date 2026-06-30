@@ -3,13 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>A basis for any authorization features and or functionality to be further implemented manually or by a derivative package.</Description>
-    <PackageTags>authorization;dependencyinjection</PackageTags>
+    <Description>Provides the foundation for authorization across Lexicom packages.</Description>
+    <PackageTags>authorization;jwt;dependencyinjection</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.8" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
   </ItemGroup>
 
 </Project>

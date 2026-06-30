@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Adds convenient but optional features for any Console application project. Although not necessary these features are specifically designed to integrate with other Lexicom Console application packages.</Description>
-    <PackageTags>console;dependencyinjection</PackageTags>
+    <Description>Adds convenient but optional features for any console application project.</Description>
+    <PackageTags>dependencyinjection;console</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

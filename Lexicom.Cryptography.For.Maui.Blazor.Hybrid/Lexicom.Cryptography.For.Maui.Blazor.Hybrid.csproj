@@ -7,8 +7,8 @@
 
     <SingleProject>true</SingleProject>
 
-    <Description>Derives the Lexicom.Cryptography package to provide an implementation specific for a Maui Blazor hybrid application project.</Description>
-    <PackageTags>maui;blazor;dependencyinjection</PackageTags>
+    <Description>Adds MAUI Blazor Hybrid support to the Lexicom.Cryptography package.</Description>
+    <PackageTags>cryptography;dependencyinjection;blazor;maui</PackageTags>
 
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>

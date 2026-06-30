@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>The base package for all Lexicom...For.Testing packages. Relies on and enforces the inclusion of the Lexicom.Testing.DependencyInjection package.</Description>
-    <PackageTags>dependencyinjection</PackageTags>
+    <Description>The base package for all Lexicom testing packages.</Description>
+    <PackageTags>dependencyinjection;testing</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

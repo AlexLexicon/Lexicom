@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>The base package for all Lexicom...For.ConsoleApp packages. Relies on and enforces the inclusion of the Lexicom.ConsoleApp.DependencyInjection package.</Description>
-    <PackageTags>console;dependencyinjection</PackageTags>
+    <Description>The base package for all Lexicom console packages.</Description>
+    <PackageTags>dependencyinjection;console</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

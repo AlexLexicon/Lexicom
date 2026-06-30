@@ -4,8 +4,8 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
 
-    <Description>Adds functionality for interacting with Wpf application xaml markup programmatically.</Description>
-    <PackageTags>wpf</PackageTags>
+    <Description>Adds functionality for working with WPF XAML markup programmatically.</Description>
+    <PackageTags>markup;wpf</PackageTags>
   </PropertyGroup>
 
 </Project>

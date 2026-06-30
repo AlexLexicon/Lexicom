@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Adds convenient but optional features for any AspNetCore controller project. Although not necessary these features are specifically designed to integrate with other Lexicom AspNetCore.Controllers packages.</Description>
-    <PackageTags>aspnetcore;dependencyinjection</PackageTags>
+    <Description>Adds convenient but optional features for any ASP.NET Core controller project.</Description>
+    <PackageTags>dependencyinjection;aspnetcore</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

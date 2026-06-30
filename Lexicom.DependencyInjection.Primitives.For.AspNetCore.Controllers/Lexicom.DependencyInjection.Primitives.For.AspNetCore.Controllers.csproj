@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Derives the Lexicom.DependencyInjection.Primitives package to provide an implementation specific for an AspNetCore controller application project.</Description>
-    <PackageTags>aspnetcore;dependencyinjection</PackageTags>
+    <Description>Adds ASP.NET Core controller support to the Lexicom.DependencyInjection.Primitives package.</Description>
+    <PackageTags>primitives;dependencyinjection;aspnetcore</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Abstractions for the Lexicom.Wpf.Amenities package. Allowing this package to not enforce a target framework including windows.</Description>
+    <Description>Provides the abstractions for the Lexicom.Wpf.Amenities package.</Description>
     <PackageTags>wpf</PackageTags>
   </PropertyGroup>
 

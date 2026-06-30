@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Derives the Lexicom.Authority package to provide an implementation specific for a Console application project.</Description>
-    <PackageTags>authority;console;dependencyinjection;jwt</PackageTags>
+    <Description>Adds console support to the Lexicom.Authority package.</Description>
+    <PackageTags>authority;jwt;dependencyinjection;console</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

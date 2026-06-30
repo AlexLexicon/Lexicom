@@ -4,8 +4,8 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
 
-    <Description>Supplies useful value converters for any Wpf application project.</Description>
-    <PackageTags>wpf</PackageTags>
+    <Description>Provides useful value converters for WPF application projects.</Description>
+    <PackageTags>valueconverters;wpf</PackageTags>
   </PropertyGroup>
 
 </Project>

@@ -3,12 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>The base package for all Lexicom...For.Blazor.WebAssembly packages. Relies on and enforces the inclusion of the Microsoft.AspNetCore.Components.WebAssembly package reference.</Description>
-    <PackageTags>blazor;webassembly;dependencyinjection</PackageTags>
+    <Description>The base package for all Lexicom Blazor WebAssembly packages.</Description>
+    <PackageTags>dependencyinjection;blazor;webassembly</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.9" />
   </ItemGroup>
 
   <ItemGroup>

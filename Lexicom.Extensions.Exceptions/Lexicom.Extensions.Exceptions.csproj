@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Adds convenient extensions for Exception types.</Description>
+    <Description>Adds convenient extensions for the Exception type.</Description>
     <PackageTags>extensions</PackageTags>
   </PropertyGroup>
 

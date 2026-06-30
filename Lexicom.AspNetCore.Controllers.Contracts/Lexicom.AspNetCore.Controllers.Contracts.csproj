@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Provides functionality for interaction with any AspNetCore controller structured web API regarding requests and responses.</Description>
-    <PackageTags>aspnetcore</PackageTags>
+    <Description>Provides request and response features for ASP.NET Core controller web APIs That integrate with other Lexiom packages.</Description>
+    <PackageTags>http;aspnetcore</PackageTags>
   </PropertyGroup>
 
 </Project>

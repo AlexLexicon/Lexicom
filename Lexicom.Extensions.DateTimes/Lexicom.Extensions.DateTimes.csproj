@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Adds convenient extensions for DateTime and DateTimeOffset types.</Description>
+    <Description>Adds convenient extensions for the DateTime and DateTimeOffset types.</Description>
     <PackageTags>extensions</PackageTags>
   </PropertyGroup>
 

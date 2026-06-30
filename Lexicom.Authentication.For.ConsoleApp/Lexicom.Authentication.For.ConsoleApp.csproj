@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Derives the Lexicom.Authentication package to provide an implementation specific for a Console application project.</Description>
-    <PackageTags>authentication;dependencyinjection</PackageTags>
+    <Description>Adds console support to the Lexicom.Authentication package.</Description>
+    <PackageTags>authentication;jwt;dependencyinjection;console</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

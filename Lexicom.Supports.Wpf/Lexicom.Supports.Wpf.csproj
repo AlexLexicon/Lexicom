@@ -4,7 +4,7 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
 
-    <Description>The base package for all Lexicom...For.Wpf packages. Relies on and enforces the target framework to be windows.</Description>
+    <Description>The base package for all Lexicom WPF packages.</Description>
     <PackageTags>dependencyinjection;wpf</PackageTags>
   </PropertyGroup>
 

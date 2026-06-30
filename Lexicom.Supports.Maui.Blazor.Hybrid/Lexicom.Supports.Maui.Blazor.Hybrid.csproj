@@ -7,8 +7,8 @@
     
     <SingleProject>true</SingleProject>
 
-    <Description>The base package for all Lexicom...For.Maui.Blazor.Hybrid packages. Relies on and enforces the target framework to be android, ios, and maccatalyst.</Description>
-    <PackageTags>maui;blazor;dependencyinjection</PackageTags>
+    <Description>The base package for all Lexicom MAUI Blazor Hybrid packages.</Description>
+    <PackageTags>dependencyinjection;blazor;maui</PackageTags>
     
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>

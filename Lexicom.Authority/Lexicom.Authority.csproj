@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>A basis for any system designed to supply a means for authentication and authorization. </Description>
-    <PackageTags>authority;dependencyinjection;jwt</PackageTags>
+    <Description>Provides the foundation for issuing and validating access and refresh tokens across Lexicom packages.</Description>
+    <PackageTags>authority;jwt;dependencyinjection</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

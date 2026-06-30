@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Derives the Lexicom.Smtp package to provide an implementation specific for a Console application project.</Description>
-    <PackageTags>console;dependencyinjection;smtp</PackageTags>
+    <Description>Adds console support to the Lexicom.Smtp package.</Description>
+    <PackageTags>smtp;dependencyinjection;console</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

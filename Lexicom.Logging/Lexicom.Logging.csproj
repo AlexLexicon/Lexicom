@@ -3,13 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Wraps the Serilog package standardizing its use and implementation with other Lexicom packages. This primarily consists of enforcing consistent styles and patterns while also generally reducing the required configuration.</Description>
-    <PackageTags>dependencyinjection;logging</PackageTags>
+    <Description>Wraps Serilog to standardize its use and integration with other Lexicom packages.</Description>
+    <PackageTags>logging;serilog;dependencyinjection</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
-    <PackageReference Include="Serilog.Settings.Configuration" Version="10.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="10.0.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
   </ItemGroup>

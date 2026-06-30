@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Derives the Lexicom.Authorization package to provide an implementation specific for an AspNetCore controller application project.</Description>
-    <PackageTags>aspnetcore;authorization;dependencyinjection;jwt</PackageTags>
+    <Description>Adds ASP.NET Core controller support to the Lexicom.Authorization package.</Description>
+    <PackageTags>authorization;jwt;dependencyinjection;aspnetcore</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

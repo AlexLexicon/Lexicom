@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>A fork of the saleem-mirza/serilog-sinks-azure-analytics package whose purpose is to fix and extend various functionality.</Description>
-    <PackageTags>azure;dependencyinjection;logging</PackageTags>
+    <Description>A Serilog sink that writes log events to Azure Log Analytics.</Description>
+    <PackageTags>logging;serilog;azure</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

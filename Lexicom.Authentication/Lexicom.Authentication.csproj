@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>A basis for any authentication features and or functionality to be further implemented manually or by a derivative package.</Description>
-    <PackageTags>authentication;dependencyinjection</PackageTags>
+    <Description>Provides the foundation for authentication across Lexicom packages.</Description>
+    <PackageTags>authentication;jwt;dependencyinjection</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.9" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Provides functionality to simplify some aspects of using an HttpClient.</Description>
-    <PackageTags>dependencyinjection;http</PackageTags>
+    <Description>Provides helpers that simplify working with HttpClient.</Description>
+    <PackageTags>http;dependencyinjection</PackageTags>
   </PropertyGroup>
 
 </Project>

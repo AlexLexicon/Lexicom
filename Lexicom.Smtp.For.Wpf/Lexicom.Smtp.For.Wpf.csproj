@@ -4,8 +4,8 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
 
-    <Description>Derives the Lexicom.Smtp package to provide an implementation specific for a Wpf application project.</Description>
-    <PackageTags>dependencyinjection;smtp;wpf</PackageTags>
+    <Description>Adds WPF support to the Lexicom.Smtp package.</Description>
+    <PackageTags>smtp;dependencyinjection;wpf</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

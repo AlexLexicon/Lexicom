@@ -4,8 +4,8 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
 
-    <Description>Derives the Lexicom.EntityFramework.Identity package to provide an implementation specific for a Wpf application project.</Description>
-    <PackageTags>dependencyinjection;entityframework;identity;wpf</PackageTags>
+    <Description>Adds WPF support to the Lexicom.EntityFramework.Identity package.</Description>
+    <PackageTags>identity;entityframework;dependencyinjection;wpf</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

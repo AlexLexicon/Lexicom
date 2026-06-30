@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Derives the Lexicom.Mvvm package to provide an implementation specific for a Blazor web assembly application project.</Description>
-    <PackageTags>blazor;webassembly;dependencyinjection;mvvm</PackageTags>
+    <Description>Adds Blazor WebAssembly support to the Lexicom.Mvvm package.</Description>
+    <PackageTags>mvvm;communitytoolkit;dependencyinjection;blazor;webassembly</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

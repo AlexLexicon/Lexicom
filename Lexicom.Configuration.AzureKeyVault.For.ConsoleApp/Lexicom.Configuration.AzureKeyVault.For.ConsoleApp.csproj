@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Derives the Lexicom.Configuration.AzureKeyVault package to provide an implementation specific for a Console application project.</Description>
-    <PackageTags>azure;dependencyinjection;console</PackageTags>
+    <Description>Adds console support to the Lexicom.Configuration.AzureKeyVault package.</Description>
+    <PackageTags>configuration;azure;console</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

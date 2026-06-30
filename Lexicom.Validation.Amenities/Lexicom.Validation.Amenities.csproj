@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Adds convenient but optional features for projects already using the Lexicom.Validation package.</Description>
-    <PackageTags>dependencyinjection;validation</PackageTags>
+    <Description>Adds convenient but optional features for the Lexicom.Validation package.</Description>
+    <PackageTags>validation;fluentvalidation;dependencyinjection</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

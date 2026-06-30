@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>11</LangVersion>
 
-    <Description>A framework designed to simplify and quicken the creation of source code generators at the cost of performance.</Description>
-    <PackageTags>analyzers</PackageTags>
+    <Description>Simplifies creating Roslyn source generators at the cost of performance.</Description>
+    <PackageTags>sourcegenerator;analyzers</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

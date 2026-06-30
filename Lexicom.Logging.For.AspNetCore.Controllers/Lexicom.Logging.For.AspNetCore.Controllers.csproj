@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Derives the Lexicom.Logging package to provide an implementation specific for an AspNetCore controller application project.</Description>
-    <PackageTags>aspnetcore;dependencyinjection;logging</PackageTags>
+    <Description>Adds ASP.NET Core controller support to the Lexicom.Logging package.</Description>
+    <PackageTags>logging;serilog;dependencyinjection;aspnetcore</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

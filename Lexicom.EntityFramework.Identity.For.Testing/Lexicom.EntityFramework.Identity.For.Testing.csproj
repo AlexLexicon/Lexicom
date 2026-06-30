@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
 
-    <Description>Derives the Lexicom.EntityFramework.Identity package to provide an implementation specific for a test project.</Description>
-    <PackageTags>dependencyinjection;entityframework;identity</PackageTags>
+    <Description>Adds testing support to the Lexicom.EntityFramework.Identity package.</Description>
+    <PackageTags>identity;entityframework;dependencyinjection;testing</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

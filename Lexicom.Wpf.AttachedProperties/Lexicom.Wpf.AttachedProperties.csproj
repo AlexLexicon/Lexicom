@@ -4,8 +4,8 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
 
-    <Description>Supplies useful attached properties for any Wpf application project.</Description>
-    <PackageTags>wpf</PackageTags>
+    <Description>Provides useful attached properties for WPF application projects.</Description>
+    <PackageTags>attachedproperties;wpf</PackageTags>
   </PropertyGroup>
 
 </Project>
