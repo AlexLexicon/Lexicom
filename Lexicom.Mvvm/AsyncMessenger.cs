@@ -114,6 +114,11 @@ public class AsyncMessenger : IMessenger
             var tasks = new HashSet<Task>();
             foreach (IAsyncMessageReply reply in envelope.Responses)
             {
+                if (reply.Receiver is DisposableObservableObject disposable && disposable.IsDisposed)
+                {
+                    continue;
+                }
+
                 Task sendTask = reply.SendAsync(cancellationToken);
 
                 tasks.Add(sendTask);

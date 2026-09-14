@@ -2,6 +2,7 @@ namespace Lexicom.Mvvm;
 
 public interface IAsyncMessageReply
 {
+    public object Receiver { get; }
     Task SendAsync(CancellationToken cancellationToken);
 }
 public class AsyncMessageReply<TMessage> : IAsyncMessageReply where TMessage : class
@@ -20,6 +21,7 @@ public class AsyncMessageReply<TMessage> : IAsyncMessageReply where TMessage : c
 
     public TMessage Message { get; }
     public IAsyncRecipient<TMessage> Recipient { get; }
+    public object Receiver => Recipient;
 
     public async Task SendAsync(CancellationToken cancellationToken)
     {
