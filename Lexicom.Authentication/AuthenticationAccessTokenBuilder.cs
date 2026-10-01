@@ -1,4 +1,5 @@
 ﻿using Lexicom.Authentication.Configurations;
+using Lexicom.Authentication.Extensions;
 using Lexicom.Jwt.Extensions;
 using Lexicom.Jwt.Options;
 using Microsoft.AspNetCore.Authentication;
@@ -53,10 +54,8 @@ public class AuthenticationAccessTokenBuilder : IAuthenticationAccessTokenBuilde
     {
         Services.AddJwtSecretsOptions(JwtOptions.ACCESS_TOKEN_SECTION);
 
-        Services.ConfigureOptions<AuthenticationOptionsConfiguration>();
+        Services.AddLexicomAuthenticationDefaultScheme();
         Services.ConfigureOptions<JwtBearerOptionsConfiguration>();
-
-
 
         AuthenticationBuilder builder;
         if (ConfigureAuthenticationDelegate is not null)

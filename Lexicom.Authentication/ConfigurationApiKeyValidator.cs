@@ -1,5 +1,6 @@
 using Lexicom.Authentication.Options;
 using Lexicom.Jwt;
+using Lexicom.Validation.Options;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -28,22 +29,23 @@ public class ConfigurationApiKeyValidator : IApiKeyValidator
 
         ApiKeyOptions apiKeyOptions = _apiKeyOptions.CurrentValue;
 
+        if (apiKeyOptions.Keys is null)
+        {
+            return Task.FromResult(ApiKeyValidationResult.Invalid());
+        }
+
         byte[] providedApiKeyBytes = Encoding.UTF8.GetBytes(apiKey);
 
         ApiKeyOptionsDescriptor? matchedDescriptor = null;
-        foreach (ApiKeyOptionsDescriptor descriptor in apiKeyOptions.KeyDescriptions)
+        foreach (ApiKeyOptionsDescriptor descriptor in apiKeyOptions.Keys)
         {
-            if (descriptor.Key is null)
-            {
-                continue;
-            }
+            AbstractOptionsValidator<ApiKeyOptions>.ThrowIfNull(descriptor.Key);
 
             byte[] descriptorApiKeyBytes = Encoding.UTF8.GetBytes(descriptor.Key);
 
             //'FixedTimeEquals' helps protect against timing attacks
-            //it requires both spans to be the same length
-            if (providedApiKeyBytes.Length == descriptorApiKeyBytes.Length &&
-                CryptographicOperations.FixedTimeEquals(providedApiKeyBytes, descriptorApiKeyBytes))
+            //it returns false right away when the lengths are different
+            if (CryptographicOperations.FixedTimeEquals(providedApiKeyBytes, descriptorApiKeyBytes))
             {
                 matchedDescriptor = descriptor;
                 break;
@@ -55,13 +57,34 @@ public class ConfigurationApiKeyValidator : IApiKeyValidator
             return Task.FromResult(ApiKeyValidationResult.Invalid());
         }
 
+        AbstractOptionsValidator<ApiKeyOptions>.ThrowIfNull(matchedDescriptor.Id);
+
         var claims = new List<Claim>();
 
-        foreach (string permission in matchedDescriptor.Permissions)
+        if (matchedDescriptor.Permissions is not null)
         {
-            claims.Add(new Claim(LexicomJwtClaimTypes.Permission, permission));
+            foreach (string permission in matchedDescriptor.Permissions)
+            {
+                claims.Add(new Claim(LexicomJwtClaimTypes.Permission, permission));
+            }
         }
 
-        return Task.FromResult(ApiKeyValidationResult.Valid(claims));
+        if (matchedDescriptor.Roles is not null)
+        {
+            foreach (string role in matchedDescriptor.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+        }
+
+        if (matchedDescriptor.Claims is not null)
+        {
+            foreach ((string type, string value) in matchedDescriptor.Claims)
+            {
+                claims.Add(new Claim(type, value));
+            }
+        }
+
+        return Task.FromResult(ApiKeyValidationResult.Valid(matchedDescriptor.Id.Value, claims));
     }
 }

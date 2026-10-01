@@ -10,6 +10,8 @@ public interface IApiKeyAuthenticationBuilder
     IServiceCollection Services { get; }
     /// <exception cref="ArgumentNullException"/>
     IApiKeyAuthenticationBuilder ConfigureApiKey(Action<ApiKeyAuthenticationOptions> configure);
+    //replaces the configuration backed 'ConfigurationApiKeyValidator'
+    //eg to validate api keys stored in a database
     IApiKeyAuthenticationBuilder UseValidator<TApiKeyValidator>() where TApiKeyValidator : class, IApiKeyValidator;
 }
 public class ApiKeyAuthenticationBuilder : IApiKeyAuthenticationBuilder
@@ -53,12 +55,14 @@ public class ApiKeyAuthenticationBuilder : IApiKeyAuthenticationBuilder
         }
         else
         {
-            Services.AddApiKeysOptions();
+            Services.AddApiKeyOptions();
             Services.TryAddScoped<IApiKeyValidator, ConfigurationApiKeyValidator>();
         }
 
-        AuthenticationBuilder authenticationBuilder = Services.AddAuthentication();
+        Services.AddLexicomAuthenticationDefaultScheme();
 
-        authenticationBuilder.AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>(ApiKeyDefaults.AuthenticationScheme, ConfigureApiKeyDelegate);
+        AuthenticationBuilder builder = Services.AddAuthentication();
+
+        builder.AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>(ApiKeyDefaults.AuthenticationScheme, ConfigureApiKeyDelegate);
     }
 }
