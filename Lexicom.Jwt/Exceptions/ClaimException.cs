@@ -1,6 +1,6 @@
 ﻿namespace Lexicom.Jwt.Exceptions;
 
-public class ClaimException : Exception
+public class ClaimException(string? claimSourceName, string? claimName, string? message) : Exception(message)
 {
     public static string GetClaimSourceAndNameString(string? claimSourceName, string? claimName)
     {
@@ -14,7 +14,6 @@ public class ClaimException : Exception
         return $"{claimSourceName}.{actualClaimName}";
     }
 
-    public ClaimException(string? message) : base(message)
-    {
-    }
+    public string ClaimSourceName { get; } = claimSourceName ?? "null";
+    public string ClaimName { get; } = claimName ?? "null";
 }

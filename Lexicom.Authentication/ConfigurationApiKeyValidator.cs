@@ -1,4 +1,5 @@
 using Lexicom.Authentication.Options;
+using Lexicom.Authentication.Validators;
 using Lexicom.Jwt;
 using Lexicom.Validation.Options;
 using Microsoft.Extensions.Options;
@@ -82,8 +83,13 @@ public class ConfigurationApiKeyValidator : IApiKeyValidator
 
         if (matchedKey.Claims is not null)
         {
-            foreach ((string type, string value) in matchedKey.Claims)
+            foreach ((string type, string? value) in matchedKey.Claims)
             {
+                if (value is null)
+                {
+                    throw AbstractOptionsValidator<ApiKeyOptions>.ToUnreachableException($"The '{type}' claim of the api key with the id '{matchedKey.Id}' had a 'null' value which is not valid but was configured to use a {nameof(ApiKeyOptionsValidator)} at the application startup.");
+                }
+
                 claims.Add(new Claim(type, value));
             }
         }

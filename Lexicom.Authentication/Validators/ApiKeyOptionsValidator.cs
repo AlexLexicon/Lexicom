@@ -21,7 +21,7 @@ public class ApiKeyOptionsValidator : AbstractOptionsValidator<ApiKeyOptions>
                     .GroupBy(d => d.Id)
                     .All(g => g.Count() is 1);
             })
-            .WithMessage($"Every '{nameof(ApiKeyOptionsKey.Id)}' in '{{PropertyName}}' must be unique.")
+            .WithMessage($"'{{PropertyName}}' must have a unique '{nameof(ApiKeyOptionsKey.Id)}' for every api key.")
             .Must(ks =>
             {
                 return ks is null || ks
@@ -29,7 +29,7 @@ public class ApiKeyOptionsValidator : AbstractOptionsValidator<ApiKeyOptions>
                     .GroupBy(d => d.Key)
                     .All(g => g.Count() is 1);
             })
-            .WithMessage($"Every '{nameof(ApiKeyOptionsKey.Key)}' in '{{PropertyName}}' must be unique.");
+            .WithMessage($"'{{PropertyName}}' must have a unique '{nameof(ApiKeyOptionsKey.Key)}' for every api key.");
 
         RuleForEach(o => o.Keys)
             .NotNull()
@@ -47,6 +47,12 @@ public class ApiKeyOptionsValidator : AbstractOptionsValidator<ApiKeyOptions>
 
                 k.RuleForEach(d => d.Roles)
                     .UseRuleSet(requiredRuleSet);
+
+                k.RuleForEach(d => d.Claims)
+                    .Must(c => !string.IsNullOrWhiteSpace(c.Key))
+                    .WithMessage("'{PropertyName}' must not have an empty claim type.")
+                    .Must(c => !string.IsNullOrWhiteSpace(c.Value))
+                    .WithMessage((_, c) => $"'{{PropertyName}}' must have a value for the '{c.Key}' claim.");
             });
     }
 }

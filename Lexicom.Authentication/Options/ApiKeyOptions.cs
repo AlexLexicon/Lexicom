@@ -14,5 +14,5 @@ public class ApiKeyOptionsKey
     public IList<string>? Permissions { get; set; }
     //the Roles become values 'role' claims
     public IList<string>? Roles { get; set; }
-    public IDictionary<string, string>? Claims { get; set; }
+    public IDictionary<string, string?>? Claims { get; set; }
 }

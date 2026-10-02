@@ -27,7 +27,7 @@ public class AuthenticationClaimExceptionHandler : IExceptionHandler
         {
             if (_logger.IsEnabled(LogLevel.Error))
             {
-                _logger.LogError(exception, "The '{claimSourceName}.{claim}' claim was not included in the authenticated claims.", claimDoesNotExistException.ClaimSourceName ?? "null", claimDoesNotExistException.Claim ?? "null");
+                _logger.LogError(exception, "The '{claim}' claim was not included in the authenticated claims.", ClaimException.GetClaimSourceAndNameString(claimDoesNotExistException.ClaimSourceName, claimDoesNotExistException.ClaimName));
             }
 
             return new ExceptionHandledResult(HttpStatusCode.Unauthorized);
@@ -36,7 +36,7 @@ public class AuthenticationClaimExceptionHandler : IExceptionHandler
         {
             if (_logger.IsEnabled(LogLevel.Error))
             {
-                _logger.LogError(exception, "The '{claimSourceName}.{claim}' claim was not valid, in many cases this is because the claim is not a valid Guid.", claimNotValidException.ClaimSourceName ?? "null", claimNotValidException.ClaimName ?? "null");
+                _logger.LogError(exception, "The '{claim}' claim was not valid, in many cases this is because the claim is not a valid Guid.", ClaimException.GetClaimSourceAndNameString(claimNotValidException.ClaimSourceName, claimNotValidException.ClaimName));
             }
 
             return new ExceptionHandledResult(HttpStatusCode.Unauthorized);
