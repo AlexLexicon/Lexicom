@@ -18,6 +18,7 @@
   <Folder Name="/.repo/">
     <File Path=".gitattributes" />
     <File Path=".gitignore" />
+    <File Path="global.json" />
     <File Path="LICENSE.txt" />
     <File Path="README.md" />
   </Folder>
