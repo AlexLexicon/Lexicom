@@ -41,7 +41,7 @@ public static class FilePathValidator
 }
 public class FilePathPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(FilePathPropertyValidator<>);
+    public const string NAME = nameof(FilePathPropertyValidator<T>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must be a valid file path.";
 
     public override string Name { get; } = NAME;

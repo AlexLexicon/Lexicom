@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <Description>Wraps Azure Key Vault configuration to standardize its use and integration with other Lexicom packages.</Description>
     <PackageTags>configuration;azure</PackageTags>

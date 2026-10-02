@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <Description>Provides the abstractions for the Lexicom.DependencyInjection.Hosting package.</Description>
     <PackageTags>hosting;dependencyinjection</PackageTags>

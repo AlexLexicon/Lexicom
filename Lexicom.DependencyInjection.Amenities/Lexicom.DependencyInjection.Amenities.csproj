@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <Description>Adds convenient but optional features for any project using dependency injection.</Description>
     <PackageTags>dependencyinjection</PackageTags>

@@ -17,7 +17,7 @@ public abstract class AbstractOptionsValidator<T> : AbstractValidator<T>
         {
             optionsValueExpression = optionsValueExpression.SimplifyCallerArgumentExpression();
 
-            throw ToUnreachableException($"The options '{typeof(TOption).Name}' for '{optionsValueExpression}' was 'null' which is not valid but was configured to use a {nameof(AbstractOptionsValidator<>)} at the application startup.");
+            throw ToUnreachableException($"The options '{typeof(TOption).Name}' for '{optionsValueExpression}' was 'null' which is not valid but was configured to use a {nameof(AbstractOptionsValidator<T>)} at the application startup.");
         }
     }
 

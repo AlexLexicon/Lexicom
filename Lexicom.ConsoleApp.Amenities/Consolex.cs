@@ -23,35 +23,37 @@ public static class Consolex
     public delegate bool TryParseDelegate<T>(string? input, out T result);
     public delegate bool TryParseWithSettingsDelegate<T, TSettings>(string? input, TSettings settings, out T result) where TSettings : ReadLineSettings;
 
-    /// <exception cref="ArgumentNullException"/>
-    public static ReadLineSettings DefaultReadLineSettings
-    {
-        get;
-        set
-        {
-            ArgumentNullException.ThrowIfNull(value);
-            field = value;
-        }
-    } = new ReadLineSettings(
+    private static ReadLineSettings _defaultReadLineSettings = new ReadLineSettings(
         cancelKey: ConsoleKey.Escape,
         defaultKey: ConsoleKey.F1,
         defaultInput: null,
         initialInput: null,
         inputColor: ConsoleColor.Green
     );
-
-    public static IConsolexConsole? ConsolexConsole { get; set; } = new ConsolexConsole();
-
     /// <exception cref="ArgumentNullException"/>
-    public static JsonSerializerSettings JsonSerializerSettings
+    public static ReadLineSettings DefaultReadLineSettings
     {
-        get;
+        get => _defaultReadLineSettings;
         set
         {
             ArgumentNullException.ThrowIfNull(value);
-            field = value;
+            _defaultReadLineSettings = value;
         }
-    } = new JsonSerializerSettings();
+    }
+
+    public static IConsolexConsole? ConsolexConsole { get; set; } = new ConsolexConsole();
+
+    private static JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings();
+    /// <exception cref="ArgumentNullException"/>
+    public static JsonSerializerSettings JsonSerializerSettings
+    {
+        get => _jsonSerializerSettings;
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            _jsonSerializerSettings = value;
+        }
+    } 
 
     public static void WriteAsJsonWithType(object? obj) => WriteAsJsonWithType(obj, JsonSerializerSettings);
     /// <exception cref="ArgumentNullException"/>
@@ -192,9 +194,9 @@ public static class Consolex
                 ConsolexConsole?.WriteLine($"{descriptionPart}{keysPart}");
             }
 
-            if (settings.InputColor.HasValue)
+            if (settings.InputColor.HasValue && ConsolexConsole is not null)
             {
-                ConsolexConsole?.ForegroundColor = settings.InputColor.Value;
+                ConsolexConsole.ForegroundColor = settings.InputColor.Value;
             }
 
             bool isCancelled = false;
@@ -463,13 +465,6 @@ public static class Consolex
         }
     }
     public static void WriteLine(ulong value, ConsoleColor? color = null)
-    {
-        if (ConsolexConsole is not null)
-        {
-            WriteColoredLine(value, ConsolexConsole.WriteLine, color);
-        }
-    }
-    public static void WriteLine(ReadOnlySpan<char> value, ConsoleColor? color = null)
     {
         if (ConsolexConsole is not null)
         {

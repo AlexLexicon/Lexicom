@@ -8,7 +8,7 @@ namespace IntegrationTests.For.Lexicom.Mvvm.Constructs.ViewModels;
 public partial class NotificationDialogViewModel : DisposableObservableObject, IRecipient<NewNotificationMessage>
 {
     [ObservableProperty]
-    public partial int ReceivedNotificationCount { get; set; }
+    public int _receivedNotificationCount;
 
     public void Receive(NewNotificationMessage message)
     {

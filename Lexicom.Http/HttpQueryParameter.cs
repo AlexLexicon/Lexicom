@@ -124,7 +124,8 @@ public class HttpQueryParameter
     public string Name { get; }
     public string Value { get; }
 
-    public string EscapedValue => field ??= Uri.EscapeDataString(Value);
+    private string? _escapedValue;
+    public string EscapedValue => _escapedValue ??= Uri.EscapeDataString(Value);
 
     public override string ToString()
     {

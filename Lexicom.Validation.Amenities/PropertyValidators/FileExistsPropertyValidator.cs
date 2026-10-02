@@ -16,7 +16,7 @@ public static class FileExistsValidator
 }
 public class FileExistsPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(FileExistsPropertyValidator<>);
+    public const string NAME = nameof(FileExistsPropertyValidator<T>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must be an existing file path.";
 
     public override string Name { get; } = NAME;

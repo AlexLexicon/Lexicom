@@ -9,7 +9,8 @@ public static class MessengerExtensions
     private const AsyncMessageAwaitStrategy DEFAULT_AWAITSTRATEGY = AsyncMessageAwaitStrategy.ForeachAwait;
     private const ScheduleMessagePriority DEFAULT_PRIORITY = ScheduleMessagePriority.ApplicationIdle;
 
-    private static MethodInfo RegisterMethodInfo => field ??= typeof(MessengerExtensions).GetMethod(nameof(AsyncRegister), BindingFlags.Public | BindingFlags.Static) ?? throw new UnreachableException($"The method '{nameof(AsyncRegister)}' was not found.");
+    private static MethodInfo? _registerMethodInfo;
+    private static MethodInfo RegisterMethodInfo => _registerMethodInfo ??= typeof(MessengerExtensions).GetMethod(nameof(AsyncRegister), BindingFlags.Public | BindingFlags.Static) ?? throw new UnreachableException($"The method '{nameof(AsyncRegister)}' was not found.");
 
     /// <exception cref="ArgumentNullException"/>
     public static async Task SendAsync<TMessage>(this IMessenger messenger, TMessage message, CancellationToken cancellationToken = default) where TMessage : class

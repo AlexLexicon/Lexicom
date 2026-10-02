@@ -23,7 +23,6 @@ public interface IConsolexConsole
     void WriteLine(string? value);
     void WriteLine(uint value);
     void WriteLine(ulong value);
-    void WriteLine(ReadOnlySpan<char> value);
     void WriteLine(char[] buffer, int index, int count);
     string? ReadLine();
     ConsoleKeyInfo ReadKey(bool intercept);
@@ -117,10 +116,6 @@ public class ConsolexConsole : IConsolexConsole
         Console.WriteLine(value);
     }
     public void WriteLine(ulong value)
-    {
-        Console.WriteLine(value);
-    }
-    public void WriteLine(ReadOnlySpan<char> value)
     {
         Console.WriteLine(value);
     }

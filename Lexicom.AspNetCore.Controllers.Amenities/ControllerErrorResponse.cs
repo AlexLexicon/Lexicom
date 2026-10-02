@@ -4,18 +4,19 @@ namespace Lexicom.AspNetCore.Controllers.Amenities;
 
 public class ControllerErrorResponse : ErrorResponse
 {
+    public static ControllerErrorResponse? _unexpectedError;
     public static ControllerErrorResponse UnexpectedError
     {
         get
         {
-            if (field is null)
+            if (_unexpectedError is null)
             {
-                field = new ControllerErrorResponse();
-                field.AddError("Operation Failed", "An unexpected error occurred.");
-                field.AddCode(CODE_UNEXPECTED);
+                _unexpectedError = new ControllerErrorResponse();
+                _unexpectedError.AddError("Operation Failed", "An unexpected error occurred.");
+                _unexpectedError.AddCode(CODE_UNEXPECTED);
             }
 
-            return field;
+            return _unexpectedError;
         }
     }
 

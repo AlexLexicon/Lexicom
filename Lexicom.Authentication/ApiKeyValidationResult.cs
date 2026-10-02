@@ -18,7 +18,7 @@ public readonly struct ApiKeyValidationResult
     {
         IsValid = isValid;
         ApiKeyId = id;
-        ApiKeyClaims = claims;
+        _apiKeyClaims = claims;
     }
 
     public bool IsValid { get; }
@@ -26,7 +26,8 @@ public readonly struct ApiKeyValidationResult
     public Guid ApiKeyId { get; }
     //the claims to attach to the authenticated caller when the api key is valid
     //include 'permission' claims here so they flow through the 'AddPermissions(...)' policies
-    public IReadOnlyList<Claim> ApiKeyClaims => field ?? Array.Empty<Claim>();
+    private readonly IReadOnlyList<Claim>? _apiKeyClaims;
+    public IReadOnlyList<Claim> ApiKeyClaims => _apiKeyClaims ?? Array.Empty<Claim>();
 
     public static ApiKeyValidationResult Invalid() => default;
 

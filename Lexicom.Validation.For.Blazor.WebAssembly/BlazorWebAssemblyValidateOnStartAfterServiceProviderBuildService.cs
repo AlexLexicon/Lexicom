@@ -19,7 +19,8 @@ public class BlazorWebAssemblyValidateOnStartAfterServiceProviderBuildService : 
 {
     public ServiceProviderBuildPriority Priority => ServiceProviderBuildPriority.Middle;
 
-    private static MethodInfo StaticValidateOptionsMethodInfo => field ??= (typeof(BlazorWebAssemblyValidateOnStartAfterServiceProviderBuildService).GetMethod(nameof(ValidateOptions), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(ValidateOptions)}' was not found."));
+    private static MethodInfo? _staticValidateOptionsMethodInfo;
+    private static MethodInfo StaticValidateOptionsMethodInfo => _staticValidateOptionsMethodInfo ??= (typeof(BlazorWebAssemblyValidateOnStartAfterServiceProviderBuildService).GetMethod(nameof(ValidateOptions), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(ValidateOptions)}' was not found."));
     private static void ValidateOptions<TOptions>(IServiceProvider provider, string name) where TOptions : class
     {
         var validateOptions = provider.GetService<IValidateOptions<TOptions>>();

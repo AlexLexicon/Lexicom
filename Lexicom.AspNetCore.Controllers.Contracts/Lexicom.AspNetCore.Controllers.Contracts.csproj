@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <Description>Provides request and response features for ASP.NET Core controller web APIs That integrate with other Lexiom packages.</Description>
     <PackageTags>http;aspnetcore</PackageTags>

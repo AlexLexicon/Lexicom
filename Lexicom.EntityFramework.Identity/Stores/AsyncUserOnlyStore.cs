@@ -43,7 +43,7 @@ public class AsyncUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, T
     public bool AutoSaveChanges { get; set; }
 
     /// <exception cref="NotSupportedException"/>
-    public override IQueryable<TUser> Users => throw new NotSupportedException($"'{nameof(AsyncUserOnlyStore<>)}' does not support the '{nameof(Users)}' queryable. Use the asynchronous query methods such as 'FindByNameAsync' instead.");
+    public override IQueryable<TUser> Users => throw new NotSupportedException($"'{nameof(AsyncUserOnlyStore<IdentityUser<string>>)}' does not support the '{nameof(Users)}' queryable. Use the asynchronous query methods such as 'FindByNameAsync' instead.");
 
     protected async Task SaveChanges(TContext context, CancellationToken cancellationToken = default)
     {

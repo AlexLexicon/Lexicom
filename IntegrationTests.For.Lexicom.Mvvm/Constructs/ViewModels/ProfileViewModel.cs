@@ -25,10 +25,10 @@ public partial class ProfileViewModel : DisposableObservableObject, IAsyncRecipi
     private Account Account { get; }
 
     [ObservableProperty]
-    public partial string? Name { get; set; }
+    public string? _name;
 
     [ObservableProperty]
-    public partial int NotificationsCount { get; set; }
+    public int _notificationsCount;
 
     public async Task LoadAsync()
     {

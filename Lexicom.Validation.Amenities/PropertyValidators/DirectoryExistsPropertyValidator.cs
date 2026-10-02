@@ -16,7 +16,7 @@ public static class DirectoryExistsValidator
 }
 public class DirectoryExistsPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(DirectoryExistsPropertyValidator<>);
+    public const string NAME = nameof(DirectoryExistsPropertyValidator<T>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must be an existing directory path.";
 
     public override string Name { get; } = NAME;

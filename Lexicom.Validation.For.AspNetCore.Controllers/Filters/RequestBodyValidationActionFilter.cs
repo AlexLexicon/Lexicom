@@ -24,11 +24,12 @@ public class RequestBodyValidationActionFilter : IAsyncActionFilter
 {
     /*
      * the FluentValidation validators have a generic argument
-     * but we need to get them from the service provider without knowing what that generic type is
-     * so we create a MethodInfo wrapper around the gneric ValidateAsync
-     * which we can invoke via reflection
+     * but we need to get them from the service provider without
+     * knowing what that generic type is so we create a MethodInfo wrapper
+     * around the gneric ValidateAsync which we can invoke via reflection
      */
-    private static MethodInfo StaticInvokeValidatorMethodInfo => field ??= (typeof(RequestBodyValidationActionFilter).GetMethod(nameof(StaticInvokeValidator), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(StaticInvokeValidator)}' was not found."));
+    private static MethodInfo? _staticInvokeValidatorMethodInfo;
+    private static MethodInfo StaticInvokeValidatorMethodInfo => _staticInvokeValidatorMethodInfo ??= (typeof(RequestBodyValidationActionFilter).GetMethod(nameof(StaticInvokeValidator), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(StaticInvokeValidator)}' was not found."));
     private static Task<ValidationResult>? StaticInvokeValidator<T>(HttpContext httpContext, T requestBody)
     {
         IValidator<T>? validator = httpContext.RequestServices.GetService<IValidator<T>>();

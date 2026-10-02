@@ -23,13 +23,13 @@ public partial class NotificationTrayViewModel : DisposableObservableObject, IAs
     }
 
     [ObservableProperty]
-    public partial int NotificationsCount { get; set; }
+    public int _notificationsCount;
 
     [ObservableProperty]
-    public partial int ReceivedNotificationCount { get; set; }
+    public int _receivedNotificationCount;
 
     [ObservableProperty]
-    public partial NotificationDialogViewModel NotificationDialogViewModel { get; set; }
+    public NotificationDialogViewModel _notificationDialogViewModel;
 
     public override void Dispose()
     {

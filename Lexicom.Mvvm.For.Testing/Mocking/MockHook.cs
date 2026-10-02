@@ -30,7 +30,8 @@ public static class MockHook
         return false;
     }
 
-    private static MethodInfo StaticMockViewModelMethodInfo => field ??= typeof(MockHook).GetMethod(nameof(MockViewModel), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(MockViewModel)}' was not found.");
+    private static MethodInfo? _staticMockViewModelMethodInfo;
+    private static MethodInfo StaticMockViewModelMethodInfo => _staticMockViewModelMethodInfo ??= typeof(MockHook).GetMethod(nameof(MockViewModel), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(MockViewModel)}' was not found.");
     private static void MockViewModel<TViewModel>(MockManager manager) where TViewModel : class
     {
         manager

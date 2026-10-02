@@ -5,12 +5,14 @@ namespace Lexicom.Extensions.TimeSpans;
 
 public static class TimeSpanExtensions
 {
-    private static IReadOnlyList<TimeSpanDelineation> OrderedTimeSpanDelineations => field ??= Enum
+    private static IReadOnlyList<TimeSpanDelineation>? _orderedTimeSpanDelineations;
+    private static IReadOnlyList<TimeSpanDelineation> OrderedTimeSpanDelineations => _orderedTimeSpanDelineations ??= Enum
         .GetValues<TimeSpanDelineation>()
         .Where(d => d is not TimeSpanDelineation.None)
         .OrderByDescending(d => d)
         .ToList();
-    private static IReadOnlyList<int> OrderedTimeSpanDelineationIndexes => field ??= Enum
+    private static IReadOnlyList<int>? _orderedTimeSpanDelineationIndexes;
+    private static IReadOnlyList<int> OrderedTimeSpanDelineationIndexes => _orderedTimeSpanDelineationIndexes ??= Enum
         .GetValues<TimeSpanDelineation>()
         .Cast<int>()
         .Where(i => i is not 0)

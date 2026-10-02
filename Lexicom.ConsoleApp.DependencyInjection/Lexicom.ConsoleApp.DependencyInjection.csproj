@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <Description>Adds an application builder that brings dependency injection to console application projects.</Description>
     <PackageTags>dependencyinjection;console</PackageTags>

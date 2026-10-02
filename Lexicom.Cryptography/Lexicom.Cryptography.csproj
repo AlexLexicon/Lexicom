@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <Description>Provides simple string encryption and decryption for applications with minimal security needs.</Description>
     <PackageTags>cryptography;dependencyinjection</PackageTags>

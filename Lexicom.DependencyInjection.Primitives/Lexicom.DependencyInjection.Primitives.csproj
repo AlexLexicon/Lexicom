@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <Description>Provides injectable wrappers for primitive operations such as time, randomness, and GUID creation.</Description>
     <PackageTags>primitives;dependencyinjection</PackageTags>

@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Lexicom.Mvvm;
 using IntegrationTests.For.Lexicom.Mvvm.Constructs.Models;
 using IntegrationTests.For.Lexicom.Mvvm.Constructs.Services;
+using Lexicom.Mvvm;
 
 namespace IntegrationTests.For.Lexicom.Mvvm.Constructs.ViewModels;
 
@@ -19,7 +19,7 @@ public partial class HeaderViewModel : DisposableObservableObject
     }
 
     [ObservableProperty]
-    public partial ProfileViewModel? ProfileViewModel { get; set; }
+    private ProfileViewModel? _profileViewModel;
 
     public override void Dispose()
     {

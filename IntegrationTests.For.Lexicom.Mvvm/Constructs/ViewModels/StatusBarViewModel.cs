@@ -8,10 +8,10 @@ namespace IntegrationTests.For.Lexicom.Mvvm.Constructs.ViewModels;
 public partial class StatusBarViewModel : DisposableObservableObject, IAsyncRecipient<StatusMessage>, IRecipient<StatusMessage>
 {
     [ObservableProperty]
-    public partial int AsyncReceivedCount { get; set; }
+    public int _asyncReceivedCount;
 
     [ObservableProperty]
-    public partial int SyncReceivedCount { get; set; }
+    public int _syncReceivedCount;
 
     public Task LoadAsync()
     {

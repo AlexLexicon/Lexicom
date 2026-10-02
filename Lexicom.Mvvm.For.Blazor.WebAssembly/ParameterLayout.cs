@@ -12,15 +12,16 @@ public abstract class ParameterLayout<TViewModel> : LayoutComponentBase, IMvvmCo
         _componentBehavior = new ComponentBehavior<TViewModel>(this);
     }
 
+    private TViewModel _viewModel;
     [Parameter]
     public TViewModel ViewModel
     {
-        get => field!; //technically _viewModel will be null if the implementation doesnt set the parameter but in that case an exception will be thrown from 'OnInitializedAsync' and because of that we can actually say this is never null for the consuming implementation
+        get => _viewModel!; //technically _viewModel will be null if the implementation doesnt set the parameter but in that case an exception will be thrown from 'OnInitializedAsync' and because of that we can actually say this is never null for the consuming implementation
         set
         {
             _componentBehavior.DisposeViewModel();
 
-            field = value;
+            _viewModel = value;
 
             _componentBehavior.SubmitViewModel();
         }

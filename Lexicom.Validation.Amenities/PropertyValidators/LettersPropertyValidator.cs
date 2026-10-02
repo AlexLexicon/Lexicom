@@ -16,7 +16,7 @@ public static class LettersValidator
 }
 public class LettersPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(LettersPropertyValidator<>);
+    public const string NAME = nameof(LettersPropertyValidator<T>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must contain only letters.";
 
     public override string Name { get; } = NAME;

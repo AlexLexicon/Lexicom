@@ -12,15 +12,16 @@ public class InjectedLayout<TViewModel> : LayoutComponentBase, IMvvmComponent<TV
         _componentBehavior = new ComponentBehavior<TViewModel>(this);
     }
 
+    private TViewModel _viewModel;
     [Inject]
     public TViewModel ViewModel
     {
-        get => field!; //we just have to trust that the Inject attribute will be set before this is ever used
+        get => _viewModel!; //we just have to trust that the Inject attribute will be set before this is ever used
         set
         {
             _componentBehavior.DisposeViewModel();
 
-            field = value;
+            _viewModel = value;
 
             _componentBehavior.SubmitViewModel();
         }

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <Description>Adds console support to the Lexicom.Authentication package.</Description>
     <PackageTags>authentication;jwt;dependencyinjection;console</PackageTags>

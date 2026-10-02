@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <Description>Adds convenient but optional features for the Lexicom.Validation package.</Description>
     <PackageTags>validation;fluentvalidation;dependencyinjection</PackageTags>

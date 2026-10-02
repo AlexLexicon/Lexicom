@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <Description>Wraps System.Net.Mail to standardize its use and integration with other Lexicom packages.</Description>
     <PackageTags>smtp;dependencyinjection</PackageTags>

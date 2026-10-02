@@ -12,16 +12,17 @@ public abstract class LexicomController
     public HttpContext HttpContext => ControllerContext.HttpContext;
     public ClaimsPrincipal User => HttpContext?.User!;
 
-    [ControllerContext]
+    private ControllerContext? _controllerContext;
+   [ControllerContext]
     /// <exception cref="ArgumentNullException"/>
     public ControllerContext ControllerContext
     {
-        get => field ??= new ControllerContext();
+        get => _controllerContext ??= new ControllerContext();
         set
         {
             ArgumentNullException.ThrowIfNull(value);
 
-            field = value;
+            _controllerContext = value;
         }
     }
 

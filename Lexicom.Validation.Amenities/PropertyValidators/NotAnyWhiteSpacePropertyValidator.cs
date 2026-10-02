@@ -16,7 +16,7 @@ public static class NotAnyWhiteSpaceValidator
 }
 public class NotAnyWhiteSpacePropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(NotAnyWhiteSpacePropertyValidator<>);
+    public const string NAME = nameof(NotAnyWhiteSpacePropertyValidator<T>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must not contain any white space characters.";
 
     public override string Name { get; } = NAME;

@@ -16,13 +16,13 @@ public partial class MainViewModel : DisposableObservableObject
     }
 
     [ObservableProperty]
-    public partial HeaderViewModel HeaderViewModel { get; set; }
+    public HeaderViewModel _headerViewModel;
 
     [ObservableProperty]
-    public partial NotificationTrayViewModel NotificationTrayViewModel { get; set; }
+    public NotificationTrayViewModel _notificationTrayViewModel;
 
     [ObservableProperty]
-    public partial StatusBarViewModel StatusBarViewModel { get; set; }
+    public StatusBarViewModel _statusBarViewModel;
 
     public override void Dispose()
     {

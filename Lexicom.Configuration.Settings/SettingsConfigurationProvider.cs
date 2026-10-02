@@ -10,7 +10,10 @@ public class SettingsConfigurationProvider : ConfigurationProvider
     {
         _settings = settings;
 
-        _settings?.SettingsSaving += (sender, e) => Load();
+        if (_settings is not null)
+        {
+            _settings.SettingsSaving += (sender, e) => Load();
+        }
     }
 
     public override void Load()

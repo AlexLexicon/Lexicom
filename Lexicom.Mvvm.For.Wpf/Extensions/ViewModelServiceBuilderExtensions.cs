@@ -24,7 +24,8 @@ public static class ViewModelServiceBuilderExtensions
         return builder;
     }
 
-    private static MethodInfo ForWindowMethod => field ??= typeof(ViewModelServiceBuilderExtensions).GetMethod(nameof(ForWindowGeneric), BindingFlags.NonPublic | BindingFlags.Static)!;
+    private static MethodInfo? _forWindowMethod;
+    private static MethodInfo ForWindowMethod => _forWindowMethod ??= typeof(ViewModelServiceBuilderExtensions).GetMethod(nameof(ForWindowGeneric), BindingFlags.NonPublic | BindingFlags.Static)!;
     private static void ForWindowGeneric<TViewModelService, TViewModelImplementation>(IViewModelServiceBuilder builder, Type windowType) where TViewModelService : notnull where TViewModelImplementation : class, TViewModelService
     {
         builder.Services.AddSingleton<IViewModelWindowCoupler<TViewModelImplementation>>(_ =>

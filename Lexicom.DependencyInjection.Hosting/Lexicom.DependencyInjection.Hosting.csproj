@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <Description>Adds hooks that run before and after the dependency injection service provider is built.</Description>
     <PackageTags>hosting;dependencyinjection</PackageTags>

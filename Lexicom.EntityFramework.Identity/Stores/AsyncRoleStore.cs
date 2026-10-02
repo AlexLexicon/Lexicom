@@ -43,7 +43,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : Role
     public bool AutoSaveChanges { get; set; }
 
     /// <exception cref="NotSupportedException"/>
-    public override IQueryable<TRole> Roles => throw new NotSupportedException($"'{nameof(AsyncRoleStore<>)}' does not support the '{nameof(Roles)}' queryable. Use the asynchronous query methods such as 'FindByNameAsync' instead.");
+    public override IQueryable<TRole> Roles => throw new NotSupportedException($"'{nameof(AsyncRoleStore<IdentityRole<string>>)}' does not support the '{nameof(Roles)}' queryable. Use the asynchronous query methods such as 'FindByNameAsync' instead.");
 
     protected virtual async Task SaveChanges(TContext context, CancellationToken cancellationToken = default)
     {

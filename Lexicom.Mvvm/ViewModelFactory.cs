@@ -19,7 +19,8 @@ public interface IViewModelFactory
 /// <exception cref="ArgumentNullException"/>
 public class ViewModelFactory : IViewModelFactory
 {
-    private static MethodInfo StaticGetWeakViewModelReferenceCollectionMethodInfo => field ??= (typeof(ViewModelFactory).GetMethod(nameof(GetViewModelReferenceCollection), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(GetViewModelReferenceCollection)}' was not found."));
+    private static MethodInfo? _staticGetWeakViewModelReferenceCollectionMethodInfo;
+    private static MethodInfo StaticGetWeakViewModelReferenceCollectionMethodInfo => _staticGetWeakViewModelReferenceCollectionMethodInfo ??= (typeof(ViewModelFactory).GetMethod(nameof(GetViewModelReferenceCollection), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(GetViewModelReferenceCollection)}' was not found."));
     private static IWeakViewModelReferenceCollection GetViewModelReferenceCollection<TViewModelImplementation>(IServiceProvider serviceProvider) where TViewModelImplementation : class
     {
         try

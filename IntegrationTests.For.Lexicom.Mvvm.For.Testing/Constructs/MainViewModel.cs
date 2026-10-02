@@ -10,5 +10,5 @@ public partial class MainViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    public partial SubViewModel SubViewModel { get; set; }
+    public SubViewModel _subViewModel;
 }

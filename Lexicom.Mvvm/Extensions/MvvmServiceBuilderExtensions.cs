@@ -92,7 +92,8 @@ public static class MvvmServiceBuilderExtensions
         return builder;
     }
 
-    private static MethodInfo StaticAddViewModelGenericMethodInfo => field ??= (typeof(MvvmServiceBuilderExtensions).GetMethod(nameof(AddViewModelGeneric), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(AddViewModelGeneric)}' was not found."));
+    private static MethodInfo? _staticAddViewModelGenericMethodInfo;
+    private static MethodInfo StaticAddViewModelGenericMethodInfo => _staticAddViewModelGenericMethodInfo ??= (typeof(MvvmServiceBuilderExtensions).GetMethod(nameof(AddViewModelGeneric), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(AddViewModelGeneric)}' was not found."));
     private static IMvvmServiceBuilder AddViewModelGeneric<TViewModelService, TViewModelImplementation>(this IMvvmServiceBuilder builder, Action<IViewModelServiceBuilder> configure) where TViewModelService : class where TViewModelImplementation : class, TViewModelService
     {
         ArgumentNullException.ThrowIfNull(builder);
