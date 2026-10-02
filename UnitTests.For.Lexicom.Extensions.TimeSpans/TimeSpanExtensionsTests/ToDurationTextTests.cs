@@ -14,7 +14,7 @@ public class ToDurationTextTests
         (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Days | TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes | TimeSpanDelineation.Seconds | TimeSpanDelineation.Milliseconds, "5 Days 5 Hours 5 Minutes 5 Seconds 5 Milliseconds"),
         (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Days | TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes | TimeSpanDelineation.Seconds, "5 Days 5 Hours 5 Minutes 5 Seconds"),
         (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Days | TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes, "5 Days 5 Hours 5 Minutes"),
-        (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Days | TimeSpanDelineation.Hours, "5 Days 5 Hours"),        
+        (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Days | TimeSpanDelineation.Hours, "5 Days 5 Hours"),
         (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes | TimeSpanDelineation.Seconds | TimeSpanDelineation.Milliseconds | TimeSpanDelineation.Microseconds | TimeSpanDelineation.Nanoseconds, "5 Hours 5 Minutes 5 Seconds 5 Milliseconds 5 Microseconds 500 Nanoseconds"),
         (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Minutes | TimeSpanDelineation.Seconds | TimeSpanDelineation.Milliseconds | TimeSpanDelineation.Microseconds | TimeSpanDelineation.Nanoseconds, "5 Minutes 5 Seconds 5 Milliseconds 5 Microseconds 500 Nanoseconds"),
         (new TimeSpan(5, 5, 5, 5, 5, 5).Add(TimeSpan.FromTicks(5)), TimeSpanDelineation.Seconds | TimeSpanDelineation.Milliseconds | TimeSpanDelineation.Microseconds | TimeSpanDelineation.Nanoseconds, "5 Seconds 5 Milliseconds 5 Microseconds 500 Nanoseconds"),
@@ -40,31 +40,31 @@ public class ToDurationTextTests
         (new TimeSpan(2, 0, 0, 0, 0, 0), TimeSpanDelineation.Days, "2 Days"),
         (new TimeSpan(1, 0, 0, 0, 0, 0), TimeSpanDelineation.Days | TimeSpanDelineation.Hours, "1 Day"),
         (new TimeSpan(2, 0, 0, 0, 0, 0), TimeSpanDelineation.Days | TimeSpanDelineation.Hours, "2 Days"),
-                   
+
         (new TimeSpan(0, 0, 0, 0, 0, 0), TimeSpanDelineation.Hours, "0 Hours"),
         (new TimeSpan(0, 1, 0, 0, 0, 0), TimeSpanDelineation.Hours, "1 Hour"),
         (new TimeSpan(0, 2, 0, 0, 0, 0), TimeSpanDelineation.Hours, "2 Hours"),
         (new TimeSpan(0, 1, 0, 0, 0, 0), TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes, "1 Hour"),
         (new TimeSpan(0, 2, 0, 0, 0, 0), TimeSpanDelineation.Hours | TimeSpanDelineation.Minutes, "2 Hours"),
-                         
+
         (new TimeSpan(0, 0, 0, 0, 0, 0), TimeSpanDelineation.Minutes, "0 Minutes"),
         (new TimeSpan(0, 0, 1, 0, 0, 0), TimeSpanDelineation.Minutes, "1 Minute"),
         (new TimeSpan(0, 0, 2, 0, 0, 0), TimeSpanDelineation.Minutes, "2 Minutes"),
         (new TimeSpan(0, 0, 1, 0, 0, 0), TimeSpanDelineation.Minutes | TimeSpanDelineation.Seconds, "1 Minute"),
         (new TimeSpan(0, 0, 2, 0, 0, 0), TimeSpanDelineation.Minutes | TimeSpanDelineation.Seconds, "2 Minutes"),
-                      
+
         (new TimeSpan(0, 0, 0, 0, 0, 0), TimeSpanDelineation.Seconds, "0 Seconds"),
         (new TimeSpan(0, 0, 0, 1, 0, 0), TimeSpanDelineation.Seconds, "1 Second"),
         (new TimeSpan(0, 0, 0, 2, 0, 0), TimeSpanDelineation.Seconds, "2 Seconds"),
         (new TimeSpan(0, 0, 0, 1, 0, 0), TimeSpanDelineation.Seconds | TimeSpanDelineation.Milliseconds, "1 Second"),
         (new TimeSpan(0, 0, 0, 2, 0, 0), TimeSpanDelineation.Seconds | TimeSpanDelineation.Milliseconds, "2 Seconds"),
-                           
+
         (new TimeSpan(0, 0, 0, 0, 0, 0), TimeSpanDelineation.Milliseconds, "0 Milliseconds"),
         (new TimeSpan(0, 0, 0, 0, 1, 0), TimeSpanDelineation.Milliseconds, "1 Millisecond"),
         (new TimeSpan(0, 0, 0, 0, 2, 0), TimeSpanDelineation.Milliseconds, "2 Milliseconds"),
         (new TimeSpan(0, 0, 0, 0, 1, 0), TimeSpanDelineation.Milliseconds | TimeSpanDelineation.Microseconds, "1 Millisecond"),
         (new TimeSpan(0, 0, 0, 0, 2, 0), TimeSpanDelineation.Milliseconds | TimeSpanDelineation.Microseconds, "2 Milliseconds"),
-                      
+
         (new TimeSpan(0, 0, 0, 0, 0, 0), TimeSpanDelineation.Microseconds, "0 Microseconds"),
         (new TimeSpan(0, 0, 0, 0, 0, 1), TimeSpanDelineation.Microseconds, "1 Microsecond"),
         (new TimeSpan(0, 0, 0, 0, 0, 2), TimeSpanDelineation.Microseconds, "2 Microseconds"),

@@ -1,7 +1,7 @@
-﻿using Lexicom.Jwt;
+﻿using System.Security.Claims;
+using Lexicom.Jwt;
 using Lexicom.Jwt.Exceptions;
 using Microsoft.IdentityModel.JsonWebTokens;
-using System.Security.Claims;
 
 namespace Lexicom.Authentication.For.AspNetCore.Controllers.Extensions;
 

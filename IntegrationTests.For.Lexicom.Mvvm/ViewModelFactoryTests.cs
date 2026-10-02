@@ -1,8 +1,8 @@
-﻿using Lexicom.Mvvm;
+﻿using IntegrationTests.For.Lexicom.Mvvm.Constructs.ViewModels;
+using Lexicom.Mvvm;
 using Lexicom.Mvvm.Exceptions;
 using Lexicom.Mvvm.Extensions;
 using Lexicom.Mvvm.For.Testing.Extensions;
-using IntegrationTests.For.Lexicom.Mvvm.Constructs.ViewModels;
 using Lexicom.Supports.Testing.Extensions;
 using Lexicom.Testing.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;

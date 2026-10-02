@@ -1,10 +1,10 @@
-﻿using Lexicom.AspNetCore.Controllers.Amenities.Abstractions;
+﻿using System.Diagnostics;
+using System.Net;
+using System.Text.Json;
+using Lexicom.AspNetCore.Controllers.Amenities.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-using System.Net;
-using System.Text.Json;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities.Middlewares;
 

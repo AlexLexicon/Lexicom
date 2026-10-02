@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using Lexicom.Mvvm;
 using IntegrationTests.For.Lexicom.Mvvm.Constructs.Messages;
+using Lexicom.Mvvm;
 
 namespace IntegrationTests.For.Lexicom.Mvvm.Constructs.ViewModels;
 

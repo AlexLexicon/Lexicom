@@ -1,8 +1,8 @@
-﻿using Lexicom.Smtp.Extensions;
+﻿using System.Threading.Channels;
+using Lexicom.Smtp.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Threading.Channels;
 
 namespace Lexicom.Smtp.For.AspNetCore.Controllers.Extensions;
 

@@ -1,10 +1,10 @@
-﻿using Lexicom.Wpf.DependencyInjection.Exceptions;
+﻿using System.Windows;
+using System.Windows.Threading;
+using Lexicom.Wpf.DependencyInjection.Exceptions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Windows;
-using System.Windows.Threading;
 
 namespace Lexicom.Wpf.DependencyInjection;
 

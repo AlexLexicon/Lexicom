@@ -1,5 +1,5 @@
-﻿using Lexicom.Mvvm.Exceptions;
-using System.Collections;
+﻿using System.Collections;
+using Lexicom.Mvvm.Exceptions;
 
 namespace Lexicom.Mvvm;
 

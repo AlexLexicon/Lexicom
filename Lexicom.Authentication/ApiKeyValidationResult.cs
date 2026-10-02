@@ -4,16 +4,16 @@ namespace Lexicom.Authentication;
 
 public readonly struct ApiKeyValidationResult
 {
-    public ApiKeyValidationResult() 
+    public ApiKeyValidationResult()
         : this(
-              false, 
-              Guid.Empty, 
+              false,
+              Guid.Empty,
               Array.Empty<Claim>())
     {
     }
     private ApiKeyValidationResult(
-        bool isValid, 
-        Guid id, 
+        bool isValid,
+        Guid id,
         IReadOnlyList<Claim> claims)
     {
         IsValid = isValid;

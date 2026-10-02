@@ -1,9 +1,9 @@
-﻿using Lexicom.DependencyInjection.Hosting;
+﻿using System.Diagnostics;
+using System.Reflection;
+using Lexicom.DependencyInjection.Hosting;
 using Lexicom.Validation.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace Lexicom.Validation.For.Blazor.WebAssembly;
 

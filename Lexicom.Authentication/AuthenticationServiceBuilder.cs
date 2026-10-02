@@ -12,7 +12,7 @@ public class AuthenticationServiceBuilder : IAuthenticationServiceBuilder
 {
     /// <exception cref="ArgumentNullException"/>
     public AuthenticationServiceBuilder(
-        IServiceCollection services, 
+        IServiceCollection services,
         IConfiguration configuration)
     {
         ArgumentNullException.ThrowIfNull(services);

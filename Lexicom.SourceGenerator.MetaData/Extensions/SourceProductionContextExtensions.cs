@@ -1,9 +1,9 @@
-﻿using Lexicom.SourceGenerator.MetaData.Exceptions;
+﻿using System.Collections.Immutable;
+using System.Text;
+using Lexicom.SourceGenerator.MetaData.Exceptions;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using Microsoft.CodeAnalysis;
-using System.Collections.Immutable;
-using System.Text;
 
 namespace Lexicom.SourceGenerator.MetaData.Extensions;
 

@@ -1,5 +1,5 @@
-using Lexicom.Cryptography.Exceptions;
 using System.Security.Cryptography;
+using Lexicom.Cryptography.Exceptions;
 
 namespace Lexicom.Cryptography;
 /*

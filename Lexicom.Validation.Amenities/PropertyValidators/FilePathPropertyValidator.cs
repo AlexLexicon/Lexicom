@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using System.Security;
+﻿using System.Security;
+using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
 
@@ -18,7 +18,7 @@ public static class FilePathValidator
             fileInfo = new FileInfo(value);
         }
         catch (ArgumentNullException)
-        { 
+        {
         }
         catch (SecurityException)
         {
@@ -27,7 +27,7 @@ public static class FilePathValidator
         {
         }
         catch (UnauthorizedAccessException)
-        { 
+        {
         }
         catch (PathTooLongException)
         {

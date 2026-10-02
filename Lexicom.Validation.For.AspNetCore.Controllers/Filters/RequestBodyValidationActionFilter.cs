@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using System.Diagnostics;
+using System.Reflection;
+using FluentValidation;
 using FluentValidation.Results;
 using Lexicom.Validation.Extensions;
 using Microsoft.AspNetCore.Http;
@@ -6,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace Lexicom.Validation.For.AspNetCore.Controllers.Filters;
 

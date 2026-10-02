@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.AspNetCore.Components;
-using System.Windows.Input;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
 
@@ -11,7 +11,7 @@ internal class CommandHandleEvent : IHandleEvent
 
     /// <exception cref="ArgumentNullException"/>
     public CommandHandleEvent(
-        ICommand command, 
+        ICommand command,
         object? directArg)
     {
         ArgumentNullException.ThrowIfNull(command);

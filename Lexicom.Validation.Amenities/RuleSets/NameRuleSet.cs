@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using Lexicom.Validation.Amenities.Options;
 using Lexicom.Validation.Amenities.Extensions;
+using Lexicom.Validation.Amenities.Options;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.Validation.Amenities.RuleSets;

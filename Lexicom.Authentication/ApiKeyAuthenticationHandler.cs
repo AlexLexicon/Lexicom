@@ -1,10 +1,10 @@
+using System.Security.Claims;
+using System.Text.Encodings.Web;
 using Lexicom.Authentication.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
-using System.Security.Claims;
-using System.Text.Encodings.Web;
 
 namespace Lexicom.Authentication;
 

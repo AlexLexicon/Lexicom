@@ -1,5 +1,5 @@
-﻿using Lexicom.ConsoleApp.Amenities.ReadLines.Abstractions;
-using System.Text;
+﻿using System.Text;
+using Lexicom.ConsoleApp.Amenities.ReadLines.Abstractions;
 
 namespace Lexicom.ConsoleApp.Amenities.ReadLines;
 

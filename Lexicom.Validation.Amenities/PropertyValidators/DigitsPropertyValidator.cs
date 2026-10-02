@@ -15,7 +15,7 @@ public static class DigitsValidator
     }
 }
 public class DigitsPropertyValidator<T> : AbstractPropertyValidator<T, string?>
-{ 
+{
     public const string NAME = nameof(DigitsPropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must contain only digits.";
 

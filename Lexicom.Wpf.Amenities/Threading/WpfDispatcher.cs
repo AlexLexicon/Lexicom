@@ -1,6 +1,6 @@
-﻿using Lexicom.Wpf.Amenities.Threading;
+﻿using System.Windows.Threading;
+using Lexicom.Wpf.Amenities.Threading;
 using Lexicom.Wpf.Amenities.Threading.Extensions;
-using System.Windows.Threading;
 
 namespace Lexicom.Wpf.Amenities;
 

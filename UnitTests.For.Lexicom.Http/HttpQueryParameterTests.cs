@@ -1,8 +1,8 @@
-﻿using Lexicom.Http;
+﻿using System.Globalization;
+using System.Text.Json;
+using Lexicom.Http;
 using Lexicom.Http.Exceptions;
 using Lexicom.Http.UnitTests.Constructs;
-using System.Globalization;
-using System.Text.Json;
 
 namespace UnitTests.For.Lexicom.Http;
 

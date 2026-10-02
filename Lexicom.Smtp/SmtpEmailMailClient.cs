@@ -1,11 +1,11 @@
-﻿using Lexicom.Smtp.Exceptions;
+﻿using System.Net;
+using System.Net.Mail;
+using System.Net.Sockets;
+using Lexicom.Smtp.Exceptions;
 using Lexicom.Smtp.Options;
 using Lexicom.Smtp.Validators;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Net;
-using System.Net.Mail;
-using System.Net.Sockets;
 
 namespace Lexicom.Smtp;
 
@@ -100,7 +100,7 @@ public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
             {
                 smtpClient.EnableSsl = smtpEmailClientConfiguration.IsSslEnabled;
 
-                if (string.IsNullOrWhiteSpace(smtpEmailClientConfiguration.NetworkCredentialsUsername) || 
+                if (string.IsNullOrWhiteSpace(smtpEmailClientConfiguration.NetworkCredentialsUsername) ||
                     string.IsNullOrWhiteSpace(smtpEmailClientConfiguration.NetworkCredentialsPassword))
                 {
                     throw new SmtpNetworkCredentialsNotValidException();

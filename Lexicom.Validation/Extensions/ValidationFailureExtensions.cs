@@ -74,7 +74,7 @@ public static class ValidationFailureExtensions
 
             validationFailure = StandardizeErrorMessage(validationFailure);
 
-            string message =  validationFailure.ErrorMessage;
+            string message = validationFailure.ErrorMessage;
 
             if (!string.IsNullOrWhiteSpace(message))
             {

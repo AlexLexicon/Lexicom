@@ -1,9 +1,9 @@
-﻿using UnitTests.For.Lexicom.Testing.DependencyInjection.EntityFramework.Constructs.Databases;
+﻿using Lexicom.Testing.DependencyInjection;
+using Lexicom.Testing.DependencyInjection.EntityFramework;
+using Microsoft.EntityFrameworkCore;
+using UnitTests.For.Lexicom.Testing.DependencyInjection.EntityFramework.Constructs.Databases;
 using UnitTests.For.Lexicom.Testing.DependencyInjection.EntityFramework.Constructs.Entities;
 using UnitTests.For.Lexicom.Testing.DependencyInjection.EntityFramework.Constructs.Services;
-using Microsoft.EntityFrameworkCore;
-using Lexicom.Testing.DependencyInjection;
-using Lexicom.Testing.DependencyInjection.EntityFramework;
 
 namespace UnitTests.For.Lexicom.Testing.DependencyInjection.EntityFramework.UnitTestAssistantTests;
 

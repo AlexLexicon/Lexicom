@@ -6,7 +6,7 @@ public class AnotherServiceWithDependencies
     public readonly IServiceDependencyStringReturnMethod _serviceDependencyStringReturnMethod;
 
     public AnotherServiceWithDependencies(
-        IServiceDependencyIntReturnMethod serviceDependencyIntReturnMethod, 
+        IServiceDependencyIntReturnMethod serviceDependencyIntReturnMethod,
         IServiceDependencyStringReturnMethod serviceDependencyStringReturnMethod)
     {
         _serviceDependencyIntReturnMethod = serviceDependencyIntReturnMethod;

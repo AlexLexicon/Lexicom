@@ -1,9 +1,9 @@
-﻿using Lexicom.Jwt.Options;
+﻿using System.Text;
+using Lexicom.Jwt.Options;
 using Lexicom.Jwt.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace Lexicom.Authentication.Configurations;
 

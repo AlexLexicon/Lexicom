@@ -30,9 +30,9 @@ public class HowLongAgoTextConfiguration
     }
     /// <exception cref="ArgumentNullException"/>
     public HowLongAgoTextConfiguration(
-        TimeSpanDelineation delineation, 
-        string oneText, 
-        string afterTotalText, 
+        TimeSpanDelineation delineation,
+        string oneText,
+        string afterTotalText,
         string? nowText = "a moment ago")
     {
         ArgumentNullException.ThrowIfNull(oneText);

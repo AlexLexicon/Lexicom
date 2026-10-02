@@ -1,5 +1,5 @@
-﻿using Lexicom.Http.Exceptions;
-using System.Globalization;
+﻿using System.Globalization;
+using Lexicom.Http.Exceptions;
 
 namespace Lexicom.Http;
 

@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
+using Microsoft.Extensions.Configuration;
 
 namespace Lexicom.Extensions.Debugging;
 

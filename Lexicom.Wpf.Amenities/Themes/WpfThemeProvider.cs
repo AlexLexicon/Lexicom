@@ -1,5 +1,5 @@
-﻿using Lexicom.Wpf.Amenities.Extensions;
-using System.Windows;
+﻿using System.Windows;
+using Lexicom.Wpf.Amenities.Extensions;
 
 namespace Lexicom.Wpf.Amenities.Themes;
 

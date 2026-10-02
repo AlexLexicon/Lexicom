@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Lexicom.DependencyInjection.Hosting;
+﻿using Lexicom.DependencyInjection.Hosting;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 namespace Lexicom.Supports.Blazor.WebAssembly.Extensions;
 

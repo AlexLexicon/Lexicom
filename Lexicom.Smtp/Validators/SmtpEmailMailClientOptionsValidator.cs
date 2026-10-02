@@ -11,7 +11,7 @@ public class SmtpEmailMailClientOptionsValidator : AbstractOptionsValidator<Smtp
 {
     /// <exception cref="ArgumentNullException"/>
     public SmtpEmailMailClientOptionsValidator(
-        EmailRuleSet emailRuleSet, 
+        EmailRuleSet emailRuleSet,
         RequiredRuleSet requiredRuleSet)
     {
         ArgumentNullException.ThrowIfNull(emailRuleSet);

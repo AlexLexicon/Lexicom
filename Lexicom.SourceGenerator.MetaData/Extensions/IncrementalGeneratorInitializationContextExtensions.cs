@@ -1,6 +1,6 @@
-﻿using Lexicom.SourceGenerator.MetaData.Builders;
+﻿using System.Collections.Immutable;
+using Lexicom.SourceGenerator.MetaData.Builders;
 using Microsoft.CodeAnalysis;
-using System.Collections.Immutable;
 
 namespace Lexicom.SourceGenerator.MetaData.Extensions;
 

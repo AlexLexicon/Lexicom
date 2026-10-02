@@ -1,6 +1,6 @@
-﻿using Serilog.Debugging;
+﻿using System.Collections.Concurrent;
+using Serilog.Debugging;
 using Serilog.Events;
-using System.Collections.Concurrent;
 
 namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics;
 
@@ -27,7 +27,7 @@ internal abstract class AzureLogAnalyticsBatchProvider : IDisposable
     private bool _canStop;
 
     protected AzureLogAnalyticsBatchProvider(
-        int batchSize = 100, 
+        int batchSize = 100,
         int maxBufferSize = 25_000)
     {
         _maxBufferSize = Math.Min(Math.Max(5_000, maxBufferSize), BUFFER_SIZE_MAXIMUM);

@@ -1,8 +1,8 @@
-﻿using Lexicom.AspNetCore.Controllers.Amenities;
+﻿using System.Net;
+using Lexicom.AspNetCore.Controllers.Amenities;
 using Lexicom.AspNetCore.Controllers.Amenities.Abstractions;
 using Lexicom.Jwt.Exceptions;
 using Microsoft.Extensions.Logging;
-using System.Net;
 
 namespace Lexicom.Authentication.For.AspNetCore.Controllers;
 

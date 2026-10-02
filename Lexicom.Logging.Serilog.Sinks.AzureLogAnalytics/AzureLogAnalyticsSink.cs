@@ -1,11 +1,11 @@
-﻿using Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics.Extensions;
+﻿using System.Net.Http.Headers;
+using System.Security.Cryptography;
+using System.Text;
+using Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics.Extensions;
 using Newtonsoft.Json;
 using Serilog.Core;
 using Serilog.Debugging;
 using Serilog.Events;
-using System.Net.Http.Headers;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics;
 

@@ -1,8 +1,8 @@
-﻿using Lexicom.Authority.Options;
+﻿using System.Security.Claims;
+using Lexicom.Authority.Options;
 using Lexicom.Authority.Validators;
 using Lexicom.Jwt.Options;
 using Microsoft.Extensions.Options;
-using System.Security.Claims;
 
 namespace Lexicom.Authority;
 

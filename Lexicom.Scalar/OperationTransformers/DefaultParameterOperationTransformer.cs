@@ -1,9 +1,9 @@
-﻿using Lexicom.Scalar.Exceptions;
+﻿using System.Text.Json.Nodes;
+using Lexicom.Scalar.Exceptions;
 using Lexicom.Scalar.Options;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi;
-using System.Text.Json.Nodes;
 
 namespace Lexicom.Scalar.OperationTransformers;
 

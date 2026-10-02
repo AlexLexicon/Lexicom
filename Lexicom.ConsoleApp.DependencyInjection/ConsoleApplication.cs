@@ -15,7 +15,7 @@ public sealed class ConsoleApplication : IDisposable
 
     /// <exception cref="ArgumentNullException"/>
     internal ConsoleApplication(
-        IHost host, 
+        IHost host,
         IHostEnvironment environment)
     {
         ArgumentNullException.ThrowIfNull(host);

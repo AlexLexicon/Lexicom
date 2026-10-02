@@ -1,5 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System.Windows;
+﻿using System.Windows;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Lexicom.Mvvm.For.Wpf;
 

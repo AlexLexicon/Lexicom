@@ -1,5 +1,5 @@
-﻿using UnitTests.For.Lexicom.Testing.DependencyInjection.Constructs.Models;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
+using UnitTests.For.Lexicom.Testing.DependencyInjection.Constructs.Models;
 
 namespace UnitTests.For.Lexicom.Testing.DependencyInjection.Constructs.Services;
 

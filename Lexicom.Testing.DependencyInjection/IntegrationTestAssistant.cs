@@ -1,9 +1,9 @@
-﻿using Lexicom.Testing.DependencyInjection.Exceptions;
+﻿using System.Collections;
+using System.Reflection;
+using Lexicom.Testing.DependencyInjection.Exceptions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Collections;
-using System.Reflection;
 
 namespace Lexicom.Testing.DependencyInjection;
 

@@ -1,5 +1,5 @@
-﻿using FluentValidation.Resources;
-using FluentValidation;
+﻿using FluentValidation;
+using FluentValidation.Resources;
 
 namespace Lexicom.Validation.Exceptions;
 

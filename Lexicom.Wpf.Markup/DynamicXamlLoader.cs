@@ -1,8 +1,8 @@
-﻿using Lexicom.Wpf.Markup.Exceptions;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
-using System.Windows.Markup;
 using System.Windows;
+using System.Windows.Markup;
+using Lexicom.Wpf.Markup.Exceptions;
 
 namespace Lexicom.Wpf.Markup;
 

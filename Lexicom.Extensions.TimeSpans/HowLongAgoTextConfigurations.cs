@@ -1,5 +1,5 @@
-﻿using Lexicom.Extensions.TimeSpans.Exceptions;
-using System.Collections;
+﻿using System.Collections;
+using Lexicom.Extensions.TimeSpans.Exceptions;
 
 namespace Lexicom.Extensions.TimeSpans;
 

@@ -1,6 +1,6 @@
-﻿using Lexicom.Wpf.Amenities.Threading.Extensions;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Windows.Threading;
+using Lexicom.Wpf.Amenities.Threading.Extensions;
 
 namespace Lexicom.Wpf.Amenities.Threading;
 

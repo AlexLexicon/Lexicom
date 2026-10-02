@@ -9,7 +9,7 @@ public class AsyncMessenger : IMessenger
 
     /// <exception cref="ArgumentNullException"/>
     public AsyncMessenger(
-        WeakReferenceMessenger messenger, 
+        WeakReferenceMessenger messenger,
         IMessengerScheduler messengerScheduler)
     {
         ArgumentNullException.ThrowIfNull(messenger);

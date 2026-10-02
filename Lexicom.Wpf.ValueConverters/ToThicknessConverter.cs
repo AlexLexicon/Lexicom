@@ -1,5 +1,5 @@
-﻿using Lexicom.Wpf.ValueConverters.Abstractions;
-using System.Windows;
+﻿using System.Windows;
+using Lexicom.Wpf.ValueConverters.Abstractions;
 
 namespace Lexicom.Wpf.ValueConverters;
 

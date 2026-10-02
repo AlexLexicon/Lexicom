@@ -1,6 +1,6 @@
-﻿using Lexicom.Wpf.ValueConverters.Abstractions;
-using System.Collections;
+﻿using System.Collections;
 using System.Windows;
+using Lexicom.Wpf.ValueConverters.Abstractions;
 
 namespace Lexicom.Wpf.ValueConverters;
 
@@ -89,7 +89,7 @@ public sealed class ToVisibilityConverter : ValueConverterBase<Visibility>
         Visibility result = GetResultFromObject(value, args, showResult, hideResult);
 
         if (HasParameter(args, INVERT_PARAMETER))
-        { 
+        {
             return result == showResult ? hideResult : showResult;
         }
         else if (DefaultIsInverted is not null && DefaultIsInverted.Value)
@@ -203,7 +203,7 @@ public sealed class ToVisibilityConverter : ValueConverterBase<Visibility>
             {
                 return enumerable.GetEnumerator().MoveNext() ? showResult : hideResult;
             }
-        } 
+        }
 
         if (value is IComparable comparableValue)
         {

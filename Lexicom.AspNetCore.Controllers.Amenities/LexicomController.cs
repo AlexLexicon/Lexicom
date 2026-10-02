@@ -1,8 +1,8 @@
-﻿using Lexicom.AspNetCore.Controllers.Amenities.ActionResultBuilders;
+﻿using System.Security.Claims;
+using Lexicom.AspNetCore.Controllers.Amenities.ActionResultBuilders;
 using Lexicom.AspNetCore.Controllers.Amenities.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities;
 

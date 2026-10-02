@@ -1,7 +1,7 @@
-﻿using Lexicom.DependencyInjection.Hosting.Exceptions;
+﻿using System.Diagnostics;
+using Lexicom.DependencyInjection.Hosting.Exceptions;
 using Lexicom.DependencyInjection.Hosting.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
 
 namespace Lexicom.DependencyInjection.Hosting;
 

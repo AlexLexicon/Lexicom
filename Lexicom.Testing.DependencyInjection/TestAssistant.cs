@@ -1,12 +1,12 @@
-﻿using Lexicom.Testing.DependencyInjection.Exceptions;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using Lexicom.Testing.DependencyInjection.Exceptions;
 using Lexicom.Testing.DependencyInjection.Extensions;
 using Lexicom.Testing.DependencyInjection.Mocking;
 using Lexicom.Testing.DependencyInjection.Utility;
 using Microsoft.Extensions.Options;
 using NSubstitute;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace Lexicom.Testing.DependencyInjection;
 
@@ -147,8 +147,7 @@ public abstract class TestAssistant : ITestAssistant
         {
             Type substituteGenericType = parameterType.GetGenericTypeDefinition();
 
-            object? optionValue;
-            if (TryPullOptionsValueObject(typeof(IOptions<>), substituteGenericType, parameterType, out optionValue))
+            if (TryPullOptionsValueObject(typeof(IOptions<>), substituteGenericType, parameterType, out object? optionValue))
             {
                 IOptions<object> optionsInstance = (IOptions<object>)instance;
 

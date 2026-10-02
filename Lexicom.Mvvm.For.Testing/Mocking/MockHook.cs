@@ -1,8 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Diagnostics;
+using System.Reflection;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Lexicom.Testing.DependencyInjection;
 using Lexicom.Testing.DependencyInjection.Mocking;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace Lexicom.Mvvm.For.Testing.Mocking;
 

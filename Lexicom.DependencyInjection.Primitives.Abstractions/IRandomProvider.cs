@@ -43,7 +43,7 @@ public interface IRandomProvider
     /// </returns>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
     long NextInt64(long minValue, long maxValue);
-    
+
     /// <summary>Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.</summary>
     /// <returns>A single-precision floating point number that is greater than or equal to 0.0, and less than 1.0.</returns>
     float NextSingle();

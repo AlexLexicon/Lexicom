@@ -49,10 +49,10 @@ public class UnitTestAssistantMockFluentBuilder<TService> : UnitTestAssistantMoc
 {
     /// <exception cref="ArgumentNullException"/>
     public UnitTestAssistantMockFluentBuilder(
-        MockManager manager, 
-        MockContainer<TService> container) 
+        MockManager manager,
+        MockContainer<TService> container)
         : base(
-            manager, 
+            manager,
             container)
     {
         ArgumentNullException.ThrowIfNull(container);

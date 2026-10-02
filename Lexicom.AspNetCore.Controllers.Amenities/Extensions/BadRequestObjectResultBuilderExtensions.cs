@@ -1,5 +1,5 @@
-﻿using Lexicom.AspNetCore.Controllers.Amenities.ActionResultBuilders;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using Lexicom.AspNetCore.Controllers.Amenities.ActionResultBuilders;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities.Extensions;
 

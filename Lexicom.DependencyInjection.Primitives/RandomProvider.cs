@@ -69,14 +69,14 @@ public class RandomProvider : IRandomProvider
     /// includes 0 but not <paramref name="maxValue"/>. However, if <paramref name="maxValue"/> equals 0, <paramref name="maxValue"/> is returned.
     /// </returns>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than 0.</exception>
-    public double NextDouble(double maxValue) 
+    public double NextDouble(double maxValue)
     {
         if (maxValue < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(maxValue), "Non-negative number required.");
         }
 
-        return NextDouble(0, maxValue); 
+        return NextDouble(0, maxValue);
     }
     /// <summary>Returns a random floating-point number that is within a specified range.</summary>
     /// <param name="minValue">The inclusive lower bound of the random number returned.</param>

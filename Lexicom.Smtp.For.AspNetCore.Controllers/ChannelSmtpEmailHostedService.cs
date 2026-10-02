@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using System.Threading.Channels;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Threading.Channels;
 
 namespace Lexicom.Smtp.For.AspNetCore.Controllers;
 
