@@ -209,9 +209,9 @@ public class ViewModelFactory : IViewModelFactory
                         Type? unresolvedType = Type.GetType(unresolvedTypeName);
 
                         unresolvedType ??= AppDomain.CurrentDomain
-                                .GetAssemblies()
-                                .Select(a => a.GetType(unresolvedTypeName))
-                                .FirstOrDefault(t => t is not null);
+                            .GetAssemblies()
+                            .Select(a => a.GetType(unresolvedTypeName))
+                            .FirstOrDefault(t => t is not null);
 
                         if (unresolvedType is not null && typeof(ObservableObject).IsAssignableFrom(unresolvedType))
                         {
