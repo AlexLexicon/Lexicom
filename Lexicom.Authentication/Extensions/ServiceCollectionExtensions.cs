@@ -25,20 +25,6 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    /// <exception cref="ArgumentNullException"/>
-    public static IServiceCollection AddLexicomApiKeyAuthentication(this IServiceCollection services, Action<IApiKeyAuthenticationBuilder>? configure = null)
-    {
-        ArgumentNullException.ThrowIfNull(services);
-
-        var apiKeyAuthenticationBuilder = new ApiKeyAuthenticationBuilder(services);
-
-        configure?.Invoke(apiKeyAuthenticationBuilder);
-
-        apiKeyAuthenticationBuilder.Build();
-
-        return services;
-    }
-
     //registers the default policy scheme which forwards to the api key or bearer scheme
     //this is safe to call multiple times
     /// <exception cref="ArgumentNullException"/>
@@ -53,7 +39,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static IServiceCollection AddApiKeyOptions(this IServiceCollection services)
+    public static IServiceCollection AddLexicomAuthenticationApiKeyOptions(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
 

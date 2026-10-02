@@ -1,6 +1,4 @@
-using Lexicom.Authentication.Extensions;
-
-namespace Lexicom.Authentication.For.ConsoleApp.Extensions;
+﻿namespace Lexicom.Authentication.For.ConsoleApp.Extensions;
 
 public static class AuthenticationServiceBuilderExtensions
 {
@@ -15,11 +13,11 @@ public static class AuthenticationServiceBuilderExtensions
     }
 
     /// <exception cref="ArgumentNullException"/>
-    public static IAuthenticationServiceBuilder AddApiKeyAuthentication(this IAuthenticationServiceBuilder builder, Action<IApiKeyAuthenticationBuilder>? configure = null)
+    public static IAuthenticationServiceBuilder AddApiKeyAuthentication(this IAuthenticationServiceBuilder builder, Action<IAuthenticationApiKeyBuilder>? configure = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.Services.AddLexicomApiKeyAuthentication(configure);
+        builder.Services.AddLexicomConsoleAppAuthenticationApiKeyAuthentication(configure);
 
         return builder;
     }

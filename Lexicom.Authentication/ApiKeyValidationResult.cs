@@ -2,25 +2,33 @@ using System.Security.Claims;
 
 namespace Lexicom.Authentication;
 
-public sealed class ApiKeyValidationResult
+public readonly struct ApiKeyValidationResult
 {
-    private static readonly IReadOnlyList<Claim> EmptyClaims = [];
-
-    private ApiKeyValidationResult(bool isValid, Guid id, IReadOnlyList<Claim> claims)
+    public ApiKeyValidationResult() 
+        : this(
+              false, 
+              Guid.Empty, 
+              Array.Empty<Claim>())
+    {
+    }
+    private ApiKeyValidationResult(
+        bool isValid, 
+        Guid id, 
+        IReadOnlyList<Claim> claims)
     {
         IsValid = isValid;
-        Id = id;
-        Claims = claims;
+        ApiKeyId = id;
+        ApiKeyClaims = claims;
     }
 
     public bool IsValid { get; }
     //the id of the api key which is used as the 'sub' claim of the authenticated caller
-    public Guid Id { get; }
+    public Guid ApiKeyId { get; }
     //the claims to attach to the authenticated caller when the api key is valid
     //include 'permission' claims here so they flow through the 'AddPermissions(...)' policies
-    public IReadOnlyList<Claim> Claims { get; }
+    public IReadOnlyList<Claim> ApiKeyClaims { get; }
 
-    public static ApiKeyValidationResult Invalid() => new(false, Guid.Empty, EmptyClaims);
+    public static ApiKeyValidationResult Invalid() => default;
 
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="ArgumentException"/>
@@ -42,6 +50,6 @@ public sealed class ApiKeyValidationResult
             throw new ArgumentException("The api key id cannot be an empty guid.", nameof(id));
         }
 
-        return new ApiKeyValidationResult(true, id, claims.ToArray());
+        return new ApiKeyValidationResult(isValid: true, id, claims.ToArray());
     }
 }

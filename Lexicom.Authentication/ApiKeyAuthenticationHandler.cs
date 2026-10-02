@@ -50,10 +50,10 @@ public class ApiKeyAuthenticationHandler : AuthenticationHandler<ApiKeyAuthentic
         //cannot be overridden by any other claims provided by the validator
         var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, validationResult.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Sub, validationResult.ApiKeyId.ToString()),
         };
-
-        claims.AddRange(validationResult.Claims.Where(c => c.Type != JwtRegisteredClaimNames.Sub));
+        var remaniningClaims = validationResult.ApiKeyClaims.Where(c => c.Type != JwtRegisteredClaimNames.Sub);
+        claims.AddRange(remaniningClaims);
 
         var claimsIdentity = new ClaimsIdentity(claims, Scheme.Name);
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);

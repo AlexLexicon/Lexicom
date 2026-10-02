@@ -8,8 +8,6 @@ using System.Text;
 
 namespace Lexicom.Authentication;
 
-//the configuration backed default 'IApiKeyValidator'
-//it matches the provided api key against the keys configured in the 'ApiKeyOptions' section
 public class ConfigurationApiKeyValidator : IApiKeyValidator
 {
     private readonly IOptionsMonitor<ApiKeyOptions> _apiKeyOptions;
@@ -29,62 +27,69 @@ public class ConfigurationApiKeyValidator : IApiKeyValidator
 
         ApiKeyOptions apiKeyOptions = _apiKeyOptions.CurrentValue;
 
+        ApiKeyValidationResult result;
         if (apiKeyOptions.Keys is null)
         {
-            return Task.FromResult(ApiKeyValidationResult.Invalid());
+            result = ApiKeyValidationResult.Invalid();
+
+            return Task.FromResult(result);
         }
 
         byte[] providedApiKeyBytes = Encoding.UTF8.GetBytes(apiKey);
 
-        ApiKeyOptionsDescriptor? matchedDescriptor = null;
-        foreach (ApiKeyOptionsDescriptor descriptor in apiKeyOptions.Keys)
+        ApiKeyOptionsKey? matchedKey = null;
+        foreach (ApiKeyOptionsKey key in apiKeyOptions.Keys)
         {
-            AbstractOptionsValidator<ApiKeyOptions>.ThrowIfNull(descriptor.Key);
+            AbstractOptionsValidator<ApiKeyOptions>.ThrowIfNull(key.Key);
 
-            byte[] descriptorApiKeyBytes = Encoding.UTF8.GetBytes(descriptor.Key);
+            byte[] descriptorApiKeyBytes = Encoding.UTF8.GetBytes(key.Key);
 
-            //'FixedTimeEquals' helps protect against timing attacks
-            //it returns false right away when the lengths are different
+            //'FixedTimeEquals' helps protect against timing attacks it returns false right away when the lengths are different
             if (CryptographicOperations.FixedTimeEquals(providedApiKeyBytes, descriptorApiKeyBytes))
             {
-                matchedDescriptor = descriptor;
+                matchedKey = key;
+
                 break;
             }
         }
 
-        if (matchedDescriptor is null)
+        if (matchedKey is null)
         {
-            return Task.FromResult(ApiKeyValidationResult.Invalid());
+            result = ApiKeyValidationResult.Invalid();
+
+            return Task.FromResult(result);
         }
 
-        AbstractOptionsValidator<ApiKeyOptions>.ThrowIfNull(matchedDescriptor.Id);
+        AbstractOptionsValidator<ApiKeyOptions>.ThrowIfNull(matchedKey.Id);
 
         var claims = new List<Claim>();
 
-        if (matchedDescriptor.Permissions is not null)
+        if (matchedKey.Permissions is not null)
         {
-            foreach (string permission in matchedDescriptor.Permissions)
+            foreach (string permission in matchedKey.Permissions)
             {
                 claims.Add(new Claim(LexicomJwtClaimTypes.Permission, permission));
             }
         }
 
-        if (matchedDescriptor.Roles is not null)
+        if (matchedKey.Roles is not null)
         {
-            foreach (string role in matchedDescriptor.Roles)
+            foreach (string role in matchedKey.Roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
         }
 
-        if (matchedDescriptor.Claims is not null)
+        if (matchedKey.Claims is not null)
         {
-            foreach ((string type, string value) in matchedDescriptor.Claims)
+            foreach ((string type, string value) in matchedKey.Claims)
             {
                 claims.Add(new Claim(type, value));
             }
         }
 
-        return Task.FromResult(ApiKeyValidationResult.Valid(matchedDescriptor.Id.Value, claims));
+        result = ApiKeyValidationResult.Valid(matchedKey.Id.Value, claims);
+
+        return Task.FromResult(result);
     }
 }

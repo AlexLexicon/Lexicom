@@ -17,4 +17,18 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+    /// <exception cref="ArgumentNullException"/>
+    public static IServiceCollection AddLexicomConsoleAppAuthenticationApiKeyAuthentication(this IServiceCollection services, Action<IAuthenticationApiKeyBuilder>? configure = null)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+
+        var authenticationApiKeyBuilder = new AuthenticationApiKeyBuilder(services);
+
+        configure?.Invoke(authenticationApiKeyBuilder);
+
+        authenticationApiKeyBuilder.Build();
+
+        return services;
+    }
 }

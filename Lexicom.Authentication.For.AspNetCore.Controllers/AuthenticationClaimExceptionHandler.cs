@@ -6,12 +6,12 @@ using System.Net;
 
 namespace Lexicom.Authentication.For.AspNetCore.Controllers;
 
-public class BearerTokenClaimExceptionHandler : IExceptionHandler
+public class AuthenticationClaimExceptionHandler : IExceptionHandler
 {
-    private readonly ILogger<BearerTokenClaimExceptionHandler> _logger;
+    private readonly ILogger<AuthenticationClaimExceptionHandler> _logger;
 
     /// <exception cref="ArgumentNullException"/>
-    public BearerTokenClaimExceptionHandler(ILogger<BearerTokenClaimExceptionHandler> logger)
+    public AuthenticationClaimExceptionHandler(ILogger<AuthenticationClaimExceptionHandler> logger)
     {
         ArgumentNullException.ThrowIfNull(logger);
 
@@ -27,7 +27,7 @@ public class BearerTokenClaimExceptionHandler : IExceptionHandler
         {
             if (_logger.IsEnabled(LogLevel.Error))
             {
-                _logger.LogError(exception, "The '{claimSourceName}:{claim}' claim was not included in the bearer token.", claimDoesNotExistException.ClaimSourceName, claimDoesNotExistException.Claim);
+                _logger.LogError(exception, "The '{claimSourceName}.{claim}' claim was not included in the authenticated claims.", claimDoesNotExistException.ClaimSourceName ?? "null", claimDoesNotExistException.Claim ?? "null");
             }
 
             return new ExceptionHandledResult(HttpStatusCode.Unauthorized);
@@ -36,7 +36,7 @@ public class BearerTokenClaimExceptionHandler : IExceptionHandler
         {
             if (_logger.IsEnabled(LogLevel.Error))
             {
-                _logger.LogError(exception, "The '{claimSourceName}:{claim}' claim was not valid, in many cases because the claim is not a valid Guid.", claimNotValidException.ClaimSourceName, claimNotValidException.Claim);
+                _logger.LogError(exception, "The '{claimSourceName}.{claim}' claim was not valid, in many cases this is because the claim is not a valid Guid.", claimNotValidException.ClaimSourceName ?? "null", claimNotValidException.Claim ?? "null");
             }
 
             return new ExceptionHandledResult(HttpStatusCode.Unauthorized);

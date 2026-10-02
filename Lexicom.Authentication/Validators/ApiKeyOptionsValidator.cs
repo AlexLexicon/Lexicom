@@ -13,28 +13,40 @@ public class ApiKeyOptionsValidator : AbstractOptionsValidator<ApiKeyOptions>
     {
         ArgumentNullException.ThrowIfNull(requiredRuleSet);
 
+        RuleFor(o => o.Keys)
+            .Must(ks =>
+            {
+                return ks is null || ks
+                    .Where(d => d.Id is not null)
+                    .GroupBy(d => d.Id)
+                    .All(g => g.Count() is 1);
+            })
+            .WithMessage($"Every '{nameof(ApiKeyOptionsKey.Id)}' in '{{PropertyName}}' must be unique.")
+            .Must(ks =>
+            {
+                return ks is null || ks
+                    .Where(d => d.Key is not null)
+                    .GroupBy(d => d.Key)
+                    .All(g => g.Count() is 1);
+            })
+            .WithMessage($"Every '{nameof(ApiKeyOptionsKey.Key)}' in '{{PropertyName}}' must be unique.");
+
         RuleForEach(o => o.Keys)
             .NotNull()
-            .ChildRules(descriptor =>
+            .ChildRules(k =>
             {
-                descriptor.RuleFor(d => d.Id)
+                k.RuleFor(d => d.Id)
                     .NotNull()
                     .NotEqual(Guid.Empty);
 
-                descriptor.RuleFor(d => d.Key)
+                k.RuleFor(d => d.Key)
                     .UseRuleSet(requiredRuleSet);
 
-                descriptor.RuleForEach(d => d.Permissions)
+                k.RuleForEach(d => d.Permissions)
                     .UseRuleSet(requiredRuleSet);
 
-                descriptor.RuleForEach(d => d.Roles)
+                k.RuleForEach(d => d.Roles)
                     .UseRuleSet(requiredRuleSet);
             });
-
-        RuleFor(o => o.Keys)
-            .Must(keys => keys is null || keys.Where(d => d.Id is not null).GroupBy(d => d.Id).All(g => g.Count() is 1))
-            .WithMessage($"Every '{nameof(ApiKeyOptionsDescriptor.Id)}' in '{{PropertyName}}' must be unique.")
-            .Must(keys => keys is null || keys.Where(d => d.Key is not null).GroupBy(d => d.Key).All(g => g.Count() is 1))
-            .WithMessage($"Every '{nameof(ApiKeyOptionsDescriptor.Key)}' in '{{PropertyName}}' must be unique.");
     }
 }
