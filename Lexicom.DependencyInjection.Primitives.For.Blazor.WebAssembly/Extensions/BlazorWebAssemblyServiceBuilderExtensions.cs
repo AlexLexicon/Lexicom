@@ -2,6 +2,7 @@
 using Lexicom.Supports.Blazor.WebAssembly;
 
 namespace Lexicom.DependencyInjection.Primitives.For.Blazor.WebAssembly.Extensions;
+
 public static class BlazorWebAssemblyServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

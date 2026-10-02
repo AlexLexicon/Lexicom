@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.Validation.Options.Extensions;
+
 public static class OptionsBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

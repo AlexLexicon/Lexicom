@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities.Extensions;
+
 public static class ForbidResultBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

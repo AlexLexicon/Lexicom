@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Validators;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+
 public static class StringGreaterThanValidator
 {
     public static bool IsValid(string? value, string? valueToCompare)

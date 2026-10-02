@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Serilog;
 
-namespace Lexicom.Logging.AspNetCore.Controllers.Extensions;
+namespace Lexicom.Logging.For.AspNetCore.Controllers.Extensions;
+
 public static class WebApplicationExtensions
 {
     /// <exception cref="ArgumentNullException"/>

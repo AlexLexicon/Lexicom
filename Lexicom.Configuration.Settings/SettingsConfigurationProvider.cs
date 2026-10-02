@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 
 namespace Lexicom.Configuration.Settings;
+
 public class SettingsConfigurationProvider : ConfigurationProvider
 {
     private readonly IApplicationSettingsProvider? _settings;
@@ -9,10 +10,7 @@ public class SettingsConfigurationProvider : ConfigurationProvider
     {
         _settings = settings;
 
-        if (_settings is not null)
-        {
-            _settings.SettingsSaving += (sender, e) => Load();
-        }
+        _settings?.SettingsSaving += (sender, e) => Load();
     }
 
     public override void Load()

@@ -3,6 +3,7 @@ using Lexicom.Cryptography.Validators;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.Cryptography;
+
 public class CryptographyByteSecretProvider : ICryptographySecretProvider
 {
     private readonly IOptions<CryptographyByteSecretOptions> _cryptographyByteSecretOptions;
@@ -15,11 +16,18 @@ public class CryptographyByteSecretProvider : ICryptographySecretProvider
         _cryptographyByteSecretOptions = cryptographyByteSecretOptions;
     }
 
-    public Task<byte[]> GetSecretAsync()
+    public byte[] GetSecret()
     {
         CryptographyByteSecretOptions cryptographyByteSecretOptions = _cryptographyByteSecretOptions.Value;
         CryptographyByteSecretOptionsValidator.ThrowIfNull(cryptographyByteSecretOptions.ByteArraySecretKey);
 
-        return Task.FromResult(cryptographyByteSecretOptions.ByteArraySecretKey);
+        return cryptographyByteSecretOptions.ByteArraySecretKey;
+    }
+
+    public Task<byte[]> GetSecretAsync()
+    {
+        byte[] secretKey = GetSecret();
+
+        return Task.FromResult(secretKey);
     }
 }

@@ -4,6 +4,7 @@ using Serilog.Events;
 using Serilog;
 
 namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics.Extensions;
+
 public static class LoggerConfigurationExtensions
 {
     /// <exception cref="ArgumentNullException"/>

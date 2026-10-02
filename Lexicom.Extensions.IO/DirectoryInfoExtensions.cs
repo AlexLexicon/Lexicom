@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Extensions.IO;
+
 public static class DirectoryInfoExtensions
 {
     /// <exception cref="ArgumentNullException"/>

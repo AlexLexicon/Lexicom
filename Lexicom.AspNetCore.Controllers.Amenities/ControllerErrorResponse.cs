@@ -1,21 +1,21 @@
 ﻿using Lexicom.AspNetCore.Controllers.Contracts;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities;
+
 public class ControllerErrorResponse : ErrorResponse
 {
-    private static ControllerErrorResponse? _unexpectedError;
     public static ControllerErrorResponse UnexpectedError
     {
         get
         {
-            if (_unexpectedError is null)
+            if (field is null)
             {
-                _unexpectedError = new ControllerErrorResponse();
-                _unexpectedError.AddError("Operation Failed", "An unexpected error occured.");
-                _unexpectedError.AddCode(CODE_UNEXPECTED);
+                field = new ControllerErrorResponse();
+                field.AddError("Operation Failed", "An unexpected error occurred.");
+                field.AddCode(CODE_UNEXPECTED);
             }
 
-            return _unexpectedError;
+            return field;
         }
     }
 

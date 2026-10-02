@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 
 namespace Lexicom.Authority;
+
 public abstract class BearerTokenProvider
 {
     /// <exception cref="ArgumentNullException"/>
@@ -24,7 +25,7 @@ public abstract class BearerTokenProvider
         claimsList.Insert(0, jtiClaim);
         claims = claimsList;
 
-        byte[] symmetricSecurityKeyBytes = Encoding.ASCII.GetBytes(jwtOptions.SymmetricSecurityKey);
+        byte[] symmetricSecurityKeyBytes = Encoding.UTF8.GetBytes(jwtOptions.SymmetricSecurityKey);
 
         var subject = new ClaimsIdentity(claims);
         DateTimeOffset expiresDateTimeOffset = DateTimeOffset.UtcNow.Add(expiresTimeSpan);
@@ -35,6 +36,7 @@ public abstract class BearerTokenProvider
             Subject = subject,
             Expires = expiresDateTimeOffset.UtcDateTime,
             SigningCredentials = signingCredentials,
+            Issuer = jwtOptions.ValidIssuer,
         };
 
         var tokenHandler = new JsonWebTokenHandler();
@@ -52,7 +54,7 @@ public abstract class BearerTokenProvider
 
         var tokenHandler = new JsonWebTokenHandler();
 
-        byte[] symmetricSecurityKeyBytes = Encoding.ASCII.GetBytes(jwtOptions.SymmetricSecurityKey);
+        byte[] symmetricSecurityKeyBytes = Encoding.UTF8.GetBytes(jwtOptions.SymmetricSecurityKey);
 
         var symmetricSecurityKey = new SymmetricSecurityKey(symmetricSecurityKeyBytes);
 
@@ -60,7 +62,8 @@ public abstract class BearerTokenProvider
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = symmetricSecurityKey,
-            ValidateIssuer = false,
+            ValidateIssuer = jwtOptions.ValidIssuer is not null,
+            ValidIssuer = jwtOptions.ValidIssuer,
             ValidateAudience = false,
             RequireExpirationTime = true,
             ValidateLifetime = validateLifetime,
@@ -74,7 +77,7 @@ public abstract class BearerTokenProvider
         }
         catch
         {
-            //the token is invalid and 'validatedToken' will remain null 
+            //the token is malformed and 'result' will remain null 
         }
 
         return result is not null && result.IsValid;

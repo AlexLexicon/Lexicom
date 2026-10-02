@@ -4,6 +4,7 @@ using Lexicom.Validation.Extensions;
 using Lexicom.Validation.Options;
 
 namespace Lexicom.Configuration.AzureKeyVault.Validators;
+
 public class AzureKeyVaultConnectionOptionsValidator : AbstractOptionsValidator<AzureKeyVaultConnectionOptions>
 {
     /// <exception cref="ArgumentNullException"/>

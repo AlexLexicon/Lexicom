@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using System.Windows;
 
 namespace Lexicom.Wpf.DependencyInjection;
+
 public sealed class WpfApplicationBuilder
 {
     private readonly HostBuilder _hostBuilder;
@@ -17,7 +18,7 @@ public sealed class WpfApplicationBuilder
         Services = new ServiceCollection();
         Configuration = new ConfigurationManager();
 
-        Environment = LexicomHostApplicationBuilder.InitalizeDefaultConfigurationProvidersAndEnviornment(Configuration);
+        Environment = LexicomHostApplicationBuilder.InitializeDefaultConfigurationProvidersAndEnvironment(Configuration);
 
         _hostBuilder = new HostBuilder();
         _hostBuilder.ConfigureServices(services =>

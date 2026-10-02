@@ -4,6 +4,7 @@ using Lexicom.Validation.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Validation.For.Blazor.WebAssembly.Extensions;
+
 public static class BlazorWebAssemblyServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Lexicom.Authorization.AspNetCore.Controllers.Extensions;
+namespace Lexicom.Authorization.For.AspNetCore.Controllers.Extensions;
+
 public static class ServiceCollectionExtensions
 {
     /// <exception cref="ArgumentNullException"/>
@@ -19,21 +20,18 @@ public static class ServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(permissions);
 
-        if (permissions is not null)
+        //this allows AspNetCore APIs to use
+        //the [Authorize(Policy = "MyPermission")] attribute
+        services.Configure<AuthorizationOptions>(options =>
         {
-            //this allows AspNetCore APIs to use
-            //the [Authorize(Policy = "MyPermission")] attribute
-            services.Configure<AuthorizationOptions>(options =>
+            foreach (string permission in permissions)
             {
-                foreach (string permission in permissions)
+                options.AddPolicy(permission, policy =>
                 {
-                    options.AddPolicy(permission, policy =>
-                    {
-                        policy.RequireClaim(LexicomJwtClaimTypes.Permission, permission);
-                    });
-                }
-            });
-        }
+                    policy.RequireClaim(LexicomJwtClaimTypes.Permission, permission);
+                });
+            }
+        });
 
         return services;
     }

@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 
 namespace Lexicom.SourceGenerator.MetaData;
+
 public record struct InterfaceMetaData
 {
     private readonly INamedTypeSymbol _interfaceNamedTypeSymbol;

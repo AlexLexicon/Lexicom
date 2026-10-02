@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+
 public static class GuidValidator<T>
 {
     public static bool IsValid(T value)
@@ -25,7 +26,7 @@ public static class GuidValidator<T>
 }
 public class GuidPropertyValidator<T, TProperty> : AbstractPropertyValidator<T, TProperty>
 {
-    public const string NAME = nameof(GuidPropertyValidator<T, TProperty>);
+    public const string NAME = nameof(GuidPropertyValidator<,>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must be a Guid.";
 
     public override string Name { get; } = NAME;

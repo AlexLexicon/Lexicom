@@ -1,6 +1,7 @@
 ﻿using Lexicom.Wpf.ValueConverters.Abstractions;
 
 namespace Lexicom.Wpf.ValueConverters;
+
 public sealed class ToStringConverter : ValueConverterBase<string>
 {
     private static ValueConverterParameterDefinition<ToStrings> CaseParameter { get; } = new ValueConverterParameterDefinition<ToStrings>("case",
@@ -16,7 +17,7 @@ public sealed class ToStringConverter : ValueConverterBase<string>
         string? result = value?.ToString();
 
         ToStrings toString = ToStrings.None;
-        if (HasParameter(CaseParameter, out ToStrings toStringParameter))
+        if (HasParameter(args, CaseParameter, out ToStrings toStringParameter))
         {
             toString = toStringParameter;
         }

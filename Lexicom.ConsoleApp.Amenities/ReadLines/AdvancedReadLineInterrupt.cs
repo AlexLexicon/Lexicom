@@ -1,6 +1,7 @@
 ﻿using Lexicom.ConsoleApp.Amenities.ReadLines.Abstractions;
 
 namespace Lexicom.ConsoleApp.Amenities.ReadLines;
+
 internal class AdvancedReadLineInterrupt(ConsoleKey? interceptKey) : AdvancedReadLineIntercept(interceptKey)
 {
     public bool IsInterrupted { get; protected set; }
@@ -12,8 +13,8 @@ internal class AdvancedReadLineInterrupt(ConsoleKey? interceptKey) : AdvancedRea
         return new AdvancedReadLineResult(isContinue: false, currentInput);
     }
 
-    public override AdvancedReadLineInitalResult Initial()
+    public override AdvancedReadLineInitialResult Initial()
     {
-        return new AdvancedReadLineInitalResult(IsInital: false, input: null);
+        return new AdvancedReadLineInitialResult(IsInitial: false, input: null);
     }
 }

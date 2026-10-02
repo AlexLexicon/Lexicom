@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 
 namespace Lexicom.SourceGenerator.MetaData;
+
 public readonly record struct TypeMetaData
 {
     /// <exception cref="ArgumentNullException"/>

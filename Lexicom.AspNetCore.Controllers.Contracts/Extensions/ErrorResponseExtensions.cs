@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.AspNetCore.Controllers.Contracts.Extensions;
+
 public static class ErrorResponseExtensions
 {
     /// <exception cref="ArgumentNullException"/>

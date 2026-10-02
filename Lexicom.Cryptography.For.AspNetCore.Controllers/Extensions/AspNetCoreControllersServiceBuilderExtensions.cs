@@ -1,7 +1,8 @@
 ﻿using Lexicom.Cryptography.Extensions;
 using Lexicom.Supports.AspNetCore.Controllers;
 
-namespace Lexicom.Cryptography.AspNetCore.Controllers.Extensions;
+namespace Lexicom.Cryptography.For.AspNetCore.Controllers.Extensions;
+
 public static class AspNetCoreControllersServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

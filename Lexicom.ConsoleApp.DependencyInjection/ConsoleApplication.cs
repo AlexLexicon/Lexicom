@@ -3,7 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace Lexicom.ConsoleApp.DependencyInjection;
-public sealed class ConsoleApplication
+
+public sealed class ConsoleApplication : IDisposable
 {
     public static ConsoleApplicationBuilder CreateBuilder()
     {
@@ -35,4 +36,9 @@ public sealed class ConsoleApplication
     public IConfiguration Configuration { get; }
     public IServiceProvider Services => _host.Services;
     public IHostEnvironment Environment { get; }
+
+    public void Dispose()
+    {
+        _host.Dispose();
+    }
 }

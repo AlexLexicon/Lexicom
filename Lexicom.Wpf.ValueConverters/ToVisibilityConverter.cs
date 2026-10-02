@@ -3,6 +3,7 @@ using System.Collections;
 using System.Windows;
 
 namespace Lexicom.Wpf.ValueConverters;
+
 public sealed class ToVisibilityConverter : ValueConverterBase<Visibility>
 {
     private const string VISIBLE_SHORT = "v";
@@ -18,7 +19,7 @@ public sealed class ToVisibilityConverter : ValueConverterBase<Visibility>
          new ResultForPatternMatch<Visibility>(Visibility.Hidden, [HIDDEN_FULL, HIDDEN_SHORT, "1", "f", "false"]),
          new ResultForPatternMatch<Visibility>(Visibility.Visible, [VISIBLE_FULL, VISIBLE_SHORT, "2", "t", "true"]),
     ];
-    private static readonly ValueConverterParameterDefinition INVERT_PARAMETER = new ValueConverterParameterDefinition("invert");
+    private static readonly ValueConverterParameterDefinition INVERT_PARAMETER = new ValueConverterParameterDefinition("not");
     private static readonly ValueConverterParameterDefinition<Visibility> SHOW_PARAMETER = new ValueConverterParameterDefinition<Visibility>("show", VISIBILITY_PARAMETER_PATTERN_MATCHES);
     private static readonly ValueConverterParameterDefinition<Visibility> HIDE_PARAMETER = new ValueConverterParameterDefinition<Visibility>("hide", VISIBILITY_PARAMETER_PATTERN_MATCHES);
     private static readonly ValueConverterParameterDefinition<IsStrings> HIDE_WHEN_STRING_PARAMETER = new ValueConverterParameterDefinition<IsStrings>("hidewhenstring",
@@ -67,7 +68,7 @@ public sealed class ToVisibilityConverter : ValueConverterBase<Visibility>
         Visibility showResult = ShowResult;
         Visibility hideResult = HideResult;
 
-        if (HasParameter(SHOW_PARAMETER, out Visibility showParameterResult))
+        if (HasParameter(args, SHOW_PARAMETER, out Visibility showParameterResult))
         {
             showResult = showParameterResult;
         }
@@ -76,7 +77,7 @@ public sealed class ToVisibilityConverter : ValueConverterBase<Visibility>
             showResult = DefaultShow.Value;
         }
 
-        if (HasParameter(HIDE_PARAMETER, out Visibility hideParameterResult))
+        if (HasParameter(args, HIDE_PARAMETER, out Visibility hideParameterResult))
         {
             hideResult = hideParameterResult;
         }
@@ -85,9 +86,9 @@ public sealed class ToVisibilityConverter : ValueConverterBase<Visibility>
             hideResult = DefaultHide.Value;
         }
 
-        Visibility result = GetResultFromObject(value, showResult, hideResult);
+        Visibility result = GetResultFromObject(value, args, showResult, hideResult);
 
-        if (HasParameter(INVERT_PARAMETER))
+        if (HasParameter(args, INVERT_PARAMETER))
         { 
             return result == showResult ? hideResult : showResult;
         }
@@ -99,7 +100,7 @@ public sealed class ToVisibilityConverter : ValueConverterBase<Visibility>
         return result == showResult ? showResult : hideResult;
     }
 
-    private Visibility GetResultFromObject(object? value, Visibility showResult, Visibility hideResult)
+    private Visibility GetResultFromObject(object? value, ValueConverterArgs args, Visibility showResult, Visibility hideResult)
     {
         if (value is Visibility visibilityValue)
         {
@@ -114,7 +115,7 @@ public sealed class ToVisibilityConverter : ValueConverterBase<Visibility>
         if (value is string stringValue)
         {
             IsStrings isString = IsStrings.None;
-            if (HasParameter(HIDE_WHEN_STRING_PARAMETER, out IsStrings isStringParameter))
+            if (HasParameter(args, HIDE_WHEN_STRING_PARAMETER, out IsStrings isStringParameter))
             {
                 isString = isStringParameter;
             }
@@ -183,7 +184,7 @@ public sealed class ToVisibilityConverter : ValueConverterBase<Visibility>
         }
 
         IsEnumerable isEnumerable = IsEnumerable.None;
-        if (HasParameter(HIDE_WHEN_ENUMERABLE_PARAMETER, out IsEnumerable isEnumerableParameter))
+        if (HasParameter(args, HIDE_WHEN_ENUMERABLE_PARAMETER, out IsEnumerable isEnumerableParameter))
         {
             isEnumerable = isEnumerableParameter;
         }

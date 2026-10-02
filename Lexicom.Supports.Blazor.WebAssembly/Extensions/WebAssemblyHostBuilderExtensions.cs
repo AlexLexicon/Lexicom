@@ -2,10 +2,11 @@
 using Lexicom.DependencyInjection.Hosting;
 
 namespace Lexicom.Supports.Blazor.WebAssembly.Extensions;
+
 public static class WebAssemblyHostBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static WebAssemblyHostBuilder Lexicom(this WebAssemblyHostBuilder builder, Action<IDependantBlazorWebAssemblyServiceBuilder>? configure, bool configureContainerForLexicomHostingFeatures = true)
+    public static WebAssemblyHostBuilder Lexicom(this WebAssemblyHostBuilder builder, Action<IDependentBlazorWebAssemblyServiceBuilder>? configure, bool configureContainerForLexicomHostingFeatures = true)
     {
         ArgumentNullException.ThrowIfNull(builder);
 

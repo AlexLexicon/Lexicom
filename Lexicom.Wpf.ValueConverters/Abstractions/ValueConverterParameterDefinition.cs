@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Wpf.ValueConverters.Abstractions;
+
 public class ValueConverterParameterDefinition<T> : ValueConverterParameterDefinition
 {
     private readonly Func<string[], T?>? _parseDelegate;

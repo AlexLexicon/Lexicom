@@ -2,6 +2,7 @@
 using System.ComponentModel;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
+
 public class InjectedLayout<TViewModel> : LayoutComponentBase, IMvvmComponent<TViewModel>, IDisposable where TViewModel : INotifyPropertyChanged
 {
     private readonly ComponentBehavior<TViewModel> _componentBehavior;
@@ -11,16 +12,15 @@ public class InjectedLayout<TViewModel> : LayoutComponentBase, IMvvmComponent<TV
         _componentBehavior = new ComponentBehavior<TViewModel>(this);
     }
 
-    private TViewModel? _viewModel;
     [Inject]
     public TViewModel ViewModel
     {
-        get => _viewModel!; //we just have to trust that the Inject attribute will be before this is ever used
+        get => field!; //we just have to trust that the Inject attribute will be set before this is ever used
         set
         {
             _componentBehavior.DisposeViewModel();
 
-            _viewModel = value;
+            field = value;
 
             _componentBehavior.SubmitViewModel();
         }
@@ -34,6 +34,11 @@ public class InjectedLayout<TViewModel> : LayoutComponentBase, IMvvmComponent<TV
     public virtual async Task InvokeStateChangeAsync()
     {
         await InvokeAsync(StateHasChanged);
+    }
+
+    public virtual Task HandleExceptionAsync(Exception exception)
+    {
+        return DispatchExceptionAsync(exception);
     }
 
     protected override async Task OnInitializedAsync()

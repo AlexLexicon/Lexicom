@@ -2,6 +2,7 @@
 using System.ComponentModel;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
+
 public abstract class ParameterLayout<TViewModel> : LayoutComponentBase, IMvvmComponent<TViewModel>, IDisposable where TViewModel : INotifyPropertyChanged
 {
     private readonly ComponentBehavior<TViewModel> _componentBehavior;
@@ -11,22 +12,19 @@ public abstract class ParameterLayout<TViewModel> : LayoutComponentBase, IMvvmCo
         _componentBehavior = new ComponentBehavior<TViewModel>(this);
     }
 
-    private TViewModel? _viewModel;
     [Parameter]
-#pragma warning disable BL0007 // we are not updating the view in this code, only adding/removing event triggers so we should be safe
     public TViewModel ViewModel
     {
-        get => _viewModel!; //technically _viewModel will be null if the implmentation doesnt set the parameter but in that case an execption will be thrown from 'OnInitializedAsync' and because of that we can actually say this is never null for the consuming implementation
+        get => field!; //technically _viewModel will be null if the implementation doesnt set the parameter but in that case an exception will be thrown from 'OnInitializedAsync' and because of that we can actually say this is never null for the consuming implementation
         set
         {
             _componentBehavior.DisposeViewModel();
 
-            _viewModel = value;
+            field = value;
 
             _componentBehavior.SubmitViewModel();
         }
     }
-#pragma warning restore BL0007
 
     public void Dispose()
     {
@@ -36,6 +34,11 @@ public abstract class ParameterLayout<TViewModel> : LayoutComponentBase, IMvvmCo
     public async Task InvokeStateChangeAsync()
     {
         await InvokeAsync(StateHasChanged);
+    }
+
+    public async Task HandleExceptionAsync(Exception exception)
+    {
+        await DispatchExceptionAsync(exception);
     }
 
     protected override async Task OnInitializedAsync()

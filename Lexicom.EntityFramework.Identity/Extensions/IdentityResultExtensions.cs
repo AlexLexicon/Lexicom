@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 namespace Lexicom.EntityFramework.Identity.Extensions;
+
 public static class IdentityResultExtensions
 {
     private const string ERROR_DUPLICATE_EMAIL = "DuplicateEmail";

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+
 public static class AnyLettersValidator
 {
     public static bool IsValid(string? value)
@@ -15,10 +16,10 @@ public static class AnyLettersValidator
 }
 public class AnyLettersPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(AnyLettersPropertyValidator<T>);
+    public const string NAME = nameof(AnyLettersPropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must contain any letter character.";
 
-    public override string Name => NAME;
+    public override string Name { get; } = NAME;
     public override string DefaultMessageTemplate => DEFAULT_MESSAGE_TEMPLATE;
 
     /// <exception cref="ArgumentNullException"/>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Mvvm;
+
 public interface IViewModelServiceBuilder
 {
     IServiceCollection Services { get; }

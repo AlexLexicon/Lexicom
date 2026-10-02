@@ -2,6 +2,7 @@
 using Lexicom.Validation.Extensions;
 
 namespace Lexicom.Validation.For.Wpf.Extensions;
+
 public static class WpfServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

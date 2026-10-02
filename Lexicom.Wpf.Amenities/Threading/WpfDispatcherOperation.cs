@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 
 namespace Lexicom.Wpf.Amenities.Threading;
+
 public class BaseWpfDispatcherOperation<TDispatcherOperation> : IDispatcherOperation where TDispatcherOperation : DispatcherOperation
 {
     public event EventHandler? Aborted;

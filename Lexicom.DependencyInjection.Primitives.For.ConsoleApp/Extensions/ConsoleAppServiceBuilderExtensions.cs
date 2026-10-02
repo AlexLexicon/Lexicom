@@ -2,6 +2,7 @@
 using Lexicom.Supports.ConsoleApp;
 
 namespace Lexicom.DependencyInjection.Primitives.For.ConsoleApp.Extensions;
+
 public static class ConsoleAppServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

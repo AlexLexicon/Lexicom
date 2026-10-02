@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 
 namespace Lexicom.Wpf.ValueConverters.Abstractions;
+
 public abstract class ValueConverterBase<T> : ValueConverterBase
 {
     protected override object? Convert(object? value, ValueConverterArgs args)
@@ -31,52 +32,56 @@ public abstract class ValueConverterBase : IValueConverter
     public const char PARAMETER_SPLIT_SECTION = '_';
     public const char PARAMETER_SPLIT_KEY_VALUE = ':';
 
-    public ValueConverterBase()
-    {
-        Parameters = [];
-    }
-
-    protected List<ValueConverterParameter> Parameters { get; set; }
-
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) => HandleConvert(value, targetType, parameter, culture, Convert);
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => HandleConvert(value, targetType, parameter, culture, ConvertBack);
     private object? HandleConvert(object? value, Type targetType, object? parameter, CultureInfo culture, Func<object?, ValueConverterArgs, object?> convertDelegate)
     {
-        SetParameters(parameter);
-
         return convertDelegate.Invoke(value, new ValueConverterArgs
         {
             RawParameter = parameter,
             TargetType = targetType,
             Culture = culture,
+            Parameters = ParseParameters(parameter),
         });
     }
 
     protected abstract object? Convert(object? value, ValueConverterArgs args);
     protected abstract object? ConvertBack(object? value, ValueConverterArgs args);
 
-    protected virtual bool HasParameter(ValueConverterParameterDefinition valueConverterParameterDefinition)
+    /// <exception cref="ArgumentNullException"/>
+    protected virtual bool HasParameter(ValueConverterArgs args, ValueConverterParameterDefinition valueConverterParameterDefinition)
     {
-        return valueConverterParameterDefinition.Match(Parameters);
+        ArgumentNullException.ThrowIfNull(args);
+        ArgumentNullException.ThrowIfNull(valueConverterParameterDefinition);
+
+        return valueConverterParameterDefinition.Match(args.Parameters);
     }
-    protected virtual bool HasParameter<T>(ValueConverterParameterDefinition<T> valueConverterParameterDefinition)
+    /// <exception cref="ArgumentNullException"/>
+    protected virtual bool HasParameter<T>(ValueConverterArgs args, ValueConverterParameterDefinition<T> valueConverterParameterDefinition)
     {
-        return valueConverterParameterDefinition.Match(Parameters);
+        ArgumentNullException.ThrowIfNull(args);
+        ArgumentNullException.ThrowIfNull(valueConverterParameterDefinition);
+
+        return valueConverterParameterDefinition.Match(args.Parameters);
     }
-    protected virtual bool HasParameter<T>(ValueConverterParameterDefinition<T> valueConverterParameterDefinition, out T? value)
+    /// <exception cref="ArgumentNullException"/>
+    protected virtual bool HasParameter<T>(ValueConverterArgs args, ValueConverterParameterDefinition<T> valueConverterParameterDefinition, out T? value)
     {
-        return valueConverterParameterDefinition.Match(Parameters, out value);
+        ArgumentNullException.ThrowIfNull(args);
+        ArgumentNullException.ThrowIfNull(valueConverterParameterDefinition);
+
+        return valueConverterParameterDefinition.Match(args.Parameters, out value);
     }
 
-    protected virtual void SetParameters(object? parameter)
+    protected virtual IReadOnlyList<ValueConverterParameter> ParseParameters(object? parameter)
     {
-        Parameters.Clear();
+        var parameters = new List<ValueConverterParameter>();
 
         string? parameterString = parameter?.ToString();
 
         if (parameterString is null)
         {
-            return;
+            return parameters;
         }
 
         string[] splitSections = parameterString.Split(PARAMETER_SPLIT_SECTION, StringSplitOptions.RemoveEmptyEntries);
@@ -103,7 +108,7 @@ public abstract class ValueConverterBase : IValueConverter
                         values = [];
                     }
 
-                    Parameters.Add(new ValueConverterParameter
+                    parameters.Add(new ValueConverterParameter
                     {
                         Key = key,
                         Values = values,
@@ -111,6 +116,8 @@ public abstract class ValueConverterBase : IValueConverter
                 }
             }
         }
+
+        return parameters;
     }
 }
 

@@ -2,6 +2,7 @@
 using System.Windows;
 
 namespace Lexicom.Wpf.Amenities.Themes;
+
 public class WpfThemeProvider : IThemeProvider
 {
     private readonly Application _application;

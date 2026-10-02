@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
 namespace Lexicom.Cryptography;
+
 public interface ICryptographyService
 {
     //static creation of the ICryptographyService
@@ -20,15 +21,16 @@ public interface ICryptographyService
         });
     }
     /// <exception cref="ArgumentNullException"/>
-    public static ICryptographyService Create(byte[] byteArraySecretKey, IAesProvider aesProvider)
+    public static ICryptographyService Create(byte[] byteArraySecretKey, IAesProvider aesProvider, ICiphertextAuthenticator ciphertextAuthenticator)
     {
         ArgumentNullException.ThrowIfNull(byteArraySecretKey);
         ArgumentNullException.ThrowIfNull(aesProvider);
+        ArgumentNullException.ThrowIfNull(ciphertextAuthenticator);
 
         return Create(new CryptographyByteSecretOptions
         {
             ByteArraySecretKey = byteArraySecretKey
-        }, aesProvider);
+        }, aesProvider, ciphertextAuthenticator);
     }
     /// <exception cref="ArgumentNullException"/>
     public static ICryptographyService Create(string base64StringSecretKey)
@@ -41,49 +43,52 @@ public interface ICryptographyService
         });
     }
     /// <exception cref="ArgumentNullException"/>
-    public static ICryptographyService Create(string base64StringSecretKey, IAesProvider aesProvider)
+    public static ICryptographyService Create(string base64StringSecretKey, IAesProvider aesProvider, ICiphertextAuthenticator ciphertextAuthenticator)
     {
         ArgumentNullException.ThrowIfNull(base64StringSecretKey);
         ArgumentNullException.ThrowIfNull(aesProvider);
+        ArgumentNullException.ThrowIfNull(ciphertextAuthenticator);
 
         return Create(new CryptographyStringSecretOptions
         {
             Base64StringSecretKey = base64StringSecretKey
-        }, aesProvider);
+        }, aesProvider, ciphertextAuthenticator);
     }
     /// <exception cref="ArgumentNullException"/>
     public static ICryptographyService Create(CryptographyByteSecretOptions cryptographyByteSecretOptions)
     {
         ArgumentNullException.ThrowIfNull(cryptographyByteSecretOptions);
 
-        return Create(cryptographyByteSecretOptions, new AesProvider());
+        return Create(cryptographyByteSecretOptions, new AesProvider(), new CiphertextAuthenticator());
     }
     /// <exception cref="ArgumentNullException"/>
-    public static ICryptographyService Create(CryptographyByteSecretOptions cryptographyByteSecretOptions, IAesProvider aesProvider)
+    public static ICryptographyService Create(CryptographyByteSecretOptions cryptographyByteSecretOptions, IAesProvider aesProvider, ICiphertextAuthenticator ciphertextAuthenticator)
     {
         ArgumentNullException.ThrowIfNull(cryptographyByteSecretOptions);
         ArgumentNullException.ThrowIfNull(aesProvider);
+        ArgumentNullException.ThrowIfNull(ciphertextAuthenticator);
 
         IOptions<CryptographyByteSecretOptions> options = Microsoft.Extensions.Options.Options.Create(cryptographyByteSecretOptions);
 
-        return new CryptographyService(new CryptographyByteSecretProvider(options), aesProvider);
+        return new CryptographyService(new CryptographyByteSecretProvider(options), aesProvider, ciphertextAuthenticator);
     }
     /// <exception cref="ArgumentNullException"/>
     public static ICryptographyService Create(CryptographyStringSecretOptions cryptographyStringSecretOptions)
     {
         ArgumentNullException.ThrowIfNull(cryptographyStringSecretOptions);
 
-        return Create(cryptographyStringSecretOptions, new AesProvider());
+        return Create(cryptographyStringSecretOptions, new AesProvider(), new CiphertextAuthenticator());
     }
     /// <exception cref="ArgumentNullException"/>
-    public static ICryptographyService Create(CryptographyStringSecretOptions cryptographyStringSecretOptions, IAesProvider aesProvider)
+    public static ICryptographyService Create(CryptographyStringSecretOptions cryptographyStringSecretOptions, IAesProvider aesProvider, ICiphertextAuthenticator ciphertextAuthenticator)
     {
         ArgumentNullException.ThrowIfNull(cryptographyStringSecretOptions);
         ArgumentNullException.ThrowIfNull(aesProvider);
+        ArgumentNullException.ThrowIfNull(ciphertextAuthenticator);
 
         IOptions<CryptographyStringSecretOptions> options = Microsoft.Extensions.Options.Options.Create(cryptographyStringSecretOptions);
 
-        return new CryptographyService(new CryptographyStringSecretProvider(options), aesProvider);
+        return new CryptographyService(new CryptographyStringSecretProvider(options), aesProvider, ciphertextAuthenticator);
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -103,17 +108,21 @@ public class CryptographyService : ICryptographyService
 {
     private readonly ICryptographySecretProvider _cryptographySecretProvider;
     private readonly IAesProvider _aesProvider;
+    private readonly ICiphertextAuthenticator _ciphertextAuthenticator;
 
     /// <exception cref="ArgumentNullException"/>
     public CryptographyService(
-        ICryptographySecretProvider cryptographySecretProvider, 
-        IAesProvider aesProvider)
+        ICryptographySecretProvider cryptographySecretProvider,
+        IAesProvider aesProvider,
+        ICiphertextAuthenticator ciphertextAuthenticator)
     {
         ArgumentNullException.ThrowIfNull(cryptographySecretProvider);
         ArgumentNullException.ThrowIfNull(aesProvider);
+        ArgumentNullException.ThrowIfNull(ciphertextAuthenticator);
 
         _cryptographySecretProvider = cryptographySecretProvider;
         _aesProvider = aesProvider;
+        _ciphertextAuthenticator = ciphertextAuthenticator;
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -125,7 +134,7 @@ public class CryptographyService : ICryptographyService
 
         if (encryptedString is null)
         {
-            throw new UnreachableException($"'{nameof(EncryptOrNull)}' should only return null when the '{plainText}' parameter is null which is never true.");
+            throw new UnreachableException($"'{nameof(EncryptOrNull)}' should only return null when the '{nameof(plainText)}' parameter is null which is never true.");
         }
 
         return encryptedString;
@@ -133,9 +142,9 @@ public class CryptographyService : ICryptographyService
 
     public string? EncryptOrNull(string? plainText)
     {
-        byte[] secretKey = _cryptographySecretProvider.GetSecretAsync().Result;
+        byte[] secretKey = _cryptographySecretProvider.GetSecret();
 
-        return StringEncryptor.Encrypt(_aesProvider, secretKey, plainText);
+        return StringEncryptor.Encrypt(_aesProvider, _ciphertextAuthenticator, secretKey, plainText);
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -147,7 +156,7 @@ public class CryptographyService : ICryptographyService
 
         if (encryptedString is null)
         {
-            throw new UnreachableException($"'{nameof(EncryptOrNullAsync)}' should only return null when the '{plainText}' parameter is null which is never true.");
+            throw new UnreachableException($"'{nameof(EncryptOrNullAsync)}' should only return null when the '{nameof(plainText)}' parameter is null which is never true.");
         }
 
         return encryptedString;
@@ -157,7 +166,7 @@ public class CryptographyService : ICryptographyService
     {
         byte[] secretKey = await _cryptographySecretProvider.GetSecretAsync();
 
-        return await StringEncryptor.EncryptAsync(_aesProvider, secretKey, plainText);
+        return await StringEncryptor.EncryptAsync(_aesProvider, _ciphertextAuthenticator, secretKey, plainText);
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -169,7 +178,7 @@ public class CryptographyService : ICryptographyService
 
         if (decryptedString is null)
         {
-            throw new UnreachableException($"'{nameof(DecryptOrNull)}' should only return null when the '{encryptedBase64}' parameter is null which is never true.");
+            throw new UnreachableException($"'{nameof(DecryptOrNull)}' should only return null when the '{nameof(encryptedBase64)}' parameter is null which is never true.");
         }
 
         return decryptedString;
@@ -177,9 +186,9 @@ public class CryptographyService : ICryptographyService
 
     public string? DecryptOrNull(string? encryptedBase64)
     {
-        byte[] secretKey = _cryptographySecretProvider.GetSecretAsync().Result;
+        byte[] secretKey = _cryptographySecretProvider.GetSecret();
 
-        return StringDecryptor.Decrypt(_aesProvider, encryptedBase64, secretKey);
+        return StringDecryptor.Decrypt(_aesProvider, _ciphertextAuthenticator, encryptedBase64, secretKey);
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -191,7 +200,7 @@ public class CryptographyService : ICryptographyService
 
         if (decryptedString is null)
         {
-            throw new UnreachableException($"'{nameof(DecryptOrNullAsync)}' should only return null when the '{encryptedBase64}' parameter is null which is never true.");
+            throw new UnreachableException($"'{nameof(DecryptOrNullAsync)}' should only return null when the '{nameof(encryptedBase64)}' parameter is null which is never true.");
         }
 
         return decryptedString;
@@ -201,6 +210,6 @@ public class CryptographyService : ICryptographyService
     {
         byte[] secretKey = await _cryptographySecretProvider.GetSecretAsync();
 
-        return await StringDecryptor.DecryptAsync(_aesProvider, encryptedBase64, secretKey);
+        return await StringDecryptor.DecryptAsync(_aesProvider, _ciphertextAuthenticator, encryptedBase64, secretKey);
     }
 }

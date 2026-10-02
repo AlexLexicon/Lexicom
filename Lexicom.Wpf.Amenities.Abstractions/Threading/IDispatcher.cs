@@ -1,12 +1,13 @@
 ﻿namespace Lexicom.Wpf.Amenities.Threading;
+
 /*
- * the purpose of this wrapping/abstractions
+ * the purpose of this wrapping/abstraction
  * is to allow the view models of a wpf application
  * to access the wpf Dispatcher. 
  * the reason we need these interfaces is that
- * usually the view models does not refrence
+ * usually the view models do not reference
  * windows namespaces directly so these can be used
- * without needed a windows specific version of dot net
+ * without needing a windows specific version of dot net
  */
 public interface IDispatcher
 {

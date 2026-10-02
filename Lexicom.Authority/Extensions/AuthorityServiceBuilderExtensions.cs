@@ -3,6 +3,7 @@ using Lexicom.Jwt.Options;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Authority.Extensions;
+
 public static class AuthorityServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Extensions.Strings;
+
 public static class StringExtensions
 {
     public static string? ToNameCase(this string? str)

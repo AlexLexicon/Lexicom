@@ -2,6 +2,7 @@
 using System.Collections;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+
 public static class SimplyEmptyValidator<T>
 {
     public static bool IsValid(T value)
@@ -22,7 +23,7 @@ public static class SimplyEmptyValidator<T>
 }
 public class SimplyEmptyPropertyValidator<T, TProperty> : AbstractPropertyValidator<T, TProperty>
 {
-    public const string NAME = nameof(SimplyEmptyPropertyValidator<T, TProperty>);
+    public const string NAME = nameof(SimplyEmptyPropertyValidator<,>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must be empty.";
 
     public override string Name { get; } = NAME;

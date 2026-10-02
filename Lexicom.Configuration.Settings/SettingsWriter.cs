@@ -2,6 +2,7 @@
 using System.Reflection;
 
 namespace Lexicom.Configuration.Settings;
+
 public interface ISettingsWriter
 {
     /// <exception cref="ArgumentNullException"/>
@@ -84,7 +85,7 @@ public interface ISettingsWriter
     void Save(string key, ushort value);
     /// <exception cref="ArgumentNullException"/>
     void Save(string key, ushort? value);
-    void SaveAndBind<T>(T configuration) where T : class;
+    void SaveAndBind<T>(T? configuration) where T : class;
 
     /// <exception cref="ArgumentNullException"/>
     Task SaveAsync(string key, bool value);
@@ -166,7 +167,7 @@ public interface ISettingsWriter
     Task SaveAsync(string key, ushort value);
     /// <exception cref="ArgumentNullException"/>
     Task SaveAsync(string key, ushort? value);
-    Task SaveAndBindAsync<T>(T configuration) where T : class;
+    Task SaveAndBindAsync<T>(T? configuration) where T : class;
 }
 public class SettingsWriter : ISettingsWriter
 {
@@ -395,7 +396,10 @@ public class SettingsWriter : ISettingsWriter
                 _settings[configProperty.SettingKey] = configProperty.Value;
             }
 
-            _logger.LogInformation("Saving the settings for the configuraion '{configurationTypeName}'.", configurationTypeName);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("Saving the settings for the configuration '{configurationTypeName}'.", configurationTypeName);
+            }
 
             _settings.Save();
         }
@@ -417,7 +421,10 @@ public class SettingsWriter : ISettingsWriter
             logValue = value?.ToString() ?? "null";
         }
 
-        _logger.LogInformation("Saving the setting '{key}:{logValue}'.", key, logValue);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Saving the setting '{key}:{logValue}'.", key, logValue);
+        }
 
         _settings.Save();
     }
@@ -474,6 +481,9 @@ public class SettingsWriter : ISettingsWriter
             SetConfigPropertyNullableType<sbyte>(propertyType, value, ref nullableConfigPropertyValue);
             SetConfigPropertyNullableType<short>(propertyType, value, ref nullableConfigPropertyValue);
             SetConfigPropertyNullableType<DateTime>(propertyType, value, ref nullableConfigPropertyValue);
+            SetConfigPropertyNullableType<System.Drawing.Color>(propertyType, value, ref nullableConfigPropertyValue);
+            SetConfigPropertyNullableType<System.Drawing.Point>(propertyType, value, ref nullableConfigPropertyValue);
+            SetConfigPropertyNullableType<System.Drawing.Size>(propertyType, value, ref nullableConfigPropertyValue);
             SetConfigPropertyNullableType<Guid>(propertyType, value, ref nullableConfigPropertyValue);
             SetConfigPropertyNullableType<TimeSpan>(propertyType, value, ref nullableConfigPropertyValue);
             SetConfigPropertyNullableType<uint>(propertyType, value, ref nullableConfigPropertyValue);

@@ -1,10 +1,10 @@
-﻿using Lexicom.DependencyInjection.Hosting;
+﻿namespace Lexicom.Supports.Maui.Blazor.Hybrid.Extensions;
 
-namespace Lexicom.Supports.Maui.Blazor.Hybrid.Extensions;
-public static class MauiAppBuilderExtensions
+//dot net 10 not yet supported
+/*public static class MauiAppBuilderExtensions
 {
-    /// <exception cref="ArgumentNullException"/>
-    public static MauiAppBuilder Lexicom(this MauiAppBuilder builder, Action<IDependantMauiBlazorHybridServiceBuilder>? configure, bool configureContainerForLexicomHostingFeatures = true)
+    /// <exception cref="ArgumentNullException" />
+    public static MauiAppBuilder Lexicom(this MauiAppBuilder builder, Action<IDependentMauiBlazorHybridServiceBuilder>? configure, bool configureContainerForLexicomHostingFeatures = true)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
@@ -27,4 +27,4 @@ public static class MauiAppBuilderExtensions
 
         return builder;
     }
-}
+}*/

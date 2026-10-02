@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Reflection;
 
 namespace Lexicom.Validation.For.AspNetCore.Controllers.Filters;
+
 /*
  * this filter detects a request body ([FromBody]) and finds the associated IValidator for it 
  * then calls the validator to handle the request body and returns a bad request if it fails
@@ -27,8 +28,7 @@ public class RequestBodyValidationActionFilter : IAsyncActionFilter
      * so we create a MethodInfo wrapper around the gneric ValidateAsync
      * which we can invoke via reflection
      */
-    private static MethodInfo? _staticInvokeValidatorMethodInfo;
-    private static MethodInfo StaticInvokeValidatorMethodInfo => _staticInvokeValidatorMethodInfo ??= (typeof(RequestBodyValidationActionFilter).GetMethod(nameof(StaticInvokeValidator), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(StaticInvokeValidator)}' was not found."));
+    private static MethodInfo StaticInvokeValidatorMethodInfo => field ??= (typeof(RequestBodyValidationActionFilter).GetMethod(nameof(StaticInvokeValidator), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(StaticInvokeValidator)}' was not found."));
     private static Task<ValidationResult>? StaticInvokeValidator<T>(HttpContext httpContext, T requestBody)
     {
         IValidator<T>? validator = httpContext.RequestServices.GetService<IValidator<T>>();
@@ -48,15 +48,14 @@ public class RequestBodyValidationActionFilter : IAsyncActionFilter
         ArgumentNullException.ThrowIfNull(next);
 
         //get the request body parameter from this invoked controller action
-        ControllerParameterDescriptor? requestBodyParamter = context.ActionDescriptor.Parameters
+        ControllerParameterDescriptor? requestBodyParameter = context.ActionDescriptor.Parameters
             .Where(p => p is ControllerParameterDescriptor)
             .Cast<ControllerParameterDescriptor>()
-            .Where(d => d.ParameterInfo.GetCustomAttribute<FromBodyAttribute>() is not null)
-            .FirstOrDefault();
+            .FirstOrDefault(d => d.ParameterInfo.GetCustomAttribute<FromBodyAttribute>() is not null);
 
-        if (requestBodyParamter is not null)
+        if (requestBodyParameter is not null)
         {
-            object? requestBody = context.ActionArguments[requestBodyParamter.Name];
+            object? requestBody = context.ActionArguments[requestBodyParameter.Name];
 
             if (requestBody is not null)
             {

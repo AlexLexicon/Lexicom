@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Wpf.Amenities.Dialogs;
+
 public class OpenFileSettings
 {
     public string? Title { get; set; } = "Open File";

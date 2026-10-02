@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Cryptography.Exceptions;
+
 public class SecretKeySizeException : Exception
 {
     public static string GetMessage(SecretBitSize? secretBitSize)

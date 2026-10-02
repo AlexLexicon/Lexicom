@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 
 namespace Lexicom.ConsoleApp.Tui;
+
 internal class TuiOperationDefinition
 {
     /// <exception cref="ArgumentNullException"/>

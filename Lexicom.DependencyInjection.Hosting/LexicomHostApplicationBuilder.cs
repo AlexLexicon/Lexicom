@@ -2,9 +2,10 @@
 using Microsoft.Extensions.Hosting.Internal;
 
 namespace Lexicom.DependencyInjection.Hosting;
+
 public static class LexicomHostApplicationBuilder
 {
-    public static HostingEnvironment InitalizeDefaultConfigurationProvidersAndEnviornment(ConfigurationManager configuration)
+    public static HostingEnvironment InitializeDefaultConfigurationProvidersAndEnvironment(ConfigurationManager configuration)
     {
         configuration
             .AddEnvironmentVariables(prefix: "DOTNET_")

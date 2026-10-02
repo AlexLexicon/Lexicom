@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis;
 using Lexicom.SourceGenerator.MetaData.Exceptions;
 
 namespace Lexicom.SourceGenerator.MetaData;
+
 public record struct PropertyMetaData
 {
     private readonly Compilation _compilation;

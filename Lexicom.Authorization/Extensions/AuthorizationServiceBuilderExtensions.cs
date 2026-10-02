@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Authorization.Extensions;
+
 public static class AuthorizationServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

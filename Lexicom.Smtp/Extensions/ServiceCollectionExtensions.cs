@@ -2,8 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Smtp.Extensions;
+
 public static class ServiceCollectionExtensions
 {
+    /// <exception cref="ArgumentNullException"/>
     public static IServiceCollection AddLexicomSmtp(this IServiceCollection services, IConfiguration configuration, Action<ISmtpServiceBuilder>? configure)
     {
         ArgumentNullException.ThrowIfNull(services);

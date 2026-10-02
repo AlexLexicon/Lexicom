@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.ConsoleApp.Amenities.Questions;
+
 public class QuestionBinaryBuilder
 {
     private Action<QuestionBuilderOptions>? ConfigureDelegate { get; set; }

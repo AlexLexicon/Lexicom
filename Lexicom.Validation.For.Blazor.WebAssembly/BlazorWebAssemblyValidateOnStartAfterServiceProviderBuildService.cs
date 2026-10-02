@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Reflection;
 
 namespace Lexicom.Validation.For.Blazor.WebAssembly;
+
 /*
  * the blazor host does not support ValidateOnStart() for options validator
  * so in order to implement that we have to find a round about way of attaching
@@ -18,8 +19,7 @@ public class BlazorWebAssemblyValidateOnStartAfterServiceProviderBuildService : 
 {
     public ServiceProviderBuildPriority Priority => ServiceProviderBuildPriority.Middle;
 
-    private static MethodInfo? _staticValidateOptionsMethodInfo;
-    private static MethodInfo StaticValidateOptionsMethodInfo => _staticValidateOptionsMethodInfo ??= (typeof(BlazorWebAssemblyValidateOnStartAfterServiceProviderBuildService).GetMethod(nameof(ValidateOptions), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(ValidateOptions)}' was not found."));
+    private static MethodInfo StaticValidateOptionsMethodInfo => field ??= (typeof(BlazorWebAssemblyValidateOnStartAfterServiceProviderBuildService).GetMethod(nameof(ValidateOptions), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(ValidateOptions)}' was not found."));
     private static void ValidateOptions<TOptions>(IServiceProvider provider, string name) where TOptions : class
     {
         var validateOptions = provider.GetService<IValidateOptions<TOptions>>();
@@ -29,7 +29,12 @@ public class BlazorWebAssemblyValidateOnStartAfterServiceProviderBuildService : 
 
             if (options is not null)
             {
-                validateOptions.Validate(name, options.Value);
+                ValidateOptionsResult result = validateOptions.Validate(name, options.Value);
+
+                if (result.Failed)
+                {
+                    throw new OptionsValidationException(name, typeof(TOptions), result.Failures);
+                }
             }
         }
     }

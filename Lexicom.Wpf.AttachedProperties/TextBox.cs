@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Lexicom.Wpf.AttachedProperties;
+
 public static class TextBox
 {
     private static HashSet<int> HashCodesOfTextBoxesCurrentlyBeingValidated { get; } = [];

@@ -1,25 +1,18 @@
-﻿using System.Net;
+﻿using Lexicom.Authentication.Http.Services;
+using System.Net;
 
 namespace Lexicom.Authentication.Http.DelegatingHandlers;
+
 public class RefreshTokenHttpClientDelegatingHandler : DelegatingHandler
 {
-    private readonly IHttpClientAccessTokenProvider _httpClientAccessTokenProvider;
-    private readonly IHttpClientRefreshTokenProvider _httpClientRefreshTokenProvider;
-    private readonly IHttpClientAccessTokenRefresher _httpClientRefreshService;
+    private readonly IRefreshTokenService _refreshTokenService;
 
     /// <exception cref="ArgumentNullException"/>
-    public RefreshTokenHttpClientDelegatingHandler(
-        IHttpClientAccessTokenProvider accessTokenHttpClientProvider,
-        IHttpClientRefreshTokenProvider refreshTokenHttpClientProvider,
-        IHttpClientAccessTokenRefresher refreshService)
+    public RefreshTokenHttpClientDelegatingHandler(IRefreshTokenService refreshTokenService)
     {
-        ArgumentNullException.ThrowIfNull(accessTokenHttpClientProvider);
-        ArgumentNullException.ThrowIfNull(refreshTokenHttpClientProvider);
-        ArgumentNullException.ThrowIfNull(refreshService);
+        ArgumentNullException.ThrowIfNull(refreshTokenService);
 
-        _httpClientAccessTokenProvider = accessTokenHttpClientProvider;
-        _httpClientRefreshTokenProvider = refreshTokenHttpClientProvider;
-        _httpClientRefreshService = refreshService;
+        _refreshTokenService = refreshTokenService;
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -27,26 +20,25 @@ public class RefreshTokenHttpClientDelegatingHandler : DelegatingHandler
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        return await SendAsync(request, isRefreshed: false, cancellationToken);
-    }
+        //buffer the request content before the first send so the exact same request can be
+        //sent again after a token refresh; without this the first send consumes the content
+        //(especially for non seekable stream content) and the retry would send an empty body
+        if (request.Content is not null)
+        {
+            await request.Content.LoadIntoBufferAsync(cancellationToken);
+        }
 
-    private async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, bool isRefreshed, CancellationToken cancellationToken)
-    {
         HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
 
-        if (response.StatusCode is not HttpStatusCode.Unauthorized || isRefreshed)
+        if (response.StatusCode is not HttpStatusCode.Unauthorized)
         {
             return response;
         }
 
-        var getAccessTokenTask = _httpClientAccessTokenProvider.GetAccessTokenAsync();
-        var getRefreshTokenAsync = _httpClientRefreshTokenProvider.GetRefreshTokenAsync();
+        await _refreshTokenService.RefreshTokenAsync(cancellationToken);
 
-        string? accessToken = await getAccessTokenTask;
-        string? refreshToken = await getRefreshTokenAsync;
+        response.Dispose();
 
-        await _httpClientRefreshService.RefreshAuthenticationAsync(accessToken, refreshToken);
-
-        return await SendAsync(request, isRefreshed: true, cancellationToken);
+        return await base.SendAsync(request, cancellationToken);
     }
 }

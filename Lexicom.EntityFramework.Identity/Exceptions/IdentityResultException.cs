@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 namespace Lexicom.EntityFramework.Identity.Exceptions;
+
 public class IdentityResultException(IdentityResult? identityResult) : Exception(GetMessage(identityResult))
 {
     private static string GetMessage(IdentityResult? identityResult)

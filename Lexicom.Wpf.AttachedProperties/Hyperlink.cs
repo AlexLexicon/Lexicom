@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Navigation;
 
 namespace Lexicom.Wpf.AttachedProperties;
+
 public static class Hyperlink
 {
     /*

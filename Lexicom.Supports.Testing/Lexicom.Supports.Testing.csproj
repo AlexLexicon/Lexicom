@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+
+    <Description>The base package for all Lexicom testing packages.</Description>
+    <PackageTags>dependencyinjection;testing</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lexicom.Testing.DependencyInjection\Lexicom.Testing.DependencyInjection.csproj" />
+  </ItemGroup>
+
+</Project>

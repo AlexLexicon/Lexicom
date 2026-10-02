@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Authority;
+
 public interface IAuthorityServiceBuilder
 {
     IServiceCollection Services { get; }

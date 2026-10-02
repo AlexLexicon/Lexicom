@@ -2,6 +2,7 @@
 using System.Windows;
 
 namespace Lexicom.Mvvm.For.Wpf;
+
 public interface IViewModelWindowCoupler<TViewModelService> where TViewModelService : notnull
 {
     Type WindowType { get; }

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+
+    <Description>Adds ASP.NET Core controller support to the Lexicom.Scalar package.</Description>
+    <PackageTags>scalar;openapi;dependencyinjection;aspnetcore</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lexicom.Scalar\Lexicom.Scalar.csproj" />
+    <ProjectReference Include="..\Lexicom.Supports.AspNetCore.Controllers\Lexicom.Supports.AspNetCore.Controllers.csproj" />
+  </ItemGroup>
+
+</Project>

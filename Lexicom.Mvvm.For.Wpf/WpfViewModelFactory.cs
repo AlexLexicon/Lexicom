@@ -1,68 +1,67 @@
-﻿using Lexicom.Mvvm.Exceptions;
-using Lexicom.Mvvm.Support;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Lexicom.Mvvm.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 using System.Windows;
 
 namespace Lexicom.Mvvm.For.Wpf;
+
 /// <exception cref="ArgumentNullException"/>
-public class WpfViewModelFactory(IServiceProvider serviceProvider) : ViewModelProvider(serviceProvider), IViewModelFactory
+public class WpfViewModelFactory(IServiceProvider serviceProvider, IEnumerable<IMessenger> messengers) : ViewModelFactory(serviceProvider, messengers)
 {
-    public TViewModel Create<TViewModel>() where TViewModel : notnull
+    public override TViewModel Create<TViewModel>()
     {
-        return CreateViewModelAndTryCoupleWindow<TViewModel>();
+        return CreateViewModelAndTryCoupleWindow<TViewModel>(out _);
     }
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="SingletonViewModelAlreadyExistsException"/>
-    public TViewModel Create<TViewModel, TModel>(TModel model) where TViewModel : notnull
+    public override TViewModel Create<TViewModel, TModel>(TModel model)
     {
         ArgumentNullException.ThrowIfNull(model);
 
-        TViewModel viewModel = CreateViewModel<TViewModel, TModel>(model);
+        TViewModel viewModel = base.Create<TViewModel, TModel>(model);
 
-        TryCoupleWindow(viewModel);
+        TryCoupleWindow(viewModel, out _);
 
         return viewModel;
     }
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="SingletonViewModelAlreadyExistsException"/>
-    public TViewModel Create<TViewModel, TModel1, TModel2>(TModel1 model1, TModel2 model2) where TViewModel : notnull
+    public override TViewModel Create<TViewModel, TModel1, TModel2>(TModel1 model1, TModel2 model2)
     {
         ArgumentNullException.ThrowIfNull(model1);
         ArgumentNullException.ThrowIfNull(model2);
 
-        TViewModel viewModel = CreateViewModel<TViewModel, TModel1, TModel2>(model1, model2);
+        TViewModel viewModel = base.Create<TViewModel, TModel1, TModel2>(model1, model2);
 
-        TryCoupleWindow(viewModel);
+        TryCoupleWindow(viewModel, out _);
 
         return viewModel;
     }
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="SingletonViewModelAlreadyExistsException"/>
-    public TViewModel Create<TViewModel, TModel1, TModel2, TModel3>(TModel1 model1, TModel2 model2, TModel3 model3) where TViewModel : notnull
+    public override TViewModel Create<TViewModel, TModel1, TModel2, TModel3>(TModel1 model1, TModel2 model2, TModel3 model3)
     {
         ArgumentNullException.ThrowIfNull(model1);
         ArgumentNullException.ThrowIfNull(model2);
         ArgumentNullException.ThrowIfNull(model3);
 
-        TViewModel viewModel = CreateViewModel<TViewModel, TModel1, TModel2, TModel3>(model1, model2, model3);
+        TViewModel viewModel = base.Create<TViewModel, TModel1, TModel2, TModel3>(model1, model2, model3);
 
-        TryCoupleWindow(viewModel);
+        TryCoupleWindow(viewModel, out _);
 
         return viewModel;
     }
 
-    protected virtual TViewModel CreateViewModelAndTryCoupleWindow<TViewModel>() where TViewModel : notnull => CreateViewModelAndTryCoupleWindow<TViewModel>(out _);
-    internal virtual TViewModel CreateViewModelAndTryCoupleWindow<TViewModel>(out Window? window) where TViewModel : notnull
+    public virtual TViewModel CreateViewModelAndTryCoupleWindow<TViewModel>(out Window? window) where TViewModel : notnull
     {
-        TViewModel viewModel = CreateViewModel<TViewModel>();
+        TViewModel viewModel = base.Create<TViewModel>();
 
         TryCoupleWindow(viewModel, out window);
 
         return viewModel;
     }
 
-    /// <exception cref="ArgumentNullException"/>
-    protected virtual bool TryCoupleWindow<TViewModel>(TViewModel viewModel) where TViewModel : notnull => TryCoupleWindow(viewModel, out _);
     /// <exception cref="ArgumentNullException"/>
     protected virtual bool TryCoupleWindow<TViewModel>(TViewModel viewModel, out Window? window) where TViewModel : notnull
     {
@@ -72,7 +71,14 @@ public class WpfViewModelFactory(IServiceProvider serviceProvider) : ViewModelPr
 
         if (viewModelWindowCoupler is not null)
         {
-            window = (Window)ActivatorUtilities.CreateInstance(_serviceProvider, viewModelWindowCoupler.WindowType);
+            object createdPossibleWindow = ActivatorUtilities.CreateInstance(_serviceProvider, viewModelWindowCoupler.WindowType);
+
+            if (createdPossibleWindow is not Window createdWindow)
+            {
+                throw new UnreachableException($"The window type '{viewModelWindowCoupler.WindowType?.Name ?? "null"}' is not of the type '{nameof(Window)}' but that shouldn't be possible.");
+            }
+
+            window = createdWindow;
 
             viewModelWindowCoupler.Couple(viewModel, window);
 

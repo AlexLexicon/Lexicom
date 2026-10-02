@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Maths;
+
 public static class Mathx
 {
     /// <exception cref="ArgumentOutOfRangeException"/>
@@ -15,7 +16,7 @@ public static class Mathx
             //is because that is the largest number of nines
             //possible before the double precision fails
 
-            throw new ArgumentOutOfRangeException(nameof(n), n, "Must be greater than '0' and less than '15'.");
+            throw new ArgumentOutOfRangeException(nameof(n), n, "Must be greater than '0' and less than or equal to '15'.");
         }
 
         if (digit is 0)

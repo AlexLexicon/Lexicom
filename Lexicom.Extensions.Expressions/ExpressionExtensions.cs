@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 
 namespace Lexicom.Extensions.Expressions;
+
 public static class ExpressionExtensions
 {
     public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>>? leftExpression, Expression<Func<T, bool>>? rightExpression)
@@ -27,7 +28,7 @@ public static class ExpressionExtensions
         }
 
         ParameterExpression parameterExpression = Expression.Parameter(typeof(T));
-        BinaryExpression bodyExpression = Expression.And(leftExpression.Body, rightExpression.Body);
+        BinaryExpression bodyExpression = Expression.AndAlso(leftExpression.Body, rightExpression.Body);
 
         bodyExpression = (BinaryExpression)new ParameterReplacer(parameterExpression).Visit(bodyExpression);
 
@@ -57,7 +58,7 @@ public static class ExpressionExtensions
         }
 
         ParameterExpression parameterExpression = Expression.Parameter(typeof(T));
-        BinaryExpression bodyExpression = Expression.Or(leftExpression.Body, rightExpression.Body);
+        BinaryExpression bodyExpression = Expression.OrElse(leftExpression.Body, rightExpression.Body);
 
         bodyExpression = (BinaryExpression)new ParameterReplacer(parameterExpression).Visit(bodyExpression);
 

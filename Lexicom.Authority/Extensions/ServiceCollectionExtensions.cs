@@ -5,6 +5,7 @@ using Lexicom.Validation.Options.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Authority.Extensions;
+
 public static class ServiceCollectionExtensions
 {
     /// <exception cref="ArgumentNullException"/>

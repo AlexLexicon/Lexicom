@@ -1,6 +1,7 @@
 ﻿using System.Windows.Threading;
 
 namespace Lexicom.Wpf.Amenities.Threading.Extensions;
+
 public static class PriorityExtension
 {
     public static DispatcherPriority ToConcrete(this Priority priority)

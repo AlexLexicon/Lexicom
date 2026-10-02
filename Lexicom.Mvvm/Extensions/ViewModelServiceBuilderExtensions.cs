@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Mvvm.Extensions;
+
 public static class ViewModelServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

@@ -4,6 +4,7 @@ using Lexicom.Validation.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.Validation.Options;
+
 public class FluentValidationValidateOptions<TOptions> : IValidateOptions<TOptions> where TOptions : class
 {
     private readonly string _name;
@@ -24,7 +25,7 @@ public class FluentValidationValidateOptions<TOptions> : IValidateOptions<TOptio
     /// <exception cref="ArgumentNullException"/>
     public ValidateOptionsResult Validate(string? name, TOptions options)
     {
-        if (_name is not null && _name != name)
+        if (_name != name)
         {
             return ValidateOptionsResult.Skip;
         }

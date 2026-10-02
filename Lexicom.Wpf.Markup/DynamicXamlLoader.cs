@@ -5,6 +5,7 @@ using System.Windows.Markup;
 using System.Windows;
 
 namespace Lexicom.Wpf.Markup;
+
 //based on: https://stackoverflow.com/questions/910814/loading-xaml-at-runtime
 public class DynamicXamlLoader : MarkupExtension
 {

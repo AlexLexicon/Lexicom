@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Authorization;
+
 public interface IAuthorizationServiceBuilder
 {
     public IServiceCollection Services { get; }

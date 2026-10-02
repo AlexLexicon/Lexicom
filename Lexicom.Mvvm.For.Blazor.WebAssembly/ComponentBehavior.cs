@@ -6,18 +6,24 @@ using System.Reflection;
 using System.Windows.Input;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
+
 public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyChanged
 {
     private readonly IMvvmComponent<TViewModel> _mvvmComponent;
 
+    /// <exception cref="ArgumentNullException"/>
     public ComponentBehavior(IMvvmComponent<TViewModel> mvvmComponent)
     {
+        ArgumentNullException.ThrowIfNull(mvvmComponent);
+
         _mvvmComponent = mvvmComponent;
+
+        NotifyCollectionChangedProperties = [];
     }
 
     private PropertyInfo? LoadedCommand { get; set; }
     private PropertyInfo? RenderedCommand { get; set; }
-    private List<PropertyInfo> NotifyCollectionChangedProperties { get; } = [];
+    private List<PropertyInfo> NotifyCollectionChangedProperties { get; }
 
     public async Task InitializeAsync()
     {
@@ -131,17 +137,31 @@ public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyCha
 
     private async void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (_mvvmComponent.ViewModel is not null)
+        try
         {
-            UnSubscribeToCollectionChanged();
-            SubscribeToCollectionChanged();
-        }
+            if (_mvvmComponent.ViewModel is not null)
+            {
+                UnSubscribeToCollectionChanged();
+                SubscribeToCollectionChanged();
+            }
 
-        await _mvvmComponent.InvokeStateChangeAsync();
+            await _mvvmComponent.InvokeStateChangeAsync();
+        }
+        catch (Exception exception)
+        {
+            await _mvvmComponent.HandleExceptionAsync(exception);
+        }
     }
 
     private async void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        await _mvvmComponent.InvokeStateChangeAsync();
+        try
+        {
+            await _mvvmComponent.InvokeStateChangeAsync();
+        }
+        catch (Exception exception)
+        {
+            await _mvvmComponent.HandleExceptionAsync(exception);
+        }
     }
 }

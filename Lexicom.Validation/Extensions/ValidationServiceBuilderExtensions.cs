@@ -3,6 +3,7 @@ using FluentValidation.Resources;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Validation.Extensions;
+
 public static class ValidationServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
@@ -112,7 +113,10 @@ public static class ValidationServiceBuilderExtensions
 
             foreach (Type subInterface in subInterfaces)
             {
-                return InterfaceTypeIsIRuleSet(subInterface, abstractGenericType);
+                if (InterfaceTypeIsIRuleSet(subInterface, abstractGenericType))
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -126,7 +130,7 @@ public static class ValidationServiceBuilderExtensions
 
         Type[] concreteTypes = typeof(TAssemblyScanMarker).Assembly.DefinedTypes.ToArray();
 
-        var results = new List<AddTrasnformersResult>();
+        var results = new List<AddTransformersResult>();
         foreach (Type concreteType in concreteTypes)
         {
             if (!concreteType.IsAbstract && TypeOrBaseTypeIsAbstractTransformer(concreteType, out Type? abstractTransformerGenericArgumentPropertyType, out Type? abstractTransformerGenericArgumentInPropertyType, out Type? abstractTransformerGenericArgumentValidatorType))
@@ -147,7 +151,7 @@ public static class ValidationServiceBuilderExtensions
                         }
                     }
 
-                    results.Add(new AddTrasnformersResult
+                    results.Add(new AddTransformersResult
                     {
                         ConcreteType = concreteType,
                         InterfaceTypes = transformerInterfaces,
@@ -158,7 +162,7 @@ public static class ValidationServiceBuilderExtensions
 
         if (results.Count is not 0)
         {
-            foreach (AddTrasnformersResult result in results)
+            foreach (AddTransformersResult result in results)
             {
                 //add the AbstractTransformer type
                 builder.Services.Add(new ServiceDescriptor(result.ConcreteType, result.ConcreteType, serviceLifetime));
@@ -186,8 +190,8 @@ public static class ValidationServiceBuilderExtensions
 
             if (type.IsGenericType)
             {
-                Type typeDifinition = type.GetGenericTypeDefinition();
-                if (typeDifinition == typeof(AbstractRuleSetTransformer<,,>))
+                Type typeDefinition = type.GetGenericTypeDefinition();
+                if (typeDefinition == typeof(AbstractRuleSetTransformer<,,>))
                 {
                     abstractTransformerGenericArgumentPropertyType = type.GetGenericArguments()[0];
                     abstractTransformerGenericArgumentInPropertyType = type.GetGenericArguments()[1];
@@ -195,7 +199,7 @@ public static class ValidationServiceBuilderExtensions
 
                     return true;
                 }
-                else if (typeDifinition == typeof(AbstractRuleSetTransformer<,>))
+                else if (typeDefinition == typeof(AbstractRuleSetTransformer<,>))
                 {
                     abstractTransformerGenericArgumentPropertyType = type.GetGenericArguments()[0];
                     abstractTransformerGenericArgumentInPropertyType = type.GetGenericArguments()[1];
@@ -222,11 +226,11 @@ public static class ValidationServiceBuilderExtensions
                 Type transformerInterfaceType;
                 if (abstractTransformerGenericArgumentValidatorType is not null)
                 {
-                    transformerInterfaceType = typeof(IRuleSetTransfromer<,,>).MakeGenericType(abstractTransformerGenericArgumentPropertyType, abstractTransformerGenericArgumentInPropertyType, abstractTransformerGenericArgumentValidatorType);
+                    transformerInterfaceType = typeof(IRuleSetTransformer<,,>).MakeGenericType(abstractTransformerGenericArgumentPropertyType, abstractTransformerGenericArgumentInPropertyType, abstractTransformerGenericArgumentValidatorType);
                 }
                 else
                 {
-                    transformerInterfaceType = typeof(IRuleSetTransfromer<,>).MakeGenericType(abstractTransformerGenericArgumentPropertyType, abstractTransformerGenericArgumentInPropertyType);
+                    transformerInterfaceType = typeof(IRuleSetTransformer<,>).MakeGenericType(abstractTransformerGenericArgumentPropertyType, abstractTransformerGenericArgumentInPropertyType);
                 }
 
                 if (interfaceType == transformerInterfaceType)
@@ -239,7 +243,10 @@ public static class ValidationServiceBuilderExtensions
 
             foreach (Type subInterface in subInterfaces)
             {
-                return InterfaceTypeIsIRuleSetTransformer(subInterface, abstractTransformerGenericArgumentPropertyType, abstractTransformerGenericArgumentInPropertyType, abstractTransformerGenericArgumentValidatorType);
+                if (InterfaceTypeIsIRuleSetTransformer(subInterface, abstractTransformerGenericArgumentPropertyType, abstractTransformerGenericArgumentInPropertyType, abstractTransformerGenericArgumentValidatorType))
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -283,7 +290,7 @@ public static class ValidationServiceBuilderExtensions
         public required List<Type> InterfaceTypes { get; init; }
     }
 
-    private class AddTrasnformersResult
+    private class AddTransformersResult
     {
         public required Type ConcreteType { get; init; }
         public required List<Type> InterfaceTypes { get; init; }

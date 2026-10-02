@@ -1,8 +1,8 @@
-﻿using Lexicom.Smtp;
-using Lexicom.Smtp.Extensions;
+﻿using Lexicom.Smtp.Extensions;
 using Lexicom.Supports.Wpf;
 
-namespace Lexicom.Validation.Wpf.Extensions;
+namespace Lexicom.Smtp.For.Wpf.Extensions;
+
 public static class WpfServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

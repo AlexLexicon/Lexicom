@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.DependencyInjection.Primitives;
+
 public interface IDependencyInjectionPrimitivesServiceBuilder
 {
     IServiceCollection Services { get; }

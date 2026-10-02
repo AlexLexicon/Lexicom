@@ -1,9 +1,10 @@
 ﻿namespace Lexicom.ConsoleApp.Tui;
-public interface IAtlasOperationsProvider
+
+public interface ITuiOperationsProvider
 {
     IReadOnlyList<Type> OperationTypes { get; }
 }
-public class TuiOperationsProvider : IAtlasOperationsProvider
+public class TuiOperationsProvider : ITuiOperationsProvider
 {
     /// <exception cref="ArgumentNullException"/>
     public TuiOperationsProvider(IEnumerable<Type> operationTypes)

@@ -2,7 +2,8 @@
 using System.Reflection;
 
 namespace Lexicom.Validation.Amenities;
-public abstract class AbstractComparisonPropertyValidator<T, TProperty> : AbstractComparisonValidator<T, TProperty> where TProperty : IComparable<TProperty>, IComparable
+
+public abstract class AbstractComparisonPropertyValidator<T, TProperty> : AbstractComparisonValidator<T, TProperty>, IDefaultMessagePropertyValidator where TProperty : IComparable<TProperty>, IComparable
 {
     public AbstractComparisonPropertyValidator(TProperty valueToCompare) : base(valueToCompare)
     {
@@ -27,13 +28,8 @@ public abstract class AbstractComparisonPropertyValidator<T, TProperty> : Abstra
 
     protected override string GetDefaultMessageTemplate(string? errorCode)
     {
-        string? localizedMessageTemplate = Localized(errorCode, Name);
+        string localizedMessageTemplate = Localized(errorCode, Name);
 
-        if (!string.IsNullOrWhiteSpace(localizedMessageTemplate))
-        {
-            return localizedMessageTemplate;
-        }
-
-        return DefaultMessageTemplate ?? throw new NullReferenceException($"{nameof(DefaultMessageTemplate)} was null");
+        return AbstractPropertyValidator.GetLocalizedOrDefaultMessageTemplate(this, localizedMessageTemplate);
     }
 }

@@ -1,0 +1,79 @@
+﻿using Lexicom.Authentication.Configurations;
+using Lexicom.Authentication.Extensions;
+using Lexicom.Jwt.Extensions;
+using Lexicom.Jwt.Options;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Lexicom.Authentication;
+
+public interface IAuthenticationAccessTokenBuilder
+{
+    IServiceCollection Services { get; }
+    /// <exception cref="ArgumentNullException"/>
+    IAuthenticationAccessTokenBuilder ConfigureAuthentication(Action<AuthenticationOptions> configure);
+    /// <exception cref="ArgumentNullException"/>
+    IAuthenticationAccessTokenBuilder ConfigureJwtBearer(Action<JwtBearerOptions> configure);
+}
+public class AuthenticationAccessTokenBuilder : IAuthenticationAccessTokenBuilder
+{
+    /// <exception cref="ArgumentNullException"/>
+    public AuthenticationAccessTokenBuilder(IServiceCollection services)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+
+        Services = services;
+    }
+
+    public IServiceCollection Services { get; }
+    private Action<AuthenticationOptions>? ConfigureAuthenticationDelegate { get; set; }
+    private Action<JwtBearerOptions>? ConfigureJwtBearerDelegate { get; set; }
+
+    /// <exception cref="ArgumentNullException"/>
+    public IAuthenticationAccessTokenBuilder ConfigureAuthentication(Action<AuthenticationOptions> configure)
+    {
+        ArgumentNullException.ThrowIfNull(configure);
+
+        ConfigureAuthenticationDelegate = configure;
+
+        return this;
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    public IAuthenticationAccessTokenBuilder ConfigureJwtBearer(Action<JwtBearerOptions> configure)
+    {
+        ArgumentNullException.ThrowIfNull(configure);
+
+        ConfigureJwtBearerDelegate = configure;
+
+        return this;
+    }
+
+    public virtual void Build()
+    {
+        Services.AddJwtSecretsOptions(JwtOptions.ACCESS_TOKEN_SECTION);
+
+        Services.AddLexicomAuthenticationDefaultScheme();
+        Services.ConfigureOptions<JwtBearerOptionsConfiguration>();
+
+        AuthenticationBuilder builder;
+        if (ConfigureAuthenticationDelegate is not null)
+        {
+            builder = Services.AddAuthentication(ConfigureAuthenticationDelegate);
+        }
+        else
+        {
+            builder = Services.AddAuthentication();
+        }
+
+        if (ConfigureJwtBearerDelegate is not null)
+        {
+            builder.AddJwtBearer(ConfigureJwtBearerDelegate);
+        }
+        else
+        {
+            builder.AddJwtBearer();
+        }
+    }
+}

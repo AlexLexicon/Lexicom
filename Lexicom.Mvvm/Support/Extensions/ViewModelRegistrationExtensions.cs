@@ -2,6 +2,7 @@
 using System.Reflection;
 
 namespace Lexicom.Mvvm.Support.Extensions;
+
 public static class ViewModelRegistrationExtensions
 {
     /// <exception cref="ArgumentNullException"/>

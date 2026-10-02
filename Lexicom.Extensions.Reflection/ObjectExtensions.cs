@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Extensions.Reflection;
+
 public static class ObjectExtensions
 {
     public static T? TryCast<T>(this object? instance)

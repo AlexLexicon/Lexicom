@@ -5,6 +5,7 @@ using Lexicom.Validation.Options.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Cryptography.Extensions;
+
 public static class CryptographyServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

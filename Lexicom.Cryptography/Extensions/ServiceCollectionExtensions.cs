@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Cryptography.Extensions;
+
 public static class ServiceCollectionExtensions
 {
     /// <exception cref="ArgumentNullException"/>
@@ -10,6 +11,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<ICryptographyService, CryptographyService>();
         services.AddSingleton<IAesProvider, AesProvider>();
+        services.AddSingleton<ICiphertextAuthenticator, CiphertextAuthenticator>();
 
         configure?.Invoke(new CryptographyServiceBuilder(services));
 

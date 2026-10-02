@@ -3,16 +3,19 @@ using System.Collections.Specialized;
 using System.Web;
 
 namespace Lexicom.Http;
+
 public class HttpQueryString : IList<HttpQueryParameter>
 {
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="UriFormatException"/>
-    public static HttpQueryString Create(string url)
+    public static HttpQueryString Parse(string url)
     {
         ArgumentNullException.ThrowIfNull(url);
 
         var uriBuilder = new UriBuilder(url);
+
         NameValueCollection query = HttpUtility.ParseQueryString(uriBuilder.Query);
+
         var queryString = new HttpQueryString();
         for (int index = 0; index < query.Count; index++)
         {
@@ -134,28 +137,37 @@ public class HttpQueryString : IList<HttpQueryParameter>
     public HttpQueryParameter this[int index]
     {
         get => _parameters[index];
-        set => Insert(index, value);
+        set => _parameters[index] = value;
     }
     /// <exception cref="ArgumentNullException"/>
     public HttpQueryParameter? this[string name] => GetParameters(name).FirstOrDefault();
 
     public override string ToString()
     {
-        NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(string.Empty);
+        return ToString(url: null);
+    }
+    public string ToString(string? url)
+    {
+        //the names never need escaping since they are validated when constructed
+        //and the values are escaped exactly once by 'HttpQueryParameter.EscapedValue'
+        string parameters = string.Join('&', _parameters.Select(p => p.ToString()));
 
-        foreach (HttpQueryParameter parameter in _parameters)
+        if (!string.IsNullOrWhiteSpace(url))
         {
-            nameValueCollection.Add(parameter.Name, parameter.Value);
-        }
+            if (string.IsNullOrWhiteSpace(parameters))
+            {
+                return url;
+            }
 
-        string? parameters = nameValueCollection.ToString();
+            return $"{url}?{parameters}";
+        }
 
         if (string.IsNullOrWhiteSpace(parameters))
         {
             return string.Empty;
         }
 
-        return $"?{parameters}";
+        return parameters;
     }
 
     public IEnumerator<HttpQueryParameter> GetEnumerator() => _parameters.GetEnumerator();

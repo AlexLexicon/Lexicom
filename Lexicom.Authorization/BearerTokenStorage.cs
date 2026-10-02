@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Authorization;
+
 public interface IBearerTokenStorage
 {
     /// <exception cref="ArgumentNullException"/>

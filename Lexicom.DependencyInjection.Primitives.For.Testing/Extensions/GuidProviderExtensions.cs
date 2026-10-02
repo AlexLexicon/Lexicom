@@ -1,0 +1,38 @@
+﻿using Lexicom.DependencyInjection.Primitives.For.Testing.Exceptions;
+
+namespace Lexicom.DependencyInjection.Primitives.For.Testing.Extensions;
+
+public static class GuidProviderExtensions
+{
+    /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{IGuidProvider, TestGuidProvider}"/>
+    public static void Set(this IGuidProvider guidProvider, Guid guid)
+    {
+        ArgumentNullException.ThrowIfNull(guidProvider);
+
+        TestGuidProvider testGuidProvider = GetTestGuidProvider(guidProvider);
+
+        testGuidProvider.Set(guid);
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="NonTestProviderExtensionException{IGuidProvider, TestGuidProvider}"/>
+    public static void Enqueue(this IGuidProvider guidProvider, Guid guid)
+    {
+        ArgumentNullException.ThrowIfNull(guidProvider);
+
+        TestGuidProvider testGuidProvider = GetTestGuidProvider(guidProvider);
+
+        testGuidProvider.Enqueue(guid);
+    }
+
+    private static TestGuidProvider GetTestGuidProvider(IGuidProvider guidProvider)
+    {
+        if (guidProvider is not TestGuidProvider testGuidProvider)
+        {
+            throw new NonTestProviderExtensionException<IGuidProvider, TestGuidProvider>();
+        }
+
+        return testGuidProvider;
+    }
+}

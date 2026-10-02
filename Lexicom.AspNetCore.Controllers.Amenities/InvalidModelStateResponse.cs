@@ -2,13 +2,18 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities;
+
 public static class InvalidModelStateResponse
 {
     private const string MODELSTATE_JSON_KEY_PROPERTY = "$.";
     private const string MODELSTATE_INCLUDING = "including the following:";
     private const string MODELSTATE_REQUESTBODY = "requestBody";
     private const string MODELSTATE_REQUIRED_FIELD_END = "field is required.";
+    private const string MODELSTATE_NOTVALID_FIELD_END = "is not valid.";
+    private const string MODELSTATE_JSONNOTCONVERTED_FIELD_START = "The JSON value could not be converted";
     private const string REQUIRED_MESSAGE = $"The {MODELSTATE_REQUIRED_FIELD_END}";
+    private const string NOTVALID_MESSAGE = $"The field {MODELSTATE_NOTVALID_FIELD_END}";
+    private const string JSON_MESSAGE = $"The json is malformed or invalid.";
 
     /// <exception cref="ArgumentNullException"/>
     public static IActionResult Factory(ActionContext context)
@@ -58,15 +63,21 @@ public static class InvalidModelStateResponse
                 if (key.StartsWith(MODELSTATE_JSON_KEY_PROPERTY))
                 {
                     string cleanKey = key.Replace(MODELSTATE_JSON_KEY_PROPERTY, "");
-                    string field = key[MODELSTATE_JSON_KEY_PROPERTY.Length..];
 
-                    AddMessage(errors, cleanKey, "The field is not supported.");
+                    if (message.StartsWith(MODELSTATE_JSONNOTCONVERTED_FIELD_START))
+                    {
+                        AddMessage(errors, cleanKey, JSON_MESSAGE);
+                    }
+                    else
+                    {
+                        AddMessage(errors, cleanKey, "The field is not supported.");
+                    }
                 }
                 else if (key is MODELSTATE_REQUESTBODY)
                 {
                     if (isJsonError)
                     {
-                        AddMessage(errors, key, "The json is malformed or invalid.");
+                        AddMessage(errors, key, JSON_MESSAGE);
                     }
                 }
                 else
@@ -74,6 +85,10 @@ public static class InvalidModelStateResponse
                     if (message.EndsWith(MODELSTATE_REQUIRED_FIELD_END))
                     {
                         AddMessage(errors, key, REQUIRED_MESSAGE);
+                    }
+                    else if (message.EndsWith(MODELSTATE_NOTVALID_FIELD_END))
+                    {
+                        AddMessage(errors, key, NOTVALID_MESSAGE);
                     }
                 }
             }

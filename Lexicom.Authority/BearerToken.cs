@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Authority;
+
 public class BearerToken
 {
     public BearerToken(

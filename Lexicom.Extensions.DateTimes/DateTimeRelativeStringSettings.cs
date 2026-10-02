@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Extensions.DateTimes;
+
 public class DateTimeRelativeStringSettings
 {
     public DateTimeRelativeStringSettings()

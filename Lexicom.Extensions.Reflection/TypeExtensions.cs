@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Extensions.Reflection;
+
 public static class TypeExtensions
 {
     public static string GetFriendlyName(this Type? type)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 
 namespace Lexicom.Configuration.Settings.Extensions;
+
 public static class ConfigurationBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

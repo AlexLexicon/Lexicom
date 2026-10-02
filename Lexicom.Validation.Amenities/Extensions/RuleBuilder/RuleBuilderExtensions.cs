@@ -4,6 +4,7 @@ using Lexicom.Validation.Amenities.PropertyValidators;
 using System.Diagnostics;
 
 namespace Lexicom.Validation.Amenities.Extensions;
+
 public static class RuleBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

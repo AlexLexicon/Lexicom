@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 
 namespace Lexicom.Validation.Extensions;
+
 public static class ValidationFailureExtensions
 {
     private static string[] WhiteSpaceSeparator { get; } = [" "];
@@ -46,7 +47,7 @@ public static class ValidationFailureExtensions
 
         if (!string.IsNullOrWhiteSpace(message))
         {
-            //captialize the first letter of the message
+            //capitalize the first letter of the message
             message = char.ToUpper(message[0]) + message[1..];
         }
         else

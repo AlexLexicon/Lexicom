@@ -8,6 +8,7 @@ using System.Net.Mail;
 using System.Net.Sockets;
 
 namespace Lexicom.Smtp;
+
 public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
 {
     private readonly ILogger<SmtpEmailMailClient> _logger;
@@ -29,7 +30,7 @@ public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
     /// <exception cref="EmailAddressNotValidException"/>
     /// <exception cref="SmtpNetworkCredentialsNotValidException"/>
     /// <exception cref="MailMessageNotValidException"/>
-    /// <exception cref="EmailHostUnKnownException"/>
+    /// <exception cref="EmailHostUnknownException"/>
     /// <exception cref="EmailHostConnectionException"/>
     /// <exception cref="EmailHostNotSpecifiedException"/>
     public async Task SendEmailAsync(string toEmailAddress, string subject, string body)
@@ -78,13 +79,19 @@ public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
             SmtpClient smtpClient;
             if (port is not null)
             {
-                _logger.LogInformation("Creating a new SmtpClient for the host '{host}:{port}'.", smtpEmailClientConfiguration.Host, port);
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("Creating a new SmtpClient for the host '{host}:{port}'.", smtpEmailClientConfiguration.Host, port);
+                }
 
                 smtpClient = new SmtpClient(smtpEmailClientConfiguration.Host, port.Value);
             }
             else
             {
-                _logger.LogInformation("Creating a new SmtpClient for the host '{host}'.", smtpEmailClientConfiguration.Host);
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("Creating a new SmtpClient for the host '{host}'.", smtpEmailClientConfiguration.Host);
+                }
 
                 smtpClient = new SmtpClient(smtpEmailClientConfiguration.Host);
             }
@@ -101,11 +108,17 @@ public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
 
                 smtpClient.Credentials = new NetworkCredential(smtpEmailClientConfiguration.NetworkCredentialsUsername, smtpEmailClientConfiguration.NetworkCredentialsPassword);
 
-                _logger.LogInformation("SmtpClient.SendMailAsync initiated.");
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("SmtpClient.SendMailAsync initiated.");
+                }
 
                 await smtpClient.SendMailAsync(mailMessage);
 
-                _logger.LogInformation("SmtpClient.SendMailAsync succeeded.");
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("SmtpClient.SendMailAsync succeeded.");
+                }
             }
         }
         catch (Exception e) when (e is FormatException or ArgumentNullException)
@@ -116,11 +129,11 @@ public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
         {
             if (e.InnerException is SocketException socketException)
             {
-                if (socketException.Message == "No such host is known.")
+                if (socketException.SocketErrorCode is SocketError.HostNotFound)
                 {
-                    throw new EmailHostUnKnownException(e);
+                    throw new EmailHostUnknownException(e);
                 }
-                else if (socketException.Message == "A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.")
+                else if (socketException.SocketErrorCode is SocketError.TimedOut)
                 {
                     throw new EmailHostConnectionException(e);
                 }

@@ -2,6 +2,7 @@
 using Lexicom.Validation.Extensions;
 
 namespace Lexicom.Validation.For.ConsoleApp.Extensions;
+
 public static class ConsoleAppServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

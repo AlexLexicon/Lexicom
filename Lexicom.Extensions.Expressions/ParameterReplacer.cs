@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 
 namespace Lexicom.Extensions.Expressions;
+
 public class ParameterReplacer : ExpressionVisitor
 {
     private readonly ParameterExpression _parameter;

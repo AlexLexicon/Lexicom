@@ -1,6 +1,7 @@
 ﻿using Lexicom.Wpf.ValueConverters.Abstractions;
 
 namespace Lexicom.Wpf.ValueConverters;
+
 public sealed class ToBooleanConverter : ValueConverterBase<bool>
 {
     private const string TRUE_SHORT = "t";
@@ -8,7 +9,7 @@ public sealed class ToBooleanConverter : ValueConverterBase<bool>
     private static readonly string TRUE_FULL = GetBooleanString(true);
     private static readonly string FALSE_FULL = GetBooleanString(false);
 
-    private static ValueConverterParameterDefinition InvertParameter { get; } = new ValueConverterParameterDefinition("invert");
+    private static ValueConverterParameterDefinition InvertParameter { get; } = new ValueConverterParameterDefinition("not");
     private static ValueConverterParameterDefinition<IsStrings> FalseWhenStringParameter { get; } = new ValueConverterParameterDefinition<IsStrings>("falsewhenstring",
     [
         new ResultForPatternMatch<IsStrings>(IsStrings.NullOrEmpty, ["isnullorempty", "nullorempty", "noe", "0"]),
@@ -36,9 +37,9 @@ public sealed class ToBooleanConverter : ValueConverterBase<bool>
         bool trueResult = TrueResult;
         bool falseResult = FalseResult;
 
-        bool result = GetResultFromObject(value, trueResult, falseResult);
+        bool result = GetResultFromObject(value, args, trueResult, falseResult);
 
-        if (HasParameter(InvertParameter))
+        if (HasParameter(args, InvertParameter))
         {
             return result == trueResult ? FalseResult : trueResult;
         }
@@ -50,7 +51,7 @@ public sealed class ToBooleanConverter : ValueConverterBase<bool>
         return result == trueResult ? trueResult : falseResult;
     }
 
-    private bool GetResultFromObject(object? value, bool trueResult, bool falseResult)
+    private bool GetResultFromObject(object? value, ValueConverterArgs args, bool trueResult, bool falseResult)
     {
         if (value is null)
         {
@@ -60,7 +61,7 @@ public sealed class ToBooleanConverter : ValueConverterBase<bool>
         if (value is string stringValue)
         {
             IsStrings isString = IsStrings.None;
-            if (HasParameter(FalseWhenStringParameter, out IsStrings isStringParameter))
+            if (HasParameter(args, FalseWhenStringParameter, out IsStrings isStringParameter))
             {
                 isString = isStringParameter;
             }

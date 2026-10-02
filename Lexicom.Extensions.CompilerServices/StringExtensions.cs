@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Extensions.CompilerServices;
+
 public static class StringExtensions
 {
     private const string UNKNOWN = "Unknown";

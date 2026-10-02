@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.ConsoleApp.Tui;
+
 public interface ITuiOperation
 {
     //return true if the exception is handled and the operation should continue

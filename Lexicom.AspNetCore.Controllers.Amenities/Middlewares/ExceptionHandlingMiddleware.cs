@@ -7,6 +7,7 @@ using System.Net;
 using System.Text.Json;
 
 namespace Lexicom.AspNetCore.Controllers.Amenities.Middlewares;
+
 public class ExceptionHandlingMiddleware : IMiddleware
 {
     private readonly ILogger<ExceptionHandlingMiddleware> _logger;
@@ -92,11 +93,17 @@ public class ExceptionHandlingMiddleware : IMiddleware
 
                     if (exception is UnreachableException)
                     {
-                        _logger.LogCritical(exception, "An unexpected unreachable exception occured.");
+                        if (_logger.IsEnabled(LogLevel.Critical))
+                        {
+                            _logger.LogCritical(exception, "An unexpected unreachable exception occurred.");
+                        }
                     }
                     else
                     {
-                        _logger.LogError(exception, "An unexpected exception occured.");
+                        if (_logger.IsEnabled(LogLevel.Error))
+                        {
+                            _logger.LogError(exception, "An unexpected exception occurred.");
+                        }
                     }
                 }
 
@@ -116,7 +123,10 @@ public class ExceptionHandlingMiddleware : IMiddleware
             {
                 try
                 {
-                    _logger.LogCritical(middlewareException, "Unexpected error while filtering an API Exception.");
+                    if (_logger.IsEnabled(LogLevel.Critical))
+                    {
+                        _logger.LogCritical(middlewareException, "Unexpected error while filtering an API Exception.");
+                    }
 
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     context.Response.ContentType = "application/json";

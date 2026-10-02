@@ -1,33 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <TargetFramework>net10.0</TargetFramework>
 
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>lexicom.nuget.icon.png</PackageIcon>
-
-    <Authors>Alex Stroot</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Adds an application builder which enables Console application projects to be consistent with other project types regarding their dependency injection registrations and configurations.</Description>
-    <Copyright>2024</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.ConsoleApp.DependencyInjection</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
-    <RepositoryType>github</RepositoryType>
-    <PackageTags>console;dependencyinjection</PackageTags>
+    <Description>Adds an application builder that brings dependency injection to console application projects.</Description>
+    <PackageTags>dependencyinjection;console</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
-    <None Include="..\lexicom.nuget.icon.png" Pack="true" PackagePath="\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
   </ItemGroup>
 
   <ItemGroup>

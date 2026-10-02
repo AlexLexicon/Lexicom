@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+
 public static class NotAnyDigitsValidator
 {
     public static bool IsValid(string? value)
@@ -15,7 +16,7 @@ public static class NotAnyDigitsValidator
 }
 public class NotAnyDigitsPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(NotAnyDigitsPropertyValidator<T>);
+    public const string NAME = nameof(NotAnyDigitsPropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "'{PropertyName}' must not contain any digits.";
 
     public override string Name { get; } = NAME;

@@ -2,6 +2,7 @@
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Lexicom.Wpf.Amenities.Extensions;
+
 public static class CommonFileDialogResultExtensions
 {
     /// <exception cref="ArgumentNullException"/>

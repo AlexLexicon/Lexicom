@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 
 namespace Lexicom.Cryptography;
+
 public interface IAesProvider
 {
     Aes Create();

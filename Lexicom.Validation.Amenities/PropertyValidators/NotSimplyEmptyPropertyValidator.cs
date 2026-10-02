@@ -2,6 +2,7 @@
 using System.Collections;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+
 public static class NotSimplyEmptyValidator<T>
 {
     public static bool IsValid(T value)
@@ -23,7 +24,7 @@ public static class NotSimplyEmptyValidator<T>
 }
 public class NotSimplyEmptyPropertyValidator<T, TProperty> : AbstractPropertyValidator<T, TProperty>
 {
-    public const string NAME = nameof(NotSimplyEmptyPropertyValidator<T, TProperty>);
+    public const string NAME = nameof(NotSimplyEmptyPropertyValidator<,>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "The '{PropertyName}' field is required.";
 
     public override string Name { get; } = NAME;

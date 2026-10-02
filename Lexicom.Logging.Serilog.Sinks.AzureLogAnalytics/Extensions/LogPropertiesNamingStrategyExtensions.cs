@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Serialization;
 
 namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics.Extensions;
+
 public static class LogPropertiesNamingStrategyExtensions
 {
     public static IContractResolver GetContractResolver(this JsonNamingStrategy namingStrategy)
@@ -11,7 +12,7 @@ public static class LogPropertiesNamingStrategyExtensions
             JsonNamingStrategy.LowerCase => new LowerCasePropertyNamesContractResolver(),
             JsonNamingStrategy.UpperCase => new UpperCasePropertyNamesContractResolver(),
             JsonNamingStrategy.CamelCase => new CamelCasePropertyNamesContractResolver(),
-            JsonNamingStrategy.PascelCase => new PascelCasePropertyNamesContractResolver(),
+            JsonNamingStrategy.PascalCase => new PascalCasePropertyNamesContractResolver(),
             _ => new DefaultContractResolver(),
         };
     }

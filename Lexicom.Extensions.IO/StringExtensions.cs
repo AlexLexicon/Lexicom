@@ -1,6 +1,7 @@
 ﻿using Lexicom.Extensions.IO.Exceptions;
 
 namespace Lexicom.Extensions.IO;
+
 public static class StringExtensions
 {
     /// <exception cref="ArgumentNullException"/>
@@ -11,24 +12,23 @@ public static class StringExtensions
 
         const int OVERFLOW_MAX = 10000;
 
-        int count = 1;
         string originalFilePathName = filePathName;
 
         string directoryPath = Path.GetDirectoryName(filePathName) ?? string.Empty;
-        string fileName = Path.GetFileNameWithoutExtension(filePathName) + "{0}";
+        string fileName = Path.GetFileNameWithoutExtension(filePathName);
         string extension = Path.GetExtension(filePathName);
 
-        int overflow = 0;
-        while (File.Exists(filePathName) && overflow < OVERFLOW_MAX)
+        int count = 1;
+        while (File.Exists(filePathName))
         {
-            string newFilePathName = string.Format(fileName, $"({count++}){extension}");
+            if (count > OVERFLOW_MAX)
+            {
+                throw new UniqueFileNamePathOverflowException(originalFilePathName, OVERFLOW_MAX);
+            }
 
-            filePathName = Path.Combine(directoryPath, newFilePathName);
-        }
+            filePathName = Path.Combine(directoryPath, $"{fileName}({count}){extension}");
 
-        if (overflow >= OVERFLOW_MAX)
-        {
-            throw new UniqueFileNamePathOverflowException(originalFilePathName, overflow);
+            count++;
         }
 
         return filePathName;

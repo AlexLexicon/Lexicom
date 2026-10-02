@@ -3,9 +3,9 @@ name: .net9 Build and Publish
 on:
   workflow_dispatch:
   push:
-    branches: [ master ]
+    branches: [ dotnet9 ]
   pull_request:
-    branches: [ master ]
+    branches: [ dotnet9 ]
     
 jobs:
   build:
@@ -13,10 +13,10 @@ jobs:
     runs-on: windows-latest
 
     steps:          
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     
     - name: Install .NET 9
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 9.x
         

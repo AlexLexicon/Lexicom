@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Lexicom.Mvvm.For.Wpf.Extensions;
+
 public static class WpfServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
@@ -13,6 +14,8 @@ public static class WpfServiceBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
 
         builder.Services.AddLexicomMvvm(configure);
+
+        builder.Services.AddSingleton<IMessengerScheduler, WpfMessengerScheduler>();
 
         builder.Services.Replace(new ServiceDescriptor(typeof(IViewModelFactory), typeof(WpfViewModelFactory), ServiceLifetime.Singleton));
 

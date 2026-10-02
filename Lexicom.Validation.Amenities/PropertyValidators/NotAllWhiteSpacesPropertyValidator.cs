@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
+
 public static class NotAllWhiteSpacesValidator
 {
     public static bool IsValid(string? value)
@@ -15,7 +16,7 @@ public static class NotAllWhiteSpacesValidator
 }
 public class NotAllWhiteSpacesPropertyValidator<T> : AbstractPropertyValidator<T, string?>
 {
-    public const string NAME = nameof(NotAllWhiteSpacesPropertyValidator<T>);
+    public const string NAME = nameof(NotAllWhiteSpacesPropertyValidator<>);
     public const string DEFAULT_MESSAGE_TEMPLATE = "The '{PropertyName}' field is required.";
 
     public override string Name { get; } = NAME;

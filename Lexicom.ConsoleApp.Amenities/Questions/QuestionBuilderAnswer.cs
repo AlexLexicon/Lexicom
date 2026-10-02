@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.ConsoleApp.Amenities.Questions;
+
 public readonly struct QuestionBuilderAnswer
 {
     public static QuestionBuilderAnswer None { get; } = new QuestionBuilderAnswer();

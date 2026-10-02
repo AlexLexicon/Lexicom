@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Cryptography;
+
 public interface ICryptographyServiceBuilder
 {
     IServiceCollection Services { get; }

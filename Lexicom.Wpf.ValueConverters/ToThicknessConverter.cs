@@ -2,6 +2,7 @@
 using System.Windows;
 
 namespace Lexicom.Wpf.ValueConverters;
+
 public class ToThicknessConverter : ValueConverterBase<Thickness>
 {
     private static Thickness GetResultFromObject(object? value)

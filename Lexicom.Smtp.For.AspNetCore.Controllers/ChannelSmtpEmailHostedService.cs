@@ -2,7 +2,8 @@
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
 
-namespace Lexicom.Smtp.AspNetCore.Controllers;
+namespace Lexicom.Smtp.For.AspNetCore.Controllers;
+
 public class ChannelSmtpEmailHostedService : BackgroundService
 {
     private readonly ILogger<ChannelSmtpEmailHostedService> _logger;
@@ -38,7 +39,10 @@ public class ChannelSmtpEmailHostedService : BackgroundService
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "The background hosted service '{hostedServiceName}' encountered an unexpected error.", nameof(ChannelSmtpEmailHostedService));
+                if (_logger.IsEnabled(LogLevel.Error))
+                {
+                    _logger.LogError(e, "The background hosted service '{hostedServiceName}' encountered an unexpected error.", nameof(ChannelSmtpEmailHostedService));
+                }
             }
         }
     }

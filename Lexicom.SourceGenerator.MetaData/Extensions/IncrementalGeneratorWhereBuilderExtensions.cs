@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis;
 
 namespace Lexicom.SourceGenerator.MetaData.Extensions;
+
 public static class IncrementalGeneratorWhereBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
@@ -15,7 +16,7 @@ public static class IncrementalGeneratorWhereBuilderExtensions
 
         return builder
             .Where(cds => cds.AttributeLists.Any())
-            .Transform(GeneratorSyntaxContextExtenstions.HasAttributeTransform<TAttribute>);
+            .Transform(GeneratorSyntaxContextExtensions.HasAttributeTransform<TAttribute>);
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -28,7 +29,7 @@ public static class IncrementalGeneratorWhereBuilderExtensions
 
         return builder
             .Where(cds => cds.AttributeLists.Any())
-            .Transform(GeneratorSyntaxContextExtenstions.HasInterfaceTransform<TInterface>);
+            .Transform(GeneratorSyntaxContextExtensions.HasInterfaceTransform<TInterface>);
     }
 
     /// <exception cref="ArgumentNullException"/>

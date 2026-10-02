@@ -4,6 +4,7 @@ using Lexicom.Validation.Amenities.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.Validation.Amenities.RuleSets;
+
 public class NameRuleSet : AbstractRuleSet<string?>
 {
     private const int DEFAULT_LENGTH_MINIMUM = 1;

@@ -1,0 +1,24 @@
+﻿namespace Lexicom.Authentication.For.ConsoleApp.Extensions;
+
+public static class AuthenticationServiceBuilderExtensions
+{
+    /// <exception cref="ArgumentNullException"/>
+    public static IAuthenticationServiceBuilder AddAccessTokenAuthentication(this IAuthenticationServiceBuilder builder, Action<IAuthenticationAccessTokenBuilder>? configure = null)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+
+        builder.Services.AddLexicomConsoleAppAuthenticationAccessTokenAuthentication(configure);
+
+        return builder;
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    public static IAuthenticationServiceBuilder AddApiKeyAuthentication(this IAuthenticationServiceBuilder builder, Action<IAuthenticationApiKeyBuilder>? configure = null)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+
+        builder.Services.AddLexicomConsoleAppAuthenticationApiKeyAuthentication(configure);
+
+        return builder;
+    }
+}

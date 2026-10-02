@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Extensions.DateTimes;
+
 public static class DateTimeExtensions
 {
     private const int SECONDS_IN_MINUTE = 60;
@@ -19,7 +20,7 @@ public static class DateTimeExtensions
 
         if (settings.MinimumDuration >= DateTimeRelativeStringDuration.Seconds && (settings.MaximumDuration <= DateTimeRelativeStringDuration.Seconds || totalSecondsDelta < SECONDS_IN_MINUTE))
         {
-            int secondsPast = deltaTimeSpan.Seconds;
+            double secondsPast = deltaTimeSpan.TotalSeconds;
 
             if (secondsPast < 1)
             {
@@ -36,7 +37,7 @@ public static class DateTimeExtensions
 
         if (settings.MinimumDuration >= DateTimeRelativeStringDuration.Minutes && (settings.MaximumDuration <= DateTimeRelativeStringDuration.Minutes || totalSecondsDelta < 45 * SECONDS_IN_MINUTE))
         {
-            int minutesPast = deltaTimeSpan.Minutes;
+            double minutesPast = deltaTimeSpan.TotalMinutes;
 
             if (minutesPast < 1)
             {
@@ -53,7 +54,7 @@ public static class DateTimeExtensions
 
         if (settings.MinimumDuration >= DateTimeRelativeStringDuration.Hours && (settings.MaximumDuration <= DateTimeRelativeStringDuration.Hours || totalSecondsDelta < 24 * SECONDS_IN_HOUR))
         {
-            int hoursPast = deltaTimeSpan.Hours;
+            double hoursPast = deltaTimeSpan.TotalHours;
 
             if (hoursPast < 1 || totalSecondsDelta < 90 * SECONDS_IN_MINUTE)
             {
@@ -65,7 +66,7 @@ public static class DateTimeExtensions
 
         if (settings.MinimumDuration >= DateTimeRelativeStringDuration.Days && (settings.MaximumDuration <= DateTimeRelativeStringDuration.Days || totalSecondsDelta < 30 * SECONDS_IN_DAY))
         {
-            int daysPast = deltaTimeSpan.Days;
+            double daysPast = deltaTimeSpan.TotalDays;
 
             if (daysPast < 1)
             {
@@ -82,7 +83,7 @@ public static class DateTimeExtensions
 
         if (settings.MinimumDuration >= DateTimeRelativeStringDuration.Months && (settings.MaximumDuration <= DateTimeRelativeStringDuration.Months || totalSecondsDelta < 12 * SECONDS_IN_MONTH))
         {
-            int monthsPast = Convert.ToInt32(Math.Floor((double)deltaTimeSpan.Days / 30));
+            int monthsPast = Convert.ToInt32(Math.Floor(deltaTimeSpan.TotalDays / 30));
 
             if (monthsPast <= 1)
             {
@@ -94,7 +95,7 @@ public static class DateTimeExtensions
 
         if (settings.MinimumDuration >= DateTimeRelativeStringDuration.Years && settings.MaximumDuration <= DateTimeRelativeStringDuration.Years)
         {
-            int yearsPast = Convert.ToInt32(Math.Floor((double)deltaTimeSpan.Days / 365));
+            int yearsPast = Convert.ToInt32(Math.Floor(deltaTimeSpan.TotalDays / 365));
 
             if (yearsPast <= 1)
             {

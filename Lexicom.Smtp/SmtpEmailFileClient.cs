@@ -5,6 +5,7 @@ using Lexicom.Smtp.Validators;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.Smtp;
+
 public class SmtpEmailFileClient : ISmtpEmailClient, ISmtpEmailHandler
 {
     private readonly IOptions<SmtpEmailFileClientOptions> _smtpFileClientOptions;
@@ -45,17 +46,12 @@ public class SmtpEmailFileClient : ISmtpEmailClient, ISmtpEmailHandler
             }
         }
 
-        if (!outputDirectoryPath.EndsWith('\\'))
-        {
-            outputDirectoryPath += '\\';
-        }
-
         if (!fileExtension.StartsWith('.'))
         {
             fileExtension = '.' + fileExtension;
         }
 
-        string fileNamePath = $"{outputDirectoryPath}{smtpFileClientConfiguration.FileName}{fileExtension}";
+        string fileNamePath = Path.Combine(outputDirectoryPath, $"{smtpFileClientConfiguration.FileName}{fileExtension}");
 
         fileNamePath = fileNamePath.GetUniqueFileNamePath();
 

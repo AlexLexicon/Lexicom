@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Smtp;
+
 public interface ISmtpServiceBuilder
 {
     IServiceCollection Services { get; }

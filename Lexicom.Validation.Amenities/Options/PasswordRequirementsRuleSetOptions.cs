@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Validation.Amenities.Options;
+
 public class PasswordRequirementsRuleSetOptions
 {
     public int? MinimumLength { get; set; }

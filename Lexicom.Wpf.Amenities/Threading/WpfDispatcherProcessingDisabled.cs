@@ -1,6 +1,7 @@
 ﻿using System.Windows.Threading;
 
 namespace Lexicom.Wpf.Amenities.Threading;
+
 public class WpfDispatcherProcessingDisabled(DispatcherProcessingDisabled dispatcherProcessingDisabled) : IDispatcherProcessingDisabled
 {
     public static bool operator ==(WpfDispatcherProcessingDisabled left, WpfDispatcherProcessingDisabled right) => left?._dispatcherProcessingDisabled == right?._dispatcherProcessingDisabled;

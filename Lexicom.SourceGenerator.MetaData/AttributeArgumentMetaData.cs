@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Lexicom.SourceGenerator.MetaData;
+
 public record struct AttributeArgumentMetaData
 {
     private const string TYPEOF_START = "typeof(";

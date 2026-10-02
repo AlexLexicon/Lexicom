@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 
 namespace Lexicom.Configuration.Settings.For.Wpf;
+
 public class WpfApplicationSettingsProvider : IApplicationSettingsProvider
 {
     public event IApplicationSettingsProvider.SettingsSavingEventHandler? SettingsSaving;
@@ -32,14 +33,14 @@ public class WpfApplicationSettingsProvider : IApplicationSettingsProvider
             return properties;
         }
     }
-    public object? this[string proeprtyName]
+    public object? this[string propertyName]
     {
-        get => _settings[proeprtyName];
+        get => _settings[propertyName];
         set
         {
             try
             {
-                _settings[proeprtyName] = value;
+                _settings[propertyName] = value;
             }
             catch (SettingsPropertyNotFoundException)
             {

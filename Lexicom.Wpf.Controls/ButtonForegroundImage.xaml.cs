@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Lexicom.Wpf.Controls;
+
 public partial class ButtonForegroundImage : Label
 {
     public ButtonForegroundImage() => InitializeComponent();

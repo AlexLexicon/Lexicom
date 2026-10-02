@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Wpf.Amenities.Dialogs;
+
 public interface IWindowsDialog
 {
     string? SaveFile();
@@ -9,13 +10,13 @@ public interface IWindowsDialog
 
     string? OpenFile();
     /// <exception cref="ArgumentNullException"/>
-    string? OpenFile(string initalDirectoryPath);
+    string? OpenFile(string initialDirectoryPath);
     /// <exception cref="ArgumentNullException"/>
     string? OpenFile(OpenFileSettings settings);
 
     string? SelectDirectory();
     /// <exception cref="ArgumentNullException"/>
-    string? SelectDirectory(string initalDirectoryPath);
+    string? SelectDirectory(string initialDirectoryPath);
     /// <exception cref="ArgumentNullException"/>
     string? SelectDirectory(SelectDirectorySettings settings);
 }

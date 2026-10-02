@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.ConsoleApp.Amenities.Questions;
+
 public class QuestionBuilder
 {
     private readonly List<QuestionBuilderAnswer> _answers;
@@ -73,14 +74,16 @@ public class QuestionBuilder
     public QuestionBuilderAnswer Ask() => Ask(null);
     public QuestionBuilderAnswer Ask(string? question)
     {
+        IConsolexConsole console = Consolex.GetConsolexConsole();
+
         var options = new QuestionBuilderOptions();
 
         OptionsDelegate?.Invoke(options);
 
         if (_answers.Count is 0)
         {
-            Console.WriteLine(question);
-            Console.WriteLine("No answers possible");
+            console.WriteLine(question);
+            console.WriteLine("No answers possible");
 
             if (DefaultAnswer is not null)
             {
@@ -97,23 +100,23 @@ public class QuestionBuilder
             {
                 if (isInvalid)
                 {
-                    Console.WriteLine("The input selection was invalid, try again.");
+                    console.WriteLine("The input selection was invalid, try again.");
                 }
 
-                Console.WriteLine(question);
+                console.WriteLine(question);
 
                 foreach (var answer in _answers)
                 {
-                    Console.WriteLine(answer.ToString());
+                    console.WriteLine(answer.ToString());
                 }
 
                 if (DefaultAnswer is not null)
                 {
-                    Console.WriteLine($"Default(invalid): {DefaultAnswer.Value.Text}");
+                    console.WriteLine($"Default(invalid): {DefaultAnswer.Value.Text}");
                 }
 
                 isInvalid = false;
-                string? input = Console.ReadLine();
+                string? input = console.ReadLine();
 
                 foreach (var answer in _answers)
                 {
@@ -133,7 +136,7 @@ public class QuestionBuilder
                     else
                     {
                         isInvalid = true;
-                        Console.Clear();
+                        console.Clear();
                     }
                 }
             }

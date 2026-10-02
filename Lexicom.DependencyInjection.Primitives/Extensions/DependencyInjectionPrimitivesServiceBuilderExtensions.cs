@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Lexicom.DependencyInjection.Primitives.Extensions;
+
 public static class DependencyInjectionPrimitivesServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

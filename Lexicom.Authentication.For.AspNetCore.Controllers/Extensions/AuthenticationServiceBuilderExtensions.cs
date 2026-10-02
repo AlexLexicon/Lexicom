@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Authentication.For.AspNetCore.Controllers.Extensions;
+
 public static class AuthenticationServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
@@ -7,6 +8,16 @@ public static class AuthenticationServiceBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
 
         builder.Services.AddLexicomAspNetCoreControllersAuthenticationAccessTokenAuthentication(configure);
+
+        return builder;
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    public static IAuthenticationServiceBuilder AddApiKeyAuthentication(this IAuthenticationServiceBuilder builder, Action<IAuthenticationApiKeyBuilder>? configure = null)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+
+        builder.Services.AddLexicomAspNetCoreControllersAuthenticationApiKeyAuthentication(configure);
 
         return builder;
     }

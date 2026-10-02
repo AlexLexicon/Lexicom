@@ -34,6 +34,7 @@
 using System.Security.Cryptography;
 
 namespace Lexicom.Cryptography.For.Blazor.WebAssembly.MonoSecurityCryptography;
+
 public sealed class MonoAesCryptoServiceProvider : Aes
 {
     public MonoAesCryptoServiceProvider()
@@ -61,7 +62,7 @@ public sealed class MonoAesCryptoServiceProvider : Aes
     {
         if (Mode is CipherMode.CFB && FeedbackSize > 64)
         {
-            throw new CryptographicException("CFB with Feedbaack > 64 bits");
+            throw new CryptographicException("CFB with Feedback > 64 bits");
         }
 
         return new MonoAesTransform(this, false, key, iv);
@@ -71,7 +72,7 @@ public sealed class MonoAesCryptoServiceProvider : Aes
     {
         if (Mode is CipherMode.CFB && FeedbackSize > 64)
         {
-            throw new CryptographicException("CFB with Feedbaack > 64 bits");
+            throw new CryptographicException("CFB with Feedback > 64 bits");
         }
 
         return new MonoAesTransform(this, true, key, iv);

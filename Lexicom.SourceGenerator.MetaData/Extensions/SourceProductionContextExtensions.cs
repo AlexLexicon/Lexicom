@@ -6,6 +6,7 @@ using System.Collections.Immutable;
 using System.Text;
 
 namespace Lexicom.SourceGenerator.MetaData.Extensions;
+
 public static class SourceProductionContextExtensions
 {
     /// <exception cref="ArgumentNullException"/>
@@ -23,7 +24,7 @@ public static class SourceProductionContextExtensions
         string sourceCodeString = sourceCode.ToString();
         if (string.IsNullOrWhiteSpace(sourceCodeString))
         {
-            throw new MetaDataSourceGeneratorException($"Cannot add source code becasue the '{nameof(sourceCode)}' string builder resulted in a string that was null, empty or whitespace");
+            throw new MetaDataSourceGeneratorException($"Cannot add source code because the '{nameof(sourceCode)}' string builder resulted in a string that was null, empty or whitespace.");
         }
 
         context.AddSource($"{className}.g.cs", SourceText.From(sourceCodeString, Encoding.UTF8));

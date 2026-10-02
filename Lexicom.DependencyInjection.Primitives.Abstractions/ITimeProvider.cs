@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.DependencyInjection.Primitives;
+
 public interface ITimeProvider
 {
     /// <summary>

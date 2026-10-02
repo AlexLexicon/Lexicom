@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.DependencyInjection.Primitives;
+
 public class RandomProviderFactory : IRandomProviderFactory
 {
     private readonly IServiceProvider _serviceProvider;
@@ -13,11 +14,11 @@ public class RandomProviderFactory : IRandomProviderFactory
 
     public IRandomProvider Create()
     {
-        return ActivatorUtilities.CreateInstance<IRandomProvider>(_serviceProvider);
+        return ActivatorUtilities.CreateInstance<RandomProvider>(_serviceProvider);
     }
 
     public IRandomProvider Create(int seed)
     {
-        return ActivatorUtilities.CreateInstance<IRandomProvider>(_serviceProvider, seed);
+        return ActivatorUtilities.CreateInstance<RandomProvider>(_serviceProvider, seed);
     }
 }

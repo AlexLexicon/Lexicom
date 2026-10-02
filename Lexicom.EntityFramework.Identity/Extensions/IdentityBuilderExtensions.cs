@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Lexicom.EntityFramework.Identity.Extensions;
+
 //based on Microsoft source code: https://source.dot.net/#Microsoft.AspNetCore.Identity.EntityFrameworkCore/IdentityEntityFrameworkBuilderExtensions.cs,75eafbaa1f0ec288
 public static class IdentityBuilderExtensions
 {
@@ -25,7 +26,7 @@ public static class IdentityBuilderExtensions
         Type? identityUserType = FindGenericBaseType(userType, typeof(IdentityUser<>));
         if (identityUserType is null)
         {
-            throw new InvalidOperationException("AddEntityFrameworkStores can only be called with a user that derives from IdentityUser&lt;TKey&gt;.");
+            throw new InvalidOperationException("AddEntityFrameworkStores can only be called with a user that derives from IdentityUser<TKey>.");
         }
 
         Type keyType = identityUserType.GenericTypeArguments[0];
@@ -35,7 +36,7 @@ public static class IdentityBuilderExtensions
             Type? identityRoleType = FindGenericBaseType(roleType, typeof(IdentityRole<>));
             if (identityRoleType is null)
             {
-                throw new InvalidOperationException("AddEntityFrameworkStores can only be called with a role that derives from IdentityRole&lt;TKey&gt;.");
+                throw new InvalidOperationException("AddEntityFrameworkStores can only be called with a role that derives from IdentityRole<TKey>.");
             }
 
             Type userStoreType;
@@ -73,23 +74,25 @@ public static class IdentityBuilderExtensions
         }
         else
         {   //no Roles
-            Type userStoreType;
+            Type userOnlyStoreType;
             var identityContext = FindGenericBaseType(contextType, typeof(IdentityUserContext<,,,,>));
             if (identityContext == null)
             {
                 //if its a custom DbContext, we can only add the default POCOs
-                userStoreType = typeof(UserOnlyStore<,,>).MakeGenericType(userType, contextType, keyType);
+                userOnlyStoreType = typeof(AsyncUserOnlyStore<,,>).MakeGenericType(userType, contextType, keyType);
             }
             else
             {
-                userStoreType = typeof(UserOnlyStore<,,,,,>).MakeGenericType(userType, contextType,
+                userOnlyStoreType = typeof(AsyncUserOnlyStore<,,,,,>).MakeGenericType(
+                    userType, 
+                    contextType,
                     identityContext.GenericTypeArguments[1],
                     identityContext.GenericTypeArguments[2],
                     identityContext.GenericTypeArguments[3],
                     identityContext.GenericTypeArguments[4]);
             }
 
-            services.TryAddScoped(typeof(IUserStore<>).MakeGenericType(userType), userStoreType);
+            services.TryAddScoped(typeof(IUserStore<>).MakeGenericType(userType), userOnlyStoreType);
         }
     }
 

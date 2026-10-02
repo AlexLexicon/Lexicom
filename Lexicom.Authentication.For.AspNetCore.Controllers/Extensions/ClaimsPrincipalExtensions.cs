@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 
 namespace Lexicom.Authentication.For.AspNetCore.Controllers.Extensions;
+
 public static class ClaimsPrincipalExtensions
 {
     /// <exception cref="ArgumentNullException"/>
@@ -24,7 +25,7 @@ public static class ClaimsPrincipalExtensions
         ArgumentNullException.ThrowIfNull(claimsPrincipal);
 
         return claimsPrincipal
-            .GetPermissions()
+            .GetRoles()
             .Any(r => r == roleName);
     }
 

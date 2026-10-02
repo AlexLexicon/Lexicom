@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 
 namespace Lexicom.DependencyInjection.Hosting;
+
 /*
  * we sometimes want to be able to have some processing happen before or just after the service provider is created.
  * to do this you can register either a 'IBeforeServiceProviderBuildService' or a 'IAfterServiceProviderBuildService' service
@@ -31,7 +32,7 @@ public class LexicomServiceProviderFactory : IServiceProviderFactory<LexicomServ
     {
         if (Services is null)
         {
-            throw new UnreachableException($"The service collection was null but that should never happen since '{nameof(CreateBuilder)}' will always get called first");
+            throw new UnreachableException($"The service collection was null but that should never happen since '{nameof(CreateBuilder)}' will always get called first.");
         }
 
         IReadOnlyList<IBeforeServiceProviderBuildService> beforeServiceProviderBuildServices = Services.ResolveBeforeServiceProviderBuildServices();

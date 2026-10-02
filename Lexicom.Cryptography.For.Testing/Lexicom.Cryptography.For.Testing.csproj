@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+
+    <Description>Adds testing support to the Lexicom.Cryptography package.</Description>
+    <PackageTags>cryptography;dependencyinjection;testing</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lexicom.Cryptography\Lexicom.Cryptography.csproj" />
+    <ProjectReference Include="..\Lexicom.Supports.Testing\Lexicom.Supports.Testing.csproj" />
+  </ItemGroup>
+
+</Project>

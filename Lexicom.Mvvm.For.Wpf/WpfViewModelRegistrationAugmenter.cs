@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Mvvm.For.Wpf;
+
 internal class WpfViewModelRegistrationAugmenter : IViewModelRegistrationAugmenter
 {
     /// <exception cref="ArgumentNullException"/>

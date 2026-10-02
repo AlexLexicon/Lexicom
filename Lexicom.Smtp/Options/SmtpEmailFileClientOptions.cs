@@ -1,4 +1,5 @@
 ﻿namespace Lexicom.Smtp.Options;
+
 public class SmtpEmailFileClientOptions
 {
     public string? OutputDirectoryPath { get; set; }

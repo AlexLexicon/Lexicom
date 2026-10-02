@@ -1,0 +1,40 @@
+name: .net10 Build and Publish
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:          
+    - uses: actions/checkout@v6
+    
+    - name: install .net10
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 10.x
+
+    - name: dotnet restore
+      run: |
+        dotnet workload restore
+        dotnet restore
+
+    - name: dotnet build
+      run: dotnet build --configuration Release --no-restore /p:VersionPrefix=10.0.$env:GITHUB_RUN_NUMBER
+
+    - name: dotnet test
+      run: dotnet test --no-build --configuration Release --verbosity normal
+
+    - name: dotnet push
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      run: dotnet nuget push */**/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}

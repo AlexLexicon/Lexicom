@@ -3,6 +3,7 @@ using Serilog.Events;
 using System.Dynamic;
 
 namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics.Extensions;
+
 internal static class LogEventExtensions
 {
     /// <exception cref="ArgumentNullException"/>

@@ -3,6 +3,7 @@ using Lexicom.EntityFramework.Identity.Options;
 using Lexicom.Validation.Options;
 
 namespace Lexicom.EntityFramework.Identity.Validators;
+
 public class IdentityEmailConfirmationTokenProviderOptionsValidator : AbstractOptionsValidator<EmailConfirmationTokenProviderOptions>
 {
     public IdentityEmailConfirmationTokenProviderOptionsValidator()

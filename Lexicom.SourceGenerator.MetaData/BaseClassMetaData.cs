@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 
 namespace Lexicom.SourceGenerator.MetaData;
+
 public record struct BaseClassMetaData
 {
     private readonly INamedTypeSymbol _derivedNamedTypeSymbol;

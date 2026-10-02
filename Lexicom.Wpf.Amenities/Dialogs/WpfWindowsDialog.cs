@@ -2,6 +2,7 @@
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Lexicom.Wpf.Amenities.Dialogs;
+
 public class WpfWindowsDialog : IWindowsDialog
 {
     /// <exception cref="ArgumentNullException"/>
@@ -35,7 +36,7 @@ public class WpfWindowsDialog : IWindowsDialog
 
         var settings = new SaveFileSettings();
 
-        //the following tries to seperate the file path and name
+        //the following tries to separate the file path and name
         //into the fileName, directory and extension variables
         string[] pathSegments = filePathAndName.Split('\\');
 
@@ -89,13 +90,13 @@ public class WpfWindowsDialog : IWindowsDialog
 
     public string? OpenFile() => OpenFile(new OpenFileSettings());
     /// <exception cref="ArgumentNullException"/>
-    public string? OpenFile(string initalDirectoryPath)
+    public string? OpenFile(string initialDirectoryPath)
     {
-        ArgumentNullException.ThrowIfNull(initalDirectoryPath);
+        ArgumentNullException.ThrowIfNull(initialDirectoryPath);
 
         return OpenFile(new OpenFileSettings
         {
-            InitialDirectory = initalDirectoryPath,
+            InitialDirectory = initialDirectoryPath,
         });
     }
     /// <exception cref="ArgumentNullException"/>
@@ -140,13 +141,13 @@ public class WpfWindowsDialog : IWindowsDialog
 
     public string? SelectDirectory() => SelectDirectory(new SelectDirectorySettings());
     /// <exception cref="ArgumentNullException"/>
-    public string? SelectDirectory(string initalDirectoryPath)
+    public string? SelectDirectory(string initialDirectoryPath)
     {
-        ArgumentNullException.ThrowIfNull(initalDirectoryPath);
+        ArgumentNullException.ThrowIfNull(initialDirectoryPath);
 
         return SelectDirectory(new SelectDirectorySettings
         {
-            InitialDirectory = initalDirectoryPath,
+            InitialDirectory = initialDirectoryPath,
         });
     }
     /// <exception cref="ArgumentNullException"/>

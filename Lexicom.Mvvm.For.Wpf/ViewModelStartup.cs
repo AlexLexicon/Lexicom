@@ -1,6 +1,7 @@
 ﻿using Lexicom.Wpf.DependencyInjection;
 
 namespace Lexicom.Mvvm.For.Wpf;
+
 internal class ViewModelStartup<TViewModel> : IStartup where TViewModel : notnull
 {
     private readonly IViewModelFactory _dataContextFactory;

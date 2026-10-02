@@ -1,7 +1,9 @@
 ﻿using Lexicom.Mvvm.Extensions;
 using Lexicom.Supports.Blazor.WebAssembly;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly.Extensions;
+
 public static class BlazorWebAssemblyServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
@@ -10,6 +12,7 @@ public static class BlazorWebAssemblyServiceBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
 
         builder.Services.AddLexicomMvvm(configure);
+        builder.Services.AddSingleton<IMessengerScheduler, BlazorMessengerScheduler>();
 
         return builder;
     }

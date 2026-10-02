@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using System.Text;
 
 namespace Lexicom.EntityFramework.Identity;
+
 /*
  * Due to a bug: https://stackoverflow.com/questions/58973703/system-missingmethodexception-method-not-found-void-microsoft-aspnetcore-iden
  * I have to copy the source code of the 'DataProtectorTokenProvider' class: https://source.dot.net/#Microsoft.AspNetCore.Identity/DataProtectorTokenProvider.cs,b35de4ff6fb1c726
@@ -53,7 +54,6 @@ public abstract class LexicomDataProtectorTokenProvider<TUser> : IUserTwoFactorT
 
     public virtual async Task<bool> ValidateAsync(string purpose, string token, UserManager<TUser> manager, TUser user)
     {
-        _ = 1;
         try
         {
             var stream = new MemoryStream(Protector.Unprotect(Convert.FromBase64String(token)));

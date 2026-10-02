@@ -4,6 +4,7 @@ using Lexicom.Validation.Amenities.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace Lexicom.Validation.Amenities.RuleSets;
+
 public class PasswordRequirementsRuleSet : AbstractRuleSet<string?>
 {
     //standard microsoft identity password requirements

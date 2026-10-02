@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Reflection;
 
 namespace Lexicom.DependencyInjection.Amenities;
+
 public class ConfigurationInMemorySource : IEnumerable<KeyValuePair<string, string?>>
 {
     protected readonly Dictionary<string, string?> _source = [];

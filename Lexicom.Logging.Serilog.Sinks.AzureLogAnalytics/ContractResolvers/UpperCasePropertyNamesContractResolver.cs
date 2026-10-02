@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Serialization;
 
 namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics.ContractResolvers;
+
 internal sealed class UpperCasePropertyNamesContractResolver : DefaultContractResolver
 {
     /// <exception cref="ArgumentNullException"/>

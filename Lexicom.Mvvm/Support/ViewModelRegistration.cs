@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Mvvm.Support;
+
 public class ViewModelRegistration
 {
     public required ServiceLifetime ServiceLifetime { get; init; }

@@ -2,6 +2,7 @@
 using System.Reflection;
 
 namespace Lexicom.Validation.Extensions;
+
 public static class RuleBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
