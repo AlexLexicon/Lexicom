@@ -16,4 +16,6 @@ public class ClaimException(string? claimSourceName, string? claimName, string? 
 
     public string ClaimSourceName { get; } = claimSourceName ?? "null";
     public string ClaimName { get; } = claimName ?? "null";
+
+    public string GetClaimSourceAndNameString() => GetClaimSourceAndNameString(claimSourceName, claimName);
 }
