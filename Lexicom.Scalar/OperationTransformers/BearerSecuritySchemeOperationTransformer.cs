@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.OpenApi;
-using Microsoft.OpenApi;
+using Microsoft.OpenApi.Models;
 
 namespace Lexicom.Scalar.OperationTransformers;
 
@@ -48,7 +48,14 @@ public class BearerSecuritySchemeOperationTransformer : IOpenApiOperationTransfo
             operation.Security ??= [];
             operation.Security.Add(new OpenApiSecurityRequirement
             {
-                [new OpenApiSecuritySchemeReference(BearerTokenDefaults.AuthenticationScheme)] = [],
+                [new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = BearerTokenDefaults.AuthenticationScheme,
+                    },
+                }] = [],
             });
         }
         else

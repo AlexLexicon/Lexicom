@@ -1,8 +1,9 @@
 ﻿using Lexicom.Scalar.Exceptions;
+using Lexicom.Scalar.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.OpenApi;
-using Microsoft.OpenApi;
+using Microsoft.OpenApi.Models;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text.Json.Nodes;
@@ -32,7 +33,7 @@ public class DefaultRequestBodyOperationTransformer : IOpenApiOperationTransform
 
                 try
                 {
-                    operation.RequestBody.Content[MediaTypeNames.Application.Json].Example = JsonNode.Parse(json);
+                    operation.RequestBody.Content[MediaTypeNames.Application.Json].Example = JsonNode.Parse(json).ToOpenApiAny();
                 }
                 catch (Exception e)
                 {

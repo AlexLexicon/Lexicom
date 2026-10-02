@@ -1,8 +1,9 @@
 ﻿using Lexicom.Scalar.Exceptions;
+using Lexicom.Scalar.Extensions;
 using Lexicom.Scalar.Options;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi;
+using Microsoft.OpenApi.Models;
 using System.Text.Json.Nodes;
 
 namespace Lexicom.Scalar.OperationTransformers;
@@ -26,7 +27,7 @@ public class DefaultParameterOperationTransformer : IOpenApiOperationTransformer
         ArgumentNullException.ThrowIfNull(operation);
         ArgumentNullException.ThrowIfNull(context);
 
-        IList<IOpenApiParameter>? parameters = operation.Parameters;
+        IList<OpenApiParameter>? parameters = operation.Parameters;
 
         if (parameters is not null && parameters.Count > 0)
         {
@@ -66,7 +67,7 @@ public class DefaultParameterOperationTransformer : IOpenApiOperationTransformer
 
                 if (exampleString is not null)
                 {
-                    parameter.Example = JsonNode.Parse(exampleString);
+                    parameter.Example = JsonNode.Parse(exampleString).ToOpenApiAny();
                     parameter.Required = defaultParameterAttribute?.IsRequired ?? false;
                 }
             }
