@@ -28,7 +28,7 @@ public class PolicySchemeOptionsConfiguration : IConfigureNamedOptions<PolicySch
     {
         ArgumentNullException.ThrowIfNull(options);
 
-        if (name is LexicomAuthenticationDefaults.AUTHENTICATION_SCHEME)
+        if (name is LexicomAuthenticationDefaults.AuthenticationScheme)
         {
             Configure(options);
         }

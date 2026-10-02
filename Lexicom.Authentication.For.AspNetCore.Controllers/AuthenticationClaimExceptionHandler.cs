@@ -36,7 +36,7 @@ public class AuthenticationClaimExceptionHandler : IExceptionHandler
         {
             if (_logger.IsEnabled(LogLevel.Error))
             {
-                _logger.LogError(exception, "The '{claimSourceName}.{claim}' claim was not valid, in many cases this is because the claim is not a valid Guid.", claimNotValidException.ClaimSourceName ?? "null", claimNotValidException.Claim ?? "null");
+                _logger.LogError(exception, "The '{claimSourceName}.{claim}' claim was not valid, in many cases this is because the claim is not a valid Guid.", claimNotValidException.ClaimSourceName ?? "null", claimNotValidException.ClaimName ?? "null");
             }
 
             return new ExceptionHandledResult(HttpStatusCode.Unauthorized);
