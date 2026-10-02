@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using Lexicom.Mvvm.Extensions;
-using Lexicom.Mvvm.For.Testing.Extensions;
 using IntegrationTests.For.Lexicom.Mvvm.Constructs.Messages;
 using IntegrationTests.For.Lexicom.Mvvm.Constructs.Services;
 using IntegrationTests.For.Lexicom.Mvvm.Constructs.ViewModels;
+using Lexicom.Mvvm.Extensions;
+using Lexicom.Mvvm.For.Testing.Extensions;
 using Lexicom.Supports.Testing.Extensions;
 using Lexicom.Testing.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;

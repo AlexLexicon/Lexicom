@@ -1,8 +1,8 @@
-﻿using Lexicom.Mvvm.Support;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
+using Lexicom.Mvvm.Support;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Lexicom.Mvvm.Extensions;
 

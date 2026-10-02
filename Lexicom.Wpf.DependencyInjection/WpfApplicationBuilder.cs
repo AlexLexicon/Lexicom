@@ -1,8 +1,8 @@
-﻿using Lexicom.DependencyInjection.Hosting;
+﻿using System.Windows;
+using Lexicom.DependencyInjection.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Windows;
 
 namespace Lexicom.Wpf.DependencyInjection;
 

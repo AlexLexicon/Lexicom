@@ -1,5 +1,5 @@
-﻿using Lexicom.Cryptography.For.Blazor.WebAssembly.MonoSecurityCryptography;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+using Lexicom.Cryptography.For.Blazor.WebAssembly.MonoSecurityCryptography;
 
 namespace Lexicom.Cryptography.For.Blazor.WebAssembly;
 

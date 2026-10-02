@@ -1,6 +1,6 @@
-﻿using Serilog.Debugging;
+﻿using System.Dynamic;
+using Serilog.Debugging;
 using Serilog.Events;
-using System.Dynamic;
 
 namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics.Extensions;
 

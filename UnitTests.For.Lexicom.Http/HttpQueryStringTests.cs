@@ -1,6 +1,6 @@
-﻿using Lexicom.Http;
+﻿using System.Text.Json;
+using Lexicom.Http;
 using Lexicom.Http.UnitTests.Constructs;
-using System.Text.Json;
 
 namespace UnitTests.For.Lexicom.Http;
 

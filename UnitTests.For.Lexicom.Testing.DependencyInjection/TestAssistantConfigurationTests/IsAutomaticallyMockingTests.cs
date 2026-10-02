@@ -1,8 +1,8 @@
 ﻿using Lexicom.Testing.DependencyInjection;
 using Lexicom.Testing.DependencyInjection.Exceptions;
 using Lexicom.Testing.DependencyInjection.Extensions;
-using UnitTests.For.Lexicom.Testing.DependencyInjection.Constructs.Services;
 using NSubstitute;
+using UnitTests.For.Lexicom.Testing.DependencyInjection.Constructs.Services;
 
 namespace UnitTests.For.Lexicom.Testing.DependencyInjection.TestAssistantConfigurationTests;
 

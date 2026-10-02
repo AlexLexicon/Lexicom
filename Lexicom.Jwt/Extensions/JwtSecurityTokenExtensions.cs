@@ -1,6 +1,6 @@
-﻿using Lexicom.Jwt.Exceptions;
+﻿using System.Security.Claims;
+using Lexicom.Jwt.Exceptions;
 using Microsoft.IdentityModel.JsonWebTokens;
-using System.Security.Claims;
 
 namespace Lexicom.Jwt.Extensions;
 

@@ -51,8 +51,8 @@ public static class IdentityBuilderExtensions
             else
             {
                 userStoreType = typeof(AsyncUserStore<,,,,,,,,>).MakeGenericType(
-                    userType, 
-                    roleType, 
+                    userType,
+                    roleType,
                     contextType,
                     identityContext.GenericTypeArguments[2],
                     identityContext.GenericTypeArguments[3],
@@ -62,7 +62,7 @@ public static class IdentityBuilderExtensions
                     identityContext.GenericTypeArguments[6]);
 
                 roleStoreType = typeof(AsyncRoleStore<,,,,>).MakeGenericType(
-                    roleType, 
+                    roleType,
                     contextType,
                     identityContext.GenericTypeArguments[2],
                     identityContext.GenericTypeArguments[4],
@@ -84,7 +84,7 @@ public static class IdentityBuilderExtensions
             else
             {
                 userOnlyStoreType = typeof(AsyncUserOnlyStore<,,,,,>).MakeGenericType(
-                    userType, 
+                    userType,
                     contextType,
                     identityContext.GenericTypeArguments[1],
                     identityContext.GenericTypeArguments[2],

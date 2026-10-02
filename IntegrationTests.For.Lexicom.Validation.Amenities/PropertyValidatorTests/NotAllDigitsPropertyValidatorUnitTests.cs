@@ -1,11 +1,11 @@
-﻿using Lexicom.Supports.Testing.Extensions;
-using Lexicom.Testing.DependencyInjection;
-using Lexicom.Validation.Amenities.Extensions;
-using IntegrationTests.For.Lexicom.Validation.Amenities.Constructs;
+﻿using IntegrationTests.For.Lexicom.Validation.Amenities.Constructs;
 using IntegrationTests.For.Lexicom.Validation.Amenities.Constructs.RuleSets;
+using Lexicom.Supports.Testing.Extensions;
+using Lexicom.Testing.DependencyInjection;
+using Lexicom.Validation;
+using Lexicom.Validation.Amenities.Extensions;
 using Lexicom.Validation.Extensions;
 using Lexicom.Validation.For.Testing.Extensions;
-using Lexicom.Validation;
 
 namespace IntegrationTests.For.Lexicom.Validation.Amenities.PropertyValidatorTests;
 

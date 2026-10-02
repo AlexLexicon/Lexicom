@@ -1,9 +1,9 @@
-﻿using FluentValidation;
+﻿using System.Text;
+using FluentValidation;
 using Lexicom.Jwt.Options;
 using Lexicom.Validation.Amenities.RuleSets;
 using Lexicom.Validation.Extensions;
 using Lexicom.Validation.Options;
-using System.Text;
 
 namespace Lexicom.Jwt.Validators;
 

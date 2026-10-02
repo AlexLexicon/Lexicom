@@ -11,7 +11,7 @@ public class AssemblyScanBuilder : IAssemblyScanBuilder
 {
     /// <exception cref="ArgumentNullException"/>
     public AssemblyScanBuilder(
-        Type assemblyScanMarker, 
+        Type assemblyScanMarker,
         IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(assemblyScanMarker);

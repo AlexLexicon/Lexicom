@@ -3,7 +3,7 @@
 public class BearerToken
 {
     public BearerToken(
-        Guid jti, 
+        Guid jti,
         DateTimeOffset expires,
         string value)
     {

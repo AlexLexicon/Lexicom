@@ -1,8 +1,8 @@
-﻿using Lexicom.Http.Exceptions;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
+using Lexicom.Http.Exceptions;
 
 namespace Lexicom.Http.Extensions;
 

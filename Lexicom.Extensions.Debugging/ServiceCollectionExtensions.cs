@@ -1,6 +1,6 @@
-﻿using Lexicom.Extensions.Reflection;
+﻿using System.Text.Json;
+using Lexicom.Extensions.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json;
 
 namespace Lexicom.Extensions.Debugging;
 

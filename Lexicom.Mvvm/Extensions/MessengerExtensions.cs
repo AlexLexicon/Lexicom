@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace Lexicom.Mvvm.Extensions;
 

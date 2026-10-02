@@ -1,5 +1,5 @@
-﻿using Lexicom.Authentication.Http.Exceptions;
-using System.Net;
+﻿using System.Net;
+using Lexicom.Authentication.Http.Exceptions;
 
 namespace Lexicom.Authentication.Http.DelegatingHandlers;
 

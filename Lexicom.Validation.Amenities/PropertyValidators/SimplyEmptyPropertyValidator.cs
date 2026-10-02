@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using System.Collections;
+﻿using System.Collections;
+using FluentValidation;
 
 namespace Lexicom.Validation.Amenities.PropertyValidators;
 

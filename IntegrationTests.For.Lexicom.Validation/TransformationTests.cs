@@ -1,12 +1,12 @@
-﻿using Lexicom.Supports.Testing.Extensions;
-using Lexicom.Testing.DependencyInjection;
-using Lexicom.Validation.Extensions;
-using Lexicom.Validation.For.Testing.Extensions;
+﻿using System.Diagnostics;
 using IntegrationTests.For.Lexicom.Validation.Constructs;
 using IntegrationTests.For.Lexicom.Validation.Constructs.RuleSets;
 using IntegrationTests.For.Lexicom.Validation.Constructs.Transformers;
-using System.Diagnostics;
+using Lexicom.Supports.Testing.Extensions;
+using Lexicom.Testing.DependencyInjection;
 using Lexicom.Validation;
+using Lexicom.Validation.Extensions;
+using Lexicom.Validation.For.Testing.Extensions;
 
 namespace IntegrationTests.For.Lexicom.Validation;
 

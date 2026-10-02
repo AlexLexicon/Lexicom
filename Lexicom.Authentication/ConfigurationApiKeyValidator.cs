@@ -1,11 +1,11 @@
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using Lexicom.Authentication.Options;
 using Lexicom.Authentication.Validators;
 using Lexicom.Jwt;
 using Lexicom.Validation.Options;
 using Microsoft.Extensions.Options;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Lexicom.Authentication;
 

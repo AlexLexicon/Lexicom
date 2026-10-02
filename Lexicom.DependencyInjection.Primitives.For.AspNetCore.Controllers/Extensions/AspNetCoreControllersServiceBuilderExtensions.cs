@@ -1,5 +1,5 @@
-﻿using Lexicom.Supports.AspNetCore.Controllers;
-using Lexicom.DependencyInjection.Primitives.Extensions;
+﻿using Lexicom.DependencyInjection.Primitives.Extensions;
+using Lexicom.Supports.AspNetCore.Controllers;
 
 namespace Lexicom.DependencyInjection.Primitives.For.AspNetCore.Controllers.Extensions;
 

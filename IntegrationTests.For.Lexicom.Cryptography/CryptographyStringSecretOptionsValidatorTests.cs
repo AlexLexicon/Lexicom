@@ -1,6 +1,6 @@
 using Lexicom.Cryptography.Extensions;
-using Lexicom.Cryptography.Options;
 using Lexicom.Cryptography.For.Testing.Extensions;
+using Lexicom.Cryptography.Options;
 using Lexicom.DependencyInjection.Amenities.Extensions;
 using Lexicom.Supports.Testing.Extensions;
 using Lexicom.Testing.DependencyInjection;

@@ -1,6 +1,6 @@
 ﻿using Lexicom.SourceGenerator.MetaData.Builders;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Lexicom.SourceGenerator.MetaData.Extensions;
 

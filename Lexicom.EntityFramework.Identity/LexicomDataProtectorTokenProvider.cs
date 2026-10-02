@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.DataProtection;
+﻿using System.Text;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using System.Text;
 
 namespace Lexicom.EntityFramework.Identity;
 
@@ -15,7 +15,7 @@ public abstract class LexicomDataProtectorTokenProvider<TUser> : IUserTwoFactorT
 
     /// <exception cref="ArgumentNullException"/>
     public LexicomDataProtectorTokenProvider(
-        IDataProtectionProvider dataProtectionProvider, 
+        IDataProtectionProvider dataProtectionProvider,
         IOptions<DataProtectionTokenProviderOptions> options)
     {
         ArgumentNullException.ThrowIfNull(dataProtectionProvider);

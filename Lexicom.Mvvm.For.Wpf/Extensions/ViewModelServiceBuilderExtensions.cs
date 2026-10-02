@@ -1,8 +1,8 @@
-﻿using Lexicom.Extensions.Exceptions;
+﻿using System.Reflection;
+using System.Windows;
+using Lexicom.Extensions.Exceptions;
 using Lexicom.Mvvm.For.Wpf.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using System.Windows;
 
 namespace Lexicom.Mvvm.For.Wpf.Extensions;
 

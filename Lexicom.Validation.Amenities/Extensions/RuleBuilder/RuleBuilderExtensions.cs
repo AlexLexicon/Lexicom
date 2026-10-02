@@ -1,7 +1,7 @@
-﻿using FluentValidation;
+﻿using System.Diagnostics;
+using FluentValidation;
 using FluentValidation.Validators;
 using Lexicom.Validation.Amenities.PropertyValidators;
-using System.Diagnostics;
 
 namespace Lexicom.Validation.Amenities.Extensions;
 

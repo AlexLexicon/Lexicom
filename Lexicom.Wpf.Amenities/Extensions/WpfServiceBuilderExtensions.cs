@@ -1,9 +1,9 @@
-﻿using Lexicom.Supports.Wpf;
+﻿using System.Windows.Threading;
+using Lexicom.Supports.Wpf;
 using Lexicom.Wpf.Amenities.Dialogs;
 using Lexicom.Wpf.Amenities.Themes;
 using Lexicom.Wpf.Amenities.Threading;
 using Microsoft.Extensions.DependencyInjection;
-using System.Windows.Threading;
 
 namespace Lexicom.Wpf.Amenities.Extensions;
 

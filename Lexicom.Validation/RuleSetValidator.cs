@@ -1,8 +1,8 @@
-﻿using FluentValidation;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
+using FluentValidation;
 using FluentValidation.Results;
 using Lexicom.Validation.Extensions;
-using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Lexicom.Validation;
 
@@ -35,7 +35,7 @@ public class RuleSetValidator<TRuleSet, TProperty, TTransformer, TNextProperty> 
 {
     /// <exception cref="ArgumentNullException"/>
     public RuleSetValidator(
-        TRuleSet ruleSet, 
+        TRuleSet ruleSet,
         TTransformer ruleSetTransformer) : base(ruleSet)
     {
         ArgumentNullException.ThrowIfNull(ruleSetTransformer);

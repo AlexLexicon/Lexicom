@@ -1,9 +1,9 @@
-﻿using Lexicom.Testing.DependencyInjection.Exceptions;
-using Lexicom.Testing.DependencyInjection.Utility;
-using NSubstitute;
-using System.Collections;
+﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Lexicom.Testing.DependencyInjection.Exceptions;
+using Lexicom.Testing.DependencyInjection.Utility;
+using NSubstitute;
 
 namespace Lexicom.Testing.DependencyInjection.Mocking;
 

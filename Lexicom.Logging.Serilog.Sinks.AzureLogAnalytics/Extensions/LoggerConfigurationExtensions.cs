@@ -1,7 +1,7 @@
-﻿using Serilog.Configuration;
+﻿using Serilog;
+using Serilog.Configuration;
 using Serilog.Core;
 using Serilog.Events;
-using Serilog;
 
 namespace Lexicom.Logging.Serilog.Sinks.AzureLogAnalytics.Extensions;
 
@@ -46,12 +46,12 @@ public static class LoggerConfigurationExtensions
 
     /// <exception cref="ArgumentNullException"/>
     public static LoggerConfiguration AzureLogAnalytics(
-        this LoggerSinkConfiguration loggerConfiguration, 
-        string workspaceId, 
+        this LoggerSinkConfiguration loggerConfiguration,
+        string workspaceId,
         string agentPrimaryOrSecondaryKey,
         string logName,
-        AzureLogAnalyticsSettings settings, 
-        LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum, 
+        AzureLogAnalyticsSettings settings,
+        LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
         LoggingLevelSwitch? levelSwitch = null)
     {
         ArgumentNullException.ThrowIfNull(loggerConfiguration);

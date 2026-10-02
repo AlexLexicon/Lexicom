@@ -1,9 +1,9 @@
-﻿using Lexicom.Jwt.Options;
+﻿using System.Security.Claims;
+using System.Text;
+using Lexicom.Jwt.Options;
 using Lexicom.Jwt.Validators;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using System.Text;
 
 namespace Lexicom.Authority;
 

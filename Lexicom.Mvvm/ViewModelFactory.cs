@@ -1,11 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Diagnostics;
+using System.Reflection;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Lexicom.Mvvm.Exceptions;
 using Lexicom.Mvvm.Extensions;
 using Lexicom.Mvvm.Support;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace Lexicom.Mvvm;
 
@@ -209,13 +209,10 @@ public class ViewModelFactory : IViewModelFactory
 
                         Type? unresolvedType = Type.GetType(unresolvedTypeName);
 
-                        if (unresolvedType is null)
-                        {
-                            unresolvedType = AppDomain.CurrentDomain
-                                .GetAssemblies()
-                                .Select(a => a.GetType(unresolvedTypeName))
-                                .FirstOrDefault(t => t is not null);
-                        }
+                        unresolvedType ??= AppDomain.CurrentDomain
+                            .GetAssemblies()
+                            .Select(a => a.GetType(unresolvedTypeName))
+                            .FirstOrDefault(t => t is not null);
 
                         if (unresolvedType is not null && typeof(ObservableObject).IsAssignableFrom(unresolvedType))
                         {

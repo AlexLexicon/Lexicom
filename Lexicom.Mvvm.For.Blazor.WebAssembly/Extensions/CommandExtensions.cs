@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using Microsoft.AspNetCore.Components;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly.Extensions;
 

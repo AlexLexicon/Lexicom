@@ -1,10 +1,10 @@
-﻿using Lexicom.Mvvm.Exceptions;
+﻿using IntegrationTests.For.Lexicom.Mvvm.For.Testing.Constructs;
+using Lexicom.Mvvm.Exceptions;
 using Lexicom.Mvvm.Extensions;
 using Lexicom.Mvvm.For.Testing.Extensions;
 using Lexicom.Supports.Testing.Extensions;
 using Lexicom.Testing.DependencyInjection;
 using Lexicom.Testing.DependencyInjection.Extensions;
-using IntegrationTests.For.Lexicom.Mvvm.For.Testing.Constructs;
 
 namespace IntegrationTests.For.Lexicom.Mvvm.For.Testing;
 

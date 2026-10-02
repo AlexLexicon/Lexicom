@@ -14,9 +14,9 @@ public class ReadLineSettings
     }
 
     internal ReadLineSettings(
-        ConsoleKey? cancelKey, 
-        ConsoleKey? defaultKey, 
-        string? defaultInput, 
+        ConsoleKey? cancelKey,
+        ConsoleKey? defaultKey,
+        string? defaultInput,
         string? initialInput,
         ConsoleColor? inputColor)
     {

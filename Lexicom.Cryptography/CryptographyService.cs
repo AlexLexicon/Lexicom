@@ -1,6 +1,6 @@
-﻿using Lexicom.Cryptography.Options;
+﻿using System.Diagnostics;
+using Lexicom.Cryptography.Options;
 using Microsoft.Extensions.Options;
-using System.Diagnostics;
 
 namespace Lexicom.Cryptography;
 

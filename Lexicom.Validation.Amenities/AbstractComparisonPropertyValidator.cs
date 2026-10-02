@@ -1,5 +1,5 @@
-﻿using FluentValidation.Validators;
-using System.Reflection;
+﻿using System.Reflection;
+using FluentValidation.Validators;
 
 namespace Lexicom.Validation.Amenities;
 

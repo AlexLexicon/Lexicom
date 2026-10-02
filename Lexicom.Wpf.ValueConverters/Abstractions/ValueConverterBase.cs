@@ -1,6 +1,6 @@
-﻿using Lexicom.Wpf.ValueConverters.Exceptions;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Data;
+using Lexicom.Wpf.ValueConverters.Exceptions;
 
 namespace Lexicom.Wpf.ValueConverters.Abstractions;
 

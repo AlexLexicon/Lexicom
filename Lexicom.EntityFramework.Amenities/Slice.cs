@@ -21,7 +21,7 @@ public class Slice<T> : IEnumerable<T>
 
     /// <exception cref="ArgumentNullException"/>
     public Slice(
-        int totalCount, 
+        int totalCount,
         IEnumerable<T> slice)
     {
         ArgumentNullException.ThrowIfNull(slice);

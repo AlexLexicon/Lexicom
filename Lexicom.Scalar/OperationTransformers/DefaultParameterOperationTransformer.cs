@@ -1,4 +1,5 @@
-﻿using Lexicom.Scalar.Exceptions;
+﻿using System.Text.Json.Nodes;
+using Lexicom.Scalar.Exceptions;
 using Lexicom.Scalar.Extensions;
 using Lexicom.Scalar.Options;
 using Microsoft.AspNetCore.OpenApi;

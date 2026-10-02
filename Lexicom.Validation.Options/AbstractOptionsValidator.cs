@@ -1,10 +1,10 @@
-﻿using FluentValidation;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using FluentValidation;
 using Lexicom.Extensions.CompilerServices;
 using Lexicom.Extensions.Exceptions;
 using Lexicom.Validation.Options.Exceptions;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
 namespace Lexicom.Validation.Options;
 

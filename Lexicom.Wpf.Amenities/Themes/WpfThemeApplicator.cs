@@ -1,6 +1,6 @@
-﻿using Lexicom.Wpf.Amenities.Exceptions;
+﻿using System.Windows;
+using Lexicom.Wpf.Amenities.Exceptions;
 using Lexicom.Wpf.Amenities.Extensions;
-using System.Windows;
 
 namespace Lexicom.Wpf.Amenities.Themes;
 

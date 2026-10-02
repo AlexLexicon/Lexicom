@@ -1,8 +1,8 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using System.Diagnostics;
+using System.Windows;
+using CommunityToolkit.Mvvm.Messaging;
 using Lexicom.Mvvm.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
-using System.Windows;
 
 namespace Lexicom.Mvvm.For.Wpf;
 

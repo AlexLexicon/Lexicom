@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Collections;
+﻿using System.Collections;
+using Microsoft.AspNetCore.Identity;
 
 namespace Lexicom.EntityFramework.Identity;
 

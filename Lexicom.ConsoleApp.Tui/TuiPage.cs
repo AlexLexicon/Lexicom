@@ -8,7 +8,7 @@ internal class TuiPage
 
     /// <exception cref="ArgumentNullException"/>
     public TuiPage(
-        string title, 
+        string title,
         TuiPage? parent)
     {
         ArgumentNullException.ThrowIfNull(title);

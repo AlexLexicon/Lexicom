@@ -7,7 +7,7 @@ public interface ITestDependencyInjectionPrimitivesServiceBuilder
     IServiceCollection Services { get; }
 }
 public class TestDependencyInjectionPrimitivesServiceBuilder : ITestDependencyInjectionPrimitivesServiceBuilder
-{    
+{
     /// <exception cref="ArgumentNullException"/>
     public TestDependencyInjectionPrimitivesServiceBuilder(IServiceCollection services)
     {

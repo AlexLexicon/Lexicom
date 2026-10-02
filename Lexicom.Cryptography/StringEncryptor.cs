@@ -1,6 +1,6 @@
-﻿using Lexicom.Cryptography.Exceptions;
+﻿using System.Security.Cryptography;
+using Lexicom.Cryptography.Exceptions;
 using Lexicom.Cryptography.Extensions;
-using System.Security.Cryptography;
 
 namespace Lexicom.Cryptography;
 

@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Microsoft.AspNetCore.Components;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
 

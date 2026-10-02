@@ -1,6 +1,6 @@
-﻿using Lexicom.Configuration.Settings.Extensions;
+﻿using System.Configuration;
+using Lexicom.Configuration.Settings.Extensions;
 using Lexicom.Supports.Wpf;
-using System.Configuration;
 
 namespace Lexicom.Configuration.Settings.For.Wpf.Extensions;
 

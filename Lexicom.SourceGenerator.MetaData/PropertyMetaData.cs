@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Lexicom.SourceGenerator.MetaData.Exceptions;
 using Microsoft.CodeAnalysis;
-using Lexicom.SourceGenerator.MetaData.Exceptions;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Lexicom.SourceGenerator.MetaData;
 

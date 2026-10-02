@@ -1,9 +1,9 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using Lexicom.Mvvm.For.Blazor.WebAssembly.Exceptions;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
+using Lexicom.Mvvm.For.Blazor.WebAssembly.Exceptions;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
 
