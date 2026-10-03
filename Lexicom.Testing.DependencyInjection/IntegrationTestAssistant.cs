@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Reflection;
 using Lexicom.Testing.DependencyInjection.Exceptions;
+using Lexicom.Testing.DependencyInjection.Utility;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -91,9 +92,11 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
         {
             var openGeneric = serviceType.GetGenericTypeDefinition();
 
+            //an enumerable is only registered when it was registered exactly otherwise
+            //the service provider builds it from the registrations of its generic argument
             if (openGeneric == typeof(IEnumerable<>))
             {
-                return true;
+                return false;
             }
 
             serviceDescriptor = _services.FirstOrDefault(sd => sd.ServiceType == openGeneric);
@@ -106,14 +109,34 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
 
     protected void RegisterServiceTypeWhenNotRegistered(Type serviceType)
     {
-        bool isRegisterd = IsTypeRegistered(serviceType, out ServiceDescriptor? existingServiceDescriptor);
-        if (!isRegisterd && existingServiceDescriptor is null)
+        Type? registerType = serviceType;
+        //if the serviceType is an IEnumerable<T> and that exact IEnumerable<T> itself is not mocked
+        if (TypeUtilities.IsEnumerableType(serviceType, out Type? genericArgumentType) && !MockManager.ContainsKey(serviceType))
         {
-            BuildNewProvider = true;
-            _services.Add(new ServiceDescriptor(serviceType, sp =>
+            //then if we are automatically mocking and the IEnumerable generic argument is mocked
+            if (AssistantConfiguration.IsAutomaticallyMocking && MockManager.ContainsKey(genericArgumentType))
             {
-                return PullAndEnhanceInstance(serviceType);
-            }, ServiceLifetime.Singleton));
+                //we want to go ahead and register the generic argument type if it hasnt already
+                registerType = genericArgumentType;
+            }
+            else
+            {
+                //otherwise we are not automatically mocking or that type is not mocked so there is nothing to register
+                registerType = null;
+            }
+        }
+
+        if (registerType is not null)
+        {
+            bool isRegisterd = IsTypeRegistered(registerType, out ServiceDescriptor? existingServiceDescriptor);
+            if (!isRegisterd && existingServiceDescriptor is null)
+            {
+                BuildNewProvider = true;
+                _services.Add(new ServiceDescriptor(registerType, sp =>
+                {
+                    return PullAndEnhanceInstance(registerType);
+                }, ServiceLifetime.Singleton));
+            }
         }
     }
 

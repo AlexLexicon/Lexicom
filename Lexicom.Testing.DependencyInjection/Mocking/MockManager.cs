@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Lexicom.Testing.DependencyInjection.Exceptions;
@@ -9,6 +10,8 @@ namespace Lexicom.Testing.DependencyInjection.Mocking;
 
 public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
 {
+    private static MethodInfo ArrayEmptyMethodInfo => field ??= typeof(Array).GetMethod(nameof(Array.Empty), BindingFlags.Static | BindingFlags.Public) ?? throw new UnreachableException($"The method '{nameof(Array.Empty)}' was not found.");
+
     public MockManager(ITestAssistant testAssistant)
     {
         TestAssistant = testAssistant;
@@ -53,21 +56,57 @@ public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
 
         return new UnitTestAssistantMockFluentBuilder(this, container);
     }
+    private void MockEnumerable(Type enumerableType, Type genericArgumentType)
+    {
+        //the enumerable is transient so that every pull respects the lifetime of the generic argument mock
+        var container = new MockContainer(this, enumerableType, MockLifetime.Transient);
+
+        container.Instantiater.Set(() =>
+        {
+            if (MockTypeToContainer.TryGetValue(genericArgumentType, out MockContainer? genericArgumentContainer))
+            {
+                object mockedItem = genericArgumentContainer.Pull();
+
+                Array items = Array.CreateInstance(genericArgumentType, 1);
+
+                items.SetValue(mockedItem, 0);
+
+                return items;
+            }
+
+            object? emptyItems = ArrayEmptyMethodInfo
+                .MakeGenericMethod(genericArgumentType)
+                .Invoke(obj: null, parameters: null);
+
+            if (emptyItems is null)
+            {
+                throw new UnreachableException($"The method '{nameof(Array.Empty)}' returned null for the type '{genericArgumentType.Name}'.");
+            }
+
+            return emptyItems;
+        });
+
+        MockTypeToContainer.Add(container.ServiceType, container);
+    }
 
     /// <exception cref="PullValueTypeException"/>
     /// <exception cref="PullNotMockedException"/>
     public object Pull(Type type)
     {
-        if (TestAssistant.AssistantConfiguration.IsAutomaticallyMocking)
+        if (TestAssistant.AssistantConfiguration.IsAutomaticallyMocking && !MockTypeToContainer.ContainsKey(type))
         {
-            if (!MockTypeToContainer.ContainsKey(type))
+            if (TypeUtilities.IsValueType(type))
             {
-                if (TypeUtilities.IsValueType(type))
-                {
-                    throw new PullValueTypeException(type);
-                }
+                throw new PullValueTypeException(type);
+            }
 
-                if (!MockHooksManager.TryToMockFromHooks(this, type))
+            if (!MockHooksManager.TryToMockFromHooks(this, type))
+            {
+                if (TypeUtilities.IsEnumerableType(type, out Type? genericArgumentType))
+                {
+                    MockEnumerable(type, genericArgumentType);
+                }
+                else
                 {
                     Mock(type, TestAssistant.AssistantConfiguration.DefaultMockLifetime);
                 }

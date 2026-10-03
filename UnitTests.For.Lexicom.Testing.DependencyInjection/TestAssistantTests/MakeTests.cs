@@ -1,6 +1,7 @@
 ﻿using Lexicom.Testing.DependencyInjection;
 using Lexicom.Testing.DependencyInjection.Exceptions;
 using Lexicom.Testing.DependencyInjection.Extensions;
+using NSubstitute;
 using UnitTests.For.Lexicom.Testing.DependencyInjection.Constructs.Models;
 using UnitTests.For.Lexicom.Testing.DependencyInjection.Constructs.Services;
 
@@ -257,5 +258,101 @@ public class MakeTests
             //act
             var uot = uta.Make<ServiceWithValueTypeModelDependency>();
         });
+    }
+
+    [Fact]
+    public void Automatically_Inject_Empty_Enumerable_When_Generic_Argument_Is_Not_Mocked()
+    {
+        //arrange
+        using var uta = new UnitTestAssistant();
+
+        //act
+        var uot = uta.Make<ServiceWithEnumerableDependency>();
+
+        //assert
+        Assert.NotNull(uot);
+        Assert.NotNull(uot._serviceDependencyIntReturnMethods);
+
+        Assert.False(uot.IsSubstitute());
+        Assert.False(uot._serviceDependencyIntReturnMethods.IsSubstitute());
+
+        Assert.Empty(uot._serviceDependencyIntReturnMethods);
+    }
+
+    [Fact]
+    public void Automatically_Inject_Mocked_Generic_Argument_As_Only_Enumerable_Item()
+    {
+        //arrange
+        using var uta = new UnitTestAssistant();
+
+        int expectedNumber = 123;
+        var mockBuilder = uta.Mock<IServiceDependencyIntReturnMethod>(MockLifetime.Singleton).So(ms =>
+        {
+            ms.GetValueTypeIntMethod().Returns(expectedNumber);
+        });
+
+        //act
+        var uot = uta.Make<ServiceWithEnumerableDependency>();
+
+        //assert
+        Assert.NotNull(uot);
+
+        Assert.False(uot.IsSubstitute());
+        Assert.False(uot._serviceDependencyIntReturnMethods.IsSubstitute());
+
+        IServiceDependencyIntReturnMethod serviceDependencyIntReturnMethod = Assert.Single(uot._serviceDependencyIntReturnMethods);
+        int number = serviceDependencyIntReturnMethod.GetValueTypeIntMethod();
+
+        Assert.True(serviceDependencyIntReturnMethod.IsSubstitute());
+
+        Assert.Same(mockBuilder.Pull(), serviceDependencyIntReturnMethod);
+        Assert.Equal(expectedNumber, number);
+    }
+
+    [Fact]
+    public void Inject_Exact_Enumerable_Mock_Over_Mocked_Generic_Argument()
+    {
+        //arrange
+        using var uta = new UnitTestAssistant();
+
+        IServiceDependencyIntReturnMethod[] serviceDependencyIntReturnMethods =
+        [
+            new ServiceDependencyIntReturnMethod(),
+            new ServiceDependencyIntReturnMethod(),
+        ];
+
+        uta.Mock<IServiceDependencyIntReturnMethod>();
+        uta.Mock<IEnumerable<IServiceDependencyIntReturnMethod>>().With(serviceDependencyIntReturnMethods);
+
+        //act
+        var uot = uta.Make<ServiceWithEnumerableDependency>();
+
+        //assert
+        Assert.NotNull(uot);
+
+        Assert.False(uot.IsSubstitute());
+
+        Assert.Same(serviceDependencyIntReturnMethods, uot._serviceDependencyIntReturnMethods);
+        Assert.All(uot._serviceDependencyIntReturnMethods, sdirm => Assert.False(sdirm.IsSubstitute()));
+    }
+
+    [Fact]
+    public void Inject_Exact_Enumerable_Substitute_Mock_Over_Mocked_Generic_Argument()
+    {
+        //arrange
+        using var uta = new UnitTestAssistant();
+
+        uta.Mock<IServiceDependencyIntReturnMethod>();
+        uta.Mock<IEnumerable<IServiceDependencyIntReturnMethod>>();
+
+        //act
+        var uot = uta.Make<ServiceWithEnumerableDependency>();
+
+        //assert
+        Assert.NotNull(uot);
+        Assert.NotNull(uot._serviceDependencyIntReturnMethods);
+
+        Assert.False(uot.IsSubstitute());
+        Assert.True(uot._serviceDependencyIntReturnMethods.IsSubstitute());
     }
 }

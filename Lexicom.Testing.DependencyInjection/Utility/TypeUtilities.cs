@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Lexicom.Testing.DependencyInjection.Utility;
 
@@ -37,6 +38,30 @@ internal static class TypeUtilities
         ArgumentNullException.ThrowIfNull(type);
 
         return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+    }
+
+    /// <exception cref="ArgumentNullException"/>
+    internal static bool IsEnumerableType(Type type, [NotNullWhen(true)] out Type? genericArgumentType)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+        {
+            genericArgumentType = type
+                .GetGenericArguments()
+                .FirstOrDefault();
+
+            if (genericArgumentType is null)
+            {
+                throw new UnreachableException($"The type '{type.Name}' is an enumerable but does not have a generic argument.");
+            }
+
+            return true;
+        }
+
+        genericArgumentType = null;
+
+        return false;
     }
 
     /// <exception cref="ArgumentNullException"/>
