@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Reflection;
 using Lexicom.Testing.DependencyInjection.Exceptions;
+using Lexicom.Testing.DependencyInjection.Utility;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -75,7 +76,7 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
 
     protected override void ResolveParameter(int parameterIndex, object[] resolvedParameters, Type parameterType)
     {
-        RegisterServiceTypeWhenNotRegistered(parameterType);
+        RegisterServiceTypeWhenNotRegistered(parameterType, isMakeParameter: true);
     }
 
     protected bool IsTypeRegistered(Type serviceType, out ServiceDescriptor? serviceDescriptor)
@@ -91,51 +92,84 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
         {
             var openGeneric = serviceType.GetGenericTypeDefinition();
 
+            //an enumerable is only registered when it was registered exactly otherwise
+            //the service provider builds it from the registrations of its generic argument
             if (openGeneric == typeof(IEnumerable<>))
             {
-                return true;
+                return false;
             }
 
             serviceDescriptor = _services.FirstOrDefault(sd => sd.ServiceType == openGeneric);
 
-            return true;
+            return serviceDescriptor is not null;
         }
 
         return false;
     }
 
-    protected void RegisterServiceTypeWhenNotRegistered(Type serviceType)
+    protected void RegisterServiceTypeWhenNotRegistered(Type serviceType, bool isMakeParameter)
     {
-        bool isRegisterd = IsTypeRegistered(serviceType, out ServiceDescriptor? existingServiceDescriptor);
-        if (!isRegisterd && existingServiceDescriptor is null)
+        Type? registerType = serviceType;
+        //if the serviceType is an IEnumerable<T> and that exact IEnumerable<T> itself is not mocked
+        if (TypeUtilities.IsEnumerableType(serviceType, out Type? genericArgumentType) && !MockManager.ContainsKey(serviceType))
         {
-            BuildNewProvider = true;
-            _services.Add(new ServiceDescriptor(serviceType, sp =>
+            //then if we are automatically mocking and the IEnumerable generic argument is mocked
+            if (AssistantConfiguration.IsAutomaticallyMocking && MockManager.ContainsKey(genericArgumentType))
             {
-                return PullAndEnhanceInstance(serviceType);
-            }, ServiceLifetime.Singleton));
+                //we want to go ahead and register the generic argument type if it hasnt already
+                registerType = genericArgumentType;
+            }
+            else
+            {
+                //otherwise we are not automatically mocking or that type is not mocked so there is nothing to register
+                registerType = null;
+            }
+        }
+        //otherwise if the serviceType is a generic that is not being resolved for make and that generic is not already mocked
+        else if (!isMakeParameter && serviceType.IsConstructedGenericType && !MockManager.ContainsKey(serviceType))
+        {
+            //then we dont want to automatically mock it because the service provider is also used to check if a generic is registered
+            registerType = null;
+        }
+
+        if (registerType is not null)
+        {
+            bool isRegisterd = IsTypeRegistered(registerType, out ServiceDescriptor? existingServiceDescriptor);
+            if (!isRegisterd && existingServiceDescriptor is null)
+            {
+                BuildNewProvider = true;
+                _services.Add(new ServiceDescriptor(registerType, sp =>
+                {
+                    return MockManager.Pull(registerType);
+                }, ServiceLifetime.Singleton));
+            }
         }
     }
 
     protected override object MakeInstance(Type type, Type makeType, ConstructorInfo constructor, object[] resolvedParameters)
     {
-        //for integration tests the resolved parameters are only used for manually provided parameters
-        object[] manualParameters = resolvedParameters
-            .Where(rp => rp is not null)
-            .ToArray();
-
-        IsMakingInstance = true;
-
-        if (manualParameters.Length > 0)
+        try
         {
-            return ActivatorUtilities.CreateInstance(this, makeType, manualParameters);
+            IsMakingInstance = true;
+
+            //for integration tests the resolved parameters are only used for manually provided parameters
+            object[] manualParameters = resolvedParameters
+                .Where(rp => rp is not null)
+                .ToArray();
+
+            if (manualParameters.Length > 0)
+            {
+                return ActivatorUtilities.CreateInstance(this, makeType, manualParameters);
+            }
+
+            object instance = ServiceProviderServiceExtensions.GetRequiredService(this, type);
+
+            return instance;
         }
-
-        object instance = ServiceProviderServiceExtensions.GetRequiredService(this, type);
-
-        IsMakingInstance = false;
-
-        return instance;
+        finally
+        {
+            IsMakingInstance = false;
+        }
     }
 
     public int IndexOf(ServiceDescriptor item) => _services.IndexOf(item);
@@ -169,7 +203,7 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
 
     public object? GetService(Type serviceType)
     {
-        RegisterServiceTypeWhenNotRegistered(serviceType);
+        RegisterServiceTypeWhenNotRegistered(serviceType, isMakeParameter: false);
 
         if (BuildNewProvider || InternalProvider is null)
         {
@@ -183,10 +217,6 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
                 return sp.GetRequiredService<IIntegrationTestAssistant>();
             });
             _services.TryAddSingleton<IConfiguration>(Configuration);
-            _services.TryAddSingleton<IServiceProviderIsService>(sp =>
-            {
-                return sp.GetRequiredService<IServiceProviderIsService>();
-            });
 
             InternalProvider = new CascadingServiceProvider(_services, InternalProvider);
         }
@@ -197,12 +227,14 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
         }
         catch (ArgumentException e)
         {
+            //only a type that cannot be substituted is treated as an unresolvable
+            //service, any other argument exception is an actual problem to surface
             if (e.Message.StartsWith("Can not create proxy for type "))
             {
                 return null;
             }
 
-            return null;
+            throw;
         }
     }
 }

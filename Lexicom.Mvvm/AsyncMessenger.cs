@@ -2,7 +2,13 @@
 
 namespace Lexicom.Mvvm;
 
-public class AsyncMessenger : IMessenger
+public interface IAsyncMessenger : IMessenger
+{
+    void AsyncRegister<TMessage>(IAsyncRecipient<TMessage> recipient) where TMessage : class;
+    Task SendAsync<TMessage>(TMessage message, AsyncMessageAwaitStrategy asyncMessageAwaitStrategy, CancellationToken cancellationToken = default) where TMessage : class;
+    Task ScheduleAsync<TMessage>(TMessage message, ScheduleMessagePriority scheduleMessagePriority, AsyncMessageAwaitStrategy asyncMessageAwaitStrategy, CancellationToken cancellationToken = default) where TMessage : class;
+}
+public class AsyncMessenger : IAsyncMessenger
 {
     private readonly WeakReferenceMessenger _messenger;
     private readonly IMessengerScheduler _messengerScheduler;

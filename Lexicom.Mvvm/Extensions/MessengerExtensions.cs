@@ -24,13 +24,13 @@ public static class MessengerExtensions
         ArgumentNullException.ThrowIfNull(messenger);
         ArgumentNullException.ThrowIfNull(message);
 
-        if (messenger is AsyncMessenger asyncMessenger)
+        if (messenger is IAsyncMessenger asyncMessenger)
         {
             await asyncMessenger.SendAsync(message, asyncMessageAwaitStrategy, cancellationToken);
         }
         else
         {
-            throw new NotSupportedException($"The provided '{nameof(IMessenger)}' ('{messenger?.GetType()?.Name ?? "null"}') must be of the type '{nameof(AsyncMessenger)}' to send an async message.");
+            throw new NotSupportedException($"The provided '{nameof(IMessenger)}' ('{messenger?.GetType()?.Name ?? "null"}') must be of the type '{nameof(IAsyncMessenger)}' to send an async message.");
         }
     }
 
@@ -55,13 +55,13 @@ public static class MessengerExtensions
         ArgumentNullException.ThrowIfNull(messenger);
         ArgumentNullException.ThrowIfNull(message);
 
-        if (messenger is AsyncMessenger asyncMessenger)
+        if (messenger is IAsyncMessenger asyncMessenger)
         {
             await asyncMessenger.ScheduleAsync(message, scheduleMessagePriority, asyncMessageAwaitStrategy, cancellationToken);
         }
         else
         {
-            throw new NotSupportedException($"The provided '{nameof(IMessenger)}' ('{messenger?.GetType()?.Name ?? "null"}') must be of the type '{nameof(AsyncMessenger)}' to schedule an async message.");
+            throw new NotSupportedException($"The provided '{nameof(IMessenger)}' ('{messenger?.GetType()?.Name ?? "null"}') must be of the type '{nameof(IAsyncMessenger)}' to schedule an async message.");
         }
     }
 
@@ -71,13 +71,13 @@ public static class MessengerExtensions
         ArgumentNullException.ThrowIfNull(messenger);
         ArgumentNullException.ThrowIfNull(recipient);
 
-        if (messenger is AsyncMessenger asyncMessenger)
+        if (messenger is IAsyncMessenger asyncMessenger)
         {
             asyncMessenger.AsyncRegister(recipient);
         }
         else
         {
-            throw new NotSupportedException($"The provided '{nameof(IMessenger)}' ('{messenger?.GetType()?.Name ?? "null"}') must be of the type '{nameof(AsyncMessenger)}' to register an async recipient.");
+            throw new NotSupportedException($"The provided '{nameof(IMessenger)}' ('{messenger?.GetType()?.Name ?? "null"}') must be of the type '{nameof(IAsyncMessenger)}' to register an async recipient.");
         }
     }
 

@@ -1,12 +1,7 @@
-﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
+﻿using System.Reflection;
 using Lexicom.Testing.DependencyInjection.Exceptions;
-using Lexicom.Testing.DependencyInjection.Extensions;
 using Lexicom.Testing.DependencyInjection.Mocking;
 using Lexicom.Testing.DependencyInjection.Utility;
-using Microsoft.Extensions.Options;
-using NSubstitute;
 
 namespace Lexicom.Testing.DependencyInjection;
 
@@ -136,75 +131,6 @@ public abstract class TestAssistant : ITestAssistant
 
     protected virtual void ResolveParameter(int parameterIndex, object[] resolvedParameters, Type parameterType)
     {
-        resolvedParameters[parameterIndex] = PullAndEnhanceInstance(parameterType);
-    }
-
-    protected virtual object PullAndEnhanceInstance(Type parameterType)
-    {
-        object instance = MockManager.Pull(parameterType);
-
-        if (AssistantConfiguration.IsEnhancedOptionsMocking && instance.IsSubstitute() && parameterType.IsGenericType)
-        {
-            Type substituteGenericType = parameterType.GetGenericTypeDefinition();
-
-            if (TryPullOptionsValueObject(typeof(IOptions<>), substituteGenericType, parameterType, out object? optionValue))
-            {
-                IOptions<object> optionsInstance = (IOptions<object>)instance;
-
-                optionsInstance.Value.Returns(optionValue);
-            }
-            else if (TryPullOptionsValueObject(typeof(IOptionsMonitor<>), substituteGenericType, parameterType, out optionValue))
-            {
-                IOptionsMonitor<object> optionsMonitorInstance = (IOptionsMonitor<object>)instance;
-
-                optionsMonitorInstance.CurrentValue.Returns(optionValue);
-            }
-            else if (TryPullOptionsValueObject(typeof(IOptionsSnapshot<>), substituteGenericType, parameterType, out optionValue))
-            {
-                IOptionsSnapshot<object> optionsSnapshotInstance = (IOptionsSnapshot<object>)instance;
-
-                optionsSnapshotInstance.Value.Returns(optionValue);
-                optionsSnapshotInstance.Get(Arg.Any<string>()).Returns(optionValue);
-            }
-        }
-
-        return instance;
-    }
-
-    protected virtual bool TryPullOptionsValueObject(Type genericOptionsType, Type substituteGenericType, Type substituteType, [NotNullWhen(true)] out object? optionValue)
-    {
-        if (substituteGenericType == genericOptionsType)
-        {
-            Type? optionsValueType = substituteType
-                .GetGenericArguments()
-                .FirstOrDefault();
-
-            if (optionsValueType is null)
-            {
-                throw new UnreachableException($"The substitute type '{substituteType.Name}' had no generic argument.");
-            }
-
-            optionValue = MockManager.Pull(optionsValueType);
-
-            //set all string properties of the option value object to string.Empty instead of null
-            IEnumerable<PropertyInfo> writableStringProperties = optionsValueType
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(p => p.PropertyType == typeof(string) && p.CanWrite);
-
-            foreach (PropertyInfo stringProperty in writableStringProperties)
-            {
-                object? value = stringProperty.GetValue(optionValue);
-                if (value is null)
-                {
-                    stringProperty?.SetValue(optionValue, string.Empty);
-                }
-            }
-
-            return true;
-        }
-
-        optionValue = null;
-
-        return false;
+        resolvedParameters[parameterIndex] = MockManager.Pull(parameterType);
     }
 }

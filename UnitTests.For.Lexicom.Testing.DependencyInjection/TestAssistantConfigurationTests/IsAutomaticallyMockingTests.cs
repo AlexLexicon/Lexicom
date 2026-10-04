@@ -100,4 +100,67 @@ public class IsAutomaticallyMockingTests
             var uot = uta.Make<ServiceWithDependency>();
         });
     }
+
+    [Fact]
+    public void Fail_Make_When_Not_Automatically_Mocking_And_Enumerable_Generic_Argument_Is_Not_Mocked()
+    {
+        //arrange
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
+        {
+            IsAutomaticallyMocking = false,
+        });
+
+        //assert
+        Assert.Throws<PullNotMockedException>(() =>
+        {
+            //act
+            var uot = uta.Make<ServiceWithEnumerableDependency>();
+        });
+    }
+
+    [Fact]
+    public void Fail_Make_When_Not_Automatically_Mocking_And_Only_Enumerable_Generic_Argument_Is_Mocked()
+    {
+        //arrange
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
+        {
+            IsAutomaticallyMocking = false,
+        });
+
+        uta.Mock<IServiceDependencyIntReturnMethod>();
+
+        //assert
+        Assert.Throws<PullNotMockedException>(() =>
+        {
+            //act
+            var uot = uta.Make<ServiceWithEnumerableDependency>();
+        });
+    }
+
+    [Fact]
+    public void Successfully_Make_When_Not_Automatically_Mocking_But_Enumerable_Is_Mocked()
+    {
+        //arrange
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
+        {
+            IsAutomaticallyMocking = false,
+        });
+
+        IServiceDependencyIntReturnMethod[] serviceDependencyIntReturnMethods =
+        [
+            new ServiceDependencyIntReturnMethod(),
+        ];
+
+        uta.Mock<IEnumerable<IServiceDependencyIntReturnMethod>>().With(serviceDependencyIntReturnMethods);
+
+        //act
+        var uot = uta.Make<ServiceWithEnumerableDependency>();
+
+        //assert
+        Assert.NotNull(uot);
+
+        Assert.False(uot.IsSubstitute());
+
+        Assert.Same(serviceDependencyIntReturnMethods, uot._serviceDependencyIntReturnMethods);
+    }
 }

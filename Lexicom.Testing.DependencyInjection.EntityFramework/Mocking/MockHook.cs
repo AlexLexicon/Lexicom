@@ -12,17 +12,20 @@ public static class MockHook
         ArgumentNullException.ThrowIfNull(manager);
         ArgumentNullException.ThrowIfNull(type);
 
-        Type genericType = type.GetGenericTypeDefinition();
-        if (genericType == typeof(IDbContextFactory<>))
+        if (type.IsGenericType)
         {
-            Type dbContextType = type.GetGenericArguments()[0];
+            Type genericType = type.GetGenericTypeDefinition();
+            if (genericType == typeof(IDbContextFactory<>))
+            {
+                Type dbContextType = type.GetGenericArguments()[0];
 
-            Type dbContextFactoryInterfaceType = genericType.MakeGenericType(dbContextType);
-            Type dbContextFactoryConcreteType = typeof(SqliteInMemoryTestDbContextFactory<>).MakeGenericType(dbContextType);
+                Type dbContextFactoryInterfaceType = genericType.MakeGenericType(dbContextType);
+                Type dbContextFactoryConcreteType = typeof(SqliteInMemoryTestDbContextFactory<>).MakeGenericType(dbContextType);
 
-            manager.Mock(dbContextFactoryInterfaceType, MockLifetime.Singleton).With(dbContextFactoryConcreteType);
+                manager.Mock(dbContextFactoryInterfaceType, MockLifetime.Singleton).With(dbContextFactoryConcreteType);
 
-            return true;
+                return true;
+            }
         }
 
         return false;
