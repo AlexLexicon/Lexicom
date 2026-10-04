@@ -65,9 +65,8 @@ internal static class TypeUtilities
     }
 
     /// <exception cref="ArgumentNullException"/>
-    internal static bool IsAssignableTo(object candidate, Type typeToAssignTo)
+    internal static bool IsAssignableTo(object? candidate, Type typeToAssignTo)
     {
-        ArgumentNullException.ThrowIfNull(candidate);
         ArgumentNullException.ThrowIfNull(typeToAssignTo);
 
         if (candidate is null)

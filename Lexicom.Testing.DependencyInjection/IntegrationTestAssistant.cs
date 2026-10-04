@@ -142,23 +142,28 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
 
     protected override object MakeInstance(Type type, Type makeType, ConstructorInfo constructor, object[] resolvedParameters)
     {
-        //for integration tests the resolved parameters are only used for manually provided parameters
-        object[] manualParameters = resolvedParameters
-            .Where(rp => rp is not null)
-            .ToArray();
-
-        IsMakingInstance = true;
-
-        if (manualParameters.Length > 0)
+        try
         {
-            return ActivatorUtilities.CreateInstance(this, makeType, manualParameters);
+            IsMakingInstance = true;
+
+            //for integration tests the resolved parameters are only used for manually provided parameters
+            object[] manualParameters = resolvedParameters
+                .Where(rp => rp is not null)
+                .ToArray();
+
+            if (manualParameters.Length > 0)
+            {
+                return ActivatorUtilities.CreateInstance(this, makeType, manualParameters);
+            }
+
+            object instance = ServiceProviderServiceExtensions.GetRequiredService(this, type);
+
+            return instance;
         }
-
-        object instance = ServiceProviderServiceExtensions.GetRequiredService(this, type);
-
-        IsMakingInstance = false;
-
-        return instance;
+        finally
+        {
+            IsMakingInstance = false;
+        }
     }
 
     public int IndexOf(ServiceDescriptor item) => _services.IndexOf(item);
@@ -206,10 +211,6 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
                 return sp.GetRequiredService<IIntegrationTestAssistant>();
             });
             _services.TryAddSingleton<IConfiguration>(Configuration);
-            _services.TryAddSingleton<IServiceProviderIsService>(sp =>
-            {
-                return sp.GetRequiredService<IServiceProviderIsService>();
-            });
 
             InternalProvider = new CascadingServiceProvider(_services, InternalProvider);
         }
