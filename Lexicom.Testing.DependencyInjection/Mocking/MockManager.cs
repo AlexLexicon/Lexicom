@@ -11,7 +11,8 @@ namespace Lexicom.Testing.DependencyInjection.Mocking;
 
 public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
 {
-    private static MethodInfo ArrayEmptyMethodInfo => field ??= typeof(Array).GetMethod(nameof(Array.Empty), BindingFlags.Static | BindingFlags.Public) ?? throw new UnreachableException($"The method '{nameof(Array.Empty)}' was not found.");
+    private static MethodInfo? _arrayEmptyMethodInfo;
+    private static MethodInfo ArrayEmptyMethodInfo => _arrayEmptyMethodInfo ??= typeof(Array).GetMethod(nameof(Array.Empty), BindingFlags.Static | BindingFlags.Public) ?? throw new UnreachableException($"The method '{nameof(Array.Empty)}' was not found.");
 
     public MockManager(ITestAssistant testAssistant)
     {
