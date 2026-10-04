@@ -76,7 +76,7 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
 
     protected override void ResolveParameter(int parameterIndex, object[] resolvedParameters, Type parameterType)
     {
-        RegisterServiceTypeWhenNotRegistered(parameterType);
+        RegisterServiceTypeWhenNotRegistered(parameterType, isMakeParameter: true);
     }
 
     protected bool IsTypeRegistered(Type serviceType, out ServiceDescriptor? serviceDescriptor)
@@ -101,13 +101,13 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
 
             serviceDescriptor = _services.FirstOrDefault(sd => sd.ServiceType == openGeneric);
 
-            return true;
+            return serviceDescriptor is not null;
         }
 
         return false;
     }
 
-    protected void RegisterServiceTypeWhenNotRegistered(Type serviceType)
+    protected void RegisterServiceTypeWhenNotRegistered(Type serviceType, bool isMakeParameter)
     {
         Type? registerType = serviceType;
         //if the serviceType is an IEnumerable<T> and that exact IEnumerable<T> itself is not mocked
@@ -125,6 +125,12 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
                 registerType = null;
             }
         }
+        //otherwise if the serviceType is a generic that is not being resolved for make and that generic is not already mocked
+        else if (!isMakeParameter && serviceType.IsConstructedGenericType && !MockManager.ContainsKey(serviceType))
+        {
+            //then we dont want to automatically mock it because the service provider is also used to check if a generic is registered
+            registerType = null;
+        }
 
         if (registerType is not null)
         {
@@ -134,7 +140,7 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
                 BuildNewProvider = true;
                 _services.Add(new ServiceDescriptor(registerType, sp =>
                 {
-                    return PullAndEnhanceInstance(registerType);
+                    return MockManager.Pull(registerType);
                 }, ServiceLifetime.Singleton));
             }
         }
@@ -197,7 +203,7 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
 
     public object? GetService(Type serviceType)
     {
-        RegisterServiceTypeWhenNotRegistered(serviceType);
+        RegisterServiceTypeWhenNotRegistered(serviceType, isMakeParameter: false);
 
         if (BuildNewProvider || InternalProvider is null)
         {
@@ -221,12 +227,14 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
         }
         catch (ArgumentException e)
         {
+            //only a type that cannot be substituted is treated as an unresolvable
+            //service, any other argument exception is an actual problem to surface
             if (e.Message.StartsWith("Can not create proxy for type "))
             {
                 return null;
             }
 
-            return null;
+            throw;
         }
     }
 }

@@ -238,4 +238,97 @@ public class MakeTests
         Assert.Equal(2, uot._serviceDependencyIntReturnMethods.Count());
         Assert.All(uot._serviceDependencyIntReturnMethods, sdirm => Assert.False(sdirm.IsSubstitute()));
     }
+
+    [Fact]
+    public void Automatically_Inject_Substitute_Generic_Dependency_When_Open_Generic_Is_Not_Registered()
+    {
+        //arrange
+        var ita = new IntegrationTestAssistant();
+
+        //act
+        var uot = ita.Make<ServiceWithGenericDependency>();
+
+        //assert
+        Assert.NotNull(uot);
+        Assert.NotNull(uot._serviceDependencyGenericReturnMethod);
+
+        Assert.False(uot.IsSubstitute());
+        Assert.True(uot._serviceDependencyGenericReturnMethod.IsSubstitute());
+    }
+
+    [Fact]
+    public void Inject_Mocked_Generic_Dependency()
+    {
+        //arrange
+        var ita = new IntegrationTestAssistant();
+
+        var expectedReferenceTypeModel = new ReferenceTypeModel();
+        ita.Mock<IServiceDependencyGenericReturnMethod<ReferenceTypeModel>>().So(d =>
+        {
+            d.GetGenericMethod().Returns(expectedReferenceTypeModel);
+        });
+
+        //act
+        var uot = ita.Make<ServiceWithGenericDependency>();
+
+        ReferenceTypeModel? referenceTypeModel = uot._serviceDependencyGenericReturnMethod.GetGenericMethod();
+
+        //assert
+        Assert.NotNull(uot);
+
+        Assert.False(uot.IsSubstitute());
+        Assert.True(uot._serviceDependencyGenericReturnMethod.IsSubstitute());
+
+        Assert.Same(expectedReferenceTypeModel, referenceTypeModel);
+    }
+
+    [Fact]
+    public void Inject_Registered_Open_Generic_Dependency()
+    {
+        //arrange
+        var ita = new IntegrationTestAssistant();
+
+        ita.AddSingleton(typeof(IServiceDependencyGenericReturnMethod<>), typeof(ServiceDependencyGenericReturnMethod<>));
+
+        //act
+        var uot = ita.Make<ServiceWithGenericDependency>();
+
+        //assert
+        Assert.NotNull(uot);
+        Assert.NotNull(uot._serviceDependencyGenericReturnMethod);
+
+        Assert.False(uot.IsSubstitute());
+        Assert.False(uot._serviceDependencyGenericReturnMethod.IsSubstitute());
+        Assert.IsType<ServiceDependencyGenericReturnMethod<ReferenceTypeModel>>(uot._serviceDependencyGenericReturnMethod);
+    }
+
+    [Fact]
+    public void GetService_Does_Not_Automatically_Mock_Generic_Dependency()
+    {
+        //arrange
+        var ita = new IntegrationTestAssistant();
+
+        //act
+        object? service = ita.GetService(typeof(IServiceDependencyGenericReturnMethod<ReferenceTypeModel>));
+
+        //assert
+        Assert.Null(service);
+    }
+
+    [Fact]
+    public void GetService_Resolves_Mocked_Generic_Dependency()
+    {
+        //arrange
+        var ita = new IntegrationTestAssistant();
+
+        var serviceDependencyGenericReturnMethod = ita.Mock<IServiceDependencyGenericReturnMethod<ReferenceTypeModel>>(MockLifetime.Singleton).Pull();
+
+        //act
+        object? service = ita.GetService(typeof(IServiceDependencyGenericReturnMethod<ReferenceTypeModel>));
+
+        //assert
+        Assert.NotNull(service);
+
+        Assert.Same(serviceDependencyGenericReturnMethod, service);
+    }
 }
