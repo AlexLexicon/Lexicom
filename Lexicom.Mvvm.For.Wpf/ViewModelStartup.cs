@@ -2,7 +2,7 @@
 
 namespace Lexicom.Mvvm.For.Wpf;
 
-internal class ViewModelStartup<TViewModel> : IStartup where TViewModel : notnull
+internal class ViewModelStartup<TViewModel> : IStartupViewModel where TViewModel : notnull
 {
     private readonly IViewModelFactory _dataContextFactory;
 
@@ -18,9 +18,9 @@ internal class ViewModelStartup<TViewModel> : IStartup where TViewModel : notnul
     {
         TViewModel viewModel = _dataContextFactory.Create<TViewModel>();
 
-        if (viewModel is IStartup viewModelStartup)
+        if (viewModel is IStartupViewModel startupViewModel)
         {
-            await viewModelStartup.StartupAsync();
+            await startupViewModel.StartupAsync();
         }
     }
 }

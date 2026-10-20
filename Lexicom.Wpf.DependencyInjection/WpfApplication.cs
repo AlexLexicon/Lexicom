@@ -61,7 +61,7 @@ public sealed class WpfApplication
         StartupWindowType = typeof(TWindow);
     }
 
-    public void Startup<T>() where T : IStartup
+    public void Startup<T>() where T : IStartupViewModel
     {
         if (StartupWindowType is not null)
         {
@@ -93,9 +93,9 @@ public sealed class WpfApplication
             }
             else if (StartupType is not null)
             {
-                var startup = (IStartup)Services.GetRequiredService(StartupType);
+                var startupViewModel = (IStartupViewModel)Services.GetRequiredService(StartupType);
 
-                await startup.StartupAsync();
+                await startupViewModel.StartupAsync();
             }
         }
         catch (Exception exception)

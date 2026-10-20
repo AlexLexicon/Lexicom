@@ -1,6 +1,6 @@
 ﻿namespace Lexicom.Wpf.DependencyInjection;
 
-public interface IStartup
+public interface IStartupViewModel
 {
     Task StartupAsync();
 }
