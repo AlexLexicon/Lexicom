@@ -27,7 +27,9 @@
 
      The workflowFile is the filename of a GitHub Actions workflow YAML
      under the matching AlexLexicon repo (e.g. 'release.yml'). When set,
-     the dashboard polls that workflow's latest run every 60s and shows
+     the dashboard polls that workflow's latest run every 180s (45s while
+     a run is in progress, slower when needed to stay within GitHub's
+     60/hour unauthenticated limit) and shows
      its status (success / failure / running with current step), display
      title, relative time, and run number beneath the collection header.
      Pass null to skip Actions tracking for a collection.
@@ -216,6 +218,10 @@
              width: 0%;
              transition: width 1s linear;
          }
+
+             .refresh-bar-fill.warn {
+                 background: var(--warn);
+             }
 
          button {
              background: var(--bg-elev);
@@ -1086,8 +1092,10 @@
 
             // GitHub Actions polling intervals (milliseconds). Each collection
             // name is assumed to be the repo name under AlexLexicon. Polled
-            // with ETag conditional requests so unchanged responses don't count
-            // against the 60/hour unauthenticated rate limit.
+            // with ETag conditional requests, but unauthenticated 304s still
+            // count against the 60/hour rate limit — every poll costs one
+            // request per tracked collection, plus one per in-progress run's
+            // jobs lookup.
             //
             // actionsPollIntervalMs           — interval used when no tracked
             //                                   workflow is currently running.
@@ -1095,8 +1103,16 @@
             //                                   tracked workflow is in_progress
             //                                   or queued, so the step name and
             //                                   completion state update quickly.
+            // actionsReservedRequests         — requests scheduled polls never
+            //                                   spend, so the refresh button
+            //                                   still works when quota runs low.
+            //
+            // Both intervals are minimums: when the remaining quota GitHub
+            // reports can't sustain them until its hourly reset, polls are
+            // spaced out further so it lasts (the countdown shows "paced").
             actionsPollIntervalMs: 180000,
             actionsPollInProgressIntervalMs: 45000,
+            actionsReservedRequests: 4,
 
 
             packages: [
@@ -2082,12 +2098,13 @@
         document.getElementById('refreshBtn').addEventListener('click', async () => {
             // Reset the progress bar and timer first so the user sees immediate feedback,
             // then re-fetch versions and Actions status in parallel with the new
-            // countdown. pollActionsStatuses self-skips if currently rate-limited,
-            // and ETag caching makes the GitHub round-trips cheap. We also
-            // re-schedule the next actions poll afterward so its interval reflects
-            // any new in_progress state from this fetch.
+            // countdown. A manual click forces the GitHub poll even during a
+            // rate-limit backoff — if GitHub is still limiting, the 403 just
+            // re-arms the backoff from its reset headers. We also re-schedule
+            // the next actions poll afterward so its interval reflects any new
+            // in_progress / rate-limited state from this fetch.
             scheduleNext();
-            await Promise.all([refresh(), pollActionsStatuses()]);
+            await Promise.all([refresh(), pollActionsStatuses(true)]);
             scheduleNextActionsPoll();
         });
 
@@ -2128,12 +2145,17 @@
         const actionsStore = new Map();
         let actionsPollTimer = null;
         let actionsRateLimitedUntil = 0;
+        // Latest quota reading from GitHub's response headers, used to pace
+        // polling so the unauthenticated 60/hour limit lasts until it resets.
+        // { remaining, limit, resetAt (epoch ms) } or null when unknown.
+        let actionsQuota = null;
 
         // Persist actionsStore + rate-limit backoff to localStorage so page
-        // refreshes reuse cached ETags (304 = free) instead of burning fresh
-        // requests against the 60/hour unauth limit.
+        // refreshes render the last known state immediately and respect an
+        // active backoff instead of re-tripping the 60/hour unauth limit.
         const ACTIONS_STORE_KEY = 'lexicom.actionsStore.v1';
         const ACTIONS_RL_KEY = 'lexicom.actionsRateLimitedUntil.v1';
+        const ACTIONS_QUOTA_KEY = 'lexicom.actionsQuota.v1';
 
         function loadActionsCache() {
             try {
@@ -2147,6 +2169,8 @@
                     const n = parseInt(rl, 10);
                     if (!isNaN(n) && n > Date.now()) actionsRateLimitedUntil = n;
                 }
+                const quota = JSON.parse(localStorage.getItem(ACTIONS_QUOTA_KEY) || 'null');
+                if (quota && quota.resetAt > Date.now()) actionsQuota = quota;
             } catch (e) { /* ignore */ }
         }
 
@@ -2156,6 +2180,7 @@
                 for (const [k, v] of actionsStore) obj[k] = v;
                 localStorage.setItem(ACTIONS_STORE_KEY, JSON.stringify(obj));
                 localStorage.setItem(ACTIONS_RL_KEY, String(actionsRateLimitedUntil));
+                localStorage.setItem(ACTIONS_QUOTA_KEY, JSON.stringify(actionsQuota));
             } catch (e) { /* ignore */ }
         }
 
@@ -2178,9 +2203,40 @@
             );
         }
 
+        function recordQuota(res) {
+            const remaining = parseInt(res.headers.get('X-RateLimit-Remaining'), 10);
+            const limit = parseInt(res.headers.get('X-RateLimit-Limit'), 10);
+            const reset = parseInt(res.headers.get('X-RateLimit-Reset'), 10);
+            if (isNaN(remaining) || isNaN(reset)) return;
+            const resetAt = reset * 1000;
+            // Parallel responses can land out of order: within one window keep
+            // the lowest count, and never let an older window replace a newer one.
+            const prev = actionsQuota;
+            if (prev && (prev.resetAt > resetAt
+                || (prev.resetAt === resetAt && prev.remaining <= remaining))) return;
+            actionsQuota = { remaining, limit: isNaN(limit) ? null : limit, resetAt };
+        }
+
+        // When GitHub rate-limits us, back off until it says the limit resets:
+        // Retry-After for secondary limits, X-RateLimit-Reset (epoch seconds)
+        // for the primary one, and an hour if neither header is readable.
+        function rateLimitedUntilFromHeaders(res) {
+            const retryAfter = parseInt(res.headers.get('Retry-After'), 10);
+            if (!isNaN(retryAfter)) return Date.now() + retryAfter * 1000;
+            const reset = parseInt(res.headers.get('X-RateLimit-Reset'), 10);
+            if (!isNaN(reset)) return reset * 1000;
+            return Date.now() + 60 * 60 * 1000;
+        }
+
         async function fetchLatestRun(collection) {
             if (!collection.workflowFile) return;
             const stored = actionsStore.get(collection.name) || {};
+            // Only revalidate against a real run snapshot. After an error or a
+            // rate limit the stored status is transient, and a 304 would keep it
+            // on screen forever even though GitHub is answering again.
+            const ifNoneMatch = (stored.status === 'error' || stored.status === 'ratelimited')
+                ? null
+                : stored.etag;
             // per_page=10 so we have enough runs in one request to find both the
             // very latest (for the status bar) and the latest *successful* run
             // (for the run-number comparison against package versions).
@@ -2188,7 +2244,7 @@
                 `/actions/workflows/${encodeURIComponent(collection.workflowFile)}/runs?per_page=10`;
             let res;
             try {
-                res = await fetch(url, { headers: githubHeaders(stored.etag) });
+                res = await fetch(url, { headers: githubHeaders(ifNoneMatch) });
             } catch (e) {
                 console.log(`[actions] ${collection.name}/runs → network error: ${e.message}`);
                 actionsStore.set(collection.name, {
@@ -2201,6 +2257,7 @@
             }
 
             logRateLimit(`${collection.name}/runs`, res);
+            recordQuota(res);
 
             // 304 = unchanged. Keep prior state; if it was in-progress, still poll
             // jobs so the current step can advance even when the run list itself
@@ -2213,7 +2270,7 @@
             }
 
             if (res.status === 403 || res.status === 429) {
-                actionsRateLimitedUntil = Date.now() + 60 * 60 * 1000;
+                actionsRateLimitedUntil = Math.max(actionsRateLimitedUntil, rateLimitedUntilFromHeaders(res));
                 actionsStore.set(collection.name, { ...stored, status: 'ratelimited' });
                 return;
             }
@@ -2288,6 +2345,7 @@
             }
 
             logRateLimit(`${collectionName}/jobs`, res);
+            recordQuota(res);
 
             if (res.status === 304) return;
             if (!res.ok) return;
@@ -2436,7 +2494,7 @@
                     // Blank top-row title; surface the state in a solo yellow step
                     // pill with a yellow status icon to the left of the label.
                     renderBarMessage('warn', '',
-                        'unauthenticated rate limit is 60 requests/hour — polling will retry in an hour');
+                        'unauthenticated rate limit is 60 requests/hour — polling resumes when GitHub resets it');
                     const stepEl = barEl.querySelector('.workflow-step');
                     const stepStatusEl = stepEl.querySelector('.workflow-step-status');
                     stepEl.classList.remove('completed', 'failed', 'unknown', 'clickable');
@@ -2545,15 +2603,29 @@
             updateUi();
         }
 
-        async function pollActionsStatuses() {
-            if (Date.now() < actionsRateLimitedUntil) {
+        // `force` (the refresh button) polls even during a rate-limit backoff
+        // and spends the requests held in reserve for it.
+        async function pollActionsStatuses(force) {
+            if (!force && Date.now() < actionsRateLimitedUntil) {
                 const minsLeft = Math.ceil((actionsRateLimitedUntil - Date.now()) / 60000);
                 console.log(`[actions] skipping poll — rate-limited for ~${minsLeft} more min`);
                 applyActionsStatusToUi();
                 return;
             }
+            if (!force && actionsBudgetDelay().exhausted) {
+                const minsLeft = Math.ceil((actionsQuota.resetAt - Date.now()) / 60000);
+                console.log(
+                    `[actions] skipping poll — ${actionsQuota.remaining} requests left, ` +
+                    `held for the refresh button until the reset in ~${minsLeft} min`,
+                );
+                applyActionsStatusToUi();
+                return;
+            }
             const trackable = CONFIG.packages.filter(c => c.workflowFile);
             if (trackable.length === 0) return;
+            // Any 403/429 in this round re-arms the backoff from GitHub's headers;
+            // a clean round clears it.
+            actionsRateLimitedUntil = 0;
             await Promise.all(trackable.map(c => fetchLatestRun(c)));
             applyActionsStatusToUi();
             saveActionsCache();
@@ -2569,36 +2641,86 @@
             return false;
         }
 
+        // Requests one poll spends: a runs lookup per tracked collection, plus
+        // a jobs lookup for each run currently in progress.
+        function actionsPollCost() {
+            let cost = 0;
+            for (const c of CONFIG.packages) {
+                if (!c.workflowFile) continue;
+                cost++;
+                const s = actionsStore.get(c.name);
+                if (s && (s.status === 'in_progress' || s.status === 'queued')) cost++;
+            }
+            return cost;
+        }
+
+        // How long the next scheduled poll must wait so the remaining quota,
+        // minus CONFIG.actionsReservedRequests, stretches until GitHub resets
+        // it. `exhausted` means no poll fits before the reset without dipping
+        // into the reserve. 0 / false when there's no current quota reading.
+        function actionsBudgetDelay() {
+            const msUntilReset = actionsQuota ? actionsQuota.resetAt - Date.now() : 0;
+            const cost = actionsPollCost();
+            if (msUntilReset <= 0 || cost === 0) return { delayMs: 0, exhausted: false };
+            const polls = Math.floor((actionsQuota.remaining - CONFIG.actionsReservedRequests) / cost);
+            if (polls < 1) return { delayMs: msUntilReset, exhausted: true };
+            return { delayMs: msUntilReset / polls, exhausted: false };
+        }
+
         // setTimeout-based scheduler so each poll can pick the next interval
         // based on the live state: faster when something is running, slower
-        // when everything is idle. Also drives the dedicated countdown bar in
-        // the header.
+        // when everything is idle, stretched further when the remaining quota
+        // can't sustain that interval until the reset, and parked until
+        // GitHub's reset time while rate-limited (a poll before then would just
+        // be skipped). Also drives the dedicated countdown bar in the header.
         let actionsCountdownTimer = null;
 
         function scheduleNextActionsPoll() {
             if (actionsPollTimer) clearTimeout(actionsPollTimer);
             if (actionsCountdownTimer) clearInterval(actionsCountdownTimer);
-            const next = anyActionInProgress()
+            const rateLimitedMs = actionsRateLimitedUntil - Date.now();
+            const rateLimited = rateLimitedMs > 0;
+            const intervalMs = anyActionInProgress()
                 ? CONFIG.actionsPollInProgressIntervalMs
                 : CONFIG.actionsPollIntervalMs;
+            const budget = actionsBudgetDelay();
+            const paced = !rateLimited && budget.delayMs > intervalMs;
+            const quotaLow = paced && budget.exhausted;
+            const next = rateLimited ? rateLimitedMs : Math.max(intervalMs, budget.delayMs);
             const start = Date.now();
+
+            function countdownText(remainingMs) {
+                const secs = Math.max(0, Math.ceil(remainingMs / 1000));
+                const when = secs > 90 ? `${Math.ceil(secs / 60)}m` : `${secs}s`;
+                if (rateLimited) return `github rate limited, retry in ${when}`;
+                if (quotaLow) return `github quota low, retry in ${when}`;
+                if (paced) return `refresh github in ${when} (paced)`;
+                return `refresh github in ${secs}s`;
+            }
 
             const bar = document.getElementById('actionsRefreshBar');
             const text = document.getElementById('actionsRefreshText');
             if (bar) {
+                bar.classList.toggle('warn', rateLimited || quotaLow);
                 bar.style.transition = 'none';
                 bar.style.width = '0%';
                 void bar.offsetWidth;
                 bar.style.transition = '';
             }
-            if (text) text.textContent = `refresh github in ${Math.ceil(next / 1000)}s`;
+            if (text) {
+                text.textContent = countdownText(next);
+                text.title = (actionsQuota && actionsQuota.resetAt > Date.now())
+                    ? `${actionsQuota.remaining}/${actionsQuota.limit ?? '?'} GitHub requests left, resets at ` +
+                    new Date(actionsQuota.resetAt).toLocaleTimeString() +
+                    (paced ? ' — polling slowed so they last until then' : '')
+                    : '';
+            }
 
             actionsCountdownTimer = setInterval(() => {
                 const elapsed = Date.now() - start;
                 const pct = Math.min(100, (elapsed / next) * 100);
                 if (bar) bar.style.width = pct + '%';
-                const remaining = Math.max(0, Math.ceil((next - elapsed) / 1000));
-                if (text) text.textContent = `refresh github in ${remaining}s`;
+                if (text) text.textContent = countdownText(next - elapsed);
             }, 250);
 
             actionsPollTimer = setTimeout(async () => {
