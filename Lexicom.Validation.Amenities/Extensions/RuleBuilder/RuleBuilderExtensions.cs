@@ -44,7 +44,7 @@ public static class RuleBuilderExtensions
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, string?> NotEscapedCharacters<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<NotEscapedCharactersPropertyValidator<T>, T, string?>();
     /// <exception cref="ArgumentNullException"/>
-    public static IRuleBuilderOptions<T, string?> NotInvalidFileName<T, TProperty>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<NotInvalidFileNamePropertyValidator<T>, T, string?>();
+    public static IRuleBuilderOptions<T, string?> NotInvalidFileName<T>(this IRuleBuilder<T, string?> ruleBuilder) => ruleBuilder.SetPropertyValidator<NotInvalidFileNamePropertyValidator<T>, T, string?>();
     /// <exception cref="ArgumentNullException"/>
     public static IRuleBuilderOptions<T, TProperty> NotSimplyEmpty<T, TProperty>(this IRuleBuilder<T, TProperty> ruleBuilder) => ruleBuilder.SetPropertyValidator<NotSimplyEmptyPropertyValidator<T, TProperty>, T, TProperty>();
     /// <exception cref="ArgumentNullException"/>
