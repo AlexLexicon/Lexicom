@@ -23,4 +23,16 @@ public static class ObservableCollectionExtensions
         collection.DisposeChildren();
         collection.Clear();
     }
+
+    public static void AddOrDispose<T>(this ObservableCollection<T> collection, bool isDisposed, T item) where T: IDisposable
+    {
+        if (isDisposed)
+        {
+            item.Dispose();
+        }
+        else
+        {
+            collection.Add(item);
+        }
+    }
 }
