@@ -244,6 +244,23 @@
                  transform: translateY(1px);
              }
 
+         /* Paused: only the (red) pause button stays in the header controls. */
+         .controls.paused .refresh-stack,
+         .controls.paused #refreshBtn {
+             display: none;
+         }
+
+         .pause-btn.paused {
+             color: var(--danger);
+             border-color: var(--danger);
+             background: rgba(224, 122, 120, 0.1);
+         }
+
+             .pause-btn.paused:hover {
+                 border-color: var(--danger);
+                 background: rgba(224, 122, 120, 0.18);
+             }
+
          /* --- Collections grid -------------------------------------------------- */
          .collections {
              display: grid;
@@ -997,6 +1014,10 @@
              .collections {
                  grid-template-columns: 1fr;
              }
+
+             .pause-btn {
+                 display: none;
+             }
          }
     </style>
 </head>
@@ -1019,6 +1040,7 @@
                     </div>
                 </div>
                 <button id="refreshBtn">refresh now</button>
+                <button id="pauseBtn" class="pause-btn" title="pause auto polling" aria-pressed="false">pause</button>
             </div>
         </header>
 
@@ -2068,6 +2090,7 @@
         function scheduleNext() {
             if (refreshTimer) clearTimeout(refreshTimer);
             if (countdownTimer) clearInterval(countdownTimer);
+            if (pollingPaused) return;
 
             const totalMs = CONFIG.refreshIntervalMs;
             const start = Date.now();
@@ -2106,6 +2129,35 @@
             scheduleNext();
             await Promise.all([refresh(), pollActionsStatuses(true)]);
             scheduleNextActionsPoll();
+        });
+
+        // Pause (desktop only — the button is hidden on narrow screens) stops
+        // both auto-polls and hides the refresh controls until clicked again.
+        // Both schedulers clear their running timers and, while paused, start
+        // no new ones, so a poll that's mid-flight when you pause can't
+        // re-arm itself either.
+        let pollingPaused = false;
+
+        function setPollingPaused(paused) {
+            pollingPaused = paused;
+            const btn = document.getElementById('pauseBtn');
+            btn.classList.toggle('paused', paused);
+            btn.textContent = paused ? 'paused' : 'pause';
+            btn.title = paused ? 'auto polling paused — click to resume' : 'pause auto polling';
+            btn.setAttribute('aria-pressed', String(paused));
+            document.querySelector('.controls').classList.toggle('paused', paused);
+            scheduleNext();
+            scheduleNextActionsPoll();
+        }
+
+        document.getElementById('pauseBtn').addEventListener('click', () => {
+            setPollingPaused(!pollingPaused);
+        });
+
+        // The pause button disappears below the mobile breakpoint, so resume
+        // rather than strand a paused dashboard there with no way back.
+        window.matchMedia('(max-width: 720px)').addEventListener('change', (e) => {
+            if (e.matches && pollingPaused) setPollingPaused(false);
         });
 
         // Update one collection's expand button label to reflect the action
@@ -2678,6 +2730,7 @@
         function scheduleNextActionsPoll() {
             if (actionsPollTimer) clearTimeout(actionsPollTimer);
             if (actionsCountdownTimer) clearInterval(actionsCountdownTimer);
+            if (pollingPaused) return;
             const rateLimitedMs = actionsRateLimitedUntil - Date.now();
             const rateLimited = rateLimitedMs > 0;
             const intervalMs = anyActionInProgress()
